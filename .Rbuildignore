@@ -1,0 +1,9 @@
+^docs$
+^_pkgdown\.yml$
+^README\.Rmd$
+^.*\.Rproj$
+^\.Rproj\.user$
+.lintr
+.renviron
+prepare_release.R
+LICENSE.md
