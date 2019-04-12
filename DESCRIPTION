@@ -8,7 +8,7 @@ Authors@R: c(
   person("Noël", "Rederlechner",role = c("aut")),
   person("Hanna", "Herich",role = c("aut")),
   person("Ostluft", role = c("cph")))
-Description: This package provides function to quickly display data as diagrams.
+Description: This package provides functions to quickly display data as diagrams.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -19,9 +19,13 @@ Imports:
     lubridate,
     ggplot2,
     ggrepel,
+    ggmap,
+    cowplot,
+    magick,
     maps,
     tibble (>= 2.0.0),
     purrr,
+    forcats,
     rOstluft,
     rOstluft.data (>= 1.7),
     magrittr

@@ -2,5 +2,7 @@
 
 export("%>%")
 export(hysplit_traj)
+export(plt_wind_density)
+export(plt_wind_rose)
 import(ggplot2)
 importFrom(magrittr,"%>%")
