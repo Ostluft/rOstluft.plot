@@ -57,7 +57,7 @@ plt_wind_rose <- function(data, meta) {
 
   bbox <- c(left = bbox$x[1], right = bbox$x[2], bottom = bbox$y[1], top = bbox$y[2])
 
-  bg <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain", source = "stamen") %>%
+  bg <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain", source = "stamen", color = "bw") %>%
     ggmap::ggmap(extent = "device", padding = 0)
 
 

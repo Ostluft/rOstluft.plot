@@ -36,6 +36,8 @@ devtools::install_github("Ostluft/rOstluft.plot")
 
 ## Hysplit Trajektorien:
 ```{r}
+library(ggplot2)
+library(rOstluft)
 library(rOstluft.plot)
 fn <- system.file("extdata", "2017_ZH-Kaserne-hysplit.rds", package = "rOstluft.data")
 traj <- readRDS(fn)
@@ -50,7 +52,7 @@ Inspiriert bei [visualising diurnal wind climatologies](https://www.r-bloggers.c
 WIP
 
 ```{r}
-library(rOstluft)
+
 store <- storage_s3_rds("aqmet", format = format_rolf(), bucket = "rostluft", prefix = "aqmet")
 data <- store$get(site = "ETHZ_CHN-Gebäude", year = 2017, interval = "h1")
 plt_wind_density(data)
@@ -68,6 +70,32 @@ site <- ethz[1, ]
 plt_wind_rose(data, site)
 ```
 
+```{r eval=FALSE, message=FALSE, include=FALSE}
+meta <- store$get_meta()
 
+site_id <- "Zch_Stampfenbachstrasse"
+site_data <- store$get(site = site_id, year = 2017, interval = "h1")
+site_meta <- dplyr::filter(meta$ostluft, site == site_id) %>% 
+  dplyr::slice(1)
+plt_wind_rose(site_data, site_meta)
+```
+
+
+```{r fig.width=12}
+data <- store$get(site = "Zch_Stampfenbachstrasse", year = 2016:2017, interval = "d1")
+o3 <- dplyr::filter(data, parameter == "O3_max_h1")
+plt_calendar(o3)
+```
+
+Messwert als Label, O3_max_h1 als Legendentitel, Skala mit bessserer Lesbarkeit für Label, Marker für Überschreitung
+```{r fig.width=12}
+scale_fill = scale_fill_viridis_c(name = "max. O3 Stundenmittel", end = 0.9, option = "magma")
+marker_opt = list(position = position_nudge(y = 0.2), color = "black", size = 2)
+label_opt = list(position = position_nudge(y = -.1), color = "white", size = 3, fontface = "bold")
+plt_calendar(o3, scale_fill = scale_fill, label = round(value), marker = value > 120, 
+             label_opt = label_opt, marker_opt = marker_opt) + theme(legend.position="top")
+              
+
+```
 
 

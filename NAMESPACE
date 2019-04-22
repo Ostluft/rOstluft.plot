@@ -2,6 +2,8 @@
 
 export("%>%")
 export(hysplit_traj)
+export(pad_to_year)
+export(plt_calendar)
 export(plt_wind_density)
 export(plt_wind_rose)
 import(ggplot2)
