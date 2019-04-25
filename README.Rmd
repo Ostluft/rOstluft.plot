@@ -98,4 +98,16 @@ plt_calendar(o3, scale_fill = scale_fill, label = round(value), marker = value >
 
 ```
 
+ein mehr ggplot ähnlicher ansatz:
+
+```{r}
+plt_cal(o3)
+```
+
+Monatsrand:
+
+```{r}
+plt_cal(o3) + add_month_border()
+```
+
 

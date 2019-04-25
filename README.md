@@ -33,7 +33,7 @@ traj <- dplyr::filter(traj, date < lubridate::ymd("2017-01-08"))
 hysplit_traj(traj, color_scale = ggplot2::scale_color_viridis_c(name = "m agl."))
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
 ## Wind Density
 
@@ -48,7 +48,7 @@ data <- store$get(site = "ETHZ_CHN-Gebäude", year = 2017, interval = "h1")
 plt_wind_density(data)
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
 ## Wind Rose mit Background Karte
 
@@ -61,7 +61,7 @@ site <- ethz[1, ]
 plt_wind_rose(data, site)
 ```
 
-<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
 
 ``` r
 data <- store$get(site = "Zch_Stampfenbachstrasse", year = 2016:2017, interval = "d1")
@@ -69,7 +69,7 @@ o3 <- dplyr::filter(data, parameter == "O3_max_h1")
 plt_calendar(o3)
 ```
 
-<img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
 
 Messwert als Label, O3\_max\_h1 als Legendentitel, Skala mit bessserer
 Lesbarkeit für Label, Marker für
@@ -83,4 +83,20 @@ plt_calendar(o3, scale_fill = scale_fill, label = round(value), marker = value >
              label_opt = label_opt, marker_opt = marker_opt) + theme(legend.position="top")
 ```
 
-<img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+
+ein mehr ggplot ähnlicher ansatz:
+
+``` r
+plt_cal(o3)
+```
+
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+
+Monatsrand:
+
+``` r
+plt_cal(o3) + add_month_border()
+```
+
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
