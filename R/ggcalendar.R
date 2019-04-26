@@ -175,7 +175,7 @@ plt_calendar <- function(data, x = "starttime", z = "value",
 
 
 
-AddMonthBorder <- ggproto("AddMonthBorder", Stat,
+CalMonthBorder <- ggproto("CalMonthBorder", Stat,
   required_aes = c("x", "y", "month", "monthday"),   # y = weekday !!!
   compute_group = function(data, scales) {
     data <- dplyr::mutate(data, month = as.numeric(month))
@@ -220,24 +220,70 @@ AddMonthBorder <- ggproto("AddMonthBorder", Stat,
 )
 
 
+
+
+
+
 #' Add month border to calendar
 #'
 #' @inheritParams ggplot2::geom_segment
 #'
-#' @return ggplot2::layer
+#' @return ggplot2 layer
 #' @export
-add_month_border <- function(size = 1, lineend = "square", linejoin = "bevel", color = "grey5", ...) {
+cal_month_border <- function(size = 1, lineend = "square", linejoin = "bevel", color = "grey5", ...) {
   # we use geom_segment to draw the month border
   # the Stat AddmonthBorder takes care of the calculations of x, y, xend, yend
   # it works, but is this the correct way?
   layer(
-    stat = AddMonthBorder, data = NULL, mapping = NULL,
+    stat = CalMonthBorder, data = NULL, mapping = NULL,
     geom = "segment", position = "identity",  show.legend = FALSE, inherit.aes = TRUE,
     params = list(size = size, lineend = lineend, linejoin = linejoin, color = color, ...)
   )
 }
 
 
+
+#' Adds Label to a calendar
+#'
+#' @inheritParams ggplot2::geom_text
+#'
+#' @return ggplot2 layer
+#' @export
+cal_label <- function(mapping = NULL, stat = "identity", data = NULL, geom = "text", position = "identity",
+                      show.legend = FALSE, inherit.aes = TRUE, na.rm = TRUE, size = 2, color = "white", ...) {
+  layer(
+    stat = stat, data = data, mapping = mapping, geom = geom, position = position,
+    show.legend = show.legend, inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, size = size, color = color, ...)
+  )
+}
+
+statFilter <- ggproto("statFilter", Stat,
+  required_aes = c("filter"),
+
+  compute_group = function(data, scales, ...)  {
+    dplyr::filter(data, .data$filter == TRUE)
+  }
+
+)
+
+
+#' Filtering data
+#'
+#' Removes values where the aesthetic filter evaluates to `FALSE`.
+#'
+#' @inheritParams ggplot2::stat_identity
+#'
+#' @return ggplot2 layer
+#' @export
+stat_filter <- function(mapping = NULL, data = NULL, geom = "point", position = "identity",
+                        show.legend = FALSE, inherit.aes = TRUE, na.rm = TRUE, ...) {
+  layer(
+    stat = statFilter, data = data, mapping = mapping, geom = geom, position = position,
+    show.legend = show.legend, inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, ...)
+  )
+}
 
 #' calendar plot
 #'
@@ -252,7 +298,7 @@ add_month_border <- function(size = 1, lineend = "square", linejoin = "bevel", c
 #'
 #' @return ggplot2::ggplot object
 #' @export
-plt_cal <- function(data, x = "starttime", z = "value", scale_fill = scale_fill_viridis_c(),
+plt_cal <- function(data, x = "starttime", z = "value",
                     size = 0.1, color = "white", ..., locale = Sys.getlocale("LC_TIME")) {
   x <- ensym(x)
   z <- ensym(z)
@@ -278,9 +324,9 @@ plt_cal <- function(data, x = "starttime", z = "value", scale_fill = scale_fill_
   breaks <- dplyr::filter(data, .data$monthday == 1)
 
   # mapping for group, monthday, month is for month border
-  ggplot(data, aes(x = x, y = weekday, fill = !!z,  monthday = monthday, month = month)) +
+  # group = 1 disable grouping see ?ggplot2::aes_group_order
+  ggplot(data, aes(x = x, y = weekday, fill = !!z,  monthday = monthday, month = month, group = 1)) +
     layer("tile", "identity", NULL, NULL, "identity", params = list(size = size, color = color, ...)) +
-    scale_fill +
     theme_minimal() +
     ggExtra::removeGridX() +
     labs(x = NULL, y = NULL) +

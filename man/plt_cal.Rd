@@ -4,9 +4,8 @@
 \alias{plt_cal}
 \title{calendar plot}
 \usage{
-plt_cal(data, x = "starttime", z = "value",
-  scale_fill = scale_fill_viridis_c(), size = 0.1, color = "white",
-  ..., locale = Sys.getlocale("LC_TIME"))
+plt_cal(data, x = "starttime", z = "value", size = 0.1,
+  color = "white", ..., locale = Sys.getlocale("LC_TIME"))
 }
 \arguments{
 \item{data}{input data}
@@ -15,8 +14,6 @@ plt_cal(data, x = "starttime", z = "value",
 
 \item{z}{value columns}
 
-\item{scale_fill}{scale for tile fill. Default is for continous data. For discrete data one must be provided}
-
 \item{size}{space between tiles}
 
 \item{color}{color of space}
@@ -24,6 +21,8 @@ plt_cal(data, x = "starttime", z = "value",
 \item{...}{more options for \code{ggplot2::geom_tile()}}
 
 \item{locale}{locale string for \code{lubridate::month()} and \code{lubridate::wday()}. see \code{Sys.getlocale()}}
+
+\item{scale_fill}{scale for tile fill. Default is for continous data. For discrete data one must be provided}
 }
 \value{
 ggplot2::ggplot object

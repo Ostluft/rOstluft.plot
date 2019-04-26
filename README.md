@@ -1,27 +1,27 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 <img src="man/figures/logo.png" align="right" />
 
-# rOstluft.plot
+rOstluft.plot
+=============
 
 Erstellen von Diagrammen für Ostluft Auswertungen und Berichte
 
-# Installation
+Installation
+============
 
-Der Quellcode von
-[rOstluft.plot](https://github.com/Ostluft/rOstluft.plot) ist auf github
-gehosted. Die einfachste Variante ist die Installation mit Hilfe des
-Packages devtools:
+Der Quellcode von [rOstluft.plot](https://github.com/Ostluft/rOstluft.plot) ist auf github gehosted. Die einfachste Variante ist die Installation mit Hilfe des Packages devtools:
 
 ``` r
 #install.packages("devtools")
 devtools::install_github("Ostluft/rOstluft.plot")
 ```
 
-# Beispiele
+Beispiele
+=========
 
-## Hysplit Trajektorien:
+Hysplit Trajektorien:
+---------------------
 
 ``` r
 library(ggplot2)
@@ -35,10 +35,10 @@ hysplit_traj(traj, color_scale = ggplot2::scale_color_viridis_c(name = "m agl.")
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
-## Wind Density
+Wind Density
+------------
 
-Inspiriert bei [visualising diurnal wind
-climatologies](https://www.r-bloggers.com/visualising-diurnal-wind-climatologies-2/)
+Inspiriert bei [visualising diurnal wind climatologies](https://www.r-bloggers.com/visualising-diurnal-wind-climatologies-2/)
 
 WIP
 
@@ -50,7 +50,8 @@ plt_wind_density(data)
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
-## Wind Rose mit Background Karte
+Wind Rose mit Background Karte
+------------------------------
 
 WIP
 
@@ -71,16 +72,16 @@ plt_calendar(o3)
 
 <img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
 
-Messwert als Label, O3\_max\_h1 als Legendentitel, Skala mit bessserer
-Lesbarkeit für Label, Marker für
-Überschreitung
+Messwert als Label, O3\_max\_h1 als Legendentitel, Skala mit bessserer Lesbarkeit für Label, Marker für Überschreitung
 
 ``` r
 scale_fill = scale_fill_viridis_c(name = "max. O3 Stundenmittel", end = 0.9, option = "magma")
 marker_opt = list(position = position_nudge(y = 0.2), color = "black", size = 2)
 label_opt = list(position = position_nudge(y = -.1), color = "white", size = 3, fontface = "bold")
+border_opt = list(size = 1, lineend = "square", linejoin = "bevel", color = "red")
 plt_calendar(o3, scale_fill = scale_fill, label = round(value), marker = value > 120, 
-             label_opt = label_opt, marker_opt = marker_opt) + theme(legend.position="top")
+             label_opt = label_opt, marker_opt = marker_opt, border_opt = border_opt) + 
+             theme(legend.position="top")
 ```
 
 <img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
@@ -88,15 +89,12 @@ plt_calendar(o3, scale_fill = scale_fill, label = round(value), marker = value >
 ein mehr ggplot ähnlicher ansatz:
 
 ``` r
-plt_cal(o3)
+plt_cal(o3) + 
+  scale_fill_viridis_c(name = "max. O3 Stundenmittel", end = 0.9, option = "magma") +
+  cal_month_border(color = "red") +
+  cal_label(aes(label = round(value)), position = position_nudge(y = -0.1), fontface = "bold", size = 3) +
+  stat_filter(aes(filter = value > 120), position = position_nudge(y = 0.2), size = 2) +
+  theme(legend.position = "top")
 ```
 
 <img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
-
-Monatsrand:
-
-``` r
-plt_cal(o3) + add_month_border()
-```
-
-<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
