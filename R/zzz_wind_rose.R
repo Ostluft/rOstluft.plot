@@ -4,8 +4,8 @@
 #' @param meta tibble with one row containing x and y coordinates of the site
 #'
 #' @return png image
-#' @export
-plt_wind_rose <- function(data, meta) {
+#' @keywords internal
+zzz_plt_wind_rose <- function(data, meta) {
   wide <- rOstluft::rolf_to_openair(data)
   winkel_sector <- 22.5
   wide <- dplyr::mutate(

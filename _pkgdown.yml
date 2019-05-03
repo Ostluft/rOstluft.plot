@@ -2,7 +2,6 @@ template:
   params:
     bootswatch: cosmo
 
-
 navbar:
   structure:
     left:
@@ -18,6 +17,11 @@ navbar:
     reference:
       text: Reference
       href: reference/index.html
+    articles:
+      text: Articles
+      menu:
+      - text: 'Linien Kalender'
+        href: articles/articles/cal_line.html
     github:
       icon: fa-github fa-lg
       href: https://github.com/Ostluft/rOstluft.plot

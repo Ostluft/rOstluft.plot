@@ -5,7 +5,7 @@
 #' @param data in rolf format containing WD and WVv in h1 Interval
 #'
 #' @return ggplot object
-#' @export
+#' @keywords internal
 #'
 #' @examples
 #' h1 <- system.file("extdata", "Zch_Stampfenbachstrasse_h1_2013_Jan.csv",
@@ -13,7 +13,7 @@
 #'
 #' data <- rOstluft::read_airmo_csv(h1)
 #' plt_wind_density(data)
-plt_wind_density <- function(data) {
+zzz_plt_wind_density <- function(data) {
   wide <- rOstluft::rolf_to_openair(data)
   wide <- dplyr::mutate(wide, hour = lubridate::hour(.data$date))
 

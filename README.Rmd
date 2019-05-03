@@ -32,6 +32,7 @@ devtools::install_github("Ostluft/rOstluft.plot")
 ```
 
 
+
 # Beispiele
 
 ## Hysplit Trajektorien:
@@ -39,75 +40,27 @@ devtools::install_github("Ostluft/rOstluft.plot")
 library(ggplot2)
 library(rOstluft)
 library(rOstluft.plot)
+
 fn <- system.file("extdata", "2017_ZH-Kaserne-hysplit.rds", package = "rOstluft.data")
 traj <- readRDS(fn)
 traj <- dplyr::filter(traj, date < lubridate::ymd("2017-01-08"))
 hysplit_traj(traj, color_scale = ggplot2::scale_color_viridis_c(name = "m agl."))
 ```
 
-## Wind Density
+## Kalender + stat_filter
 
-Inspiriert bei [visualising diurnal wind climatologies](https://www.r-bloggers.com/visualising-diurnal-wind-climatologies-2/)
+Kalender der max Stundenwerte des Tages von Ozon  
 
-WIP
-
-```{r}
-
+```{r fig.width=12, fig.height=8}
 store <- storage_s3_rds("aqmet", format = format_rolf(), bucket = "rostluft", prefix = "aqmet")
-data <- store$get(site = "ETHZ_CHN-Gebäude", year = 2017, interval = "h1")
-plt_wind_density(data)
-```
-
-
-## Wind Rose mit Background Karte
-
-WIP
-
-```{r message=FALSE}
-# get needed meta information, one row with x and y coordinates in lsv95
-ethz <- store$get_meta("ethz")[[1]]
-site <- ethz[1, ]
-plt_wind_rose(data, site)
-```
-
-```{r eval=FALSE, message=FALSE, include=FALSE}
-meta <- store$get_meta()
-
-site_id <- "Zch_Stampfenbachstrasse"
-site_data <- store$get(site = site_id, year = 2017, interval = "h1")
-site_meta <- dplyr::filter(meta$ostluft, site == site_id) %>% 
-  dplyr::slice(1)
-plt_wind_rose(site_data, site_meta)
-```
-
-
-```{r fig.width=12, fig.height=8}
 data <- store$get(site = "Zch_Stampfenbachstrasse", year = 2016:2017, interval = "d1")
-o3 <- dplyr::filter(data, parameter == "O3_max_h1")
-plt_calendar(o3)
-```
+data <- rolf_to_openair(data)
 
-Messwert als Label, O3_max_h1 als Legendentitel, Skala mit bessserer Lesbarkeit für Label, Marker für Überschreitung
-```{r fig.width=12, fig.height=8}
-scale_fill = scale_fill_viridis_c(name = "max. O3 Stundenmittel", end = 0.9, option = "magma")
-marker_opt = list(position = position_nudge(y = 0.2), color = "black", size = 2)
-label_opt = list(position = position_nudge(y = -.1), color = "white", size = 3, fontface = "bold")
-border_opt = list(size = 1, lineend = "square", linejoin = "bevel", color = "red")
-plt_calendar(o3, scale_fill = scale_fill, label = round(value), marker = value > 120, 
-             label_opt = label_opt, marker_opt = marker_opt, border_opt = border_opt) + 
-             theme(legend.position="top")
-              
-
-```
-
-ein mehr ggplot ähnlicher ansatz:
-
-```{r fig.width=12, fig.height=8}
-plt_cal(o3) + 
+plt_cal(data, date, O3_max_h1) + 
   scale_fill_viridis_c(name = "max. O3 Stundenmittel", end = 0.9, option = "magma") +
-  cal_month_border(color = "red") +
-  cal_label(aes(label = round(value)), position = position_nudge(y = -0.1), fontface = "bold", size = 3) +
-  stat_filter(aes(filter = value > 120), position = position_nudge(y = 0.2), size = 2) +
+  cal_month_border(size = 2) +
+  cal_label(aes(label = round(O3_max_h1)), position = position_nudge(y = -0.1), fontface = "bold", size = 3) +
+  stat_filter(aes(filter = O3_max_h1 > 120), position = position_nudge(y = 0.2), size = 2) +
   theme(legend.position = "top")
 ```
 

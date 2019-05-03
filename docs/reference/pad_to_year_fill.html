@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plotting a windrose on a stamen terrain plot — plt_wind_rose • rOstluft.plot</title>
+<title>Pads data to complete year and fill up specific columns — pad_to_year_fill • rOstluft.plot</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Plotting a windrose on a stamen terrain plot — plt_wind_rose" />
+<meta property="og:title" content="Pads data to complete year and fill up specific columns — pad_to_year_fill" />
 
-<meta property="og:description" content="Plotting a windrose on a stamen terrain plot" />
+<meta property="og:description" content="Pads data to complete year and fill up specific columns" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9001</span>
       </span>
     </div>
 
@@ -79,6 +79,18 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/articles/cal_line.html">Kalender Linie</a>
+    </li>
+  </ul>
 </li>
       </ul>
       
@@ -101,35 +113,43 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plotting a windrose on a stamen terrain plot</h1>
+    <h1>Pads data to complete year and fill up specific columns</h1>
     
-    <div class="hidden name"><code>plt_wind_rose.Rd</code></div>
+    <div class="hidden name"><code>pad_to_year_fill.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Plotting a windrose on a stamen terrain plot</p>
+    <p>Pads data to complete year and fill up specific columns</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>plt_wind_rose</span>(<span class='no'>data</span>, <span class='no'>meta</span>)</pre>
+    <pre class="usage"><span class='fu'>pad_to_year_fill</span>(<span class='no'>data</span>, <span class='no'>date_col</span>, <span class='no'>interval</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>in rolf format with WD and WVv</p></td>
+      <td><p>input data</p></td>
     </tr>
     <tr>
-      <th>meta</th>
-      <td><p>tibble with one row containing x and y coordinates of the site</p></td>
+      <th>date_col</th>
+      <td><p>column containing date information</p></td>
+    </tr>
+    <tr>
+      <th>interval</th>
+      <td><p>interval between two dates</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>columns to fill up</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>png image</p>
+    <p>padded data</p>
     
 
   </div>
