@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: align='right'}}
 
-This package provides function to quickly display data as diagrams.
+This package provides functions to quickly display data as diagrams.
 }
 \author{
 \strong{Maintainer}: Thomas von Allmen \email{thomas.vonallmen@zuerich.ch}
