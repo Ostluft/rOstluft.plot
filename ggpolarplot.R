@@ -205,38 +205,34 @@ require(lubridate)
 
 
 df <-
-  read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv",package = "rOstluft.data", mustWork = TRUE)) %>%
-  rolf_to_openair() %>% 
-  mutate(
-    month = month(date),
-    year = factor(year(date)),
-    wday = wday(date, label = TRUE)
+  rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv",package = "rOstluft.data", mustWork = TRUE)) %>%
+  rOstluft::rolf_to_openair() %>% 
+  dplyr::mutate(
+    wday = lubridate::wday(date, label = TRUE)
   )
-
 
 p <- ggpolarplot(df, z = "NOx")
 p
-p + facet_wrap(.~wday)
+p + facet_wrap(.~wday, nrow = 2)
 
 #' #' ca. wie openair::polarplot (bloss mit coord_polar, daher dauerts etwas...)
 #' p <- ggpolarplot(df, z = "NOx", dist = 0.05, wd_cutwidth = 1, nmin = 1, ws_breaks = 0.125, expand = c(0,0))
 #' p
 
-
-#' oder auch offline
-# data <- 
-#   df %>% 
-#   dplyr::rename(
-#     fill = NOx
-#   ) %>% 
-#   calc_polarplot()
-# p <-
-#   ggplot(data, aes(x = x, y = y, fill = fill)) +
-#   geom_tile() +
-#   scale_y_continuous(expand = c(0.1,0)) +
-#   fill_scale +
-#   coord_polar(start = -offset)
-
+#' #' oder auch offline
+#' data <-
+#'   df %>%
+#'   dplyr::rename(
+#'     fill = NOx
+#'   ) %>%
+#'   calc_polarplot()
+#' p <-
+#'   ggplot(data, aes(x = x, y = y, fill = fill)) +
+#'   geom_tile() +
+#'   scale_y_continuous(expand = c(0.1,0)) +
+#'   fill_scale +
+#'   coord_polar(start = -offset)
+#' p
 
 
 
