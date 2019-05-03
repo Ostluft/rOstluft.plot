@@ -41,7 +41,7 @@ Suggests:
     lintr,
     roxygen2
 Remotes:
-    Ostluft/rOstluft
+    Ostluft/rOstluft,
     Ostluft/rOstluft.data
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
