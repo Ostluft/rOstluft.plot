@@ -227,13 +227,7 @@ ggpolarplot <- function(df,
     fill_scale + 
     # coord_equal() + # für kartesisch.., dann bräuchten wir aber ein eigenes 'coord_polar_cartesian()'
     coord_polar(start = -(wd_cutwidth / 360 / 2 * 2 * pi)) + # hier auskommentieren zum testen von kartesisch
-    theme_minimal() +
-    theme(
-      axis.ticks.y = element_line(),
-      panel.ontop = TRUE,
-      panel.grid.minor = element_blank(),
-      panel.grid.major = element_line(linetype = 2, color = "gray80")
-    )
+    theme_polarplot
   
   return(p)
 }
