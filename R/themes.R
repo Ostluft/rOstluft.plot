@@ -1,15 +1,3 @@
-theme_radar <-
-  ggplot2::theme_minimal() +
-  ggplot2::theme(
-    panel.background = ggplot2::element_blank(),
-    panel.grid = ggplot2::element_blank(),
-    axis.title.x = ggplot2::element_blank(),
-    axis.text.x = ggplot2::element_blank(),
-    axis.ticks.x = ggplot2::element_blank()
-  )
-
-
-
 theme_traj <-
   ggplot2::theme_minimal() +
   ggplot2::theme(
@@ -28,5 +16,9 @@ theme_polarplot <-
     panel.grid.minor = ggplot2::element_blank(),
     panel.grid.major = ggplot2::element_line(linetype = 2, color = "gray80")
   )
+
+
+
+theme_radar <- theme_polarplot + theme(panel.ontop = FALSE)
 
 
