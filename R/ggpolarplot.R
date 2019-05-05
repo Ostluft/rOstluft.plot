@@ -77,7 +77,7 @@ calc_polarplot <- function(data, fun.y = "mean", nmin = 3, na.rm = TRUE, ws_max 
     dplyr::summarise_at(
       .vars = "fill",
       .funs = fun.y,
-      na.rm = na.rm
+      ...
     ) %>%
     dplyr::ungroup() %>%
     dplyr::filter(
@@ -106,7 +106,7 @@ calc_polarplot <- function(data, fun.y = "mean", nmin = 3, na.rm = TRUE, ws_max 
     mutate(
       # wd = uv2wd(u, v),
       ws = sqrt(u^2 + v^2),
-      fill = ifelse(ws > y_cuts$y_cap, NA, fill)
+      fill = ifelse(ws > ws_max, NA, fill)
     ) %>% 
     dplyr::rename(
       x = u,
@@ -158,13 +158,14 @@ ggpolarplot <- function(df,
                         extrapolate = TRUE,
                         dist = 0.1,
                         length_out = 100,
-                        fill_scale = scale_fill_gradientn(colours = matlab::jet.colors(100), na.value = NA)
+                        fill_scale = scale_fill_gradientn(colours = matlab::jet.colors(100), na.value = NA),
+                        ...
 ) { 
   
   p <-
     ggplot(df, aes(wd = wd, ws = ws, fill = !!sym(z))) +
     stat_wind(fun.y = fun.y, nmin = nmin, , ws_max = ws_max, smooth = smooth, k = k, 
-              extrapolate = extrapolate, dist = dist, length_out = length_out) +
+              extrapolate = extrapolate, dist = dist, length_out = length_out, ...) +
     scale_y_continuous(labels = function(ws) paste0(ws," ",ws_unit)) +
     fill_scale + 
     coord_equal() + # für kartesisch.., dann bräuchten wir aber ein eigenes 'coord_polar_cartesian()'
@@ -199,6 +200,11 @@ p <- ggpolarplot(df, z = "NOx")
 p 
 p + facet_wrap(.~wday, nrow = 2)
 
+ggpolarplot(df, z = "NOx", extrapolate = FALSE, ws_max = 4, length_out = 40)
+ggpolarplot(df, z = "NOx", extrapolate = FALSE, ws_max = 3)
+ggpolarplot(df, z = "NOx", extrapolate = TRUE, ws_max = 3)
+ggpolarplot(df, z = "NOx", smooth = FALSE, extrapolate = FALSE, ws_max = 3, length_out = 50, nmin = 10)
+ggpolarplot(df, z = "NOx", smooth = FALSE, extrapolate = FALSE, ws_max = 3, length_out = 25, nmin = 10)
 #' inkl. background raster map und fill opacity
 #' ...
 
