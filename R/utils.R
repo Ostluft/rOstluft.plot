@@ -49,6 +49,21 @@ recode_last_class_label <- function(factor_var) {
 
 
 
+midpoints <- function(x){
+  lower <- as.numeric(gsub(",.*","",gsub("\\(|\\[|\\)|\\]","", x)))
+  upper <- as.numeric(gsub(".*,","",gsub("\\(|\\[|\\)|\\]","", x)))
+  return(lower + (upper - lower) / 2)
+}
+
+
+
+uv2wd <- function(u, v) { #' von hier: https://github.com/environmentalinformatics-marburg/Rsenal/blob/master/R/uv2wdws.R
+  degrees <- function(radians) 180 * radians / pi
+  mathdegs <- degrees(atan2(v, u))
+  wdcalc <- ifelse(mathdegs > 0, mathdegs, mathdegs + 360)
+  wd <- ifelse(wdcalc < 270, 270 - wdcalc, 270 - wdcalc + 360)
+  return(wd)
+}
 
 
 y_classes <- function(y, y_cuts = list(nclass = 4, y_boundary = 0, y_cap = Inf, dig_lab = 1), ...) {
