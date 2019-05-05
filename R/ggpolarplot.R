@@ -8,7 +8,7 @@ require(matlab)
 
 
 
-smooth_gam_surface <- function(u, v, z, weights = NULL, k = 100, interpolate = FALSE, force_positive = TRUE, dist = 0.05, df = NULL) {
+smooth_gam_surface <- function(u, v, z, weights = NULL, k = 100, extrapolate = FALSE, force_positive = TRUE, dist = 0.05, df = NULL) {
   if (force_positive) n <- 0.5 else n <- 1
   data <- tibble(
     u = u,
@@ -24,7 +24,7 @@ smooth_gam_surface <- function(u, v, z, weights = NULL, k = 100, interpolate = F
                  method = 'REML', 
                  control =  mgcv::gam.control(nthreads = parallel::detectCores() - 1),
                  family = gaussian())
-  if (interpolate) {
+  if (extrapolate) {
     pred <- predict(m, newdata = data, type = 'response')^(1/n)
   } else {
     pred <- predict(m, type = 'response')^(1/n)
@@ -48,135 +48,83 @@ smooth_gam_surface <- function(u, v, z, weights = NULL, k = 100, interpolate = F
 
 
 
-calc_polarplot <- function(data, fun.y = "mean", nmin = 3, wd_cutwidth = 5.625, ws_breaks = 0.25, na.rm = TRUE,
-                           y_cuts = list(nclass = 4, y_boundary = 0, y_cap = Inf, dig_lab = 1), smooth = TRUE, k = 100, interpolate = TRUE, dist = 0.1, ...) {
-  # length_out <- 61
-  n <- function(x, ...) {sum(!is.na(x), ...)}
+#' kartesisch => plotted deutlich schneller als tiles in coord_polar(), braucht aber noch ein neues coord_ inkl. grid ...:
+calc_polarplot <- function(data, fun.y = "mean", nmin = 3, na.rm = TRUE, ws_max = Inf, smooth = TRUE, 
+                           k = 100, extrapolate = TRUE, dist = 0.1, length_out = 100, ...) {
+  
+  n <- function(x, ...) {sum(!is.na(x))}
   fun.y <- list(unlist(fun.y), "n")
-  data <- 
+  data <-
     tibble::tibble(
       x = data$wd,
       y = data$ws,
       fill = data$fill
-    ) %>% 
-    dplyr::mutate(
-      x = wd_classes(x, wd_cutwidth),
-      y = cut_fun(pmin(y, 1.01 * y_cuts$y_cap), y_cuts = y_cuts)
-      # x = cut(x, breaks = seq(0, 360, length.out = length_out)),
-      # y = cut(pmin(y, 1.01 * y_cuts$y_cap), breaks = seq(0, pmin(max(y, na.rm = TRUE),  y_cuts$y_cap), length.out = length_out))
-    ) 
-  data <-
-    data %>% 
-    dplyr::group_by(x, y) %>%
-    dplyr::summarise_at(
-      .vars = "fill",
-      .funs = fun.y,
-      na.rm = na.rm,
-      ...
-    ) %>% 
-    dplyr::ungroup() %>% 
-    dplyr::filter(
-      n >= nmin
-    ) %>% 
-    dplyr::rename(
-      fill = fun.y[[1]] # !
-    ) %>% 
-    na.omit() %>% 
-    dplyr::mutate(
-      # x = (as.numeric(x)  - 1) * length_out + length_out / 2,
-      # y = (as.numeric(y) - 1) * length_out + length_out / 2
-      x = (as.numeric(x)  - 1) * wd_cutwidth + wd_cutwidth / 2,
-      y = (as.numeric(y) - 1) * ws_breaks + ws_breaks / 2
-    )
-  data <-
-    data %>% 
-    tidyr::expand(x, y) %>%
-    dplyr::left_join(data, by = c("x", "y")) %>%
+    ) %>%
     dplyr::mutate(
       u = y * sin(pi * x / 180),
       v = y * cos(pi * x / 180)
+    ) 
+  uv_max <- pmin(max(abs(c(data$u, data$v)), na.rm = TRUE), ws_max)
+  uv_cuts <- seq(-uv_max, uv_max, length.out = length_out)
+  data <-  
+    data %>% 
+    dplyr::mutate(
+      u = cut(u, breaks = uv_cuts),
+      v = cut(v, breaks = uv_cuts)
+     ) %>% 
+    na.omit() %>%
+    dplyr::group_by(u, v) %>%
+    dplyr::summarise_at(
+      .vars = "fill",
+      .funs = fun.y,
+      na.rm = na.rm
+    ) %>%
+    dplyr::ungroup() %>%
+    dplyr::filter(
+      n >= nmin
+    ) %>%
+    dplyr::rename(
+      fill = fun.y[[1]] # !
+    ) %>%
+    na.omit() %>%
+    dplyr::mutate(
+      u = midpoints(u),
+      v = midpoints(v)
     )
+  data <-
+    data %>%
+    tidyr::expand(u, v) %>%
+    dplyr::left_join(data, by = c("u", "v"))
   if (smooth) {
-    data <- 
-      smooth_gam_surface(u = data$u, v = data$v, z = data$fill,weights = pmin(4, data$n) / 4, 
-                         k = k, interpolate = interpolate, dist = dist, df = dplyr::select(data, x, y)) %>% 
-      dplyr::rename(
-        fill = z
-      )
+    data <-
+      smooth_gam_surface(u = data$u, v = data$v, z = data$fill, weights = pmin(4, data$n) / 4,
+                         k = k, extrapolate = extrapolate, dist = dist) %>% 
+      dplyr::rename(fill = z)
   }
-
+  data <- 
+    data %>% 
+    mutate(
+      # wd = uv2wd(u, v),
+      ws = sqrt(u^2 + v^2),
+      fill = ifelse(ws > y_cuts$y_cap, NA, fill)
+    ) %>% 
+    dplyr::rename(
+      x = u,
+      y = v
+    )
+  
   return(data)
 }
 
 
 
-#' #' oder doch kartesisch? => plotted deutlich schneller, braucht aber noch ein neues coord_ inkl. grid ...:
-#' calc_polarplot <- function(data, fun.y = "mean", nmin = 3, wd_cutwidth = 5.625, ws_breaks = 0.25, na.rm = TRUE,
-#'                            y_cuts = list(nclass = 4, y_boundary = 0, y_cap = Inf, dig_lab = 1), smooth = TRUE, k = 100, interpolate = TRUE, dist = 0.1, ...) {
-#'   length_out <- 61
-#'   n <- function(x, ...) {sum(!is.na(x), ...)}
-#'   fun.y <- list(unlist(fun.y), "n")
-#'   data <- 
-#'     tibble::tibble(
-#'       x = data$wd,
-#'       y = data$ws,
-#'       fill = data$fill
-#'     ) %>% 
-#'     dplyr::mutate(
-#'       u = y * sin(pi * x / 180),
-#'       v = y * cos(pi * x / 180),
-#'       u = cut(pmin(u, 1.01 * y_cuts$y_cap), breaks = seq(-pmin(max(abs(u), na.rm = TRUE),  y_cuts$y_cap), pmin(max(abs(u), na.rm = TRUE),  y_cuts$y_cap), length.out = length_out)),
-#'       v = cut(pmin(v, 1.01 * y_cuts$y_cap), breaks = seq(-pmin(max(abs(v), na.rm = TRUE),  y_cuts$y_cap), pmin(max(abs(v), na.rm = TRUE),  y_cuts$y_cap), length.out = length_out)),
-#'      ) 
-#'   data <-
-#'     data %>% 
-#'     dplyr::group_by(u, v) %>%
-#'     dplyr::summarise_at(
-#'       .vars = "fill",
-#'       .funs = fun.y,
-#'       na.rm = na.rm,
-#'       ...
-#'     ) %>% 
-#'     dplyr::ungroup() %>% 
-#'     dplyr::filter(
-#'       n >= nmin
-#'     ) %>% 
-#'     dplyr::rename(
-#'       fill = fun.y[[1]] # !
-#'     ) %>% 
-#'     na.omit() %>% 
-#'     dplyr::mutate(
-#'       u = as.numeric(u),
-#'       v = as.numeric(v)
-#'     )
-#'   data <-
-#'     data %>% 
-#'     tidyr::expand(u, v) %>%
-#'     dplyr::left_join(data, by = c("u", "v"))
-#'   if (smooth) {
-#'     data <- 
-#'       smooth_gam_surface(u = data$u, v = data$v, z = data$fill, weights = pmin(4, data$n) / 4, 
-#'                          k = k, interpolate = interpolate, dist = dist) %>% 
-#'       dplyr::rename(
-#'         x = u,
-#'         y = v,
-#'         fill = z
-#'       )
-#'   }
-#'   
-#'   return(data)
-#' }
-
-
-
-
 StatWind <- ggproto("StatWind", Stat,
                     
-                    compute_group = function(data, scales, fun.y = "mean", nmin = 3, wd_cutwidth = 45, ws_breaks = 0.25, na.rm = TRUE,
-                                             y_cuts = list(nclass = 4, y_boundary = 0, y_cap = Inf, dig_lab = 1), smooth = TRUE, k = 100, interpolate = TRUE, dist = 0.1, ...) {
+                    compute_group = function(data, scales, fun.y = "mean", nmin = 3, ws_max = Inf, na.rm = TRUE,
+                                             smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1, length_out = 100, ...) {
                       data <- 
-                        calc_polarplot(data, fun.y = fun.y, nmin = nmin, wd_cutwidth = wd_cutwidth, ws_breaks = ws_breaks, na.rm = na.rm,
-                                       y_cuts = y_cuts, smooth = smooth, k = k, interpolate = interpolate, dist = dist, ...)
+                        calc_polarplot(data, fun.y = fun.y, nmin = nmin, ws_max = ws_max, na.rm = na.rm,
+                                       smooth = smooth, k = k, extrapolate = extrapolate, dist = dist, length_out = length_out, ...)
                       data
                     },
                     
@@ -185,17 +133,15 @@ StatWind <- ggproto("StatWind", Stat,
 
 
 
-
-stat_wind <- function(mapping = NULL, data = NULL, geom = "tile",
+stat_wind <- function(mapping = NULL, data = NULL, geom = "raster",
                       position = "identity", na.rm = TRUE, show.legend = NA, inherit.aes = TRUE, 
-                      fun.y = "mean", nmin = 1, wd_cutwidth = 5.625, ws_breaks = 0.25,
-                      y_cuts = list(nclass = 4, y_boundary = 0, y_cap = Inf, dig_lab = 1), 
-                      smooth = TRUE, k = 100, interpolate = TRUE, dist = 0.1, ...) {
+                      fun.y = "mean", nmin = 1, ws_max = Inf, 
+                      smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1, length_out = 100, ...) {
   ggplot2::layer(
     stat = StatWind, data = data, mapping = mapping, geom = geom,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-    params = list(fun.y = fun.y, nmin = nmin, na.rm = na.rm, wd_cutwidth = wd_cutwidth, ws_breaks = ws_breaks, 
-                  y_cuts = y_cuts, smooth = smooth, k = k, interpolate = interpolate, dist = dist, ...)
+    params = list(fun.y = fun.y, nmin = nmin, na.rm = na.rm, ws_max = ws_max, 
+                  smooth = smooth, k = k, extrapolate = extrapolate, dist = dist, length_out = length_out, ...)
   )
 }
 
@@ -203,30 +149,25 @@ stat_wind <- function(mapping = NULL, data = NULL, geom = "tile",
 
 ggpolarplot <- function(df, 
                         z,
-                        wd_cutwidth = 5,
                         nmin = 3,
                         fun.y = "mean",
                         ws_max = 6,
-                        ws_breaks = 0.125,
                         ws_unit = "m/s",
                         smooth = TRUE,
                         k = 100,
-                        interpolate = TRUE,
+                        extrapolate = TRUE,
                         dist = 0.1,
-                        fill_scale = scale_fill_gradientn(colours = matlab::jet.colors(100), na.value = NA),
-                        expand = c(0, 0)
+                        length_out = 100,
+                        fill_scale = scale_fill_gradientn(colours = matlab::jet.colors(100), na.value = NA)
 ) { 
   
-  y_cuts <- list(breaks = seq(0, ws_max, ws_breaks), y_boundary = 0, y_cap = ws_max, dig_lab = 1)
   p <-
     ggplot(df, aes(wd = wd, ws = ws, fill = !!sym(z))) +
-    stat_wind(fun.y = fun.y, nmin = nmin, wd_cutwidth = wd_cutwidth, ws_breaks = ws_breaks, 
-              y_cuts = y_cuts, smooth = smooth, k = k, interpolate = interpolate, dist = dist) +
-    scale_x_continuous(breaks = seq(0, 270, 90) + wd_cutwidth / 2, labels = c("N", "E", "S", "W")) +
-    scale_y_continuous(expand = expand, labels = function(ws) paste0(ws," ",ws_unit)) +
+    stat_wind(fun.y = fun.y, nmin = nmin, , ws_max = ws_max, smooth = smooth, k = k, 
+              extrapolate = extrapolate, dist = dist, length_out = length_out) +
+    scale_y_continuous(labels = function(ws) paste0(ws," ",ws_unit)) +
     fill_scale + 
-    # coord_equal() + # für kartesisch.., dann bräuchten wir aber ein eigenes 'coord_polar_cartesian()'
-    coord_polar(start = -(wd_cutwidth / 360 / 2 * 2 * pi)) + # hier auskommentieren zum testen von kartesisch
+    coord_equal() + # für kartesisch.., dann bräuchten wir aber ein eigenes 'coord_polar_cartesian()'
     theme_polarplot
   
   return(p)
@@ -253,7 +194,7 @@ df <-
     wday = lubridate::wday(date, label = TRUE)
   )
 
-#' mit coord_polar, daher dauerts etwas...
+#' mit coord_polar, daher dauerts etwas sehr lang, daher lieber kartesisch...
 p <- ggpolarplot(df, z = "NOx")
 p 
 p + facet_wrap(.~wday, nrow = 2)
