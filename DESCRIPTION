@@ -32,7 +32,10 @@ Imports:
     stringr,
     rOstluft,
     rOstluft.data (>= 1.7),
-    magrittr
+    magrittr,
+    mgcv,
+    viridis,
+    matlab
 Suggests:
     knitr,
     rmarkdown,
