@@ -8,16 +8,17 @@
 #' * wd scale / breaks but how exactly?
 #'
 #'
-#' @param limit
+#' @param limit limit for coordsystem (xlim(-limit, limit), ylim(-limit, limit))
 #' @param expand expand limits (probably not used at the moment)
 #' @param clip clip panel (not sure if used)
 #' @param bg raster for background image
 #' @param scale_wd pass breaks angle lines (not used at the moment)
 #'
-#' @return
 #' @export
 #'
 #' @examples
+#' require(ggplot2)
+#'
 #' df <- tibble::tribble(
 #'   ~wd, ~ws,
 #'   0, 4,

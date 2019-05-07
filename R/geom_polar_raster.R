@@ -12,6 +12,8 @@
 #'
 #'
 #' @examples
+#' require(ggplot2)
+#'
 #' # prepare map as raster
 #' bbox <- tibble::tibble(x = c(2683141 - 500, 2683141 + 500), y = c(1249040 - 500, 1249040 + 500))
 #' bbox <- rOstluft::transform_projection(bbox, coord = c("x", "y"),
