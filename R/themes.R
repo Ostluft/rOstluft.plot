@@ -11,14 +11,23 @@ theme_traj <-
 theme_polarplot <- 
   ggplot2::theme_minimal() +
   ggplot2::theme(
-    axis.ticks.y = ggplot2::element_line(),
+    # axis.ticks.y = ggplot2::element_line()
     panel.ontop = TRUE,
-    panel.grid.minor = ggplot2::element_blank(),
-    panel.grid.major = ggplot2::element_line(linetype = 2, color = "gray80")
+    panel.grid.minor = element_blank(),
+    panel.grid.major = ggplot2::element_line(linetype = 2, color = "gray80"),
+    axis.text.x = element_blank(),
+    axis.title = element_blank()
   )
 
 
 
-theme_radar <- theme_polarplot + theme(panel.ontop = FALSE)
-
+theme_radar <- 
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    # axis.ticks.y = ggplot2::element_line()
+    panel.ontop = FALSE,
+    panel.grid.minor = element_blank(),
+    panel.grid.major = ggplot2::element_line(linetype = 2, color = "gray80"),
+    axis.title.x = element_blank()
+  )
 

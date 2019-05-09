@@ -1,10 +1,71 @@
+#' Summarise y values over binned wind data.
+#' 
+#' Binning is done by StatWind, so input data to stat_summary_wind() should be original unbinned data.
+#' Depending on the groups argument, binning is either done 2-dimensional over cartesian u and v wind vectors 
+#' (calculated from input data; then, stat_summary_wind() yields results similar to openair::polarplot()) 
+#' or,
+#' 1-dimensional over wind direction or wind velocity bins, respectively.
+#' 
+#' @param mapping Set of aesthetic mappings created by aes() or aes_(). 
+#' If specified and inherit.aes = TRUE (the default), it is combined with 
+#' the default mapping at the top level of the plot. You must supply mapping if there is no plot mapping..
+#' @param data The data to be displayed in this layer. 
+#' #' requires input data including at least three columns carrying information regarding: 
+#' * wind direction 
+#' * wind velocity
+#' * y
+#' @param geom The geometric object to use display the data.
+#' @param fun function or list of functions for summary.
+#' @param ... Other arguments passed on to layer(params = list(...)).
+#' @param fun.args A list of extra arguments to pass to fun.
+#' @param nmin Minimum number of values for fun, if n < nmin: NA is returned
+#' @param ws_max Maximum wind velocity for binning: above ws_max, y is set NA
+#' @param bins number of bins over the range of values if !groups %in% c("u_class", "v_class")
+#' @param wd_binwidth width of bins (in degree) if groups == "wd_class"
+#' @param wd_offset offset for wind_direction (in degree) if groups == "wd_class"; bins are then calculated over (wd + wd_offset) %% 360
+#' @param ws_binwidth width of bins for wind velocity if groups == "ws_class"
+#' @param smooth TRUE/FALSE, applies if groups = c("u_class", "v_class"); should smoothing of summary results should be performed
+#' using gam_surface()?
+#' @param k numeric, applies if smooth = TRUE; degree of smoothing in gam_surface()
+#' @param extrapolate TRUE/FALSE, applies if smooth = TRUE; gem_smooth() returns extrapolated values for u, v coordinates that have NA for summarised y
+#' if extrapolate = TRUE, those values are returned (to a certain degree depending on the value of dist)
+#' @param dist numeric, fraction of 1, applies if smooth = TRUE and extrapolate = TRUE; maximum distance to coordinate-pair at which the result of 
+#' gem_smooth(y) should be returned
+#' @param groups can be NULL, c("u_class", "v_class"), "wd_class", "ws_class", ...
+#' 
+#' @return ggplot2 layer
+#' 
+#' Aesthetics
+#' 
+#' * wd: wind direction in degrees
+#' * ws: wind velocity
+#' * y: y values to be summarised
+#' 
+#' Computed variables
+#' 
+#' * If groups = c("u_class", "v_class"): a tibble is returned, binned over u and v, with variables:
+#' - wd: wind direction corresponding to midpoint value of u_class and v_class
+#' - ws: wind velocity corresponding to midpoint value of u_class and v_class
+#' - wd_class: new bins over wd considering wd_binwidth
+#' - ws_class: new bins over ws considering ws_binwidth and ws_max
+#' - u_class: bins over u (from input wd and ws)
+#' - v_class: bins over v (from input wd and ws)
+#' - y: result from fun(y, ...)
+#' * If groups = NULL: groups = "wd". In this case, bins are calculated over wind direction; 
+#' a tibble including wd_class and summarised y is returned
+#' * groups can be strings for other varibables in data; then fun is applied over those; 
+#' a tibble including groups and summarised y is returned
+#' 
 stat_summary_wind <- function (mapping = NULL, data = NULL, geom = "raster", position = "identity",
-                               bins = 100, fun = "mean", fun.args = list(), show.legend = NA, inherit.aes = TRUE, 
-                               nmin = 1, ws_max = Inf, smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1, ...) {
+                               fun = "mean", fun.args = list(), show.legend = NA, inherit.aes = TRUE, 
+                               nmin = 1, ws_max = Inf, bins = 100, wd_binwidth = 45, wd_offset = 0, ws_binwidth = 1, 
+                               smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1, groups = NULL, ...) {
   
   layer(stat = StatWind, data = data, mapping = mapping, geom = geom,
         position = position, show.legend = show.legend, inherit.aes = inherit.aes,
         params = list(fun = fun, fun.args = fun.args, nmin = nmin, ws_max = ws_max, 
-                      smooth = smooth, k = k, extrapolate = extrapolate, dist = dist, bins = bins, ...)
+                      smooth = smooth, k = k, extrapolate = extrapolate, dist = dist, 
+                      bins = bins, wd_binwidth = wd_binwidth, ws_binwidth = ws_binwidth,
+                      wd_offset = wd_offset, groups = groups, ...)
   )
 }
