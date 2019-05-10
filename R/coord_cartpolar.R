@@ -106,8 +106,8 @@ CoordCartPolar <- ggproto("CoordCartPolar", CoordCartesian,
     if (inherits(minor_element, "element_line")) {
       tmp$minor <- minor_element
       xminor <- as.numeric(purrr::keep(panel_params$x.minor - 0.5, ~ . > 0))
-      elements$xminor <- element_grob.element_circle(major_element, fill = NA,
-        x = rep(0.5, length(xminor)), y = rep(0.5, length(xmajor)), r = xminor
+      elements$xminor <- element_grob.element_circle(minor_element, fill = NA,
+        x = rep(0.5, length(xminor)), y = rep(0.5, length(xminor)), r = xminor
       )
     }
 
