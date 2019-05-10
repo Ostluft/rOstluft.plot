@@ -3,7 +3,9 @@
 
 
 
-#' Wrapper to cut values into classes using ggplot2::cut_interval() or ggplot2::cut_width(); for use with ggpolar()
+#' Wrapper to cut values into classes
+#' 
+#' using ggplot2::cut_interval(), ggplot2::cut_width(), or base::curt()
 #'
 #' @param y object for cutting to be applied
 #' @param y_cuts named list with one of the following items: list(nclass = ..., cutwidth = ...);
@@ -29,7 +31,6 @@ cut_fun <- function(y, y_cuts, ...) { # in helpers verschieben
 
 
 wd_classes <- function(wd, wd_cutwidth = 45, ...) { # in helpers verschieben
-  stopifnot()
   if ((360 / wd_cutwidth) %in% c(4, 8, 12, 16)) {
     wd <- (wd + wd_cutwidth / 2) %% 360
   }

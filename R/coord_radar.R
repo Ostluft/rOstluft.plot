@@ -1,6 +1,6 @@
 #' Coordinate system for ggradar()
 #'
-#' based on coord_polar(), but paths are connected linear 
+#' @description based on coord_polar(), but paths are connected linear 
 #' 
 #' @export
 coord_radar <- function (bg =NULL, theta = "x", start = 0, direction = 1) { # sneaked from here: http://www.cmap.polytechnique.fr/~lepennec/R/Radar/RadarAndParallelPlots.html
