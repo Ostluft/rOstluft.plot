@@ -27,19 +27,18 @@ WIP:
 }
 }
 \examples{
-require(ggplot2)
+library(ggplot2)
 
 df <- tibble::tribble(
-  ~wd, ~ws,
-  0, 4,
-  90, 4,
-  180, 4,
-  270, 4,
-  45, 4,
-  135, 4,
-  225, 4,
-  315, 4,
-  60, 9
+  ~wd, ~ws, ~facet,
+  0, 4, 1,
+  90, 4, 1,
+  180, 4, 1,
+  270, 4, 1,
+  45, 8, 2,
+  135, 8, 2,
+  225, 8, 2,
+  315, 8, 2
 )
 
 df <- dplyr::mutate(df,
@@ -47,10 +46,18 @@ df <- dplyr::mutate(df,
   v = .data$ws * cos(2 * pi * .data$wd / 360)
 )
 
-ggplot(df, aes(x=u, y=v)) + geom_point() + coord_cartpolar()
+p <- ggplot(df, aes(x=u, y=v)) + geom_point() + coord_cartpolar()
+p
 
-ggplot(df, aes(x=u, y=v)) + geom_point() + coord_cartpolar() +
-  scale_x_continuous(breaks = c(1, 3, 4.5)) +
+
+# theming for panel.grid.major.x and panel.grid.minor.x is applied to polar grid lines
+p + theme(
+      "panel.grid.minor.x" = element_line(color = "blue"),
+      "panel.grid.major.x" = element_line(color = "red", size = 2)
+    )
+
+# x breaks are polar grid radiuses:
+p + scale_x_continuous(breaks = c(1, 1.5, 3, 6)) +
   theme("panel.grid.minor.x" = element_blank())
 
 
@@ -65,5 +72,23 @@ bbox <- c(left = bbox$x[1], right = bbox$x[2], bottom = bbox$y[1], top = bbox$y[
 raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
                                    source = "stamen", color = "bw")
 
-ggplot(df, aes(x=u, y=v)) + geom_point() + coord_cartpolar(bg = raster_map)
+pbg <- ggplot(df, aes(x=u, y=v)) + geom_point() + coord_cartpolar(bg = raster_map)
+pbg
+
+
+# faceting
+pbg + facet_wrap(~facet)
+
+
+# if plotting a raster layer, use annotation_raster, panel.ontop and panel.background
+df <- expand.grid(u = -5:5, v = -5:5)
+df$z <- runif(nrow(df))
+ggplot(df, aes(x=u, y=v, fill=z)) + coord_cartpolar(expand = FALSE) +
+  annotation_raster(raster_map, -Inf, Inf, -Inf, Inf) +
+  geom_raster(alpha = 0.5) +
+  theme(
+    "panel.ontop" = TRUE,
+    "panel.background" = element_blank()
+  )
+
 }

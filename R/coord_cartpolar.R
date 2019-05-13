@@ -17,19 +17,18 @@
 #' @export
 #'
 #' @examples
-#' require(ggplot2)
+#' library(ggplot2)
 #'
 #' df <- tibble::tribble(
-#'   ~wd, ~ws,
-#'   0, 4,
-#'   90, 4,
-#'   180, 4,
-#'   270, 4,
-#'   45, 4,
-#'   135, 4,
-#'   225, 4,
-#'   315, 4,
-#'   60, 9
+#'   ~wd, ~ws, ~facet,
+#'   0, 4, 1,
+#'   90, 4, 1,
+#'   180, 4, 1,
+#'   270, 4, 1,
+#'   45, 8, 2,
+#'   135, 8, 2,
+#'   225, 8, 2,
+#'   315, 8, 2
 #' )
 #'
 #' df <- dplyr::mutate(df,
@@ -37,10 +36,18 @@
 #'   v = .data$ws * cos(2 * pi * .data$wd / 360)
 #' )
 #'
-#' ggplot(df, aes(x=u, y=v)) + geom_point() + coord_cartpolar()
+#' p <- ggplot(df, aes(x=u, y=v)) + geom_point() + coord_cartpolar()
+#' p
 #'
-#' ggplot(df, aes(x=u, y=v)) + geom_point() + coord_cartpolar() +
-#'   scale_x_continuous(breaks = c(1, 3, 4.5)) +
+#'
+#' # theming for panel.grid.major.x and panel.grid.minor.x is applied to polar grid lines
+#' p + theme(
+#'       "panel.grid.minor.x" = element_line(color = "blue"),
+#'       "panel.grid.major.x" = element_line(color = "red", size = 2)
+#'     )
+#'
+#' # x breaks are polar grid radiuses:
+#' p + scale_x_continuous(breaks = c(1, 1.5, 3, 6)) +
 #'   theme("panel.grid.minor.x" = element_blank())
 #'
 #'
@@ -55,7 +62,25 @@
 #' raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
 #'                                    source = "stamen", color = "bw")
 #'
-#' ggplot(df, aes(x=u, y=v)) + geom_point() + coord_cartpolar(bg = raster_map)
+#' pbg <- ggplot(df, aes(x=u, y=v)) + geom_point() + coord_cartpolar(bg = raster_map)
+#' pbg
+#'
+#'
+#' # faceting
+#' pbg + facet_wrap(~facet)
+#'
+#'
+#' # if plotting a raster layer, use annotation_raster, panel.ontop and panel.background
+#' df <- expand.grid(u = -5:5, v = -5:5)
+#' df$z <- runif(nrow(df))
+#' ggplot(df, aes(x=u, y=v, fill=z)) + coord_cartpolar(expand = FALSE) +
+#'   annotation_raster(raster_map, -Inf, Inf, -Inf, Inf) +
+#'   geom_raster(alpha = 0.5) +
+#'   theme(
+#'     "panel.ontop" = TRUE,
+#'     "panel.background" = element_blank()
+#'   )
+#'
 coord_cartpolar <- function(limit = NULL, expand = TRUE, clip = "on", bg = NULL, scale_wd = NULL) {
   ggproto(NULL, CoordCartPolar,
     limit = limit,
@@ -95,14 +120,6 @@ CoordCartPolar <- ggproto("CoordCartPolar", CoordCartesian,
       elements$panel <- element_grob(panel_element)
     }
 
-    if (inherits(major_element, "element_line")) {
-      tmp$major <- major_element
-      xmajor <- as.numeric(purrr::keep(panel_params$x.major - 0.5, ~ . > 0))
-      elements$xmajor <- element_grob.element_circle(major_element, fill = NA,
-        x = rep(0.5, length(xmajor)), y = rep(0.5, length(xmajor)), r = xmajor
-      )
-    }
-
     if (inherits(minor_element, "element_line")) {
       tmp$minor <- minor_element
       xminor <- as.numeric(purrr::keep(panel_params$x.minor - 0.5, ~ . > 0))
@@ -111,35 +128,52 @@ CoordCartPolar <- ggproto("CoordCartPolar", CoordCartesian,
       )
     }
 
+    if (inherits(major_element, "element_line")) {
+      tmp$major <- major_element
+      xmajor <- as.numeric(purrr::keep(panel_params$x.major - 0.5, ~ . > 0))
+      elements$xmajor <- element_grob.element_circle(major_element, fill = NA,
+        x = rep(0.5, length(xmajor)), y = rep(0.5, length(xmajor)), r = xmajor
+      )
+    }
+
     rlang::exec(grid::grobTree, !!!elements, name = "grill")
   },
 
   setup_panel_params = function(self, scale_x, scale_y, params) {
+    train_cartpolar <- function(scale, limits, name) {
+      scale$train(limits)
+      scale$limits <- limits
+      res <- scale$break_info(limits)
+      res$arrange <- scale$axis_order()
+      rlang::set_names(res , paste(name, names(res), sep = "."))
+    }
 
-    xrange <- scale_x$range$range
-    yrange <- scale_y$range$range
-    lim <- max(abs(c(xrange, yrange)))
+    lim <- max(abs(c(scale_x$range$range, scale_y$range$range)))
 
     if (!is.null(self$limit)) {
       limits <- c(-self$limit, self$limit)
     } else {
       # check for expand?
-      limits <- c(-lim*1.1, lim*1.1)
+      if (isTRUE(self$expand)) {
+        lim <- lim * 1.1
+      }
+      limits <- c(-lim, lim)
+      self$limit <- lim  # set self$limit to prevent expanding in each facet
     }
 
+    # probably not necessary
     self$limits$x <- limits
     self$limits$y <- limits
 
-    scale_x$train(limits)
-    scale_y$train(limits)
-    scale_x$limits <- limits
-    scale_y$imits <- limits
-    tmp$scale_x <- scale_x
-    tmp$scale_y <- scale_y
-    res <- ggproto_parent(CoordCartesian, self)$setup_panel_params(scale_x, scale_y, params)
-    res
+    c(
+      train_cartpolar(scale_x, limits, "x"),
+      train_cartpolar(scale_y, limits, "y")
+    )
   }
 )
+
+
+
 
 # Name ggplot grid object
 # Convenience function to name grid objects
