@@ -30,6 +30,7 @@
 #' ggpolarplot(df, z = "NOx", smooth = FALSE, extrapolate = FALSE, ws_max = 4, bins = 25, nmin = 10)
 #' ggpolarplot(df, z = "NOx", fun = "quantile", fun.args = list(probs = 0.95), smooth = FALSE, extrapolate = FALSE, ws_max = 4, bins = 50, nmin = 10)
 #' 
+#' @export
 ggpolarplot <- function(data,
                         z,
                         wd = "wd",
@@ -37,7 +38,7 @@ ggpolarplot <- function(data,
                         nmin = 3,
                         fun = "mean",
                         fun.args = list(na.rm = TRUE),
-                        ws_max = Inf,
+                        ws_max = NA,
                         smooth = TRUE,
                         k = 100,
                         extrapolate = TRUE,
@@ -50,6 +51,7 @@ ggpolarplot <- function(data,
                         ...
 ) { 
   groups <- c("u_class", "v_class")
+  # ?
   ggplot(data, aes(wd = !!sym(wd), ws = !!sym(ws), z = !!sym(z))) +
     stat_summary_wind(
       mapping = aes(x = stat(u), y = stat(v), fill = stat(z)), 

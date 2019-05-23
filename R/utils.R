@@ -29,7 +29,6 @@ cut_fun <- function(y, y_cuts, ...) { # in helpers verschieben
 
 
 
-
 wd_classes <- function(wd, wd_cutwidth = 45, ...) { # in helpers verschieben
   if ((360 / wd_cutwidth) %in% c(4, 8, 12, 16)) {
     wd <- (wd + wd_cutwidth / 2) %% 360
@@ -38,6 +37,12 @@ wd_classes <- function(wd, wd_cutwidth = 45, ...) { # in helpers verschieben
   return(wd)
 }
 
+
+
+y_classes <- function(y, y_cuts = list(nclass = 4, y_boundary = 0, y_cap = Inf, dig_lab = 1), ...) {
+  y <- cut_fun(pmin(y, y_cuts$y_cap, na.rm = TRUE), y_cuts = y_cuts, ...) 
+  return(y)
+}
 
 
 recode_last_class_label <- function(factor_var) {
@@ -62,12 +67,6 @@ uv2wd <- function(u, v) { #' von hier: https://github.com/environmentalinformati
   wdcalc <- ifelse(mathdegs > 0, mathdegs, mathdegs + 360)
   wd <- ifelse(wdcalc < 270, 270 - wdcalc, 270 - wdcalc + 360)
   return(wd)
-}
-
-
-y_classes <- function(y, y_cuts = list(nclass = 4, y_boundary = 0, y_cap = Inf, dig_lab = 1), ...) {
-  y <- cut_fun(pmin(y, y_cuts$y_cap, na.rm = TRUE), y_cuts = y_cuts, ...) 
-  return(y)
 }
 
 
