@@ -46,17 +46,18 @@
 #' a tibble including groups and summarised z is returned
 #' 
 #' @export
-stat_bin_wind_2d <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args = list(), nmin = 3, ws_max = Inf, bins = 100, 
+stat_bin_wind_2d <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args = list(), nmin = 3, ws_max = NA, bins = 100, 
                           wd_binwidth = 45, wd_offset = 0, ws_binwidth = 1, smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1) {
   
   if (is.null(groups)) groups <- c("u", "v")
   ns <- function(x, ...) {sum(!is.na(x))}
-  fun <- as.list(c(unlist(fun), "ns")) 
+  fun <- c(unlist(fun), "ns")
+  fun <- rlang::set_names(as.list(fun), fun)
   data <- 
     data %>%
     dplyr::mutate(
-      u = !!sym(ws) * sin(pi * !!sym(wd) / 180),
-      v = !!sym(ws) * cos(pi * !!sym(wd) / 180)
+      u = !!rlang::sym(ws) * sin(pi * !!rlang::sym(wd) / 180),
+      v = !!rlang::sym(ws) * cos(pi * !!rlang::sym(wd) / 180)
     ) 
   uv_max <- pmin(max(abs(c(data$u, data$v)), na.rm = TRUE), ws_max, na.rm = TRUE)
   uv_cuts <- seq(-uv_max, uv_max, length.out = bins)
@@ -74,16 +75,17 @@ stat_bin_wind_2d <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.a
       !!!fun.args
     ) %>%
     dplyr::ungroup() %>%
-    tidyr::gather(stat, !!sym(z), -groups, -ns) %>% 
-    dplyr::mutate(stat = factor(stat)) %>% 
-    dplyr::filter(
-      ns >= nmin
-    )
-  data <- 
-    data %>% 
+    tidyr::gather(stat, !!z, -!!groups, -ns) %>% 
     dplyr::mutate(
       u = midpoints(u),
-      v = midpoints(v)
+      v = midpoints(v),
+      stat = factor(stat)
+      ) %>% 
+    dplyr::filter(
+      ns >= nmin
+    ) %>% 
+    dplyr::rename(
+      n = ns
     )
   data <-
     expand.grid(
@@ -99,26 +101,23 @@ stat_bin_wind_2d <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.a
     data_smooth <- 
       data %>% 
       dplyr::group_by(stat) %>%
-      do({
-        # ?
-        fit_gam_surface(u = .$u, v = .$v, z = .$!!z, weights = pmin(3, .$ns) / 3,
+      dplyr::do({
+        fit_gam_surface(., x = "u", y = "v", z = z, weights = pmin(3, .$n) / 3,
                         k = k, extrapolate = extrapolate, dist = dist)
       }) %>% 
       dplyr::ungroup()
     data <- 
       dplyr::bind_cols(
         data_smooth,
-        dplyr::select(data, -u, -v, -!!sym(z), -stat)
+        dplyr::select(data, -u, -v, -!!rlang::sym(z), -stat, -n)
       )
   }
   data <- 
     data %>% 
     dplyr::mutate(
-      # !!wd := uv2wd(u, v),
-      # !!ws := sqrt(u^2 + v^2),
-      u = cut(!!sym(ws) * sin(pi * !!sym(wd) / 180), breaks = uv_cuts),
-      v = cut(!!sym(ws) * cos(pi * !!sym(wd) / 180), breaks = uv_cuts),
-      !!z := ifelse(!!sym(ws) > ws_max, NA, !!sym(z))
+      !!wd := uv2wd(u, v),
+      !!ws := sqrt(u^2 + v^2),
+      !!z := ifelse(!!rlang::sym(ws) > ws_max, NA, !!rlang::sym(z))
     )
   
   return(data)

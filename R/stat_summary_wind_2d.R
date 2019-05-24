@@ -57,17 +57,16 @@
 #' a tibble including groups and summarised z is returned
 #' 
 #' @export
-stat_summary_wind_2d <- function (mapping = NULL, data = NULL, geom = "raster", position = "identity",
+stat_summary_wind_2d <- function (data = NULL, mapping = NULL, geom = "raster", position = "identity",
                                fun = "mean", fun.args = list(), show.legend = NA, inherit.aes = TRUE, 
-                               nmin = 1, ws_max = Inf, bins = 100, wd_binwidth = 45, wd_offset = 0, ws_binwidth = 1, 
+                               nmin = 1, ws_max = NA, bins = 100, 
                                smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1, groups = NULL, ...) {
   
   layer(stat = StatWind2d, data = data, mapping = mapping, geom = geom,
         position = position, show.legend = show.legend, inherit.aes = inherit.aes,
         params = list(fun = fun, fun.args = fun.args, nmin = nmin, ws_max = ws_max, 
                       smooth = smooth, k = k, extrapolate = extrapolate, dist = dist, 
-                      bins = bins, wd_binwidth = wd_binwidth, ws_binwidth = ws_binwidth,
-                      wd_offset = wd_offset, groups = groups, ...)
+                      bins = bins, groups = groups, ...)
   )
 }
 
@@ -79,19 +78,12 @@ stat_summary_wind_2d <- function (mapping = NULL, data = NULL, geom = "raster", 
 #' @export
 StatWind2d <- ggproto("StatWind2d", Stat,
                     
-                    compute_group = function(wd, ws, z, scales, fun = "mean", fun.args = list(), nmin = 3, ws_max = NA,
-                                             smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1, bins = 100, 
-                                             wd_binwidth = 45, wd_offset = 0, ws_binwidth = 1, groups = NULL, ...) {
-                      data <- 
-                        tibble::tibble(
-                          wd = wd,
-                          ws = ws,
-                          z = z
-                        )
-                      stat_bin_wind_2d(data, wd = "wd", ws = "ws", z = "z", fun = fun, fun.args = fun.args, nmin = nmin, 
+                    compute_group = function(data, wd, ws, z, scales, fun = "mean", fun.args = list(), nmin = 3, ws_max = NA,
+                                             smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1, bins = 100, groups = NULL, ...) {
+                     
+                      stat_bin_wind_2d(data = data, wd = wd, ws = ws, z = z, fun = fun, fun.args = fun.args, nmin = nmin, 
                                     ws_max = ws_max, smooth = smooth, k = k, extrapolate = extrapolate, 
-                                    dist = dist, bins = bins, wd_binwidth = wd_binwidth, wd_offset = wd_offset, 
-                                    ws_binwidth = ws_binwidth, groups = groups, ...)
+                                    dist = dist, bins = bins, groups = groups, ...)
                     },
                     
                     required_aes = c("wd", "ws", "z")

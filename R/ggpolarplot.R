@@ -41,7 +41,7 @@ ggpolarplot <- function(data,
                         ws_max = NA,
                         smooth = TRUE,
                         k = 100,
-                        extrapolate = TRUE,
+                        extrapolate = FALSE,
                         dist = 0.1,
                         bins = 75,
                         fill_scale = scale_fill_gradientn(colours = matlab::jet.colors(100), na.value = NA),
@@ -50,11 +50,10 @@ ggpolarplot <- function(data,
                         bg = NULL,
                         ...
 ) { 
-  groups <- c("u_class", "v_class")
-  # ?
-  ggplot(data, aes(wd = !!sym(wd), ws = !!sym(ws), z = !!sym(z))) +
-    stat_summary_wind(
-      mapping = aes(x = stat(u), y = stat(v), fill = stat(z)), 
+  groups <- c("u", "v")
+  ggplot(data, aes(wd = !!rlang::sym(wd), ws = !!rlang::sym(ws), z = !!rlang::sym(z))) +
+    stat_summary_wind_2d(
+      mapping = aes(x = stat(u), y = stat(v), fill = stat(!!rlang::sym(z))), 
       fun = fun, fun.args = fun.args, nmin = nmin, ws_max = ws_max, 
       smooth = smooth, k = k, extrapolate = extrapolate, dist = dist, bins = bins, groups = groups
     ) +

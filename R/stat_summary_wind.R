@@ -21,9 +21,6 @@
 #' @param nmin Minimum number of values for fun, if n < nmin: NA is returned
 #' @param ws_max Maximum wind velocity for binning: above ws_max, z is set NA
 #' @param bins number of bins over the range of values if !groups %in% c("u", "v")
-#' @param wd_binwidth width of bins (in degree) if groups == "wd_class"
-#' @param wd_offset offset for wind_direction (in degree) if groups == "wd_class"; bins are then calculated over (wd + wd_offset) %% 360
-#' @param ws_binwidth width of bins for wind velocity if groups == "ws_class"
 #' @param smooth TRUE/FALSE, applies if groups = c("u", "v"); should smoothing of summary results should be performed
 #' using gam_surface()?
 #' @param k numeric, applies if smooth = TRUE; degree of smoothing in gam_surface()
@@ -31,7 +28,7 @@
 #' if extrapolate = TRUE, those values are returned (to a certain degree depending on the value of dist)
 #' @param dist numeric, fraction of 1, applies if smooth = TRUE and extrapolate = TRUE; maximum distance to coordinate-pair at which the result of 
 #' gem_smooth(z) should be returned
-#' @param groups can be NULL, c("u", "v"), "wd_class", "ws_class", ...
+#' @param groups can be NULL, c("u", "v"), ...
 #' 
 #' @return ggplot2 layer
 #' 
@@ -46,27 +43,22 @@
 #' * If groups = c("u", "v"): a tibble is returned, binned over u and v, with variables:
 #' - wd: wind direction corresponding to midpoint value of u and v
 #' - ws: wind velocity corresponding to midpoint value of u and v
-#' - wd_class: new bins over wd considering wd_binwidth
-#' - ws_class: new bins over ws considering ws_binwidth and ws_max
 #' - u: bins over u (from input wd and ws)
 #' - v: bins over v (from input wd and ws)
 #' - z: result from fun(z, ...)
-#' * If groups = NULL: groups = "wd". In this case, bins are calculated over wind direction; 
-#' a tibble including wd_class and summarised z is returned
-#' * groups can be strings for other varibables in data; then fun is applied over those; 
+#' * groups can be strings for other variables in data; then fun is applied over those; 
 #' a tibble including groups and summarised z is returned
 #' 
 #' @export
-stat_summary_wind <- function (mapping = NULL, data = NULL, geom = "raster", position = "identity",
+stat_summary_wind <- function (data = NULL, mapping = NULL, geom = "polygon", position = "identity",
                                fun = "mean", fun.args = list(), show.legend = NA, inherit.aes = TRUE, 
-                               nmin = 1, ws_max = Inf, bins = 100, wd_binwidth = 45, wd_offset = 0, ws_binwidth = 1, 
-                               smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1, groups = NULL, ...) {
+                               nmin = 1, ws_max = NA, wd_binwidth = 45, wd_offset = 0, ws_binwidth = 1, 
+                               groups = NULL, ...) {
   
   layer(stat = StatWind, data = data, mapping = mapping, geom = geom,
         position = position, show.legend = show.legend, inherit.aes = inherit.aes,
         params = list(fun = fun, fun.args = fun.args, nmin = nmin, ws_max = ws_max, 
-                      smooth = smooth, k = k, extrapolate = extrapolate, dist = dist, 
-                      bins = bins, wd_binwidth = wd_binwidth, ws_binwidth = ws_binwidth,
+                     wd_binwidth = wd_binwidth, ws_binwidth = ws_binwidth,
                       wd_offset = wd_offset, groups = groups, ...)
   )
 }
@@ -79,18 +71,11 @@ stat_summary_wind <- function (mapping = NULL, data = NULL, geom = "raster", pos
 #' @export
 StatWind <- ggproto("StatWind", Stat,
                     
-                    compute_group = function(wd, ws, z, scales, fun = "mean", fun.args = list(), nmin = 3, ws_max = NA,
-                                             smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1, bins = 100, 
+                    compute_group = function(data, wd, ws, z, scales, fun = "mean", fun.args = list(), nmin = 3, ws_max = NA,
                                              wd_binwidth = 45, wd_offset = 0, ws_binwidth = 1, groups = NULL, ...) {
-                      data <- 
-                        tibble::tibble(
-                          wd = wd,
-                          ws = ws,
-                          z = z
-                        )
-                      stat_bin_wind(data, wd = "wd", ws = "ws", z = "z", fun = fun, fun.args = fun.args, nmin = nmin, 
-                                    ws_max = ws_max, smooth = smooth, k = k, extrapolate = extrapolate, 
-                                    dist = dist, bins = bins, wd_binwidth = wd_binwidth, wd_offset = wd_offset, 
+            
+                      stat_bin_wind(data = data, wd = wd, ws = ws, z = z, fun = fun, fun.args = fun.args, nmin = nmin, 
+                                    ws_max = ws_max, wd_binwidth = wd_binwidth, wd_offset = wd_offset, 
                                     ws_binwidth = ws_binwidth, groups = groups, ...)
                     },
                     

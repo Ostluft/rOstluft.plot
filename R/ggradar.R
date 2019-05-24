@@ -47,18 +47,15 @@ ggradar <- function(data,
   stopifnot((360 / wd_binwidth) %in% c(4, 8, 12, 16))
   breaks <- seq(0, 360, wd_binwidth)
   breaks <- paste0("[", head(breaks, -1),"," ,tail(breaks, -1), ")")[seq(1, 360 / wd_binwidth, 90 / wd_binwidth)]
-  groups <- "wd_class"
+  groups <- wd
   if (is.null(group)) group <- "stat"
-  smooth <- FALSE
-  extrapolate <- FALSE
-  
-  # ?
+
   ggplot(data, aes(wd = !!sym(wd), ws = !!sym(ws), z = !!sym(z))) +
     stat_summary_wind(
-      mapping = aes(x = stat(wd_class), y = stat(!!sym(z))), 
+      mapping = aes(x = stat(wd), y = stat(!!sym(z))), 
       ...,
-      fun = fun, fun.args = fun.args, nmin = nmin, ws_max = ws_max, geom = geom, smooth = smooth, 
-      extrapolate = extrapolate, wd_binwidth = wd_binwidth, wd_offset = wd_binwidth / 2, groups = groups
+      fun = fun, fun.args = fun.args, nmin = nmin, ws_max = ws_max, geom = geom, wd_binwidth = wd_binwidth, 
+      wd_offset = wd_binwidth / 2, groups = groups
     ) +
     scale_x_discrete(breaks = breaks, labels = c("N", "E", "S", "W"), expand = c(0,0)) +
     scale_y_continuous(limits = c(0, NA), expand = c(0,0)) +
