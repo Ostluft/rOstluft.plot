@@ -28,7 +28,10 @@
 #' 
 #' @export
 stat_bin_wind <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args = list(), nmin = 3, ws_max = NA, 
-                          wd_binwidth = 45, wd_offset = 0, ws_binwidth = 1) {
+                          wd_cutfun = function(wd) wd_classes(wd, wd_binwidth = 45), wd_offset = 0, 
+                          ws_cutfun = function(ws) ws_classes(ws, ws_binwidth = 1)) {
+  
+  
   
   if (is.null(groups)) groups <- wd
   ns <- function(x, ...) {sum(!is.na(x))}
@@ -37,8 +40,8 @@ stat_bin_wind <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args
   data <-  
     data %>% 
     dplyr::mutate(
-      !!wd := wd_classes(!!rlang::sym(wd), wd_binwidth),
-      !!ws := cut(!!rlang::sym(ws), breaks = seq(0, max(pmin(!!rlang::sym(ws), ws_max, na.rm = TRUE), na.rm = TRUE), ws_binwidth))
+      !!wd := wd_cutfun(!!rlang::sym(wd)),
+      !!ws := wd_cutfun(!!rlang::sym(ws))
     ) %>% 
     na.omit() %>% 
     dplyr::group_by_at(groups) %>%

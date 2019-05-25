@@ -52,14 +52,14 @@
 #' @export
 stat_summary_wind <- function (data = NULL, mapping = NULL, geom = "polygon", position = "identity",
                                fun = "mean", fun.args = list(), show.legend = NA, inherit.aes = TRUE, 
-                               nmin = 1, ws_max = NA, wd_binwidth = 45, wd_offset = 0, ws_binwidth = 1, 
-                               groups = NULL, ...) {
+                               nmin = 1, wd_cutfun = function(wd) wd_classes(wd, wd_binwidth = 45), wd_offset = 0, 
+                               ws_cutfun = function(ws) ws_classes(ws, ws_binwidth = 1, ws_max = NA), groups = NULL, ...) {
   
   layer(stat = StatWind, data = data, mapping = mapping, geom = geom,
         position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-        params = list(fun = fun, fun.args = fun.args, nmin = nmin, ws_max = ws_max, 
-                     wd_binwidth = wd_binwidth, ws_binwidth = ws_binwidth,
-                      wd_offset = wd_offset, groups = groups, ...)
+        params = list(fun = fun, fun.args = fun.args, nmin = nmin, 
+                      wd_cutfun = wd_cutfun, wd_offset = wd_offset, 
+                      ws_cutfun = ws_cutfun, groups = groups, ...)
   )
 }
 
@@ -71,12 +71,17 @@ stat_summary_wind <- function (data = NULL, mapping = NULL, geom = "polygon", po
 #' @export
 StatWind <- ggproto("StatWind", Stat,
                     
-                    compute_group = function(data, wd, ws, z, scales, fun = "mean", fun.args = list(), nmin = 3, ws_max = NA,
-                                             wd_binwidth = 45, wd_offset = 0, ws_binwidth = 1, groups = NULL, ...) {
-            
-                      stat_bin_wind(data = data, wd = wd, ws = ws, z = z, fun = fun, fun.args = fun.args, nmin = nmin, 
-                                    ws_max = ws_max, wd_binwidth = wd_binwidth, wd_offset = wd_offset, 
-                                    ws_binwidth = ws_binwidth, groups = groups, ...)
+                    compute_group = function(data, scales, fun = "mean", fun.args = list(), nmin = 3, ws_max = NA,
+                                             wd_cutfun = function(wd) wd_classes(wd, wd_binwidth = 45), wd_offset = 0, 
+                                             ws_cutfun = function(ws) ws_classes(ws, ws_binwidth = 1, ws_max = NA), groups = NULL, ...) {
+                      
+                      # wd <- rlang::quo_text(mapping$wd)
+                      # ws <- rlang::quo_text(mapping$ws)
+                      # z <- rlang::quo_text(mapping$z)
+                      
+                      stat_bin_wind(data = data, wd = "wd", ws = "ws", z = "z", fun = fun, fun.args = fun.args, nmin = nmin, 
+                                    ws_max = ws_max, wd_cutfun = wd_cutfun, wd_offset = wd_offset, 
+                                    ws_cutfun = ws_cutfun, groups = groups)
                     },
                     
                     required_aes = c("wd", "ws", "z")

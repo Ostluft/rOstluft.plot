@@ -37,14 +37,13 @@ ggradar <- function(data,
                         fun.args = list(na.rm = TRUE),
                         group = NULL,
                         ws_max = NA,
-                        wd_binwidth = 45,
+                        wd_cutfun = function(wd) wd_classes(wd, wd_binwidth = 45),
+                        wd_binwidth = 45, # still needed for coord_radar and breaks ..
                         color_scale = viridis::scale_color_viridis(discrete = TRUE),
                         fill_scale = viridis::scale_fill_viridis(discrete = TRUE, alpha = 0.25),
-                        bg = NULL,
                         geom = "polygon"
 ) { 
   
-  stopifnot((360 / wd_binwidth) %in% c(4, 8, 12, 16))
   breaks <- seq(0, 360, wd_binwidth)
   breaks <- paste0("[", head(breaks, -1),"," ,tail(breaks, -1), ")")[seq(1, 360 / wd_binwidth, 90 / wd_binwidth)]
   groups <- wd
@@ -54,8 +53,8 @@ ggradar <- function(data,
     stat_summary_wind(
       mapping = aes(x = stat(wd), y = stat(!!sym(z))), 
       ...,
-      fun = fun, fun.args = fun.args, nmin = nmin, ws_max = ws_max, geom = geom, wd_binwidth = wd_binwidth, 
-      wd_offset = wd_binwidth / 2, groups = groups
+      fun = fun, fun.args = fun.args, nmin = nmin, ws_max = ws_max, geom = geom, wd_cutfun = wd_cutfun, 
+      wd_offset = wd_binwidth / 2, ws_cutfun = ws_classes, groups = groups
     ) +
     scale_x_discrete(breaks = breaks, labels = c("N", "E", "S", "W"), expand = c(0,0)) +
     scale_y_continuous(limits = c(0, NA), expand = c(0,0)) +
