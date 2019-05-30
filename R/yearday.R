@@ -1,0 +1,31 @@
+#' ggplot heatmap for diurnal-yearly time course
+#' 
+#' @description Create a heatmap with date on x-axis and time of day on y-axis; z values as colour scale.
+#' 
+#' @param data a data.frame or tibble with input data (containing a POSIXct variable as time parameter).
+#' @param time character string giving time variable name.
+#' @param z character string giving z value variable name.
+#' @param etc ...
+#' @param ... Other arguments passed on to geom_raster().
+#' 
+#' @return ggplot
+#' 
+#' @export
+ggyearday <- function(data, time, z, xbreaks = "1 month", xlabels = "%b", ybreaks = lubridate::hours(seq(3,21,3)), ylabels = "%I %p", 
+                      fill_scale = viridis::scale_fill_viridis(breaks = waiver(), labels = waiver(), direction = -1, na.value = NA, option = "magma", discrete = FALSE), ...) {
+  
+  if (class(fill_scale$labels) == "waiver" & class(fill_scale$breaks) != "waiver") {fill_scale$labels <- c(head(fill_scale$breaks, -1), paste0(">",tail(fill_scale$breaks, 1)))}
+  ggplot(data, aes(x = as.Date(!!rlang::sym(time), tz = tz(!!rlang::sym(time))), y = as.POSIXct("2000-01-01") + lubridate::hours(lubridate::hour(!!rlang::sym(time))), fill = !!rlang::sym(z))) + 
+    geom_raster(...) + 
+    fill_scale + 
+    scale_x_date(date_breaks = xbreaks, date_labels = xlabels, expand = c(0,0)) + 
+    scale_y_datetime(expand = c(0,0), breaks = as.POSIXct("2000-01-01") + ybreaks, date_labels = ylabels, position = "right") +
+    theme_bw() + 
+    theme(
+      axis.title = element_blank(),
+      panel.grid.minor = element_blank(),
+      axis.text.x = element_text(angle = 0, hjust = 0.5),
+      strip.background = element_blank(),
+      strip.text = element_text(hjust = 0, size = 10)
+    )
+}
