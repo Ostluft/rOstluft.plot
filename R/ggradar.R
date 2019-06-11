@@ -1,67 +1,62 @@
-#' @examples 
-#' # Bsp:
+#' Summarise and ggplot data by wind direction bins
+#'
+#' @examples
 #' require(rOstluft)
 #' require(rOstluft.data)
+#' require(rOstluft.plot)
 #' require(lubridate)
-#' 
+#' require(ggplot2)
+#'
 #' df <-
 #'   rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv",package = "rOstluft.data", mustWork = TRUE)) %>%
 #'   rOstluft::rolf_to_openair() %>%
 #'   dplyr::mutate(wday = lubridate::wday(date, label = TRUE, week_start = 1))
-#' 
-#' # simple
-#' ggradar(df, "NOx")
-#' # fixed custom colour & fill
-#' ggradar(df, "NOx", color = "blue", fill = "#0000FF40")
-#' # no fills, but grouped by wday including colors
-#' ggradar(df, "NOx", fill = NA) +
-#'   aes(x = wd_class, y = NOx, color = wday)
-#' # want facets and fills with, but with custom opacity
-#' ggradar(df, "NOx") +
-#'   aes(x = wd_class, y = NOx, color = wday, fill = wday) +
-#'   facet_wrap(.~wday) +
-#'   scale_fill_viridis(discrete = TRUE, alpha = 0.5)
-#' # group by different stats
-#' ggradar(df, "NOx", fun = list("mean", "sd"), fun.args = list(na.rm = TRUE), fill = NA) +
-#'   aes(wd = wd, y = NO2, color = stat(stat))
-#' #... hm, klappt noch nicht ganz
+#'
+#' ggradar(df, aes(wd = wd, ws = ws, z = NOx), fill = "blue", color = "blue", alpha = 0.5) + ylab("NOx")
+#'
+#' q95 <- function(x, ...) quantile(x, 0.95, ...)
+#' ggradar(df, aes(wd = wd, ws = ws, z = NOx, group = stat(stat), color = stat(stat), fill = stat(stat)), fill = NA, fun = list(a = "mean", "median", "q95")) + ylab("NOx")
+#'
+#' df %>%
+#'   dplyr::select(wd, ws, NO, NOx, wday) %>%
+#'   tidyr::gather(par, val, -wd, -ws, -wday) %>%
+#'   ggradar(aes(wd = wd, ws = ws, z = val, group = par, fill = par, color = par)) + ylab("mean") +
+#'   facet_wrap(wday~.)
+#'
 #' @export
-#' 
 ggradar <- function(data,
-                       z,
-                        wd = "wd",
-                        ws = "ws",
-                        ...,
-                        nmin = 3,
-                        fun = "mean",
-                        fun.args = list(na.rm = TRUE),
-                        group = NULL,
-                        ws_max = NA,
-                        wd_cutfun = function(wd) wd_classes(wd, wd_binwidth = 45),
-                        wd_binwidth = 45, # still needed for coord_radar and breaks ..
-                        color_scale = viridis::scale_color_viridis(discrete = TRUE),
-                        fill_scale = viridis::scale_fill_viridis(discrete = TRUE, alpha = 0.25),
-                        geom = "polygon"
-) { 
-  
+                    mapping,
+                    ...,
+                    nmin = 3,
+                    fun = "mean",
+                    fun.args = list(na.rm = TRUE),
+                    ws_max = NA,
+                    wd_cutfun = function(wd) wd_classes(wd, wd_binwidth = 45),
+                    wd_binwidth = 45, # still needed for coord_radar and breaks ..
+                    color_scale = viridis::scale_color_viridis(discrete = TRUE),
+                    fill_scale = viridis::scale_fill_viridis(discrete = TRUE, alpha = 0.25),
+                    geom = "polygon"
+) {
+
   breaks <- seq(0, 360, wd_binwidth)
   breaks <- paste0("[", head(breaks, -1),"," ,tail(breaks, -1), ")")[seq(1, 360 / wd_binwidth, 90 / wd_binwidth)]
-  groups <- wd
-  if (is.null(group)) group <- "stat"
 
-  ggplot(data, aes(wd = !!sym(wd), ws = !!sym(ws), z = !!sym(z))) +
+  plot <-
+    ggplot(data, mapping) +
     stat_summary_wind(
-      mapping = aes(x = stat(wd), y = stat(!!sym(z))), 
+      mapping = aes(x = stat(wd), y = stat(z)),
       ...,
-      fun = fun, fun.args = fun.args, nmin = nmin, ws_max = ws_max, geom = geom, wd_cutfun = wd_cutfun, 
-      wd_offset = wd_binwidth / 2, ws_cutfun = ws_classes, groups = groups
+      fun = fun, fun.args = fun.args, nmin = nmin, ws_max = ws_max, geom = geom, wd_cutfun = wd_cutfun,
+      wd_offset = wd_binwidth / 2, ws_cutfun = ws_classes, groups = NULL
     ) +
-    scale_x_discrete(breaks = breaks, labels = c("N", "E", "S", "W"), expand = c(0,0)) +
+    coord_radar(start = -2 * pi / 360 * wd_binwidth / 2) +
+    scale_x_discrete(breaks = breaks, labels = c("N", "E", "S", "W")) +
     scale_y_continuous(limits = c(0, NA), expand = c(0,0)) +
     color_scale +
     fill_scale +
-    coord_radar(start = -2 * pi / 360 * wd_binwidth) +
     theme_radar
+
+  return(plot)
 }
 
 

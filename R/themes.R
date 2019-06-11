@@ -8,7 +8,7 @@ theme_traj <-
 
 
 
-theme_polarplot <- 
+theme_polarplot <-
   ggplot2::theme_minimal() +
   ggplot2::theme(
     # axis.ticks.y = ggplot2::element_line()
@@ -16,12 +16,12 @@ theme_polarplot <-
     panel.grid.minor = element_blank(),
     panel.grid.major = ggplot2::element_line(linetype = 2, color = "gray80"),
     axis.text.x = element_blank(),
-    axis.title = element_blank()
+    axis.title.y = element_blank()
   )
 
 
 
-theme_radar <- 
+theme_radar <-
   ggplot2::theme_minimal() +
   ggplot2::theme(
     # axis.ticks.y = ggplot2::element_line()
