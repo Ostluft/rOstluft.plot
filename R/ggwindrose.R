@@ -8,8 +8,7 @@ ggwindrose <- function(data,
                        bg = NULL
 ) {
 
-  breaks <- seq(wd_binwidth, 360, wd_binwidth) / wd_binwidth
-  breaks <- breaks[c(90, 180, 270, 360) / wd_binwidth] - 1
+  breaks <- c(0, 90, 180, 270) / wd_binwidth + 1
   # breaks <- seq(0, 360, wd_binwidth)
   # breaks <- paste0("[", head(breaks, -1),"," ,tail(breaks, -1), ")")[seq(1, 360 / wd_binwidth, 90 / wd_binwidth)]
 
