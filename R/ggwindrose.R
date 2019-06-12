@@ -4,7 +4,7 @@ ggwindrose <- function(data,
                        wd_cutfun = function(wd) wd_classes(wd, wd_binwidth = 45),
                        wd_binwidth = 45, # still needed for breaks ..
                        ws_cutfun = function(ws) ws_classes(ws, ws_max = 6),
-                       fill_scale = viridis::scale_fill_viridis(discrete = TRUE, direction = -1),
+                       fill_scale = viridis::scale_fill_viridis(discrete = TRUE),
                        bg = NULL
 ) {
 
