@@ -25,6 +25,7 @@ ggwindrose <- function(data,
     scale_x_continuous(breaks = breaks, labels = c("N", "E", "S", "W"), expand = c(0,0)) +
     scale_y_continuous(limits = c(0, NA), expand = c(0,0)) +
     fill_scale +
+    guides(fill = guide_legend(title = rlang::quo_text(mapping$z))) +
     theme_windrose
 
   return(plot)
