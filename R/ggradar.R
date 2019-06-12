@@ -23,6 +23,22 @@
 #'   ggradar(aes(wd = wd, ws = ws, z = val, group = par, fill = par, color = par)) + ylab("mean") +
 #'   facet_wrap(wday~.)
 #'
+#' # background map
+#' bbox <- tibble::tibble(x = c(2683141 - 500, 2683141 + 500), y = c(1249040 - 500, 1249040 + 500))
+#' bbox <- rOstluft::transform_projection(bbox, coord = c("x", "y"),
+#'                                        initCRS = sp::CRS("+init=epsg:2056"),
+#'                                        outCRS = sp::CRS("+init=epsg:4326"))
+#'
+#' bbox <- c(left = bbox$x[1], right = bbox$x[2], bottom = bbox$y[1], top = bbox$y[2])
+#'
+#' raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
+#'                                    source = "stamen", color = "bw")
+#'
+#' ggradar(df, aes(wd = wd, ws = ws, z = NOx), fill = "blue", color = "blue", alpha = 0.2, bg = raster_map) +
+#'   ylab("NOx") +
+#'   theme( panel.grid.major = ggplot2::element_line(linetype = 1, color = "white"))
+#'
+#'
 #' @export
 ggradar <- function(data,
                     mapping,
@@ -35,7 +51,7 @@ ggradar <- function(data,
                     wd_binwidth = 45, # still needed for coord_radar and breaks ..
                     color_scale = viridis::scale_color_viridis(discrete = TRUE),
                     fill_scale = viridis::scale_fill_viridis(discrete = TRUE, alpha = 0.25),
-                    geom = "polygon"
+                    geom = "polygon", bg = NULL
 ) {
 
   breaks <- seq(0, 360, wd_binwidth)
@@ -49,7 +65,7 @@ ggradar <- function(data,
       fun = fun, fun.args = fun.args, nmin = nmin, ws_max = ws_max, geom = geom, wd_cutfun = wd_cutfun,
       wd_offset = wd_binwidth / 2, ws_cutfun = ws_classes, groups = NULL
     ) +
-    coord_radar(start = -2 * pi / 360 * wd_binwidth / 2) +
+    coord_radar(start = -2 * pi / 360 * wd_binwidth / 2, bg = bg) +
     scale_x_discrete(breaks = breaks, labels = c("N", "E", "S", "W")) +
     scale_y_continuous(limits = c(0, NA), expand = c(0,0)) +
     color_scale +
