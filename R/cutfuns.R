@@ -26,8 +26,8 @@ ws_classes <- function(ws, ws_binwidth = 1, ws_max = NA, ...) {
 #' wrapper to cut y data into factor classes
 #'
 #' @export
-y_classes <- function(y, binwidth, ymax = NA, boundary = 0) {
-  y <- ggplot2::cut_width(pmin(y, ymax, na.rm = TRUE), width = binwidth, boundary = boundary)
+y_classes <- function(y, binwidth, ymax = NA, boundary = 0, ...) {
+  y <- ggplot2::cut_width(pmin(y, ymax, na.rm = TRUE), width = binwidth, boundary = boundary, ...)
   levels(y) <- rev(levels(y))
   return(y)
 }
