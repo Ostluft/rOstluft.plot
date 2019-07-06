@@ -59,7 +59,7 @@
 #' @export
 stat_summary_wind_2d <- function (data = NULL, mapping = NULL, geom = "raster", position = "identity",
                                fun = "mean", fun.args = list(), show.legend = NA, inherit.aes = TRUE,
-                               nmin = 1, ws_max = NA, bins = 100,
+                               nmin = 1, ws_max = NA, bins = 10000,
                                smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1, groups = NULL, ...) {
 
   layer(stat = StatWind2d, data = data, mapping = mapping, geom = geom,
@@ -79,7 +79,7 @@ stat_summary_wind_2d <- function (data = NULL, mapping = NULL, geom = "raster", 
 StatWind2d <- ggproto("StatWind2d", Stat,
 
                     compute_group = function(data, scales, fun = "mean", fun.args = list(), nmin = 3, ws_max = NA,
-                                             smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1, bins = 100, groups = NULL) {
+                                             smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1, bins = 10000, groups = NULL) {
 
                       stat_bin_wind_2d(data = data, wd = "wd", ws = "ws", z = "z", fun = fun, fun.args = fun.args, nmin = nmin,
                                     ws_max = ws_max, smooth = smooth, k = k, extrapolate = extrapolate,

@@ -13,7 +13,7 @@
 #' @param fun.args A list of extra arguments to pass to fun.
 #' @param nmin Minimum number of values for fun, if n < nmin: NA is returned
 #' @param ws_max Maximum wind velocity for binning: above ws_max, z is set NA; can be NA
-#' @param bins number of bins over the range of values in c(u, v)
+#' @param bins number of bins /pixels) over the range of values in c(u, v)
 #' @param smooth TRUE/FALSE, should smoothing of summary results should be performed
 #' using fit_gam_surface()?
 #' @param k numeric, applies if smooth = TRUE; degree of smoothing in fit_gam_surface()
@@ -48,12 +48,14 @@ stat_bin_wind_2d <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.a
       v = !!rlang::sym(ws) * cos(pi * !!rlang::sym(wd) / 180)
     )
   uv_max <- pmin(max(abs(c(data$u, data$v)), na.rm = TRUE), ws_max, na.rm = TRUE)
-  uv_cuts <- seq(-uv_max, uv_max, length.out = bins)
+  uv_cuts <- seq(-uv_max, uv_max, length.out = round(sqrt(bins), 0))
+  uv_factor <- cut(uv_cuts, breaks = uv_cuts, dig.lab = 10, include.lowest = TRUE)
+  uv_mids <- midpoints(uv_factor)
   data <-
     data %>%
     dplyr::mutate(
-      u = cut(u, breaks = uv_cuts),
-      v = cut(v, breaks = uv_cuts)
+      u = cut(u, breaks = uv_cuts, dig.lab = 10, include.lowest = TRUE),
+      v = cut(v, breaks = uv_cuts, dig.lab = 10, include.lowest = TRUE)
     ) %>%
     na.omit() %>%
     dplyr::group_by_at(groups) %>%
@@ -65,10 +67,10 @@ stat_bin_wind_2d <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.a
     dplyr::ungroup() %>%
     tidyr::gather(stat, !!z, -!!groups, -ns) %>%
     dplyr::mutate(
-      u = midpoints(u),
-      v = midpoints(v),
+      u = as.numeric(u),
+      v = as.numeric(v),
       stat = factor(stat)
-      ) %>%
+    ) %>%
     dplyr::filter(
       ns >= nmin
     ) %>%
@@ -78,15 +80,15 @@ stat_bin_wind_2d <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.a
   data <-
     expand.grid(
       list(
-        u = midpoints(cut(uv_cuts, breaks = uv_cuts)),
-        v = midpoints(cut(uv_cuts, breaks = uv_cuts)),
+        u = as.numeric(factor(uv_mids)),
+        v = as.numeric(factor(uv_mids)),
         stat = unique((data$stat))
       )) %>%
     na.omit() %>%
     dplyr::tbl_df() %>%
     dplyr::left_join(data, by = c("u", "v", "stat"))
   if (smooth) {
-    data_smooth <-
+    data <-
       data %>%
       dplyr::group_by(stat) %>%
       dplyr::do({
@@ -94,15 +96,12 @@ stat_bin_wind_2d <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.a
                         k = k, extrapolate = extrapolate, dist = dist)
       }) %>%
       dplyr::ungroup()
-    data <-
-      dplyr::bind_cols(
-        data_smooth,
-        dplyr::select(data, -u, -v, -!!rlang::sym(z), -stat, -n)
-      )
   }
   data <-
     data %>%
     dplyr::mutate(
+      u = dplyr::recode(u, !!!rlang::set_names(uv_mids, as.numeric(uv_factor))),
+      v = dplyr::recode(v, !!!rlang::set_names(uv_mids, as.numeric(uv_factor))),
       !!wd := uv2wd(u, v),
       !!ws := sqrt(u^2 + v^2),
       !!z := ifelse(!!rlang::sym(ws) > pmin(Inf, ws_max, na.rm = TRUE), NA, !!rlang::sym(z))
