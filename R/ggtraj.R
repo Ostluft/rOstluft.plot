@@ -15,7 +15,7 @@
 #' traj <- dplyr::filter(traj, date < lubridate::ymd("2017-01-08"))
 #' hysplit_traj(traj)
 #'
-hysplit_traj <- function(data, incr = -seq(24,96,24), lims = NULL, add_traj_labels = TRUE,
+ggtraj <- function(data, incr = -seq(24,96,24), lims = NULL, add_traj_labels = TRUE,
                          color_scale = ggplot2::scale_color_gradient(name = "m agl.")) {
 
   if (is.null(lims)) {
