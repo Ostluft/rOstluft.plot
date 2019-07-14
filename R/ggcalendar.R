@@ -19,8 +19,9 @@
 #' require(ggplot2)
 #' require(dplyr)
 #'
-#'   rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv", package = "rOstluft.data", mustWork = TRUE)) %>%
-#'   rOstluft::resample(new_interval = "d1") %>%
+#' df <-
+#'  rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv", package = "rOstluft.data", mustWork = TRUE)) %>%
+#'  rOstluft::resample(new_interval = "d1") %>%
 #'   rOstluft::rolf_to_openair()
 #'
 #' ggcalendar(df, z = "PM10") +
@@ -31,7 +32,8 @@
 #'   viridis::scale_fill_viridis(direction = -1, option = "magma", na.value = NA) +
 #'   aes(x = x, y = weekday, fill = pmin(PM10, 60)) +
 #'   cal_month_border(color = "white") +
-#'   cal_label(aes(label = round(PM10,0)))
+#'   cal_label(aes(label = round(PM10,0))) +
+#'   stat_filter(aes(filter = PM10 > 50), position = position_nudge(y = 0.2), size = 0.5, color = "white")
 #'
 #' @export
 ggcalendar <- function(data, x = "date", z = "O3_max_h1",
