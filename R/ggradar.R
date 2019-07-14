@@ -1,5 +1,18 @@
 #' Summarise and ggplot data by wind direction bins
 #'
+#' @param data tibble containing wind speed, wind direction and air pollutant concentration data
+#' @param mapping ggplot2 mapping, e.g. aes(wd = wd, ws = ws, z = NOx); requires wd, ws, z
+#' @param nmin numeric, minimum number of data points to be averaged in one wind direction bin
+#' @param fun character string, stat function to be applied at wind direction bins
+#' @param fun.args list, arguments to fun
+#' @param ws_max maximum wind speed cap; last wind speed bin contains all wind speeds > ws_max
+#' @param wd_binwidth numeric, binwidth for wind direction, typically %in% c(45, 22.5)
+#' @param color_scale ggplot2 color scale, e.g. scale_color_gradientn(...)
+#' @param fill_scale ggplot2 fill scale, e.g. scale_fill_gradientn(...)
+#' @param bg raster map, e.g. ggmap object as plot background
+#' @param wd_cutfun NULL or a function with which wind direction is cut into bins; per default (wd_cutfun == NULL): function(wd) wd_classes(wd, wd_binwidth = wd_binwidth)
+#'
+#'
 #' @examples
 #' require(rOstluft)
 #' require(rOstluft.data)
@@ -23,13 +36,10 @@
 #'   ggradar(aes(wd = wd, ws = ws, z = val, group = par, fill = par, color = par)) + ylab("mean") +
 #'   facet_wrap(wday~.)
 #'
-#' # background map
+#' # with background map
 #' bbox <- tibble::tibble(x = c(2683141 - 500, 2683141 + 500), y = c(1249040 - 500, 1249040 + 500))
-#' bbox <- rOstluft::transform_projection(bbox, coord = c("x", "y"),
-#'                                        initCRS = sp::CRS("+init=epsg:2056"),
-#'                                        outCRS = sp::CRS("+init=epsg:4326"))
-#'
-#' bbox <- c(left = bbox$x[1], right = bbox$x[2], bottom = bbox$y[1], top = bbox$y[2])
+#' bbox <- rOstluft::transform_LV95_to_WSG84(bbox)
+#' bbox <- c(left = bbox$lon[1], right = bbox$lon[2], bottom = bbox$lat[1], top = bbox$lat[2])
 #'
 #' raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
 #'                                    source = "stamen", color = "bw")
@@ -37,7 +47,6 @@
 #' ggradar(df, aes(wd = wd, ws = ws, z = NOx), fill = "blue", color = "blue", alpha = 0.2, bg = raster_map) +
 #'   ylab("NOx") +
 #'   theme( panel.grid.major = ggplot2::element_line(linetype = 1, color = "white"))
-#'
 #'
 #' @export
 ggradar <- function(data,
