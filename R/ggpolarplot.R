@@ -1,8 +1,24 @@
 #' ggplot wrapper to create a wind-based polar plot
 #'
-#' @description Can mimic openair::polarplot(), i.e. wind direction / wind velocity heatmap,
+#' @description Can mimic openair::polarplot(), i.e. wind direction - wind velocity heatmap,
 #' including options for smoothing, flexible grid setting,
 #' flexible stat functions, data extrapolation and plotting over a raster map.
+#'
+#' @param data tibble containing wind speed, wind direction and air pollutant concentration data
+#' @param mapping ggplot2 mapping, e.g. aes(wd = wd, ws = ws, z = NOx); requires wd, ws, z
+#' @param nmin numeric, minimum number of data points to be averaged in one wind speed / wind direction bin
+#' @param fun character string, stat function to be applied at wind speed / wind direction bins
+#' @param fun.args list, arguments to fun
+#' @param ws_max maximum wind speed considered for plotting
+#' @param smooth TRUE/FALSE, should the result of stat_summary_wind_2d() be smoothed using fit_gam_surface() (with mgcv::bam())?
+#' @param k numeric, smoothing parameter for formular smoothing term s(..., k = k) in mgcv::bam()
+#' @param extrapolate TRUE/FALSE, should smoothed surfaced be extended further than bins with actual data? (if smooth == TRUE)
+#' @param dist mnumeric < 1, maximum distance from bin at which extrapolation is done (if extrapolate == TRUE). dist is relative, i.e. 0.1 = 10% of total range
+#' @param pixels number of bins at the 2-dimensional u, v wind component coordinate system
+#' @param fill_scale ggplot2 fill scale, e.g. scale_fill_gradientn(...)
+#' @param ws_unit character, y-axis labels are parsed with ws_unit; can be NULL
+#' @param breaks waiver() or numeric vector, provides y-axis breaks
+#' @param bg raster map, e.g. ggmap object as plot background
 #'
 #' @return ggplot object
 #'
