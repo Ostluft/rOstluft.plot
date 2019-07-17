@@ -22,9 +22,9 @@
 #' Computed variables
 #'
 #' * If groups = NULL: groups = "wd". In this case, bins are calculated over wind direction;
-#' a tibble including wd and summarised z is returned
+#'   a tibble including wd and summarised z is returned
 #' * groups can be strings for other variables in data; then fun is applied over those;
-#' a tibble including groups and summarised z is returned
+#'   a tibble including groups and summarised z is returned
 #'
 #' @export
 stat_bin_wind <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args = list(), nmin = 3, ws_max = NA,
@@ -34,9 +34,11 @@ stat_bin_wind <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args
 
 
   if (is.null(groups)) groups <- wd
-  ns <- function(x, ...) {sum(!is.na(x))}
-  fun <- c(unlist(fun), "ns")
-  fun <- rlang::set_names(as.list(fun), fun)
+  # ns <- function(x, ...) {sum(!is.na(x))}
+
+  fun <- c(as.list(fun), "ns" = function(x, ...) {sum(!is.na(x))})
+  names <- purrr::map2(fun, rlang::names2(fun), function(element, name) { if (name != "") name else as.character(element) })
+  fun <- rlang::set_names(fun, names)
   data <-
     data %>%
     dplyr::mutate(
@@ -51,8 +53,8 @@ stat_bin_wind <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args
       !!!fun.args
     ) %>%
     dplyr::ungroup() %>%
-    tidyr::gather(stat, !!z, -!!groups, -ns) %>%
-    dplyr::mutate(stat = factor(stat)) %>%
+    tidyr::gather(key = "stat", value = !!z, -!!groups, -ns) %>%
+    dplyr::mutate(stat = factor(stat), freq = ns / sum(ns, na.rm = TRUE) ) %>%
     dplyr::filter(
       ns >= nmin
     ) %>%

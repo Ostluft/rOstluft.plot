@@ -28,7 +28,8 @@
 #' ggradar(df, aes(wd = wd, ws = ws, z = NOx), fill = "blue", color = "blue", alpha = 0.5) + ylab("NOx")
 #'
 #' q95 <- function(x, ...) quantile(x, 0.95, ...)
-#' ggradar(df, aes(wd = wd, ws = ws, z = NOx, group = stat(stat), color = stat(stat), fill = stat(stat)), fill = NA, fun = list(a = "mean", "median", "q95")) + ylab("NOx")
+#' ggradar(df, aes(wd = wd, ws = ws, z = NOx, group = stat(stat), color = stat(stat)),
+#'         fill = NA, fun = list("mean", "median", "perc95" = q95)) + ylab("NOx")
 #'
 #' df %>%
 #'   dplyr::select(wd, ws, NO, NOx, wday) %>%
@@ -57,8 +58,8 @@ ggradar <- function(data,
                     fun.args = list(na.rm = TRUE),
                     ws_max = NA,
                     wd_binwidth = 45,
-                    color_scale = viridis::scale_color_viridis(discrete = TRUE),
-                    fill_scale = viridis::scale_fill_viridis(discrete = TRUE, alpha = 0.25),
+                    color_scale = scale_color_viridis_d(),
+                    fill_scale = scale_fill_viridis_d(alpha = 0.25),
                     geom = "polygon",
                     bg = NULL,
                     wd_cutfun = NULL
