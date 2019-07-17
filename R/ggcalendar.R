@@ -25,11 +25,11 @@
 #'   rOstluft::rolf_to_openair()
 #'
 #' ggcalendar(df, z = "PM10") +
-#'   viridis::scale_fill_viridis(direction = -1, option = "magma", na.value = NA)
+#'   scale_fill_viridis_c(direction = -1, option = "magma", na.value = NA)
 #'
 #' # can be customised...
 #' ggcalendar(df, z = "PM10") +
-#'   viridis::scale_fill_viridis(direction = -1, option = "magma", na.value = NA) +
+#'   scale_fill_viridis_c(direction = -1, option = "magma", na.value = NA) +
 #'   aes(x = x, y = weekday, fill = pmin(PM10, 60)) +
 #'   cal_month_border(color = "white") +
 #'   cal_label(aes(label = round(PM10,0))) +
