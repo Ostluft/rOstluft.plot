@@ -33,9 +33,9 @@ fit_gam_surface <- function(data, x, y, z, weights = NULL, k = 100, extrapolate 
                  control = mgcv::gam.control(nthreads = parallel::detectCores() - 1),
                  family = gaussian())
   if (extrapolate) {
-    pred <- predict.gam(m, newdata = data, type = 'response')^(1/force_positive)
+    pred <- mgcv::predict.gam(m, newdata = data, type = 'response')^(1/force_positive)
   } else {
-    pred <- predict.gam(m, type = 'response')^(1/force_positive)
+    pred <- mgcv::predict.gam(m, type = 'response')^(1/force_positive)
   }
   pred <-
     tibble::tibble(

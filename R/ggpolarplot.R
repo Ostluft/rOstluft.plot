@@ -84,7 +84,7 @@ ggpolarplot <- function(data,
       smooth = smooth, k = k, extrapolate = extrapolate, dist = dist, bins = pixels, groups = NULL
     ) +
     geom_point(aes(x = 0, y = 0), inherit.aes = FALSE, shape = 3, color = "gray80") +
-    scale_y_continuous(breaks = breaks, labels = function(ws) paste0(abs(as.numeric(ws))," ",ws_unit)) +
+    scale_y_continuous(breaks = breaks, labels = scales::unit_format(unit = ws_unit)) +
     scale_x_continuous(breaks = breaks) +
     guides(fill = guide_colorbar(title = rlang::quo_text(mapping$z))) +
     fill_scale +
