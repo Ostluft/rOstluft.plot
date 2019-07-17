@@ -24,9 +24,9 @@
 #'   rOstluft::rolf_to_openair() %>%
 #'   openair::cutData(date, type = "daylight")
 #'
-#' ggwindrose(df, aes(ws = ws, wd = wd), ws_max = 3, wd_binwidth = 22.5, ws_cutfun = function(ws) ws_classes(ws, ws_binwidth = 0.5, ws_max = 3))
+#' ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5, ws_cutfun = cut_ws.fun(ws_binwidth = 0.5, ws_max = 3))
 #'
-#' ggwindrose(df, aes(ws = ws, wd = wd), ws_max = 3, wd_binwidth = 22.5, ws_cutfun = function(ws) ws_classes(ws, ws_binwidth = 0.5, ws_max = 3)) +
+#' ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5, ws_cutfun = cut_ws.fun(ws_binwidth = 0.5, ws_max = 3)) +
 #'   facet_wrap(daylight~.)
 #'
 #' @export
@@ -35,14 +35,19 @@ ggwindrose <- function(data,
                        ...,
                        wd_binwidth = 45,
                        ws_max = NA,
-                       fill_scale = viridis::scale_fill_viridis(discrete = TRUE),
+                       fill_scale = scale_fill_viridis_d(),
                        bg = NULL,
                        wd_cutfun = NULL,
                        ws_cutfun = NULL
 ) {
 
-  if (is.null(wd_cutfun)) wd_cutfun <- function(wd) wd_classes(wd, wd_binwidth = wd_binwidth)
-  if (is.null(ws_cutfun)) ws_cutfun <- function(ws) ws_classes(ws, ws_max = ws_max)
+#xxx wieso mapping als argument? macht nur sinn wenn wir mehr flexibilät brauchen würden
+#für einen vordefinierten wrapper, bei dem man nur ws und wd als input hat denk ich einfach für den user
+#die spalte als symbol zu übergeben
+#möglichkeit für frequency statt n?
+
+  if (is.null(wd_cutfun)) wd_cutfun <- cut_wd.fun(wd_binwidth = wd_binwidth)
+  if (is.null(ws_cutfun)) ws_cutfun <- cut_ws.fun(ws_max = ws_max)
   mapping$z <- mapping$ws
   # breaks <- seq(0, 360, wd_binwidth)
   # breaks <- paste0("[", head(breaks, -1),"," ,tail(breaks, -1), ")")[seq(1, 360 / wd_binwidth, 90 / wd_binwidth)]
