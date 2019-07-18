@@ -47,15 +47,16 @@ ggradar <- function(data,
                     fun = "mean",
                     fun.args = list(na.rm = TRUE),
                     ws_max = NA,
-                    wd_cutfun = function(wd) wd_classes(wd, wd_binwidth = 45),
-                    wd_binwidth = 45, # still needed for coord_radar and breaks ..
+                    wd_binwidth = 45,
                     color_scale = viridis::scale_color_viridis(discrete = TRUE),
                     fill_scale = viridis::scale_fill_viridis(discrete = TRUE, alpha = 0.25),
-                    geom = "polygon", bg = NULL
+                    geom = "polygon",
+                    bg = NULL,
+                    wd_cutfun = NULL
 ) {
 
-  breaks <- seq(0, 360, wd_binwidth)
-  breaks <- paste0("[", head(breaks, -1),"," ,tail(breaks, -1), ")")[seq(1, 360 / wd_binwidth, 90 / wd_binwidth)]
+  if (is.null(wd_cutfun)) wd_cutfun <- function(wd) wd_classes(wd, wd_binwidth = wd_binwidth)
+  breaks <- levels(wd_cutfun(seq(0, 360, wd_binwidth)))[seq(1, 360 / wd_binwidth, 90 / wd_binwidth)]
 
   plot <-
     ggplot(data, mapping) +

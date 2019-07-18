@@ -1,6 +1,5 @@
 #' calendar plot
 #'
-#' TODO: example
 #'
 #' @param data input data
 #' @param x date column as Date, POSIXct or Character
@@ -11,8 +10,33 @@
 #' @param locale locale string for `lubridate::month()` and `lubridate::wday()`. see `Sys.getlocale()`
 #'
 #' @return ggplot2 object
+#'
+#' @examples
+#' require(rOstluft)
+#' require(rOstluft.data)
+#' require(rOstluft.plot)
+#' require(lubridate)
+#' require(ggplot2)
+#' require(dplyr)
+#'
+#' df <-
+#'  rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv", package = "rOstluft.data", mustWork = TRUE)) %>%
+#'  rOstluft::resample(new_interval = "d1") %>%
+#'   rOstluft::rolf_to_openair()
+#'
+#' ggcalendar(df, z = "PM10") +
+#'   scale_fill_viridis_c(direction = -1, option = "magma", na.value = NA)
+#'
+#' # can be customised...
+#' ggcalendar(df, z = "PM10") +
+#'   scale_fill_viridis_c(direction = -1, option = "magma", na.value = NA) +
+#'   aes(x = x, y = weekday, fill = pmin(PM10, 60)) +
+#'   cal_month_border(color = "white") +
+#'   cal_label(aes(label = round(PM10,0))) +
+#'   stat_filter(aes(filter = PM10 > 50), position = position_nudge(y = 0.2), size = 0.5, color = "white")
+#'
 #' @export
-plt_cal <- function(data, x = "date", z = "O3_max_h1",
+ggcalendar <- function(data, x = "date", z = "O3_max_h1",
                     size = 0.1, color = "white", ..., locale = Sys.getlocale("LC_TIME")) {
   x <- ensym(x)
   z <- ensym(z)
@@ -115,9 +139,9 @@ CalMonthBorder <- ggproto("CalMonthBorder", Stat,
 #'
 #' @return ggplot2 layer
 #'
-#' @rdname plt_cal
+#' @rdname ggcalendar
 #' @export
-cal_month_border <- function(size = 1, lineend = "square", linejoin = "bevel", color = "grey5", ...) {
+cal_month_border <- function(size = 0.5, lineend = "square", linejoin = "bevel", color = "grey5", ...) {
   # we use geom_segment to draw the month border
   # the Stat AddmonthBorder takes care of the calculations of x, y, xend, yend
   # it works, but is this the correct way?
@@ -138,7 +162,7 @@ cal_month_border <- function(size = 1, lineend = "square", linejoin = "bevel", c
 #'
 #' @return ggplot2 layer
 #'
-#' @rdname plt_cal
+#' @rdname ggcalendar
 #' @export
 cal_label <- function(mapping = NULL, stat = "identity", data = NULL, geom = "text", position = "identity",
                       show.legend = FALSE, inherit.aes = TRUE, na.rm = TRUE, size = 2, color = "white", ...) {
