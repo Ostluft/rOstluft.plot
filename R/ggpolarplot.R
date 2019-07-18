@@ -16,7 +16,7 @@
 #' @param dist mnumeric < 1, maximum distance from bin at which extrapolation is done (if extrapolate == TRUE). dist is relative, i.e. 0.1 = 10% of total range
 #' @param pixels number of bins at the 2-dimensional u, v wind component coordinate system
 #' @param fill_scale ggplot2 fill scale, e.g. scale_fill_gradientn(...)
-#' @param ws_unit character, y-axis labels are parsed with ws_unit; can be NULL
+#' @param ylabels function to format ylabels. Default adds unit " m/s"
 #' @param breaks waiver() or numeric vector, provides y-axis breaks
 #' @param bg raster map, e.g. ggmap object as plot background
 #'
@@ -70,7 +70,7 @@ ggpolarplot <- function(data,
                         dist = 0.1,
                         pixels = 80^2,
                         fill_scale = scale_fill_gradientn(colours = matlab::jet.colors(100), na.value = NA),
-                        ws_unit = "m/s",
+                        ylabels = scales::unit_format(unit = "m/s"),
                         breaks = waiver(),
                         bg = NULL
 ) {
@@ -84,7 +84,7 @@ ggpolarplot <- function(data,
       smooth = smooth, k = k, extrapolate = extrapolate, dist = dist, bins = pixels, groups = NULL
     ) +
     geom_point(aes(x = 0, y = 0), inherit.aes = FALSE, shape = 3, color = "gray80") +
-    scale_y_continuous(breaks = breaks, labels = scales::unit_format(unit = ws_unit)) +
+    scale_y_continuous(breaks = breaks, labels = ylabels) +
     scale_x_continuous(breaks = breaks) +
     guides(fill = guide_colorbar(title = rlang::quo_text(mapping$z))) +
     fill_scale +
