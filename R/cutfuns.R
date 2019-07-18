@@ -41,7 +41,7 @@ ws_classes <- function(ws, binwidth = 1, ws_max = NA, ...) {
 cut_ws.fun <- function(binwidth = 1, ws_max = NA, ...) {
   function(ws) {
     ws <- cut(ws, breaks = seq(0, max(pmin(ws, ws_max, na.rm = TRUE), na.rm = TRUE), binwidth), ...)
-    levels(ws) <- rev(levels(ws))
+    # levels(ws) <- rev(levels(ws))
     return(ws)
   }
 }

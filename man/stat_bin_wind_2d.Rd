@@ -9,7 +9,13 @@ stat_bin_wind_2d(data, ws, wd, z, groups = NULL, fun = "mean",
   smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1)
 }
 \arguments{
-\item{data}{a data.frame or tibble containing the data (wide format)}
+\item{data}{a data.frame or tibble containing the data (wide format).
+requires input data including at least three columns carrying information regarding:
+\itemize{
+\item wind direction (in °)
+\item wind velocity
+\item z-values (e.g. air pollutant concentration)
+}}
 
 \item{ws}{string giving the wind velocity parameter name (wind velocity preferably in m/s)}
 
@@ -17,33 +23,33 @@ stat_bin_wind_2d(data, ws, wd, z, groups = NULL, fun = "mean",
 
 \item{z}{string giving the parameter name to be summarised}
 
-\item{groups}{can be NULL, c("u", "v"), ...}
+\item{groups}{can be NULL, c("u", "v"), "wd_class", "ws_class", ...}
 
 \item{fun}{function or list of functions for summary.}
 
-\item{fun.args}{A list of extra arguments to pass to fun.}
+\item{fun.args}{a list of extra arguments to pass to fun.}
 
-\item{nmin}{Minimum number of values for fun, if n < nmin: NA is returned}
+\item{nmin}{numeric, minimum number of values for fun, if n < nmin: NA is returned}
 
-\item{ws_max}{Maximum wind velocity for binning: above ws_max, z is set NA; can be NA}
+\item{ws_max}{numeric or NA, maximum wind velocity for binning: above ws_max, z is set NA}
 
-\item{bins}{number of bins /pixels) over the range of values in c(u, v)}
+\item{bins}{numeric, number of bins over the range of values if !groups %in% c("u", "v")}
 
-\item{smooth}{TRUE/FALSE, should smoothing of summary results should be performed
+\item{smooth}{TRUE/FALSE, applies if groups = c("u", "v"); should smoothing of summary results should be performed
 using fit_gam_surface()?}
 
-\item{k}{numeric, applies if smooth = TRUE; degree of smoothing in fit_gam_surface()}
+\item{k}{numeric, applies if smooth = TRUE; degree of smoothing in smooth term in fit_gam_surface()}
 
-\item{extrapolate}{TRUE/FALSE, applies if smooth = TRUE; fit_gam_surface() returns extrapolated values for u, v coordinates that have NA for summarised z
+\item{extrapolate}{TRUE/FALSE, applies if smooth = TRUE; fit_gam_surface() returns extrapolated (predicted) values for u, v coordinates that otherwise would have have NA for summarised z
 if extrapolate = TRUE, those values are returned (to a certain degree depending on the value of dist)}
 
-\item{dist}{numeric, fraction of 1, applies if smooth = TRUE and extrapolate = TRUE; maximum distance to coordinate-pair at which the result of
-z should be returned}
+\item{dist}{numeric, fraction of 1, applies if smooth = TRUE and extrapolate = TRUE; maximum distance to next coordinate-pair at which the result of
+fit_gam_surface(z) should be returned}
 }
 \value{
 a tibble with summarised data along u and v wind vectors
 
-Computed variables
+Computed variables:
 \itemize{
 \item a tibble is returned, binned over u and v, with variables:
 }

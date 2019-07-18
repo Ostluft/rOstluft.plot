@@ -2,38 +2,39 @@
 % Please edit documentation in R/ggradar.R
 \name{ggradar}
 \alias{ggradar}
-\title{Summarise and ggplot data by wind direction bins}
+\title{ggplot2-wrapper to summarise and plot data by wind direction bins as radar plot}
 \usage{
-ggradar(data, mapping, ..., nmin = 3, fun = "mean",
-  fun.args = list(na.rm = TRUE), wd_binwidth = 45,
-  wd_cutfun = cut_wd.fun(binwidth = 45),
+ggradar(data, mapping, nmin = 3, fun = "mean", fun.args = list(na.rm
+  = TRUE), wd_binwidth = 45, wd_cutfun = cut_wd.fun(binwidth = 45),
   color_scale = scale_color_viridis_d(),
   fill_scale = scale_fill_viridis_d(alpha = 0.25), geom = "polygon",
-  bg = NULL)
+  bg = NULL, ...)
 }
 \arguments{
 \item{data}{tibble containing wind speed, wind direction and air pollutant concentration data}
 
-\item{mapping}{ggplot2 mapping, e.g. aes(wd = wd, ws = ws, z = NOx); requires wd, ws, z}
+\item{mapping}{ggplot2 mapping, e.g. aes(wd = wd, ws = ws, z = NOx); require aesthetics wd, ws, z}
 
 \item{nmin}{numeric, minimum number of data points to be averaged in one wind direction bin}
 
-\item{fun}{character string, stat function to be applied at wind direction bins}
+\item{fun}{character string or vector of character strings, stat function(s) to be applied at wind direction bins}
 
 \item{fun.args}{list, arguments to fun}
 
-\item{wd_binwidth}{numeric, binwidth for wind direction, typically %in% c(45, 22.5)}
+\item{wd_binwidth}{numeric, binwidth for wind direction in °, wd_binwidth should fullfill: (360 / wd_binwidth) %in% c(4, 8, 12, 16)}
 
-\item{wd_cutfun}{...}
+\item{wd_cutfun}{function, cut function for wind direction (to create bins)}
 
-\item{color_scale}{ggplot2 color scale, e.g. scale_color_gradientn(...)}
+\item{color_scale}{ggplot2 discrete color scale, e.g. scale_color_gradientn(...)}
 
-\item{fill_scale}{ggplot2 fill scale, e.g. scale_fill_gradientn(...)}
+\item{fill_scale}{ggplot2 discrete fill scale, e.g. scale_fill_gradientn(...)}
+
+\item{geom}{character string for ggplot2 geom used in plot, here: "polygon"}
 
 \item{bg}{raster map, e.g. ggmap object as plot background}
 }
 \description{
-Summarise and ggplot data by wind direction bins
+ggplot2-wrapper to summarise and plot data by wind direction bins as radar plot
 }
 \examples{
 require(rOstluft)
@@ -47,7 +48,7 @@ df <-
   rOstluft::rolf_to_openair() \%>\%
   dplyr::mutate(wday = lubridate::wday(date, label = TRUE, week_start = 1))
 
-ggradar(df, aes(wd = wd, ws = ws, z = NOx), fill = "blue", color = "blue", alpha = 0.5) + ylab("NOx")
+ggradar(df, aes(wd = wd, ws = ws, z = NOx), color = "blue", fill = "blue") + ylab("NOx")
 
 q95 <- function(x, ...) quantile(x, 0.95, ...)
 ggradar(df, aes(wd = wd, ws = ws, z = NOx, group = stat(stat), color = stat(stat)),

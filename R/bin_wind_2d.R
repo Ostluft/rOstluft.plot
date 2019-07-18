@@ -4,27 +4,31 @@
 #' Input data should be original unbinned data including wind direction and wind velocity;
 #' binning is done 2-dimensional over cartesian u and v wind vectors
 #'
-#' @param data a data.frame or tibble containing the data (wide format)
+#' @param data a data.frame or tibble containing the data (wide format).
+#' requires input data including at least three columns carrying information regarding:
+#' * wind direction (in °)
+#' * wind velocity
+#' * z-values (e.g. air pollutant concentration)
 #' @param ws string giving the wind velocity parameter name (wind velocity preferably in m/s)
 #' @param wd string giving the wind direction parameter name  in degrees
 #' @param z string giving the parameter name to be summarised
-#' @param groups can be NULL, c("u", "v"), ...
+#' @param groups can be NULL, c("u", "v"), "wd_class", "ws_class", ...
 #' @param fun function or list of functions for summary.
-#' @param fun.args A list of extra arguments to pass to fun.
-#' @param nmin Minimum number of values for fun, if n < nmin: NA is returned
-#' @param ws_max Maximum wind velocity for binning: above ws_max, z is set NA; can be NA
-#' @param bins number of bins /pixels) over the range of values in c(u, v)
-#' @param smooth TRUE/FALSE, should smoothing of summary results should be performed
+#' @param fun.args a list of extra arguments to pass to fun.
+#' @param nmin numeric, minimum number of values for fun, if n < nmin: NA is returned
+#' @param ws_max numeric or NA, maximum wind velocity for binning: above ws_max, z is set NA
+#' @param bins numeric, number of bins over the range of values if !groups %in% c("u", "v")
+#' @param smooth TRUE/FALSE, applies if groups = c("u", "v"); should smoothing of summary results should be performed
 #' using fit_gam_surface()?
-#' @param k numeric, applies if smooth = TRUE; degree of smoothing in fit_gam_surface()
-#' @param extrapolate TRUE/FALSE, applies if smooth = TRUE; fit_gam_surface() returns extrapolated values for u, v coordinates that have NA for summarised z
+#' @param k numeric, applies if smooth = TRUE; degree of smoothing in smooth term in fit_gam_surface()
+#' @param extrapolate TRUE/FALSE, applies if smooth = TRUE; fit_gam_surface() returns extrapolated (predicted) values for u, v coordinates that otherwise would have have NA for summarised z
 #' if extrapolate = TRUE, those values are returned (to a certain degree depending on the value of dist)
-#' @param dist numeric, fraction of 1, applies if smooth = TRUE and extrapolate = TRUE; maximum distance to coordinate-pair at which the result of
-#' z should be returned
+#' @param dist numeric, fraction of 1, applies if smooth = TRUE and extrapolate = TRUE; maximum distance to next coordinate-pair at which the result of
+#' fit_gam_surface(z) should be returned
 #'
 #' @return a tibble with summarised data along u and v wind vectors
 #'
-#' Computed variables
+#' Computed variables:
 #'
 #' * a tibble is returned, binned over u and v, with variables:
 #' - wd: wind direction corresponding to midpoint value of u and v

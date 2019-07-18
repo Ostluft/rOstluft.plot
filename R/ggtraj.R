@@ -71,13 +71,7 @@ ggtraj <- function(data, mapping = aes(x = lon, y = lat, group = date, color = h
   # should title be configurable?
   sites <- dplyr::distinct(data, .data$site)
   plot <- plot +
-    ggplot2::theme_minimal() +
-    ggplot2::theme(
-      panel.grid = ggplot2::element_blank(),
-      axis.text = ggplot2::element_blank(),
-      axis.title = ggplot2::element_blank(),
-      axis.ticks = ggplot2::element_blank()
-    ) +
+    theme_traj +
     ggplot2::scale_y_continuous(expand = c(0.1,0.1)) +
     ggplot2::scale_x_continuous(expand = c(0.1,0.1)) +
     color_scale

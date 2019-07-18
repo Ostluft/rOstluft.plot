@@ -4,7 +4,7 @@
 \alias{ggcalendar}
 \alias{cal_month_border}
 \alias{cal_label}
-\title{calendar plot}
+\title{Calendar time series plot with tiles}
 \usage{
 ggcalendar(data, x = "date", z = "O3_max_h1", size = 0.1,
   color = "white", ..., locale = Sys.getlocale("LC_TIME"))
@@ -23,9 +23,9 @@ cal_label(mapping = NULL, stat = "identity", data = NULL,
 
 \item{z}{value columns}
 
-\item{size}{space between tiles}
+\item{size}{parameter pssed on to geom_tile() => space between tiles}
 
-\item{color}{color of space}
+\item{color}{parameter pssed on to geom_tile() => color of space between tiles}
 
 \item{...}{more options for \code{ggplot2::geom_tile()}}
 

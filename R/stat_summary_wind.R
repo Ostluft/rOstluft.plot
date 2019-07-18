@@ -6,60 +6,32 @@
 #' or,
 #' 1-dimensional over wind direction or wind velocity bins, respectively.
 #'
-#' @param mapping Set of aesthetic mappings created by aes() or aes_().
-#' If specified and inherit.aes = TRUE (the default), it is combined with
-#' the default mapping at the top level of the plot. You must supply mapping if there is no plot mapping..
+#' @param mapping  ggplot2 mapping, e.g. aes(wd = wd, ws = ws, z = NOx); requires wd, ws, z
 #' @param data The data to be displayed in this layer.
-#' requires input data including at least three columns carrying information regarding:
-#' * wind direction
+#' #' requires input data including at least three columns carrying information regarding:
+#' * wind direction (in °)
 #' * wind velocity
-#' * z
-#' @param geom The geometric object to use display the data.
+#' * z-values (e.g. air pollutant concentration)
 #' @param fun function or list of functions for summary.
-#' @param ... Other arguments passed on to layer(params = list(...)).
-#' @param fun.args A list of extra arguments to pass to fun.
-#' @param nmin Minimum number of values for fun, if n < nmin: NA is returned
-#' @param bins number of bins over the range of values if !groups %in% c("u", "v")
-#' @param smooth TRUE/FALSE, applies if groups = c("u", "v"); should smoothing of summary results should be performed
-#' using gam_surface()?
-#' @param k numeric, applies if smooth = TRUE; degree of smoothing in gam_surface()
-#' @param extrapolate TRUE/FALSE, applies if smooth = TRUE; gem_smooth() returns extrapolated values for u, v coordinates that have NA for summarised z
-#' if extrapolate = TRUE, those values are returned (to a certain degree depending on the value of dist)
-#' @param dist numeric, fraction of 1, applies if smooth = TRUE and extrapolate = TRUE; maximum distance to coordinate-pair at which the result of
-#' gem_smooth(z) should be returned
-#' @param wd_offset ...
-#' @param wd_cutfun ...
-#' @param ws_cutfun ...
-#' @param groups can be NULL, c("u", "v"), ...
+#' @param ... other arguments passed on to layer(params = list(...)).
+#' @param fun.args a list of extra arguments to pass to fun.
+#' @param nmin numeric, minimum number of values for fun, if n < nmin: NA is returned
+#' @param wd_cutfun function, cut function for wind direction (to create bins)
+#' @param wd_offset numeric, offset for wind_direction (in °) if groups == "wd"; bins are then calculated over (wd + wd_offset) %% 360
+#' @param ws_cutfun function, cut function for wind speed
+#' @param groups character string, can be NULL, "wd", ...
+#' @param geom The geometric object to use display the data.
 #'
 #'
 #' @return ggplot2 layer
 #'
-#' Aesthetics
-#'
-#' * wd: wind direction in degrees
-#' * ws: wind velocity
-#' * z: z values to be summarised
-#'
-#' Computed variables
-#'
-#' * If groups = c("u", "v"): a tibble is returned, binned over u and v, with variables:
-#' - wd: wind direction corresponding to midpoint value of u and v
-#' - ws: wind velocity corresponding to midpoint value of u and v
-#' - u: bins over u (from input wd and ws)
-#' - v: bins over v (from input wd and ws)
-#' - z: result from fun(z, ...)
-#' * groups can be strings for other variables in data; then fun is applied over those;
-#' a tibble including groups and summarised z is returned
-#'
 #' @export
-stat_summary_wind <- function (data = NULL, mapping = NULL, geom = "polygon", position = "identity",
-                               fun = "mean", fun.args = list(), show.legend = NA, inherit.aes = TRUE,
+stat_summary_wind <- function (data = NULL, mapping = NULL, fun = "mean", fun.args = list(),
                                nmin = 1, wd_cutfun = cut_wd.fun(binwidth = 45), wd_offset = 0,
-                               ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = NA), groups = NULL, ...) {
+                               ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = NA), groups = NULL,
+                               geom = "polygon", ...) {
 
-  layer(stat = StatWind, data = data, mapping = mapping, geom = geom,
-        position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+  layer(stat = StatWind, data = data, mapping = mapping, geom = geom, position = "identity",
         params = list(fun = fun, fun.args = fun.args, nmin = nmin,
                       wd_cutfun = wd_cutfun, wd_offset = wd_offset,
                       ws_cutfun = ws_cutfun, groups = groups, ...)
@@ -76,7 +48,7 @@ StatWind <- ggproto("StatWind", Stat,
 
                     compute_group = function(data, scales, fun = "mean", fun.args = list(), nmin = 3,
                                              wd_cutfun = cut_wd.fun(binwidth = 45), wd_offset = 0,
-                                             ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = NA), groups = NULL, ...) {
+                                             ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = NA), groups = NULL) {
 
                       stat_bin_wind(data = data, wd = "wd", ws = "ws", z = "z", fun = fun, fun.args = fun.args, nmin = nmin,
                                     wd_cutfun = wd_cutfun, wd_offset = wd_offset, ws_cutfun = ws_cutfun, groups = groups)

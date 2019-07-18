@@ -16,9 +16,9 @@ fit_gam_surface(data, x, y, z, weights = NULL, k = 100,
 
 \item{z}{string giving the response variable}
 
-\item{weights}{optional: vector of weights for fitting x, y value pair}
+\item{weights}{vector of weights for fitting x, y value pair; can be NULL}
 
-\item{k}{numeric, smoothing degree in gam model: mgcv::gam(z ~ s(x, y, k = k)}
+\item{k}{numeric, smoothing degree in gam model mgcv::gam(z ~ s(x, y, k = k)}
 
 \item{extrapolate}{TRUE/FALSE, result of fit extends over NA values in z, thus providing a way of extrapolation. If FALSE,
 only u, v pairs with !is.na(z) are returned, if TRUE, also fitted z values within a certain distance (dist) from x, y are returned

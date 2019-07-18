@@ -4,9 +4,7 @@ Title: Ploting air quality data
 Version: 0.0.0.9001
 Authors@R: c(
   person("Thomas", "von Allmen", email = "thomas.vonallmen@zuerich.ch", role = c("aut", "cre")),
-  person("Jörg", "Sintermann",role = c("aut")),
-  person("Noël", "Rederlechner",role = c("aut")),
-  person("Hanna", "Herich",role = c("aut")),
+  person("Jörg", "Sintermann", role = c("aut")),
   person("Ostluft", role = c("cph")))
 Description: This package provides functions to quickly display data as diagrams.
 License: MIT + file LICENSE
@@ -14,6 +12,8 @@ Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.4.0)
 Imports:
+    stats,
+    utils,
     rlang,
     dplyr (>= 0.8.0),
     tidyr,

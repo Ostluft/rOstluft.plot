@@ -2,9 +2,9 @@
 % Please edit documentation in R/ggyearday.R
 \name{ggyearday}
 \alias{ggyearday}
-\title{ggplot heatmap for diurnal-yearly time course}
+\title{ggplot2 heatmap for diurnal-yearly time series}
 \usage{
-ggyearday(data, time, z, xbreaks = "1 month", xlabels = "\%b",
+ggyearday(data, time, z, date_breaks = "1 month", date_labels = "\%b",
   ybreaks = seq(3, 21, 3), ylabels = format_sprintf("\%02d:00"),
   fill_scale = scale_fill_viridis_c(direction = -1, na.value = NA, option
   = "A"), ...)
@@ -16,15 +16,23 @@ ggyearday(data, time, z, xbreaks = "1 month", xlabels = "\%b",
 
 \item{z}{character string giving z value variable name.}
 
-\item{...}{Other arguments passed on to geom_raster().}
+\item{date_breaks}{character string as input for ggplot2::scale_x_date(), e.g. '1 month', defines date breaks on x-axis.}
 
-\item{etc}{...}
+\item{date_labels}{character string as input for ggplot2::scale_x_date(), formatter for date labels on x-axis.}
+
+\item{ybreaks}{numeric vector, specifies y-axis breaks.}
+
+\item{ylabels}{function, format function for y-axis labels.}
+
+\item{fill_scale}{ggplot2 continuous fill scale, e.g. scale_fill_gradient(...).}
+
+\item{...}{other arguments passed on to geom_raster().}
 }
 \value{
 ggplot
 }
 \description{
-Create a heatmap with date on x-axis and time of day on y-axis; z values as colour scale.
+creates a heatmap with date on x-axis and time of day on y-axis; z values as colour scale.
 }
 \examples{
 require(rOstluft)

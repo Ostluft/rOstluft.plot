@@ -4,53 +4,50 @@
 \alias{stat_summary_wind_2d}
 \title{Summarise z values over binned wind data.}
 \usage{
-stat_summary_wind_2d(data = NULL, mapping = NULL, geom = "raster",
-  position = "identity", fun = "mean", fun.args = list(),
-  show.legend = NA, inherit.aes = TRUE, nmin = 1, ws_max = NA,
-  bins = 100, smooth = TRUE, k = 100, extrapolate = TRUE,
-  dist = 0.1, groups = NULL, ...)
+stat_summary_wind_2d(data = NULL, mapping = NULL, fun = "mean",
+  fun.args = list(), nmin = 1, ws_max = NA, bins = 100,
+  smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1,
+  groups = NULL, geom = "raster", ...)
 }
 \arguments{
 \item{data}{The data to be displayed in this layer.
 #' requires input data including at least three columns carrying information regarding:
 \itemize{
-\item wind direction
+\item wind direction (in °)
 \item wind velocity
-\item z
+\item z-values (e.g. air pollutant concentration)
 }}
 
-\item{mapping}{Set of aesthetic mappings created by aes() or aes_().
-If specified and inherit.aes = TRUE (the default), it is combined with
-the default mapping at the top level of the plot. You must supply mapping if there is no plot mapping..}
-
-\item{geom}{The geometric object to use display the data.}
+\item{mapping}{ggplot2 mapping, e.g. aes(wd = wd, ws = ws, z = NOx); requires wd, ws, z}
 
 \item{fun}{function or list of functions for summary.}
 
-\item{fun.args}{A list of extra arguments to pass to fun.}
+\item{fun.args}{a list of extra arguments to pass to fun.}
 
-\item{nmin}{Minimum number of values for fun, if n < nmin: NA is returned}
+\item{nmin}{numeric, minimum number of values for fun, if n < nmin: NA is returned}
 
-\item{ws_max}{Maximum wind velocity for binning: above ws_max, z is set NA}
+\item{ws_max}{numeric or NA, maximum wind velocity for binning: above ws_max, z is set NA}
 
-\item{bins}{number of bins over the range of values if !groups %in% c("u", "v")}
+\item{bins}{numeric, number of bins over the range of values if !groups %in% c("u", "v")}
 
 \item{smooth}{TRUE/FALSE, applies if groups = c("u", "v"); should smoothing of summary results should be performed
-using gam_surface()?}
+using fit_gam_surface()?}
 
-\item{k}{numeric, applies if smooth = TRUE; degree of smoothing in gam_surface()}
+\item{k}{numeric, applies if smooth = TRUE; degree of smoothing in smooth term in fit_gam_surface()}
 
-\item{extrapolate}{TRUE/FALSE, applies if smooth = TRUE; gem_smooth() returns extrapolated values for u, v coordinates that have NA for summarised z
+\item{extrapolate}{TRUE/FALSE, applies if smooth = TRUE; fit_gam_surface() returns extrapolated (predicted) values for u, v coordinates that otherwise would have have NA for summarised z
 if extrapolate = TRUE, those values are returned (to a certain degree depending on the value of dist)}
 
-\item{dist}{numeric, fraction of 1, applies if smooth = TRUE and extrapolate = TRUE; maximum distance to coordinate-pair at which the result of
-gem_smooth(z) should be returned}
+\item{dist}{numeric, fraction of 1, applies if smooth = TRUE and extrapolate = TRUE; maximum distance to next coordinate-pair at which the result of
+fit_gam_surface(z) should be returned}
 
 \item{groups}{can be NULL, c("u", "v"), "wd_class", "ws_class", ...}
 
-\item{...}{Other arguments passed on to layer(params = list(...)).}
+\item{geom}{The geometric object to use display the data (in this case: raster).}
 
-\item{wd_offset}{offset for wind_direction (in degree) if groups == "wd_class"; bins are then calculated over (wd + wd_offset) %% 360}
+\item{...}{other arguments passed on to layer(params = list(...)).}
+
+\item{wd_offset}{numeric, offset for wind_direction (in degree) if groups == "wd_class"; bins are then calculated over (wd + wd_offset) %% 360}
 }
 \value{
 ggplot2 layer

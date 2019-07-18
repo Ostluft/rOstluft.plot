@@ -6,8 +6,8 @@
 #' @param x string giving the u (wind) component or x coordinate, respectively
 #' @param y string giving the v (wind) component or y coordinate, respectively
 #' @param z string giving the response variable
-#' @param weights optional: vector of weights for fitting x, y value pair
-#' @param k numeric, smoothing degree in gam model: mgcv::gam(z ~ s(x, y, k = k)
+#' @param weights vector of weights for fitting x, y value pair; can be NULL
+#' @param k numeric, smoothing degree in gam model mgcv::gam(z ~ s(x, y, k = k)
 #' @param extrapolate TRUE/FALSE, result of fit extends over NA values in z, thus providing a way of extrapolation. If FALSE,
 #' only u, v pairs with !is.na(z) are returned, if TRUE, also fitted z values within a certain distance (dist) from x, y are returned
 #' based on mgcv::exclude.too.far()

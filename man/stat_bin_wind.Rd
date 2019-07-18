@@ -17,19 +17,19 @@ stat_bin_wind(data, ws, wd, z, groups = NULL, fun = "mean",
 
 \item{z}{string giving the parameter name to be summarised}
 
-\item{groups}{can be NULL, wd, ws, ...}
+\item{groups}{character string, can be NULL, 'wd', 'ws', ...}
 
 \item{fun}{function or list of functions for summary.}
 
-\item{fun.args}{A list of extra arguments to pass to fun.}
+\item{fun.args}{a list of extra arguments passed on to fun.}
 
-\item{nmin}{Minimum number of values for fun, if n < nmin: NA is returned}
+\item{nmin}{numeric, minimum number of values for fun, if n < nmin: NA is returned}
 
-\item{wd_cutfun}{...}
+\item{wd_cutfun}{function, cut function for wind direction (to create bins)}
 
-\item{wd_offset}{offset for wind_direction (in degree) if groups = wd; bins are then calculated over (wd + wd_offset) %% 360}
+\item{wd_offset}{numeric, offset for wind_direction (in °) if groups == "wd"; bins are then calculated over (wd + wd_offset) %% 360}
 
-\item{ws_cutfun}{...}
+\item{ws_cutfun}{function, cut function for wind speed}
 }
 \value{
 a tibble with summarised data

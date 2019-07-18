@@ -1,4 +1,3 @@
-
 #' Summarise y values over binned wind data.
 #'
 #' Input data should be original unbinned data.
@@ -8,13 +7,13 @@
 #' @param ws string giving the wind velocity parameter name (wind velocity preferably in m/s)
 #' @param wd string giving the wind direction parameter name  in degrees
 #' @param z string giving the parameter name to be summarised
-#' @param groups can be NULL, wd, ws, ...
+#' @param groups character string, can be NULL, 'wd', 'ws', ...
 #' @param fun function or list of functions for summary.
-#' @param fun.args A list of extra arguments to pass to fun.
-#' @param nmin Minimum number of values for fun, if n < nmin: NA is returned
-#' @param wd_offset offset for wind_direction (in degree) if groups = wd; bins are then calculated over (wd + wd_offset) %% 360
-#' @param wd_cutfun ...
-#' @param ws_cutfun ...
+#' @param fun.args a list of extra arguments passed on to fun.
+#' @param nmin numeric, minimum number of values for fun, if n < nmin: NA is returned
+#' @param wd_cutfun function, cut function for wind direction (to create bins)
+#' @param wd_offset numeric, offset for wind_direction (in °) if groups == "wd"; bins are then calculated over (wd + wd_offset) %% 360
+#' @param ws_cutfun function, cut function for wind speed
 #'
 #' @return a tibble with summarised data
 #'
@@ -40,7 +39,7 @@ stat_bin_wind <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args
       !!wd := wd_cutfun(!!rlang::sym(wd)),
       !!ws := ws_cutfun(!!rlang::sym(ws))
     ) %>%
-    utils::na.omit() %>%
+    stats::na.omit() %>%
     dplyr::group_by_at(groups) %>%   #xxx wieso group_by_at??
     dplyr::summarise_at(
       .vars = z,
