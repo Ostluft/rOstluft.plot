@@ -38,9 +38,9 @@ stat_bin_wind_2d <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.a
                              smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1) {
 
   if (is.null(groups)) groups <- c("u", "v")
-  ns <- function(x, ...) {sum(!is.na(x))}
-  fun <- c(unlist(fun), "ns")
-  fun <- rlang::set_names(as.list(fun), fun)
+  fun <- c(as.list(fun), "n" = function(x, ...) {sum(!is.na(x))})
+  names <- purrr::map2(fun, rlang::names2(fun), function(element, name) {if (name != "") name else element})
+  fun <- rlang::set_names(fun, names)
   data <-
     data %>%
     dplyr::mutate(
@@ -65,18 +65,14 @@ stat_bin_wind_2d <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.a
       !!!fun.args
     ) %>%
     dplyr::ungroup() %>%
-    tidyr::gather(stat, !!z, -!!groups, -ns) %>%
+    tidyr::gather(stat, !!z, -!!groups, -n) %>%
     dplyr::mutate(
       u = as.numeric(u),
       v = as.numeric(v),
-      stat = factor(stat)
+      stat = factor(stat),
+      freq = n / sum(n, na.rm = TRUE)
     ) %>%
-    dplyr::filter(
-      ns >= nmin
-    ) %>%
-    dplyr::rename(
-      n = ns
-    )
+    dplyr::filter(n >= nmin)
   data <-
     expand.grid(
       list(

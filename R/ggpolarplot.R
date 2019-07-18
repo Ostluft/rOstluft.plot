@@ -37,24 +37,34 @@
 #'
 #' # simple
 #' ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx))
-#' # change smoothing degree
-#' ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), k = 25)
+#'
+#' # change smoothing degree, add custom breaks and change grid style
+#' ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), k = 25, breaks = seq(2,10,2))  +
+#'   theme(panel.grid.major = ggplot2::element_line(linetype = 2, size = 0.25, color = "gray90")) # ... linetype doesn't work yet
+#'
 #' # no data extrapolation
-#' ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), extrapolate = FALSE)
+#' ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), extrapolate = FALSE, breaks = seq(2,10,2))
+#'
 #' # no smoothing
-#' ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), smooth = FALSE)
+#' ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), smooth = FALSE, breaks = seq(2,10,2))
+#'
 #' # cap maximum NOx concentration and wind velocity
-#' ggpolarplot(df, aes(wd = wd, ws = ws, z = pmin(NOx, 40)), ws_max = 4, smooth = FALSE)
+#' ggpolarplot(df, aes(wd = wd, ws = ws, z = pmin(NOx, 40)), ws_max = 4, smooth = FALSE, breaks = 1:10)
+#'
 #' # change binning parameters
-#' ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), smooth = FALSE, pixels = 50^2, nmin = 10)
+#' ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), smooth = FALSE, pixels = 50^2, nmin = 10, breaks = seq(2,6,2))
+#'
 #' # facetting
-#' ggpolarplot(df, aes(wd = wd, ws = ws, z = pmin(NOx, 50)), ws_max = 4, pixels = 50^2, k = 25) +
+#' ggpolarplot(df, aes(wd = wd, ws = ws, z = pmin(NOx, 50)), ws_max = 4, pixels = 50^2, k = 25, breaks = 1:4) +
 #'   facet_wrap(wday~., scales = "fixed")
+#'
 #' # different stat fun
-#' ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), fun = "quantile", fun.args = list(probs = 0.95, na.rm = TRUE))
+#' ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), fun = "quantile", fun.args = list(probs = 0.95, na.rm = TRUE), breaks = seq(2,10,2))
+#'
 #' # facetting by stat
-#' ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), fun = list("mean", "median"), ws_max = 4, pixels = 50^2, k = 25) +
+#' ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), fun = list("mean", "median"), ws_max = 4, pixels = 50^2, k = 25, breaks = seq(2,10,2)) +
 #'   facet_wrap(stat~.) # => hm, warum funzt das nicht??
+#'
 #'
 #' @export
 ggpolarplot <- function(data,
@@ -83,13 +93,12 @@ ggpolarplot <- function(data,
       fun = fun, fun.args = fun.args, nmin = nmin, ws_max = ws_max,
       smooth = smooth, k = k, extrapolate = extrapolate, dist = dist, bins = pixels, groups = NULL
     ) +
-    geom_point(aes(x = 0, y = 0), inherit.aes = FALSE, shape = 3, color = "gray80") +
+    # geom_point(aes(x = 0, y = 0), inherit.aes = FALSE, shape = 3, color = "gray80") +
     scale_y_continuous(breaks = breaks, labels = ylabels) +
     scale_x_continuous(breaks = breaks) +
     guides(fill = guide_colorbar(title = rlang::quo_text(mapping$z))) +
     fill_scale +
     coord_cartpolar(bg = bg) +
-    ylab("wind speed") +
     theme_polarplot
 
   return(plot)

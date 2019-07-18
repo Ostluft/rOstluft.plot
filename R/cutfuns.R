@@ -1,25 +1,25 @@
 #' wrapper to cut wind direction into factor classes
 #'
 #' @export
-wd_classes <- function(wd, wd_binwidth = 45, ...) { # in helpers verschieben
-  stopifnot((360 / wd_binwidth) %in% c(4, 8, 12, 16))
-  if ((360 / wd_binwidth) %in% c(4, 8, 12, 16)) {
-    wd <- (wd + wd_binwidth / 2) %% 360
+wd_classes <- function(wd, binwidth = 45, ...) { # in helpers verschieben
+  stopifnot((360 / binwidth) %in% c(4, 8, 12, 16))
+  if ((360 / binwidth) %in% c(4, 8, 12, 16)) {
+    wd <- (wd + binwidth / 2) %% 360
   }
-  wd <- ggplot2::cut_width(wd, width = wd_binwidth, closed = "left", boundary = 0, ...)
+  wd <- ggplot2::cut_width(wd, width = binwidth, closed = "left", boundary = 0, ...)
   return(wd)
 }
 
 #' wrapper to cut wind direction into factor classes
 #'
 #' @export
-cut_wd.fun <- function(wd_binwidth = 45, ...) { # in helpers verschieben
-  stopifnot((360 / wd_binwidth) %in% c(4, 8, 12, 16))
+cut_wd.fun <- function(binwidth = 45, ...) { # in helpers verschieben
+  stopifnot((360 / binwidth) %in% c(4, 8, 12, 16))
   function(wd) {
-    if ((360 / wd_binwidth) %in% c(4, 8, 12, 16)) {
-      wd <- (wd + wd_binwidth / 2) %% 360
+    if ((360 / binwidth) %in% c(4, 8, 12, 16)) {
+      wd <- (wd + binwidth / 2) %% 360
     }
-    ggplot2::cut_width(wd, width = wd_binwidth, closed = "left", boundary = 0, ...)
+    ggplot2::cut_width(wd, width = binwidth, closed = "left", boundary = 0, ...)
   }
 }
 
@@ -28,29 +28,23 @@ cut_wd.fun <- function(wd_binwidth = 45, ...) { # in helpers verschieben
 #' wrapper to cut wind velocity (or others) into factor classes
 #'
 #' @export
-ws_classes <- function(ws, ws_binwidth = 1, ws_max = NA, ...) {
-  ws <- cut(ws, breaks = seq(0, max(pmin(ws, ws_max, na.rm = TRUE), na.rm = TRUE), ws_binwidth), ...)
+ws_classes <- function(ws, binwidth = 1, ws_max = NA, ...) {
+  ws <- cut(ws, breaks = seq(0, max(pmin(ws, ws_max, na.rm = TRUE), na.rm = TRUE), binwidth), ...)
   levels(ws) <- rev(levels(ws))
   return(ws)
 }
 
+
 #' wrapper to cut wind velocity (or others) into factor classes
 #'
 #' @export
-cut_ws.fun <- function(ws_binwidth = 1, ws_max = NA, ...) {
+cut_ws.fun <- function(binwidth = 1, ws_max = NA, ...) {
   function(ws) {
-    ws <- cut(ws, breaks = seq(0, max(pmin(ws, ws_max, na.rm = TRUE), na.rm = TRUE), ws_binwidth), ...)
+    ws <- cut(ws, breaks = seq(0, max(pmin(ws, ws_max, na.rm = TRUE), na.rm = TRUE), binwidth), ...)
     levels(ws) <- rev(levels(ws))
     return(ws)
   }
 }
-
-
-
-
-
-
-
 
 
 #' wrapper to cut y data into factor classes

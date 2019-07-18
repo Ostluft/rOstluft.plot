@@ -34,7 +34,7 @@ Imports:
     rOstluft.data (>= 1.7),
     magrittr,
     mgcv,
-    viridis,
+    scales,
     matlab
 Suggests:
     knitr,

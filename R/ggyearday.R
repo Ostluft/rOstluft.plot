@@ -25,16 +25,16 @@
 #' ggyearday(df, time = "date", z = "O3") +
 #'   facet_wrap(year~., scales = "free_x", ncol = 1)
 #'
-#' # data with outliers / extreme values
+#' # data with outliers / extreme values => not very informative...
 #' ggyearday(df, time = "date", z = "PM10") +
 #'   facet_wrap(year~., scales = "free_x", ncol = 1)
 #'
-#'
-#' # use a custom scale and squish the outliers / extreme values
-#' fill_scale <- scale_fill_viridis_c(breaks=c(0, 25, 50, 75), limits = c(0, 75), oob = scales::squish,
+#' # ... hence, use a custom scale and squish the outliers / extreme values
+#' fill_scale <- scale_fill_viridis_c(breaks = c(0, 25, 50, 75), limits = c(0, 75), oob = scales::squish,
 #'                                    direction = -1, na.value = NA, option = "A")
 #' ggyearday(df, time = "date", z = "PM10", fill_scale = fill_scale) +
 #'   facet_wrap(year~., scales = "free_x", ncol = 1)
+#'
 #'
 #' @export
 ggyearday <- function(data, time, z, xbreaks = "1 month", xlabels = "%b", ybreaks = seq(3,21,3), ylabels = format_sprintf("%02d:00"),

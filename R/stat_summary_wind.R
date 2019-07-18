@@ -19,7 +19,6 @@
 #' @param ... Other arguments passed on to layer(params = list(...)).
 #' @param fun.args A list of extra arguments to pass to fun.
 #' @param nmin Minimum number of values for fun, if n < nmin: NA is returned
-#' @param ws_max Maximum wind velocity for binning: above ws_max, z is set NA
 #' @param bins number of bins over the range of values if !groups %in% c("u", "v")
 #' @param smooth TRUE/FALSE, applies if groups = c("u", "v"); should smoothing of summary results should be performed
 #' using gam_surface()?
@@ -28,7 +27,11 @@
 #' if extrapolate = TRUE, those values are returned (to a certain degree depending on the value of dist)
 #' @param dist numeric, fraction of 1, applies if smooth = TRUE and extrapolate = TRUE; maximum distance to coordinate-pair at which the result of
 #' gem_smooth(z) should be returned
+#' @param wd_offset
+#' @param wd_cutfun
+#' @param ws_cutfun
 #' @param groups can be NULL, c("u", "v"), ...
+#'
 #'
 #' @return ggplot2 layer
 #'
@@ -52,8 +55,8 @@
 #' @export
 stat_summary_wind <- function (data = NULL, mapping = NULL, geom = "polygon", position = "identity",
                                fun = "mean", fun.args = list(), show.legend = NA, inherit.aes = TRUE,
-                               nmin = 1, wd_cutfun = function(wd) wd_classes(wd, wd_binwidth = 45), wd_offset = 0,
-                               ws_cutfun = function(ws) ws_classes(ws, ws_binwidth = 1, ws_max = NA), groups = NULL, ...) {
+                               nmin = 1, wd_cutfun = cut_wd.fun(binwidth = 45), wd_offset = 0,
+                               ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = NA), groups = NULL, ...) {
 
   layer(stat = StatWind, data = data, mapping = mapping, geom = geom,
         position = position, show.legend = show.legend, inherit.aes = inherit.aes,
@@ -71,13 +74,12 @@ stat_summary_wind <- function (data = NULL, mapping = NULL, geom = "polygon", po
 #' @export
 StatWind <- ggproto("StatWind", Stat,
 
-                    compute_group = function(data, scales, fun = "mean", fun.args = list(), nmin = 3, ws_max = NA,
-                                             wd_cutfun = function(wd) wd_classes(wd, wd_binwidth = 45), wd_offset = 0,
-                                             ws_cutfun = function(ws) ws_classes(ws, ws_binwidth = 1, ws_max = NA), groups = NULL, ...) {
+                    compute_group = function(data, scales, fun = "mean", fun.args = list(), nmin = 3,
+                                             wd_cutfun = cut_wd.fun(binwidth = 45), wd_offset = 0,
+                                             ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = NA), groups = NULL, ...) {
 
                       stat_bin_wind(data = data, wd = "wd", ws = "ws", z = "z", fun = fun, fun.args = fun.args, nmin = nmin,
-                                    ws_max = ws_max, wd_cutfun = wd_cutfun, wd_offset = wd_offset,
-                                    ws_cutfun = ws_cutfun, groups = groups)
+                                    wd_cutfun = wd_cutfun, wd_offset = wd_offset, ws_cutfun = ws_cutfun, groups = groups)
 
                     },
 

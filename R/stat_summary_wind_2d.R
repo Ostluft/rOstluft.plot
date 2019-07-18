@@ -21,9 +21,7 @@
 #' @param nmin Minimum number of values for fun, if n < nmin: NA is returned
 #' @param ws_max Maximum wind velocity for binning: above ws_max, z is set NA
 #' @param bins number of bins over the range of values if !groups %in% c("u", "v")
-#' @param wd_binwidth width of bins (in degree) if groups == "wd_class"
 #' @param wd_offset offset for wind_direction (in degree) if groups == "wd_class"; bins are then calculated over (wd + wd_offset) %% 360
-#' @param ws_binwidth width of bins for wind velocity if groups == "ws_class"
 #' @param smooth TRUE/FALSE, applies if groups = c("u", "v"); should smoothing of summary results should be performed
 #' using gam_surface()?
 #' @param k numeric, applies if smooth = TRUE; degree of smoothing in gam_surface()
@@ -46,8 +44,8 @@
 #' * If groups = c("u", "v"): a tibble is returned, binned over u and v, with variables:
 #' - wd: wind direction corresponding to midpoint value of u and v
 #' - ws: wind velocity corresponding to midpoint value of u and v
-#' - wd_class: new bins over wd considering wd_binwidth
-#' - ws_class: new bins over ws considering ws_binwidth and ws_max
+#' - wd_class: new bins over wd considering binwidth
+#' - ws_class: new bins over ws considering binwidth and ws_max
 #' - u: bins over u (from input wd and ws)
 #' - v: bins over v (from input wd and ws)
 #' - z: result from fun(z, ...)
@@ -59,8 +57,8 @@
 #' @export
 stat_summary_wind_2d <- function (data = NULL, mapping = NULL, geom = "raster", position = "identity",
                                fun = "mean", fun.args = list(), show.legend = NA, inherit.aes = TRUE,
-                               nmin = 1, ws_max = NA, bins = 10000,
-                               smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1, groups = NULL, ...) {
+                               nmin = 1, ws_max = NA, bins = 100, smooth = TRUE, k = 100,
+                               extrapolate = TRUE, dist = 0.1, groups = NULL, ...) {
 
   layer(stat = StatWind2d, data = data, mapping = mapping, geom = geom,
         position = position, show.legend = show.legend, inherit.aes = inherit.aes,
@@ -79,7 +77,7 @@ stat_summary_wind_2d <- function (data = NULL, mapping = NULL, geom = "raster", 
 StatWind2d <- ggproto("StatWind2d", Stat,
 
                     compute_group = function(data, scales, fun = "mean", fun.args = list(), nmin = 3, ws_max = NA,
-                                             smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1, bins = 10000, groups = NULL) {
+                                             smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1, bins = 100, groups = NULL) {
 
                       stat_bin_wind_2d(data = data, wd = "wd", ws = "ws", z = "z", fun = fun, fun.args = fun.args, nmin = nmin,
                                     ws_max = ws_max, smooth = smooth, k = k, extrapolate = extrapolate,

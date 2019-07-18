@@ -12,10 +12,9 @@
 #' @param fun function or list of functions for summary.
 #' @param fun.args A list of extra arguments to pass to fun.
 #' @param nmin Minimum number of values for fun, if n < nmin: NA is returned
-#' @param ws_max Maximum wind velocity for binning: above ws_max, z is set NA; can be NA
-#' @param wd_binwidth width of bins (in degree) if groups = wd
 #' @param wd_offset offset for wind_direction (in degree) if groups = wd; bins are then calculated over (wd + wd_offset) %% 360
-#' @param ws_binwidth width of bins for wind velocity if groups = ws
+#' @param wd_cutfun
+#' @param ws_cutfun
 #'
 #' @return a tibble with summarised data
 #'
@@ -27,14 +26,13 @@
 #'   a tibble including groups and summarised z is returned
 #'
 #' @export
-stat_bin_wind <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args = list(), nmin = 3, ws_max = NA,
-                          wd_cutfun = function(wd) wd_classes(wd, wd_binwidth = 45), wd_offset = 0,
-                          ws_cutfun = function(ws) ws_classes(ws, ws_binwidth = 1)) {
+stat_bin_wind <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args = list(), nmin = 3,
+                          wd_cutfun = cut_wd.fun(binwidth = 45), wd_offset = 0,
+                          ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = NA)) {
 
   if (is.null(groups)) groups <- wd
-
   fun <- c(as.list(fun), "n" = function(x, ...) {sum(!is.na(x))})
-  names <- purrr::map2(fun, rlang::names2(fun), function(element, name) { if (name != "") name else element})
+  names <- purrr::map2(fun, rlang::names2(fun), function(element, name) {if (name != "") name else element})
   fun <- rlang::set_names(fun, names)
   data <-
     data %>%
@@ -51,10 +49,8 @@ stat_bin_wind <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args
     ) %>%
     dplyr::ungroup() %>%
     tidyr::gather(key = "stat", value = !!z, -!!groups, -n) %>%
-    dplyr::mutate(stat = factor(stat), freq = n / sum(n, na.rm = TRUE) ) %>%
-    dplyr::filter(
-      n >= nmin
-    )
+    dplyr::mutate(stat = factor(stat), freq = n / sum(n, na.rm = TRUE)) %>%
+    dplyr::filter(n >= nmin)
 
   return(data)
 }

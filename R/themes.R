@@ -41,6 +41,6 @@ theme_windrose <-
     panel.ontop = FALSE,
     panel.grid.minor.x = element_blank(),
     panel.grid.major = ggplot2::element_line(linetype = 2, color = "gray60", size = 0.5),
-    axis.title.x = element_blank()
+    axis.title = element_blank()
   )
 

@@ -1,6 +1,6 @@
 #' Plotting hysplit trajectory
 #'
-#' @param data tibble containing hysplit trajectories
+#' @param data tibble containing hysplit trajectories, format preferably similar to that of the 'openair' package
 #' @param mapping ggplot mapping, typically: aes(x = lon, y = lat, group = date, color = height)
 #' @param incr sequence of hours to draw an marker on the trajetory. Default -seq(24,96,24); can be NULL - then, no increment markers are plotted
 #' @param lims list with xlim and ylim items defining the map section. See `ggplot::coord_quickmap()`
