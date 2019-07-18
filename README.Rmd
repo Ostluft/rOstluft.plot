@@ -123,13 +123,6 @@ ggcalendar(data_d1, z = "O3_max_h1") +
 
 
 
-## Tagesgang-Jahresgang heatmap
-```{r fig.width=12, fig.height=10}
-ggyearday(data, time = "date", z = "O3") +
-  facet_wrap(year~., scales = "free_x", ncol = 1)
-```
-
-
 
 
 
