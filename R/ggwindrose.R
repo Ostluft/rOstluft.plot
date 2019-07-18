@@ -24,7 +24,7 @@
 #'   rOstluft::rolf_to_openair() %>%
 #'   openair::cutData(date, type = "daylight")
 #'
-#' ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5, ws_cutfun = cut_ws.fun(ws_binwidth = 0.5, ws_max = 3))
+#' ggwindrose(df, aes(ws = ws, wd = wd), cut_wd = cut_wd.fun(binwidth = 22.5), ws_cutfun = cut_ws.fun(ws_binwidth = 0.5, ws_max = 3))
 #'
 #' ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5, ws_cutfun = cut_ws.fun(ws_binwidth = 0.5, ws_max = 3)) +
 #'   facet_wrap(daylight~.)
@@ -37,25 +37,16 @@ ggwindrose <- function(data,
                        ws_max = NA,
                        fill_scale = scale_fill_viridis_d(),
                        bg = NULL,
-                       wd_cutfun = NULL,
-                       ws_cutfun = NULL
+                       wd_cutfun = cut_wd.fun(binwidth = 45),
+                       ws_cutfun = cut_ws.fun(ws_binwidth = 1, ws_max = NA)
 ) {
 
-#xxx wieso mapping als argument? macht nur sinn wenn wir mehr flexibilät brauchen würden
-#für einen vordefinierten wrapper, bei dem man nur ws und wd als input hat denk ich einfach für den user
-#die spalte als symbol zu übergeben
-#möglichkeit für frequency statt n?
-
-  if (is.null(wd_cutfun)) wd_cutfun <- cut_wd.fun(wd_binwidth = wd_binwidth)
-  if (is.null(ws_cutfun)) ws_cutfun <- cut_ws.fun(ws_max = ws_max)
   mapping$z <- mapping$ws
-  # breaks <- seq(0, 360, wd_binwidth)
-  # breaks <- paste0("[", head(breaks, -1),"," ,tail(breaks, -1), ")")[seq(1, 360 / wd_binwidth, 90 / wd_binwidth)]
 
   plot <-
     ggplot(data, mapping) +
     stat_summary_wind(
-      mapping = aes(x = as.numeric(stat(wd)), y = stat(n), group = stat(ws), fill = stat(ws)),
+      mapping = aes(x = as.numeric(stat(wd)), y = stat(freq), group = stat(ws), fill = stat(ws)),
       ...,
       geom = "bar", wd_cutfun = wd_cutfun,
       wd_offset = wd_binwidth / 2, ws_cutfun = ws_cutfun, groups = c("wd", "ws"),
@@ -63,7 +54,7 @@ ggwindrose <- function(data,
     ) +
     coord_polar2(start = -2 * pi / 360 * wd_binwidth / 2, bg = bg) +
     scale_x_continuous(breaks = c(0, 90, 180, 270) / wd_binwidth + 1, labels = c("N", "E", "S", "W"), expand = c(0,0)) +
-    scale_y_continuous(limits = c(0, NA), expand = c(0,0)) +
+    scale_y_continuous(limits = c(0, NA), expand = c(0,0), labels = scales::percent_format) +
     fill_scale +
     guides(fill = guide_legend(title = rlang::quo_text(mapping$z))) +
     theme_windrose
