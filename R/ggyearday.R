@@ -26,7 +26,7 @@
 #'   facet_wrap(year~., scales = "free_x", ncol = 1)
 #'
 #' # data with outliers / extreme values
-#' ggyearday(df, time = "date", z = "PM10", fill_scale = fill_scale) +
+#' ggyearday(df, time = "date", z = "PM10") +
 #'   facet_wrap(year~., scales = "free_x", ncol = 1)
 #'
 #'
@@ -37,7 +37,7 @@
 #'   facet_wrap(year~., scales = "free_x", ncol = 1)
 #'
 #' @export
-ggyearday <- function(data, time, z, xbreaks = "1 month", xlabels = "%b", ybreaks = seq(3,21,3), ylabels = waiver(),
+ggyearday <- function(data, time, z, xbreaks = "1 month", xlabels = "%b", ybreaks = seq(3,21,3), ylabels = format_sprintf("%02d:00"),
                       fill_scale = scale_fill_viridis_c(direction = -1, na.value = NA, option = "A"), ...) {
 
   if (class(fill_scale$labels) == "waiver" & class(fill_scale$breaks) != "waiver") {
