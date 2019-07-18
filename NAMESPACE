@@ -2,11 +2,13 @@
 
 export("%>%")
 export(CalMonthBorder)
+export(CoordCartPolar)
 export(CoordPolar2)
 export(GeomPolarRaster)
 export(StatFilter)
 export(cal_label)
 export(cal_month_border)
+export(coord_cartpolar)
 export(coord_polar2)
 export(geom_polar_raster)
 export(hysplit_traj)

@@ -3,9 +3,7 @@
 "_PACKAGE"
 
 
-#' All ggproto Objects
-#'
-#' All extended ggproto Objects
+#' @title All ggproto Objects
 #'
 #' @seealso ggplot2::ggproto
 #' @keywords internal

@@ -10,7 +10,7 @@
 \alias{StatFilter}
 \title{All ggproto Objects}
 \description{
-All extended ggproto Objects
+All ggproto Objects
 }
 \seealso{
 ggplot2::ggproto
