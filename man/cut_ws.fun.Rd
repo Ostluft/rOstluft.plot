@@ -4,7 +4,7 @@
 \alias{cut_ws.fun}
 \title{wrapper to cut wind velocity (or others) into factor classes}
 \usage{
-cut_ws.fun(ws_binwidth = 1, ws_max = NA, ...)
+cut_ws.fun(binwidth = 1, ws_max = NA, ...)
 }
 \description{
 wrapper to cut wind velocity (or others) into factor classes

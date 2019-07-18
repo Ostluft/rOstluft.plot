@@ -91,9 +91,9 @@ ggcalendar(df, z = "PM10") +
 # can be customised...
 ggcalendar(df, z = "PM10") +
   scale_fill_viridis_c(direction = -1, option = "magma", na.value = NA) +
-  aes(x = x, y = weekday, fill = pmin(PM10, 60)) +
+  aes(x = x, y = weekday, fill = PM10) +
   cal_month_border(color = "white") +
-  cal_label(aes(label = round(PM10,0))) +
-  stat_filter(aes(filter = PM10 > 50), position = position_nudge(y = 0.2), size = 0.5, color = "white")
+  stat_filter(aes(filter = PM10 > 50), size = 0.75, color = "green", fill = NA, shape = 21) +
+  cal_label(aes(label = round(PM10,0)))
 
 }

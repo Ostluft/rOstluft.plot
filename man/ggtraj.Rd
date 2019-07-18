@@ -10,7 +10,7 @@ ggtraj(data, mapping = aes(x = lon, y = lat, group = date, color =
   color_scale = ggplot2::scale_color_gradient(name = "m agl."))
 }
 \arguments{
-\item{data}{tibble containing hysplit trajectories}
+\item{data}{tibble containing hysplit trajectories, format preferably similar to that of the 'openair' package}
 
 \item{mapping}{ggplot mapping, typically: aes(x = lon, y = lat, group = date, color = height)}
 

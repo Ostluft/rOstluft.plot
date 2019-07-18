@@ -5,8 +5,8 @@
 #' @param data tibble containing wind speed, wind direction and/or air pollutant concentration data
 #' @param mapping ggplot2 mapping, e.g. aes(wd = wd, ws = ws); requires wd, ws
 #' @param wd_binwidth numeric, binwidth for wind direction, wd_binwidth should fullfill: (360 / wd_binwidth) %in% c(4, 8, 12, 16)
-#' @param wd_cutfun
-#' @param ws_cutfun
+#' @param wd_cutfun ...
+#' @param ws_cutfun ...
 #' @param fill_scale ggplot2 fill scale, e.g. scale_fill_gradientn(...)
 #' @param bg raster map, e.g. ggmap object as plot background
 #'

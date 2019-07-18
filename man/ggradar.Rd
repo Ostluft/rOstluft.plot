@@ -5,10 +5,11 @@
 \title{Summarise and ggplot data by wind direction bins}
 \usage{
 ggradar(data, mapping, ..., nmin = 3, fun = "mean",
-  fun.args = list(na.rm = TRUE), ws_max = NA, wd_binwidth = 45,
+  fun.args = list(na.rm = TRUE), wd_binwidth = 45,
+  wd_cutfun = cut_wd.fun(binwidth = 45),
   color_scale = scale_color_viridis_d(),
   fill_scale = scale_fill_viridis_d(alpha = 0.25), geom = "polygon",
-  bg = NULL, wd_cutfun = NULL)
+  bg = NULL)
 }
 \arguments{
 \item{data}{tibble containing wind speed, wind direction and air pollutant concentration data}
@@ -21,17 +22,15 @@ ggradar(data, mapping, ..., nmin = 3, fun = "mean",
 
 \item{fun.args}{list, arguments to fun}
 
-\item{ws_max}{maximum wind speed cap; last wind speed bin contains all wind speeds > ws_max}
-
 \item{wd_binwidth}{numeric, binwidth for wind direction, typically %in% c(45, 22.5)}
+
+\item{wd_cutfun}{...}
 
 \item{color_scale}{ggplot2 color scale, e.g. scale_color_gradientn(...)}
 
 \item{fill_scale}{ggplot2 fill scale, e.g. scale_fill_gradientn(...)}
 
 \item{bg}{raster map, e.g. ggmap object as plot background}
-
-\item{wd_cutfun}{NULL or a function with which wind direction is cut into bins; per default (wd_cutfun == NULL): function(wd) wd_classes(wd, wd_binwidth = wd_binwidth)}
 }
 \description{
 Summarise and ggplot data by wind direction bins
@@ -70,6 +69,7 @@ raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
 
 ggradar(df, aes(wd = wd, ws = ws, z = NOx), fill = "blue", color = "blue", alpha = 0.2, bg = raster_map) +
   ylab("NOx") +
-  theme( panel.grid.major = ggplot2::element_line(linetype = 1, color = "white"))
+  theme(panel.grid.major = ggplot2::element_line(linetype = 1, color = "white"))
+
 
 }

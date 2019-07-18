@@ -58,7 +58,7 @@ ggname <- function(prefix, grob) {
 
 #' checks if x is a wavier object
 #'
-#' @see `ggplot2::waiver()`
+#' @seealso `ggplot2::waiver()`
 #'
 #' @param x object to check
 #'

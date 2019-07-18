@@ -4,7 +4,7 @@
 \alias{ws_classes}
 \title{wrapper to cut wind velocity (or others) into factor classes}
 \usage{
-ws_classes(ws, ws_binwidth = 1, ws_max = NA, ...)
+ws_classes(ws, binwidth = 1, ws_max = NA, ...)
 }
 \description{
 wrapper to cut wind velocity (or others) into factor classes

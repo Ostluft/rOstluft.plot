@@ -11,7 +11,7 @@
 #'     as output. Adds leading ">" for last element
 #' @param ... Other arguments passed on to `ggplot2::scale_colour_viridis_c()` or `scale_fill_viridis_c()`
 #'
-#' @return
+#' @return scale
 #' @export
 #' @rdname scale_viridis_squished
 #'
@@ -93,7 +93,7 @@ scale_color_viridis_squished <- function(limits, breaks, labels = waiver(), ...)
 #'     as output
 #'  Additional if not NULL the last element will be formated with a leading ">"
 #'
-#' @return
+#' @return function, labels for scales
 #' @keywords internal
 #' @noRd
 squished_labels <- function(labels) {

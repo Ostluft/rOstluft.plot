@@ -6,7 +6,7 @@
 #' @param fun character string, stat function to be applied at wind direction bins
 #' @param fun.args list, arguments to fun
 #' @param wd_binwidth numeric, binwidth for wind direction, typically %in% c(45, 22.5)
-#' @param wd_cutfun
+#' @param wd_cutfun ...
 #' @param color_scale ggplot2 color scale, e.g. scale_color_gradientn(...)
 #' @param fill_scale ggplot2 fill scale, e.g. scale_fill_gradientn(...)
 #' @param bg raster map, e.g. ggmap object as plot background

@@ -25,13 +25,13 @@ fit_gam_surface <- function(data, x, y, z, weights = NULL, k = 100, extrapolate 
       id = 1:nrow(data)
     )
   index <- which(!is.na(dplyr::pull(data, !!rlang::sym(z))))
-  frml <- as.formula(paste0(z," ~ s(",x,", ",y,", k = ",k,")"))
+  frml <- stats::as.formula(paste0(z," ~ s(",x,", ",y,", k = ",k,")"))
   m <- mgcv::bam(frml,
                  data = data,
                  weights = weights,
                  method =  "GCV.Cp", # "fREML"
                  control = mgcv::gam.control(nthreads = parallel::detectCores() - 1),
-                 family = gaussian())
+                 family = stats::gaussian())
   if (extrapolate) {
     pred <- mgcv::predict.gam(m, newdata = data, type = 'response')^(1/force_positive)
   } else {

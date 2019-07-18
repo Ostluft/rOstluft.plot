@@ -10,7 +10,7 @@
 #' If specified and inherit.aes = TRUE (the default), it is combined with
 #' the default mapping at the top level of the plot. You must supply mapping if there is no plot mapping..
 #' @param data The data to be displayed in this layer.
-#' #' requires input data including at least three columns carrying information regarding:
+#' requires input data including at least three columns carrying information regarding:
 #' * wind direction
 #' * wind velocity
 #' * z
@@ -27,9 +27,9 @@
 #' if extrapolate = TRUE, those values are returned (to a certain degree depending on the value of dist)
 #' @param dist numeric, fraction of 1, applies if smooth = TRUE and extrapolate = TRUE; maximum distance to coordinate-pair at which the result of
 #' gem_smooth(z) should be returned
-#' @param wd_offset
-#' @param wd_cutfun
-#' @param ws_cutfun
+#' @param wd_offset ...
+#' @param wd_cutfun ...
+#' @param ws_cutfun ...
 #' @param groups can be NULL, c("u", "v"), ...
 #'
 #'

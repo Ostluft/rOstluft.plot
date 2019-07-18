@@ -20,17 +20,15 @@
 #' wide <- dplyr::mutate(
 #'   wide,
 #'   wd_shifted = (.data$wd + winkel_half) %% 360,
-#'   wd_class = ggplot2::cut_width(.data$wd_shifted, center = winkel_half2, width = winkel_sector),
+#'   wd_class = ggplot2::cut_width(.data$wd_shifted, center = winkel_half, width = winkel_sector),
 #'   ws_class = forcats::fct_rev(ggplot2::cut_interval(.data$ws, length = 2))
 #' )
 #'
 #' # background map
 #' bbox <- tibble::tibble(x = c(2683141 - 500, 2683141 + 500), y = c(1249040 - 500, 1249040 + 500))
-#' bbox <- rOstluft::transform_projection(bbox, coord = c("x", "y"),
-#'                                        initCRS = sp::CRS("+init=epsg:2056"),
-#'                                        outCRS = sp::CRS("+init=epsg:4326"))
+#' bbox <- rOstluft::transform_LV95_to_WSG84(bbox)
 #'
-#' bbox <- c(left = bbox$x[1], right = bbox$x[2], bottom = bbox$y[1], top = bbox$y[2])
+#' bbox <- c(left = bbox$lon[1], right = bbox$lon[2], bottom = bbox$lat[1], top = bbox$lat[2])
 #'
 #' raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
 #'                                    source = "stamen", color = "bw")

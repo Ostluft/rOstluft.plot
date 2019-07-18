@@ -4,7 +4,7 @@
 \alias{cut_wd.fun}
 \title{wrapper to cut wind direction into factor classes}
 \usage{
-cut_wd.fun(wd_binwidth = 45, ...)
+cut_wd.fun(binwidth = 45, ...)
 }
 \description{
 wrapper to cut wind direction into factor classes

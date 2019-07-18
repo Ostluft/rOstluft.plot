@@ -7,7 +7,7 @@
 stat_summary_wind_2d(data = NULL, mapping = NULL, geom = "raster",
   position = "identity", fun = "mean", fun.args = list(),
   show.legend = NA, inherit.aes = TRUE, nmin = 1, ws_max = NA,
-  bins = 10000, smooth = TRUE, k = 100, extrapolate = TRUE,
+  bins = 100, smooth = TRUE, k = 100, extrapolate = TRUE,
   dist = 0.1, groups = NULL, ...)
 }
 \arguments{
@@ -50,11 +50,7 @@ gem_smooth(z) should be returned}
 
 \item{...}{Other arguments passed on to layer(params = list(...)).}
 
-\item{wd_binwidth}{width of bins (in degree) if groups == "wd_class"}
-
 \item{wd_offset}{offset for wind_direction (in degree) if groups == "wd_class"; bins are then calculated over (wd + wd_offset) %% 360}
-
-\item{ws_binwidth}{width of bins for wind velocity if groups == "ws_class"}
 }
 \value{
 ggplot2 layer
@@ -73,8 +69,8 @@ Computed variables
 \itemize{
 \item wd: wind direction corresponding to midpoint value of u and v
 \item ws: wind velocity corresponding to midpoint value of u and v
-\item wd_class: new bins over wd considering wd_binwidth
-\item ws_class: new bins over ws considering ws_binwidth and ws_max
+\item wd_class: new bins over wd considering binwidth
+\item ws_class: new bins over ws considering binwidth and ws_max
 \item u: bins over u (from input wd and ws)
 \item v: bins over v (from input wd and ws)
 \item z: result from fun(z, ...)

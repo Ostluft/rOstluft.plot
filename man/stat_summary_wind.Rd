@@ -7,13 +7,13 @@
 stat_summary_wind(data = NULL, mapping = NULL, geom = "polygon",
   position = "identity", fun = "mean", fun.args = list(),
   show.legend = NA, inherit.aes = TRUE, nmin = 1,
-  wd_cutfun = function(wd) wd_classes(wd, wd_binwidth = 45),
-  wd_offset = 0, ws_cutfun = function(ws) ws_classes(ws, ws_binwidth =
-  1, ws_max = NA), groups = NULL, ...)
+  wd_cutfun = cut_wd.fun(binwidth = 45), wd_offset = 0,
+  ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = NA), groups = NULL,
+  ...)
 }
 \arguments{
 \item{data}{The data to be displayed in this layer.
-#' requires input data including at least three columns carrying information regarding:
+requires input data including at least three columns carrying information regarding:
 \itemize{
 \item wind direction
 \item wind velocity
@@ -32,11 +32,15 @@ the default mapping at the top level of the plot. You must supply mapping if the
 
 \item{nmin}{Minimum number of values for fun, if n < nmin: NA is returned}
 
+\item{wd_cutfun}{...}
+
+\item{wd_offset}{...}
+
+\item{ws_cutfun}{...}
+
 \item{groups}{can be NULL, c("u", "v"), ...}
 
 \item{...}{Other arguments passed on to layer(params = list(...)).}
-
-\item{ws_max}{Maximum wind velocity for binning: above ws_max, z is set NA}
 
 \item{bins}{number of bins over the range of values if !groups %in% c("u", "v")}
 

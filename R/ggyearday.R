@@ -29,8 +29,7 @@
 #' ggyearday(df, time = "date", z = "PM10") +
 #'   facet_wrap(year~., scales = "free_x", ncol = 1)
 #'
-#'
-#' # use a custom scale and squish the outliers / extreme values
+#' # ...use a custom scale and squish the outliers / extreme values
 #' fill_scale <- scale_fill_viridis_squished(breaks=c(0, 25, 50, 75), limits = c(0, 75),
 #'                                           direction = -1, na.value = NA, option = "A")
 #' ggyearday(df, time = "date", z = "PM10", fill_scale = fill_scale) +
@@ -40,10 +39,6 @@
 #' @export
 ggyearday <- function(data, time, z, xbreaks = "1 month", xlabels = "%b", ybreaks = seq(3,21,3), ylabels = format_sprintf("%02d:00"),
                       fill_scale = scale_fill_viridis_c(direction = -1, na.value = NA, option = "A"), ...) {
-
-  if (class(fill_scale$labels) == "waiver" & class(fill_scale$breaks) != "waiver") {
-    fill_scale$labels <- c(head(fill_scale$breaks, -1), paste0(">",tail(fill_scale$breaks, 1)))
-  }
 
   mapping <- aes(
     x = lubridate::as_date(!!rlang::sym(time)),
@@ -65,3 +60,4 @@ ggyearday <- function(data, time, z, xbreaks = "1 month", xlabels = "%b", ybreak
       strip.text = element_text(hjust = 0, size = 10)
     )
 }
+vi

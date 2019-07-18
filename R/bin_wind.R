@@ -13,8 +13,8 @@
 #' @param fun.args A list of extra arguments to pass to fun.
 #' @param nmin Minimum number of values for fun, if n < nmin: NA is returned
 #' @param wd_offset offset for wind_direction (in degree) if groups = wd; bins are then calculated over (wd + wd_offset) %% 360
-#' @param wd_cutfun
-#' @param ws_cutfun
+#' @param wd_cutfun ...
+#' @param ws_cutfun ...
 #'
 #' @return a tibble with summarised data
 #'
@@ -40,7 +40,7 @@ stat_bin_wind <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args
       !!wd := wd_cutfun(!!rlang::sym(wd)),
       !!ws := ws_cutfun(!!rlang::sym(ws))
     ) %>%
-    na.omit() %>%
+    utils::na.omit() %>%
     dplyr::group_by_at(groups) %>%   #xxx wieso group_by_at??
     dplyr::summarise_at(
       .vars = z,

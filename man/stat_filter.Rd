@@ -67,6 +67,7 @@ Useful for showing only a subset of the data or to highlight some values, withou
 }
 
 \examples{
+require(ggplot2)
 p <- ggplot(mtcars, aes(wt, mpg)) + geom_point()
 p + stat_filter(aes(filter = mpg > 30), shape = 21, size = 4, stroke = 2, color = "red", fill = NA)
 }

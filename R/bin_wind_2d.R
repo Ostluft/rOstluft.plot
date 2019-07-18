@@ -57,7 +57,7 @@ stat_bin_wind_2d <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.a
       u = cut(u, breaks = uv_cuts, dig.lab = 10, include.lowest = TRUE),
       v = cut(v, breaks = uv_cuts, dig.lab = 10, include.lowest = TRUE)
     ) %>%
-    na.omit() %>%
+    stats::na.omit() %>%
     dplyr::group_by_at(groups) %>%
     dplyr::summarise_at(
       .vars = z,
@@ -80,7 +80,7 @@ stat_bin_wind_2d <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.a
         v = as.numeric(factor(uv_mids)),
         stat = unique((data$stat))
       )) %>%
-    na.omit() %>%
+    stats::na.omit() %>%
     dplyr::tbl_df() %>%
     dplyr::left_join(data, by = c("u", "v", "stat"))
   if (smooth) {
