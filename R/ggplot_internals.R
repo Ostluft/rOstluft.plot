@@ -1,4 +1,10 @@
+# This module contains interval ggplot2 code, that isn't exported
 
+
+
+#' Given a theme object and element name, return a grob for the element
+#' @keywords internal
+#' @noRd
 element_render <- function(theme, element, ..., name = NULL) {
 
   # Get the element from the theme, calculating inheritance
@@ -42,7 +48,24 @@ rename <- function(x, replace) {
 # Convenience function to name grid objects
 #
 # @keyword internal
+#' @noRd
 ggname <- function(prefix, grob) {
   grob$name <- grid::grobName(grob, prefix)
   grob
+}
+
+
+
+#' checks if x is a wavier object
+#'
+#' @see `ggplot2::waiver()`
+#'
+#' @param x object to check
+#'
+#' @return TRUE/FALSE
+#'
+#' @keywords internal
+#' @noRd
+is.waive <- function(x) {
+  inherits(x, "waiver")
 }
