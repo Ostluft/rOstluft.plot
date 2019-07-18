@@ -43,7 +43,7 @@ stat_bin_wind <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args
       !!ws := ws_cutfun(!!rlang::sym(ws))
     ) %>%
     na.omit() %>%
-    dplyr::group_by_at(groups) %>%
+    dplyr::group_by_at(groups) %>%   #xxx wieso group_by_at??
     dplyr::summarise_at(
       .vars = z,
       .funs = fun,
