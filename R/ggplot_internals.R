@@ -46,3 +46,30 @@ ggname <- function(prefix, grob) {
   grob$name <- grid::grobName(grob, prefix)
   grob
 }
+
+
+len0_null <- function(x) {
+  if (length(x) == 0)
+    NULL
+  else
+    x
+}
+
+# More performant modifyList without recursion
+modify_list <- function(old, new) {
+  for (i in names(new)) old[[i]] <- new[[i]]
+  old
+}
+
+element_grob.element_circle <- function(element, x = 0.5, y = 0.5, r = 1,
+  fill = NULL, colour = NULL, size = NULL, linetype = NULL, ...) {
+
+  # The gp settings can override element_gp
+  gp <- grid::gpar(lwd = len0_null(size * .pt), col = colour, fill = fill, lty = linetype)
+  element_gp <- grid::gpar(lwd = len0_null(element$size * .pt), col = element$colour,
+    fill = element$fill)
+
+  gp = modify_list(element_gp, gp)
+
+  grid::circleGrob(x, y, r, gp = gp, ...)
+}
