@@ -61,15 +61,3 @@ modify_list <- function(old, new) {
   old
 }
 
-element_grob.element_circle <- function(element, x = 0.5, y = 0.5, r = 1,
-  fill = NULL, colour = NULL, size = NULL, linetype = NULL, ...) {
-
-  # The gp settings can override element_gp
-  gp <- grid::gpar(lwd = len0_null(size * .pt), col = colour, fill = fill, lty = linetype)
-  element_gp <- grid::gpar(lwd = len0_null(element$size * .pt), col = element$colour,
-    fill = element$fill)
-
-  gp = modify_list(element_gp, gp)
-
-  grid::circleGrob(x, y, r, gp = gp, ...)
-}
