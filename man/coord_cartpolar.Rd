@@ -2,10 +2,15 @@
 % Please edit documentation in R/coord_cartpolar.R
 \name{coord_cartpolar}
 \alias{coord_cartpolar}
+\alias{scale_wd_identity}
 \title{cartesian coordinate system with polar grid lines}
 \usage{
 coord_cartpolar(limit = NULL, expand = TRUE, clip = "on",
-  bg = NULL, scale_wd = NULL)
+  bg = NULL, scale_wd = scale_wd_identity(),
+  labels_wd = element_text())
+
+scale_wd_identity(breaks = c(0, 90, 180, 270), labels = c("N", "O",
+  "S", "W"), ...)
 }
 \arguments{
 \item{limit}{limit for coordsystem (xlim(-limit, limit), ylim(-limit, limit))}
@@ -17,6 +22,15 @@ coord_cartpolar(limit = NULL, expand = TRUE, clip = "on",
 \item{bg}{raster for background image}
 
 \item{scale_wd}{pass breaks angle lines (not used at the moment)}
+
+\item{breaks}{on wd scale}
+
+\item{labels}{for wd scale}
+
+\item{...}{passed onto \code{\link[ggplot2:scale_continuous_identity]{ggplot2::scale_continuous_identity()}}}
+}
+\value{
+\code{\link[ggplot2:scale_continuous_identity]{ggplot2::scale_continuous_identity()}}
 }
 \description{
 WIP:
@@ -35,10 +49,10 @@ df <- tibble::tribble(
   90, 4, 1,
   180, 4, 1,
   270, 4, 1,
-  45, 8, 2,
-  135, 8, 2,
-  225, 8, 2,
-  315, 8, 2
+  30, 8, 2,
+  120, 8, 2,
+  200, 8, 2,
+  300, 8, 2
 )
 
 df <- dplyr::mutate(df,
@@ -46,25 +60,34 @@ df <- dplyr::mutate(df,
   v = .data$ws * cos(2 * pi * .data$wd / 360)
 )
 
-p <- ggplot(df, aes(x=u, y=v)) + geom_point() + coord_cartpolar()
+p <-  ggplot(df, aes(x=u, y=v)) + geom_point() + coord_cartpolar()
 p
 
-
 # theming for panel.grid.major.x and panel.grid.minor.x is applied to polar grid lines
-p + theme(
-      "panel.grid.minor.x" = element_line(color = "blue"),
-      "panel.grid.major.x" = element_line(color = "red", size = 2)
+# panel.grid.major.y is applied to the wd lines, to format the labels use an element_text
+# in the coord_cartpolar constructor as arugment labels_wd
+ggplot(df, aes(x=u, y=v)) + geom_point() +
+  coord_cartpolar(labels_wd = element_text(color = "violet", size = 14, face = "bold")) +
+  theme(
+      "panel.grid.minor.x" = element_line(color = "blue", linetyp = "dotted"),
+      "panel.grid.major.x" = element_line(color = "red", size = 2, linetyp = "dashed"),
+      "panel.grid.major.y" = element_line(color = "green", arrow = arrow()),
     )
 
 # x breaks are polar grid radiuses:
-p + scale_x_continuous(breaks = c(1, 1.5, 3, 6)) +
+p + scale_x_continuous(breaks = c(1, 2.5, 5, 10)) +
   theme("panel.grid.minor.x" = element_blank())
+
+# wd scale in coord_cartpolar constructor as arugment scale_wd
+ggplot(df, aes(x=u, y=v)) + geom_point() +
+  coord_cartpolar(scale_wd = scale_wd_identity(
+    breaks = seq(0, 315, 45), labels = c("N", "NO", "O", "SO", "S", "SW", "W", "NW")
+  ))
 
 
 # background map
 bbox <- tibble::tibble(x = c(2683141 - 500, 2683141 + 500), y = c(1249040 - 500, 1249040 + 500))
 bbox <- rOstluft::transform_LV95_to_WSG84(bbox)
-
 bbox <- c(left = bbox$lon[1], right = bbox$lon[2], bottom = bbox$lat[1], top = bbox$lat[2])
 
 raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
@@ -88,5 +111,4 @@ ggplot(df, aes(x=u, y=v, fill=z)) + coord_cartpolar(expand = FALSE) +
     "panel.ontop" = TRUE,
     "panel.background" = element_blank()
   )
-
 }

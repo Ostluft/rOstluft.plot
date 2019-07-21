@@ -3,11 +3,17 @@
 \name{scale_fill_viridis_squished}
 \alias{scale_fill_viridis_squished}
 \alias{scale_color_viridis_squished}
-\title{squish outliers or extreme values in a scale_fill_viridis_c}
+\alias{scale_fill_gradientn_squished}
+\alias{scale_color_gradientn_squished}
+\title{squish outliers or extreme values in scales}
 \usage{
 scale_fill_viridis_squished(limits, breaks, labels = waiver(), ...)
 
 scale_color_viridis_squished(limits, breaks, labels = waiver(), ...)
+
+scale_fill_gradientn_squished(limits, breaks, labels = waiver(), ...)
+
+scale_color_gradientn_squished(limits, breaks, labels = waiver(), ...)
 }
 \arguments{
 \item{limits}{for the scale}
@@ -30,7 +36,7 @@ as output. Adds leading ">" for last element
 scale
 }
 \description{
-squish outliers or extreme values in a scale_fill_viridis_c
+squish outliers or extreme values in scales
 }
 \examples{
 require(rOstluft)
@@ -74,6 +80,12 @@ ggyearday(df, time = "date", z = "PM10", fill_scale = fill_scale) +
 fill_scale <- scale_fill_viridis_squished(limits = c(0, 75), breaks = c(0, 25, 50, 75),
                                           labels = NULL,
                                           direction = -1, na.value = NA, option = "A")
+ggyearday(df, time = "date", z = "PM10", fill_scale = fill_scale) +
+  facet_wrap(year~., scales = "free_x", ncol = 1)
+
+# simple squished jet gradientn scale
+fill_scale <- scale_fill_gradientn_squished(limits = c(0, 75), breaks = c(0, 25, 50, 75),
+                                            colors = matlab::jet.colors(20), na.value = NA)
 ggyearday(df, time = "date", z = "PM10", fill_scale = fill_scale) +
   facet_wrap(year~., scales = "free_x", ncol = 1)
 }

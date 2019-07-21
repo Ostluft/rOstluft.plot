@@ -68,18 +68,22 @@ ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx))
 
 # change smoothing degree, add custom breaks and change grid style, different fill scale
 ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), k = 25, breaks = seq(0,10,2))  +
-  theme(panel.grid.major = ggplot2::element_line(linetype = 2, size = 0.25, color = "gray90")) + # ... linetype doesn't work yet
+  theme(panel.grid.major = ggplot2::element_line(linetype = 2, size = 0.25, color = "gray80")) + # ... linetype doesn't work yet
   scale_fill_viridis_c(na.value = NA)
 
 # no data extrapolation
-ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), extrapolate = FALSE, breaks = seq(0,10,2))
+ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), extrapolate = FALSE, breaks = seq(0,8,2))
 
 # no smoothing
-ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), smooth = FALSE, breaks = seq(0,10,2))
+ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), smooth = FALSE, breaks = seq(0,8,2))
 
 # cap maximum NOx concentration and wind velocity
-ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), ws_max = 4, smooth = FALSE, breaks = 0:10) +
+ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), ws_max = 4, smooth = FALSE, breaks = 0:4) +
   scale_fill_viridis_squished(limits = c(0,50), breaks = seq(0,50,10), na.value = NA)
+
+# like jet colors better, want it smoothed?
+ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), ws_max = 4, smooth = TRUE, breaks = 0:4) +
+  scale_fill_gradientn_squished(limits = c(0,50), breaks = seq(0,50,10), na.value = NA, colors = matlab::jet.colors(100))
 
 # change binning parameters
 ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), smooth = FALSE, pixels = 50^2, nmin = 10, breaks = seq(0,6,2))

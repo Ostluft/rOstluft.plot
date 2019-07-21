@@ -7,8 +7,8 @@
 ggradar(data, mapping, nmin = 3, fun = "mean", fun.args = list(na.rm
   = TRUE), wd_binwidth = 45, wd_cutfun = cut_wd.fun(binwidth = 45),
   color_scale = scale_color_viridis_d(),
-  fill_scale = scale_fill_viridis_d(alpha = 0.25), geom = "polygon",
-  bg = NULL, ...)
+  fill_scale = scale_fill_viridis_d(alpha = 0.25), bg = NULL,
+  layer_args = list(geom = "polygon"), param_args = list())
 }
 \arguments{
 \item{data}{tibble containing wind speed, wind direction and air pollutant concentration data}
@@ -29,9 +29,11 @@ ggradar(data, mapping, nmin = 3, fun = "mean", fun.args = list(na.rm
 
 \item{fill_scale}{ggplot2 discrete fill scale, e.g. scale_fill_gradientn(...)}
 
-\item{geom}{character string for ggplot2 geom used in plot, here: "polygon"}
-
 \item{bg}{raster map, e.g. ggmap object as plot background}
+
+\item{layer_args}{named list, further arguments passed on to layer() call within stat_summary_wind}
+
+\item{param_args}{named list, further arguments passed on to layer(param = param_args) call within stat_summary_wind}
 }
 \description{
 ggplot2-wrapper to summarise and plot data by wind direction bins as radar plot
@@ -48,11 +50,11 @@ df <-
   rOstluft::rolf_to_openair() \%>\%
   dplyr::mutate(wday = lubridate::wday(date, label = TRUE, week_start = 1))
 
-ggradar(df, aes(wd = wd, ws = ws, z = NOx), color = "blue", fill = "blue") + ylab("NOx")
+ggradar(df, aes(wd = wd, ws = ws, z = NOx), param_args = list(fill = "blue", color = "blue", alpha = 0.5)) + ylab("NOx")
 
 q95 <- function(x, ...) quantile(x, 0.95, ...)
 ggradar(df, aes(wd = wd, ws = ws, z = NOx, group = stat(stat), color = stat(stat)),
-        fill = NA, fun = list("mean", "median", "perc95" = q95)) + ylab("NOx")
+        param_args = list(fill = NA), fun = list("mean", "median", "perc95" = q95)) + ylab("NOx")
 
 df \%>\%
   dplyr::select(wd, ws, NO, NOx, wday) \%>\%
@@ -68,7 +70,7 @@ bbox <- c(left = bbox$lon[1], right = bbox$lon[2], bottom = bbox$lat[1], top = b
 raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
                                    source = "stamen", color = "bw")
 
-ggradar(df, aes(wd = wd, ws = ws, z = NOx), fill = "blue", color = "blue", alpha = 0.2, bg = raster_map) +
+ggradar(df, aes(wd = wd, ws = ws, z = NOx), param_args = list(fill = "blue", color = "blue", alpha = 0.2), bg = raster_map) +
   ylab("NOx") +
   theme(panel.grid.major = ggplot2::element_line(linetype = 1, color = "white"))
 

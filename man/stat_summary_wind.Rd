@@ -7,7 +7,8 @@
 stat_summary_wind(data = NULL, mapping = NULL, fun = "mean",
   fun.args = list(), nmin = 1, wd_cutfun = cut_wd.fun(binwidth = 45),
   wd_offset = 0, ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = NA),
-  groups = NULL, geom = "polygon", ...)
+  groups = NULL, layer_args = list(geom = "polygon"),
+  param_args = list())
 }
 \arguments{
 \item{data}{The data to be displayed in this layer.
@@ -34,9 +35,9 @@ stat_summary_wind(data = NULL, mapping = NULL, fun = "mean",
 
 \item{groups}{character string, can be NULL, "wd", ...}
 
-\item{geom}{The geometric object to use display the data.}
-
 \item{...}{other arguments passed on to layer(params = list(...)).}
+
+\item{geom}{The geometric object to use display the data.}
 }
 \value{
 ggplot2 layer

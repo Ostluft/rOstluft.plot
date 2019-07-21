@@ -218,7 +218,7 @@ scale_wd_identity <- function(breaks = c(0, 90, 180, 270), labels = c("N", "O", 
 #' renders a circle as element_line
 #'
 #' @param theme A `theme` object
-#' @param element The name of a theme element (see [ggdplot2::calc_element()]).
+#' @param element The name of a theme element (see [ggplot2::calc_element()]).
 #' @param x a numeric vector specifying x center locations of circles
 #' @param y a numeric vector specifying y center locations of circles
 #' @param r a numeric vector specifying radii of circles
