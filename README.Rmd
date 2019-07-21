@@ -54,6 +54,7 @@ data <-
 
 
 ## Windrose auf Karte
+
 ```{r}
 bbox <- tibble::tibble(x = c(2683141 - 500, 2683141 + 500), y = c(1249040 - 500, 1249040 + 500))
 bbox <- rOstluft::transform_LV95_to_WSG84(bbox)
@@ -64,6 +65,7 @@ raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
 plot <- ggwindrose(data, aes(ws = ws, wd = wd), wd_binwidth = 22.5, wd_cutfun = cut_wd.fun(binwidth = 22.5), ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = 5), bg = raster_map)
 
 plot
+
 plot + facet_wrap(daylight~.)
 ```
 
@@ -71,14 +73,22 @@ plot + facet_wrap(daylight~.)
 
 
 ## Radar-chart Windstatistik
+
 ```{r}
-# ggradar(data, aes(wd = wd, ws = ws, z = NOx), bg = raster_map, fill = "blue", color = "blue", alpha = 0.5) + ylab("NOx")
+ggradar(df, aes(wd = wd, ws = ws, z = NOx), param_args = list(fill = "blue", color = "blue", alpha = 0.5)) + ylab("NOx")
+
+ df %>%
+   dplyr::select(wd, ws, NO, NOx, daylight) %>%
+   tidyr::gather(par, val, -wd, -ws, -daylight) %>%
+   ggradar(aes(wd = wd, ws = ws, z = val, group = par, fill = par, color = par)) + ylab("mean") +
+   facet_wrap(daylight~.)
 ```
 
 
 
 
 ## polarplot openair-style
+
 ```{r}
 ggpolarplot(data, aes(wd = wd, ws = ws, z = NOx), bg = raster_map, fill_scale = scale_fill_gradientn(colours = alpha(matlab::jet.colors(100), 0.75), na.value = NA), breaks = seq(0,10,2))
 ```
@@ -88,6 +98,7 @@ ggpolarplot(data, aes(wd = wd, ws = ws, z = NOx), bg = raster_map, fill_scale = 
 
 
 ## Tagesgang-Jahresgang heatmap
+
 ```{r fig.width=12, fig.height=10}
 ggyearday(data, time = "date", z = "O3") +
   facet_wrap(year~., scales = "free_x", ncol = 1)
@@ -126,7 +137,8 @@ ggcalendar(data_d1, z = "O3_max_h1") +
 
 
 
-## Hysplit Trajektorien:
+## Hysplit Trajektorien (openair data format)
+
 ```{r}
 fn <- system.file("extdata", "2017_ZH-Kaserne-hysplit.rds", package = "rOstluft.data")
 traj <- readRDS(fn)

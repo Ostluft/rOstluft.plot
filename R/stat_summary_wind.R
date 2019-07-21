@@ -29,13 +29,13 @@
 stat_summary_wind <- function (data = NULL, mapping = NULL, fun = "mean", fun.args = list(),
                                nmin = 1, wd_cutfun = cut_wd.fun(binwidth = 45), wd_offset = 0,
                                ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = NA), groups = NULL,
-                               geom = "polygon", ...) {
+                               layer_args = list(geom = "polygon"), param_args = list()) {
 
-  layer(stat = StatWind, data = data, mapping = mapping, geom = geom, position = "identity",
-        params = list(fun = fun, fun.args = fun.args, nmin = nmin,
-                      wd_cutfun = wd_cutfun, wd_offset = wd_offset,
-                      ws_cutfun = ws_cutfun, groups = groups, ...)
-  )
+  params = c(list(fun = fun, fun.args = fun.args, nmin = nmin,
+                wd_cutfun = wd_cutfun, wd_offset = wd_offset,
+                ws_cutfun = ws_cutfun, groups = groups), param_args)
+
+  do.call(layer, c(list(stat = StatWind, data = data, mapping = mapping, position = "identity", params = params), layer_args))
 }
 
 

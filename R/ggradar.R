@@ -9,8 +9,9 @@
 #' @param wd_cutfun function, cut function for wind direction (to create bins)
 #' @param color_scale ggplot2 discrete color scale, e.g. scale_color_gradientn(...)
 #' @param fill_scale ggplot2 discrete fill scale, e.g. scale_fill_gradientn(...)
-#' @param geom character string for ggplot2 geom used in plot, here: "polygon"
 #' @param bg raster map, e.g. ggmap object as plot background
+#' @param layer_args named list, further arguments passed on to layer() call within stat_summary_wind
+#' @param param_args named list, further arguments passed on to layer(param = param_args) call within stat_summary_wind
 #'
 #'
 #' @examples
@@ -25,11 +26,11 @@
 #'   rOstluft::rolf_to_openair() %>%
 #'   dplyr::mutate(wday = lubridate::wday(date, label = TRUE, week_start = 1))
 #'
-#' ggradar(df, aes(wd = wd, ws = ws, z = NOx), color = "blue", fill = "blue") + ylab("NOx")
+#' ggradar(df, aes(wd = wd, ws = ws, z = NOx), param_args = list(fill = "blue", color = "blue", alpha = 0.5)) + ylab("NOx")
 #'
 #' q95 <- function(x, ...) quantile(x, 0.95, ...)
 #' ggradar(df, aes(wd = wd, ws = ws, z = NOx, group = stat(stat), color = stat(stat)),
-#'         fill = NA, fun = list("mean", "median", "perc95" = q95)) + ylab("NOx")
+#'         param_args = list(fill = NA), fun = list("mean", "median", "perc95" = q95)) + ylab("NOx")
 #'
 #' df %>%
 #'   dplyr::select(wd, ws, NO, NOx, wday) %>%
@@ -45,7 +46,7 @@
 #' raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
 #'                                    source = "stamen", color = "bw")
 #'
-#' ggradar(df, aes(wd = wd, ws = ws, z = NOx), fill = "blue", color = "blue", alpha = 0.2, bg = raster_map) +
+#' ggradar(df, aes(wd = wd, ws = ws, z = NOx), param_args = list(fill = "blue", color = "blue", alpha = 0.2), bg = raster_map) +
 #'   ylab("NOx") +
 #'   theme(panel.grid.major = ggplot2::element_line(linetype = 1, color = "white"))
 #'
@@ -60,9 +61,9 @@ ggradar <- function(data,
                     wd_cutfun = cut_wd.fun(binwidth = 45),
                     color_scale = scale_color_viridis_d(),
                     fill_scale = scale_fill_viridis_d(alpha = 0.25),
-                    geom = "polygon",
                     bg = NULL,
-                    ...
+                    layer_args = list(geom = "polygon"),
+                    param_args = list()
 ) {
 
   breaks <- levels(wd_cutfun(seq(0, 360, wd_binwidth)))[seq(1, 360 / wd_binwidth, 90 / wd_binwidth)]
@@ -70,8 +71,9 @@ ggradar <- function(data,
     ggplot(data, mapping) +
     stat_summary_wind(
       mapping = aes(x = stat(wd), y = stat(z)),
-      fun = fun, fun.args = fun.args, nmin = nmin, geom = geom, wd_cutfun = wd_cutfun,
-      wd_offset = wd_binwidth / 2, ws_cutfun = identity, groups = NULL, ...
+      fun = fun, fun.args = fun.args, nmin = nmin, wd_cutfun = wd_cutfun,
+      wd_offset = wd_binwidth / 2, ws_cutfun = identity, groups = NULL, layer_args = layer_args,
+      param_args = param_args
     ) +
     coord_radar(start = -2 * pi / 360 * wd_binwidth / 2, bg = bg) +
     scale_x_discrete(breaks = breaks, labels = c("N", "E", "S", "W")) +
