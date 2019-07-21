@@ -1,4 +1,3 @@
-
 #' Summarise y values over binned wind data.
 #'
 #' Input data should be original unbinned data.
@@ -8,14 +7,13 @@
 #' @param ws string giving the wind velocity parameter name (wind velocity preferably in m/s)
 #' @param wd string giving the wind direction parameter name  in degrees
 #' @param z string giving the parameter name to be summarised
-#' @param groups can be NULL, wd, ws, ...
+#' @param groups character string, can be NULL, 'wd', 'ws', ...
 #' @param fun function or list of functions for summary.
-#' @param fun.args A list of extra arguments to pass to fun.
-#' @param nmin Minimum number of values for fun, if n < nmin: NA is returned
-#' @param ws_max Maximum wind velocity for binning: above ws_max, z is set NA; can be NA
-#' @param wd_binwidth width of bins (in degree) if groups = wd
-#' @param wd_offset offset for wind_direction (in degree) if groups = wd; bins are then calculated over (wd + wd_offset) %% 360
-#' @param ws_binwidth width of bins for wind velocity if groups = ws
+#' @param fun.args a list of extra arguments passed on to fun.
+#' @param nmin numeric, minimum number of values for fun, if n < nmin: NA is returned
+#' @param wd_cutfun function, cut function for wind direction (to create bins)
+#' @param wd_offset numeric, offset for wind_direction (in °) if groups == "wd"; bins are then calculated over (wd + wd_offset) %% 360
+#' @param ws_cutfun function, cut function for wind speed
 #'
 #' @return a tibble with summarised data
 #'
@@ -27,14 +25,13 @@
 #'   a tibble including groups and summarised z is returned
 #'
 #' @export
-stat_bin_wind <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args = list(), nmin = 3, ws_max = NA,
-                          wd_cutfun = function(wd) wd_classes(wd, wd_binwidth = 45), wd_offset = 0,
-                          ws_cutfun = function(ws) ws_classes(ws, ws_binwidth = 1)) {
+stat_bin_wind <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args = list(), nmin = 3,
+                          wd_cutfun = cut_wd.fun(binwidth = 45), wd_offset = 0,
+                          ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = NA)) {
 
   if (is.null(groups)) groups <- wd
-
   fun <- c(as.list(fun), "n" = function(x, ...) {sum(!is.na(x))})
-  names <- purrr::map2(fun, rlang::names2(fun), function(element, name) { if (name != "") name else element})
+  names <- purrr::map2(fun, rlang::names2(fun), function(element, name) {if (name != "") name else element})
   fun <- rlang::set_names(fun, names)
   data <-
     data %>%
@@ -42,7 +39,7 @@ stat_bin_wind <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args
       !!wd := wd_cutfun(!!rlang::sym(wd)),
       !!ws := ws_cutfun(!!rlang::sym(ws))
     ) %>%
-    na.omit() %>%
+    stats::na.omit() %>%
     dplyr::group_by_at(groups) %>%   #xxx wieso group_by_at??
     dplyr::summarise_at(
       .vars = z,
@@ -51,10 +48,8 @@ stat_bin_wind <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args
     ) %>%
     dplyr::ungroup() %>%
     tidyr::gather(key = "stat", value = !!z, -!!groups, -n) %>%
-    dplyr::mutate(stat = factor(stat), freq = n / sum(n, na.rm = TRUE) ) %>%
-    dplyr::filter(
-      n >= nmin
-    )
+    dplyr::mutate(stat = factor(stat), freq = n / sum(n, na.rm = TRUE)) %>%
+    dplyr::filter(n >= nmin)
 
   return(data)
 }

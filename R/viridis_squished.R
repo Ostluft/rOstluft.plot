@@ -1,4 +1,4 @@
-#' squish outliers or extreme values in a scale_fill_viridis_c
+#' squish outliers or extreme values in scales
 #'
 #' @param limits for the scale
 #' @param breaks A numeric vector of positions for breaks
@@ -11,7 +11,7 @@
 #'     as output. Adds leading ">" for last element
 #' @param ... Other arguments passed on to `ggplot2::scale_colour_viridis_c()` or `scale_fill_viridis_c()`
 #'
-#' @return
+#' @return scale
 #' @export
 #' @rdname scale_viridis_squished
 #'
@@ -59,6 +59,12 @@
 #'                                           direction = -1, na.value = NA, option = "A")
 #' ggyearday(df, time = "date", z = "PM10", fill_scale = fill_scale) +
 #'   facet_wrap(year~., scales = "free_x", ncol = 1)
+#'
+#' # simple squished jet gradientn scale
+#' fill_scale <- scale_fill_gradientn_squished(limits = c(0, 75), breaks = c(0, 25, 50, 75),
+#'                                             colors = matlab::jet.colors(20), na.value = NA)
+#' ggyearday(df, time = "date", z = "PM10", fill_scale = fill_scale) +
+#'   facet_wrap(year~., scales = "free_x", ncol = 1)
 scale_fill_viridis_squished <- function(limits, breaks, labels = waiver(), ...) {
   if(missing(limits) & rlang::is_vector(limits, 2)) stop("limits with 2 elements is required")
   if(missing(breaks) & rlang::is_vector(breaks)) stop("breaks as vector is required")
@@ -67,7 +73,6 @@ scale_fill_viridis_squished <- function(limits, breaks, labels = waiver(), ...) 
 
   scale_fill_viridis_c(limits = limits, breaks = breaks, labels = labs, oob = scales::squish, ...)
 }
-
 
 
 #' @export
@@ -82,6 +87,30 @@ scale_color_viridis_squished <- function(limits, breaks, labels = waiver(), ...)
 }
 
 
+#' @export
+#' @rdname scale_viridis_squished
+scale_fill_gradientn_squished <- function(limits, breaks, labels = waiver(), ...) {
+  if(missing(limits) & rlang::is_vector(limits, 2)) stop("limits with 2 elements is required")
+  if(missing(breaks) & rlang::is_vector(breaks)) stop("breaks as vector is required")
+
+  labs <- squished_labels(labels)
+
+  scale_fill_gradientn(limits = limits, breaks = breaks, labels = labs, oob = scales::squish, ...)
+}
+
+
+#' @export
+#' @rdname scale_viridis_squished
+scale_color_gradientn_squished <- function(limits, breaks, labels = waiver(), ...) {
+  if(missing(limits) & rlang::is_vector(limits, 2)) stop("limits with 2 elements is required")
+  if(missing(breaks) & rlang::is_vector(breaks)) stop("breaks as vector is required")
+
+  labs <- squished_labels(labels)
+
+  scale_color_gradientn(limits = limits, breaks = breaks, labels = labs, oob = scales::squish, ...)
+}
+
+
 #' generates labels for squished scales
 #'
 #' @param labels One of:
@@ -93,7 +122,7 @@ scale_color_viridis_squished <- function(limits, breaks, labels = waiver(), ...)
 #'     as output
 #'  Additional if not NULL the last element will be formated with a leading ">"
 #'
-#' @return
+#' @return function, labels for scales
 #' @keywords internal
 #' @noRd
 squished_labels <- function(labels) {

@@ -55,10 +55,25 @@ ggname <- function(prefix, grob) {
 }
 
 
+len0_null <- function(x) {
+  if (length(x) == 0)
+    NULL
+  else
+    x
+}
+
+# More performant modifyList without recursion
+modify_list <- function(old, new) {
+  for (i in names(new)) old[[i]] <- new[[i]]
+  old
+}
+
+
+
 
 #' checks if x is a wavier object
 #'
-#' @see `ggplot2::waiver()`
+#' @seealso `ggplot2::waiver()`
 #'
 #' @param x object to check
 #'

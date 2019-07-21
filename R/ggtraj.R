@@ -1,6 +1,6 @@
 #' Plotting hysplit trajectory
 #'
-#' @param data tibble containing hysplit trajectories
+#' @param data tibble containing hysplit trajectories, format preferably similar to that of the 'openair' package
 #' @param mapping ggplot mapping, typically: aes(x = lon, y = lat, group = date, color = height)
 #' @param incr sequence of hours to draw an marker on the trajetory. Default -seq(24,96,24); can be NULL - then, no increment markers are plotted
 #' @param lims list with xlim and ylim items defining the map section. See `ggplot::coord_quickmap()`
@@ -71,13 +71,7 @@ ggtraj <- function(data, mapping = aes(x = lon, y = lat, group = date, color = h
   # should title be configurable?
   sites <- dplyr::distinct(data, .data$site)
   plot <- plot +
-    ggplot2::theme_minimal() +
-    ggplot2::theme(
-      panel.grid = ggplot2::element_blank(),
-      axis.text = ggplot2::element_blank(),
-      axis.title = ggplot2::element_blank(),
-      axis.ticks = ggplot2::element_blank()
-    ) +
+    theme_traj +
     ggplot2::scale_y_continuous(expand = c(0.1,0.1)) +
     ggplot2::scale_x_continuous(expand = c(0.1,0.1)) +
     color_scale

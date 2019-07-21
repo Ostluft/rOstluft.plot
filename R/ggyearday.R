@@ -1,12 +1,16 @@
-#' ggplot heatmap for diurnal-yearly time course
+#' ggplot2 heatmap for diurnal-yearly time series
 #'
-#' @description Create a heatmap with date on x-axis and time of day on y-axis; z values as colour scale.
+#' @description creates a heatmap with date on x-axis and time of day on y-axis; z values as colour scale.
 #'
 #' @param data a data.frame or tibble with input data (containing a POSIXct variable as time parameter).
 #' @param time character string giving time variable name.
 #' @param z character string giving z value variable name.
-#' @param etc ...
-#' @param ... Other arguments passed on to geom_raster().
+#' @param date_breaks character string as input for ggplot2::scale_x_date(), e.g. '1 month', defines date breaks on x-axis.
+#' @param date_labels character string as input for ggplot2::scale_x_date(), formatter for date labels on x-axis.
+#' @param ybreaks numeric vector, specifies y-axis breaks.
+#' @param ylabels function, format function for y-axis labels.
+#' @param fill_scale ggplot2 continuous fill scale, e.g. scale_fill_gradient(...).
+#' @param ... other arguments passed on to geom_raster().
 #'
 #' @return ggplot
 #'
@@ -25,24 +29,20 @@
 #' ggyearday(df, time = "date", z = "O3") +
 #'   facet_wrap(year~., scales = "free_x", ncol = 1)
 #'
-#' # data with outliers / extreme values
+#' # data with outliers / extreme values => not very informative...
 #' ggyearday(df, time = "date", z = "PM10") +
 #'   facet_wrap(year~., scales = "free_x", ncol = 1)
 #'
-#'
-#' # use a custom scale and squish the outliers / extreme values
+#' # ...use a custom scale and squish the outliers / extreme values
 #' fill_scale <- scale_fill_viridis_squished(breaks=c(0, 25, 50, 75), limits = c(0, 75),
 #'                                           direction = -1, na.value = NA, option = "A")
 #' ggyearday(df, time = "date", z = "PM10", fill_scale = fill_scale) +
 #'   facet_wrap(year~., scales = "free_x", ncol = 1)
 #'
+#'
 #' @export
-ggyearday <- function(data, time, z, xbreaks = "1 month", xlabels = "%b", ybreaks = seq(3,21,3), ylabels = format_sprintf("%02d:00"),
+ggyearday <- function(data, time, z, date_breaks = "1 month", date_labels = "%b", ybreaks = seq(3,21,3), ylabels = format_sprintf("%02d:00"),
                       fill_scale = scale_fill_viridis_c(direction = -1, na.value = NA, option = "A"), ...) {
-
-  if (class(fill_scale$labels) == "waiver" & class(fill_scale$breaks) != "waiver") {
-    fill_scale$labels <- c(head(fill_scale$breaks, -1), paste0(">",tail(fill_scale$breaks, 1)))
-  }
 
   mapping <- aes(
     x = lubridate::as_date(!!rlang::sym(time)),
@@ -53,7 +53,7 @@ ggyearday <- function(data, time, z, xbreaks = "1 month", xlabels = "%b", ybreak
   ggplot(data, mapping) +
     geom_raster(...) +
     fill_scale +
-    scale_x_date(date_breaks = xbreaks, date_labels = xlabels, expand = c(0,0)) +
+    scale_x_date(date_breaks = date_breaks, date_labels = date_labels, expand = c(0,0)) +
     scale_y_continuous(expand = c(0,0), breaks = ybreaks, labels = ylabels,  position = "right") +
     theme_bw() +
     theme(
@@ -64,3 +64,4 @@ ggyearday <- function(data, time, z, xbreaks = "1 month", xlabels = "%b", ybreak
       strip.text = element_text(hjust = 0, size = 10)
     )
 }
+vi

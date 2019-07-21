@@ -1,16 +1,17 @@
-#' Summarise and ggplot data by wind direction bins
+#' ggplot2-wrapper to summarise and plot data by wind direction bins as radar plot
 #'
 #' @param data tibble containing wind speed, wind direction and air pollutant concentration data
-#' @param mapping ggplot2 mapping, e.g. aes(wd = wd, ws = ws, z = NOx); requires wd, ws, z
+#' @param mapping ggplot2 mapping, e.g. aes(wd = wd, ws = ws, z = NOx); require aesthetics wd, ws, z
 #' @param nmin numeric, minimum number of data points to be averaged in one wind direction bin
-#' @param fun character string, stat function to be applied at wind direction bins
+#' @param fun character string or vector of character strings, stat function(s) to be applied at wind direction bins
 #' @param fun.args list, arguments to fun
-#' @param ws_max maximum wind speed cap; last wind speed bin contains all wind speeds > ws_max
-#' @param wd_binwidth numeric, binwidth for wind direction, typically %in% c(45, 22.5)
-#' @param color_scale ggplot2 color scale, e.g. scale_color_gradientn(...)
-#' @param fill_scale ggplot2 fill scale, e.g. scale_fill_gradientn(...)
+#' @param wd_binwidth numeric, binwidth for wind direction in °, wd_binwidth should fullfill: (360 / wd_binwidth) %in% c(4, 8, 12, 16)
+#' @param wd_cutfun function, cut function for wind direction (to create bins)
+#' @param color_scale ggplot2 discrete color scale, e.g. scale_color_gradientn(...)
+#' @param fill_scale ggplot2 discrete fill scale, e.g. scale_fill_gradientn(...)
 #' @param bg raster map, e.g. ggmap object as plot background
-#' @param wd_cutfun NULL or a function with which wind direction is cut into bins; per default (wd_cutfun == NULL): function(wd) wd_classes(wd, wd_binwidth = wd_binwidth)
+#' @param layer_args named list, further arguments passed on to layer() call within stat_summary_wind
+#' @param param_args named list, further arguments passed on to layer(param = param_args) call within stat_summary_wind
 #'
 #'
 #' @examples
@@ -25,11 +26,11 @@
 #'   rOstluft::rolf_to_openair() %>%
 #'   dplyr::mutate(wday = lubridate::wday(date, label = TRUE, week_start = 1))
 #'
-#' ggradar(df, aes(wd = wd, ws = ws, z = NOx), fill = "blue", color = "blue", alpha = 0.5) + ylab("NOx")
+#' ggradar(df, aes(wd = wd, ws = ws, z = NOx), param_args = list(fill = "blue", color = "blue", alpha = 0.5)) + ylab("NOx")
 #'
 #' q95 <- function(x, ...) quantile(x, 0.95, ...)
 #' ggradar(df, aes(wd = wd, ws = ws, z = NOx, group = stat(stat), color = stat(stat)),
-#'         fill = NA, fun = list("mean", "median", "perc95" = q95)) + ylab("NOx")
+#'         param_args = list(fill = NA), fun = list("mean", "median", "perc95" = q95)) + ylab("NOx")
 #'
 #' df %>%
 #'   dplyr::select(wd, ws, NO, NOx, wday) %>%
@@ -45,36 +46,34 @@
 #' raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
 #'                                    source = "stamen", color = "bw")
 #'
-#' ggradar(df, aes(wd = wd, ws = ws, z = NOx), fill = "blue", color = "blue", alpha = 0.2, bg = raster_map) +
+#' ggradar(df, aes(wd = wd, ws = ws, z = NOx), param_args = list(fill = "blue", color = "blue", alpha = 0.2), bg = raster_map) +
 #'   ylab("NOx") +
-#'   theme( panel.grid.major = ggplot2::element_line(linetype = 1, color = "white"))
+#'   theme(panel.grid.major = ggplot2::element_line(linetype = 1, color = "white"))
+#'
 #'
 #' @export
 ggradar <- function(data,
                     mapping,
-                    ...,
                     nmin = 3,
                     fun = "mean",
                     fun.args = list(na.rm = TRUE),
-                    ws_max = NA,
                     wd_binwidth = 45,
+                    wd_cutfun = cut_wd.fun(binwidth = 45),
                     color_scale = scale_color_viridis_d(),
                     fill_scale = scale_fill_viridis_d(alpha = 0.25),
-                    geom = "polygon",
                     bg = NULL,
-                    wd_cutfun = NULL
+                    layer_args = list(geom = "polygon"),
+                    param_args = list()
 ) {
 
-  if (is.null(wd_cutfun)) wd_cutfun <- function(wd) wd_classes(wd, wd_binwidth = wd_binwidth)
   breaks <- levels(wd_cutfun(seq(0, 360, wd_binwidth)))[seq(1, 360 / wd_binwidth, 90 / wd_binwidth)]
-
   plot <-
     ggplot(data, mapping) +
     stat_summary_wind(
       mapping = aes(x = stat(wd), y = stat(z)),
-      ...,
-      fun = fun, fun.args = fun.args, nmin = nmin, ws_max = ws_max, geom = geom, wd_cutfun = wd_cutfun,
-      wd_offset = wd_binwidth / 2, ws_cutfun = ws_classes, groups = NULL
+      fun = fun, fun.args = fun.args, nmin = nmin, wd_cutfun = wd_cutfun,
+      wd_offset = wd_binwidth / 2, ws_cutfun = identity, groups = NULL, layer_args = layer_args,
+      param_args = param_args
     ) +
     coord_radar(start = -2 * pi / 360 * wd_binwidth / 2, bg = bg) +
     scale_x_discrete(breaks = breaks, labels = c("N", "E", "S", "W")) +

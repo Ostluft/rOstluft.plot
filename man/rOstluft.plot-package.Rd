@@ -16,8 +16,6 @@ This package provides functions to quickly display data as diagrams.
 Authors:
 \itemize{
   \item Jörg Sintermann
-  \item Noël Rederlechner
-  \item Hanna Herich
 }
 
 Other contributors:
