@@ -6,6 +6,14 @@
 \usage{
 uv2wd(u, v)
 }
+\arguments{
+\item{u}{a vector of u components}
+
+\item{v}{a vector of v components}
+}
+\value{
+a vector of wind direction in °
+}
 \description{
-calculate wind direction from u, v wind components
+copied from https://github.com/environmentalinformatics-marburg/Rsenal/blob/master/R/uv2wdws.R
 }

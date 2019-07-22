@@ -27,14 +27,20 @@ stat_bin_wind(data, ws, wd, z, groups = NULL, fun = "mean",
 
 \item{wd_cutfun}{function, cut function for wind direction (to create bins)}
 
-\item{wd_offset}{numeric, offset for wind_direction (in °) if groups == "wd"; bins are then calculated over (wd + wd_offset) %% 360}
+\item{wd_offset}{numeric, offset for wind_direction (in °) if groups == "wd"; bins are then calculated
+over \code{(wd + wd_offset) \%\% 360}}
 
 \item{ws_cutfun}{function, cut function for wind speed}
 }
 \value{
 a tibble with summarised data
+}
+\description{
+Input data should be original unbinned data.
+1-dimensional binning and calculating summary statistics over wind direction and/or wind velocity bins, respectively.
+}
+\section{Computed variables}{
 
-Computed variables
 \itemize{
 \item If groups = NULL: groups = "wd". In this case, bins are calculated over wind direction;
 a tibble including wd and summarised z is returned
@@ -42,7 +48,4 @@ a tibble including wd and summarised z is returned
 a tibble including groups and summarised z is returned
 }
 }
-\description{
-Input data should be original unbinned data.
-1-dimensional binning and calculating summary statistics over wind direction and/or wind velocity bins, respectively.
-}
+

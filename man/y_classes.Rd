@@ -6,6 +6,17 @@
 \usage{
 y_classes(y, binwidth, ymax = NA, boundary = 0, ...)
 }
+\arguments{
+\item{y}{a numeric vector}
+
+\item{binwidth}{for \code{\link[ggplot2:cut_width]{ggplot2::cut_width()}}}
+
+\item{ymax}{cut off at this maximum}
+
+\item{boundary}{for \code{\link[ggplot2:cut_width]{ggplot2::cut_width()}}}
+
+\item{...}{passed to \code{\link[ggplot2:cut_width]{ggplot2::cut_width()}}}
+}
 \description{
-wrapper to cut y data into factor classes
+Wraps \code{\link[ggplot2:cut_width]{ggplot2::cut_width()}} function
 }

@@ -10,13 +10,11 @@ stat_summary_wind_2d(data = NULL, mapping = NULL, fun = "mean",
   groups = NULL, geom = "raster", ...)
 }
 \arguments{
-\item{data}{The data to be displayed in this layer.
-#' requires input data including at least three columns carrying information regarding:
-\itemize{
-\item wind direction (in °)
-\item wind velocity
-\item z-values (e.g. air pollutant concentration)
-}}
+\item{data}{The data to be displayed in this layer. Requires input data including at least three
+columns carrying information regarding:
+* wind direction (in °)
+* wind velocity
+* z-values (e.g. air pollutant concentration)}
 
 \item{mapping}{ggplot2 mapping, e.g. aes(wd = wd, ws = ws, z = NOx); requires wd, ws, z}
 
@@ -28,38 +26,46 @@ stat_summary_wind_2d(data = NULL, mapping = NULL, fun = "mean",
 
 \item{ws_max}{numeric or NA, maximum wind velocity for binning: above ws_max, z is set NA}
 
-\item{bins}{numeric, number of bins over the range of values if !groups %in% c("u", "v")}
+\item{bins}{numeric, number of bins over the range of values if \code{!groups \%in\% c("u", "v")}}
 
-\item{smooth}{TRUE/FALSE, applies if groups = c("u", "v"); should smoothing of summary results should be performed
-using fit_gam_surface()?}
+\item{smooth}{TRUE/FALSE, applies if \code{groups = c("u", "v")}; should smoothing of summary results should be performed
+using \code{\link[=fit_gam_surface]{fit_gam_surface()}}?}
 
 \item{k}{numeric, applies if smooth = TRUE; degree of smoothing in smooth term in fit_gam_surface()}
 
-\item{extrapolate}{TRUE/FALSE, applies if smooth = TRUE; fit_gam_surface() returns extrapolated (predicted) values for u, v coordinates that otherwise would have have NA for summarised z
-if extrapolate = TRUE, those values are returned (to a certain degree depending on the value of dist)}
+\item{extrapolate}{TRUE/FALSE, applies if smooth = TRUE; fit_gam_surface() returns extrapolated (predicted)
+values for u, v coordinates that otherwise would have have NA for summarised z if extrapolate = TRUE,
+those values are returned (to a certain degree depending on the value of dist)}
 
-\item{dist}{numeric, fraction of 1, applies if smooth = TRUE and extrapolate = TRUE; maximum distance to next coordinate-pair at which the result of
-fit_gam_surface(z) should be returned}
+\item{dist}{numeric, fraction of 1, applies if smooth = TRUE and extrapolate = TRUE; maximum distance to next
+coordinate-pair at which the result of fit_gam_surface(z) should be returned}
 
 \item{groups}{can be NULL, c("u", "v"), "wd_class", "ws_class", ...}
 
 \item{geom}{The geometric object to use display the data (in this case: raster).}
 
-\item{...}{other arguments passed on to layer(params = list(...)).}
-
-\item{wd_offset}{numeric, offset for wind_direction (in degree) if groups == "wd_class"; bins are then calculated over (wd + wd_offset) %% 360}
+\item{...}{other arguments passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}} as \code{params = list(...)}.}
 }
 \value{
 ggplot2 layer
+}
+\description{
+Binning is done by StatWind, so input data to\code{\link[=stat_summary_wind]{stat_summary_wind()}} should be original unbinned data.
+Depending on the groups argument, binning is either done 2-dimensional over cartesian u and v wind vectors
+(calculated from input data; then, \code{\link[=stat_summary_wind]{stat_summary_wind()}} yields results similar to \code{\link[openair:polarPlot]{openair::polarPlot()}})
+or 1-dimensional over wind direction or wind velocity bins, respectively.
+}
+\section{Aesthetics}{
 
-Aesthetics
 \itemize{
 \item wd: wind direction in degrees
 \item ws: wind velocity
 \item z: z values to be summarised
 }
+}
 
-Computed variables
+\section{Computed variables}{
+
 \itemize{
 \item If groups = c("u", "v"): a tibble is returned, binned over u and v, with variables:
 }
@@ -79,10 +85,4 @@ a tibble including wd_class and summarised z is returned
 a tibble including groups and summarised z is returned
 }
 }
-\description{
-Binning is done by StatWind, so input data to stat_summary_wind() should be original unbinned data.
-Depending on the groups argument, binning is either done 2-dimensional over cartesian u and v wind vectors
-(calculated from input data; then, stat_summary_wind() yields results similar to openair::polarplot())
-or,
-1-dimensional over wind direction or wind velocity bins, respectively.
-}
+

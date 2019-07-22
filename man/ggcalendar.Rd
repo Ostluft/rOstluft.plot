@@ -73,17 +73,12 @@ ggplot2 layer
 Just a geom_text with some defaults
 }
 \examples{
-require(rOstluft)
-require(rOstluft.data)
-require(rOstluft.plot)
-require(lubridate)
-require(ggplot2)
-require(dplyr)
+library(ggplot2)
 
 df <-
  rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv", package = "rOstluft.data", mustWork = TRUE)) \%>\%
  rOstluft::resample(new_interval = "d1") \%>\%
-  rOstluft::rolf_to_openair()
+ rOstluft::rolf_to_openair()
 
 ggcalendar(df, z = "PM10") +
   scale_fill_viridis_c(direction = -1, option = "magma", na.value = NA)
@@ -91,7 +86,6 @@ ggcalendar(df, z = "PM10") +
 # can be customised...
 ggcalendar(df, z = "PM10") +
   scale_fill_viridis_c(direction = -1, option = "magma", na.value = NA) +
-  aes(x = x, y = weekday, fill = PM10) +
   cal_month_border(color = "white") +
   stat_filter(aes(filter = PM10 > 50), size = 0.75, color = "green", fill = NA, shape = 21) +
   cal_label(aes(label = round(PM10,0)))

@@ -17,6 +17,8 @@ coord_polar2(theta = "x", start = 0, direction = 1, clip = "on",
 \item{clip}{Should drawing be clipped to the extent of the plot panel? A
 setting of \code{"on"} (the default) means yes, and a setting of \code{"off"}
 means no. For details, please see \code{\link[=coord_cartesian]{coord_cartesian()}}.}
+
+\item{bg}{raster for background image}
 }
 \value{
 ggplot2 coord system
@@ -26,6 +28,7 @@ Customizing needs to be done
 }
 \examples{
 library(ggplot2)
+
 fn <- system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv", package = "rOstluft.data")
 data <- rOstluft::read_airmo_csv(fn)
 

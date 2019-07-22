@@ -25,7 +25,7 @@ element_render_circle(theme, element, x, y, r, ..., name = NULL,
 \item{nseg}{number of line segments to draw the circle}
 }
 \value{
-\code{\link[grid:zeroGrob]{grid::zeroGrob()}} or \code{\link[grid:polylineGrob]{grid::polylineGrob()}}
+\code{\link[ggplot2:zeroGrob]{ggplot2::zeroGrob()}} or \code{\link[grid:polylineGrob]{grid::polylineGrob()}}
 }
 \description{
 renders a circle as element_line

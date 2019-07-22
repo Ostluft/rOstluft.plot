@@ -4,52 +4,60 @@
 \alias{ggwindrose}
 \title{ggplot wrapper to create a windrose (polar wind-bin frequency plot)}
 \usage{
-ggwindrose(data, mapping, ..., wd_binwidth = 45,
+ggwindrose(data, mapping, param_args = list(), ..., wd_binwidth = 45,
   wd_cutfun = cut_wd.fun(binwidth = 45),
-  ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = NA),
-  fill_scale = scale_fill_viridis_d(direction = -1), bg = NULL)
+  ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = NA, reverse = TRUE),
+  fill_scale = scale_fill_viridis_d(), bg = NULL)
 }
 \arguments{
 \item{data}{tibble containing wind speed, wind direction and/or air pollutant concentration data}
 
 \item{mapping}{ggplot2 mapping, e.g. aes(wd = wd, ws = ws); requires wd, ws}
 
-\item{wd_binwidth}{numeric, binwidth for wind direction in °, wd_binwidth should fullfill: (360 / wd_binwidth) %in% c(4, 8, 12, 16)}
+\item{param_args}{named list, passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}} as argument params after combining with the other
+arguments}
+
+\item{...}{passed onto \code{\link[=stat_summary_wind]{stat_summary_wind()}}}
+
+\item{wd_binwidth}{numeric, binwidth for wind direction in °, wd_binwidth should fullfill:
+\code{(360 / wd_binwidth) \%in\% c(4, 8, 12, 16)}}
 
 \item{wd_cutfun}{function, cut function for wind direction (to create bins)}
 
 \item{ws_cutfun}{function, cut function for wind speed}
 
-\item{fill_scale}{ggplot2 discrete fill scale, e.g. scale_fill_gradientn(...)}
+\item{fill_scale}{ggplot2 discrete fill scale, e.g. \code{\link[ggplot2:scale_fill_gradientn]{ggplot2::scale_fill_gradientn()}}}
 
 \item{bg}{raster map, e.g. ggmap object as plot background}
 }
 \value{
 ggplot object
+
+\code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object
 }
 \description{
 ggplot wrapper to create a windrose (polar wind-bin frequency plot)
 }
 \examples{
-require(rOstluft)
-require(rOstluft.data)
-require(rOstluft.plot)
-require(ggplot2)
-require(dplyr)
-require(openair)
+library(ggplot2)
 
 df <-
   rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv", package = "rOstluft.data", mustWork = TRUE)) \%>\%
   rOstluft::rolf_to_openair() \%>\%
   openair::cutData(date, type = "daylight")
 
-ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5, wd_cutfun = cut_wd.fun(binwidth = 22.5), ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = 5))
+ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5,
+           wd_cutfun = cut_wd.fun(binwidth = 22.5),
+           ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = 5, reverse = TRUE))
 
 # don't like bar outlines?
-ggwindrose(df, aes(ws = ws, wd = wd), color = NA, wd_binwidth = 22.5, wd_cutfun = cut_wd.fun(binwidth = 22.5), ws_cutfun = cut_ws.fun(binwidth = 0.5, ws_max = 4))
+ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5, param_args = list(color = "black"),
+           wd_cutfun = cut_wd.fun(binwidth = 22.5),
+           ws_cutfun = cut_ws.fun(binwidth = 0.5, ws_max = 4, reverse = TRUE))
 
 # facetting
-ggwindrose(df, aes(ws = ws, wd = wd), color = NA, wd_binwidth = 22.5, wd_cutfun = cut_wd.fun(binwidth = 22.5), ws_cutfun = cut_ws.fun(binwidth = 0.5, ws_max = 3)) +
+ggwindrose(df, aes(ws = ws, wd = wd),  wd_binwidth = 22.5, param_args = list(color = NA),
+           wd_cutfun = cut_wd.fun(binwidth = 22.5),
+           ws_cutfun = cut_ws.fun(binwidth = 0.5, ws_max = 3, reverse = TRUE)) +
   facet_wrap(daylight~.)
-
 }

@@ -13,7 +13,7 @@ ggradar(data, mapping, nmin = 3, fun = "mean", fun.args = list(na.rm
 \arguments{
 \item{data}{tibble containing wind speed, wind direction and air pollutant concentration data}
 
-\item{mapping}{ggplot2 mapping, e.g. aes(wd = wd, ws = ws, z = NOx); require aesthetics wd, ws, z}
+\item{mapping}{ggplot2 mapping, e.g.\code{ aes(wd = wd, ws = ws, z = NOx)}; require aesthetics wd, ws, z}
 
 \item{nmin}{numeric, minimum number of data points to be averaged in one wind direction bin}
 
@@ -21,29 +21,29 @@ ggradar(data, mapping, nmin = 3, fun = "mean", fun.args = list(na.rm
 
 \item{fun.args}{list, arguments to fun}
 
-\item{wd_binwidth}{numeric, binwidth for wind direction in °, wd_binwidth should fullfill: (360 / wd_binwidth) %in% c(4, 8, 12, 16)}
+\item{wd_binwidth}{numeric, binwidth for wind direction in °, wd_binwidth should fullfill:
+\code{(360 / wd_binwidth) \%in\% c(4, 8, 12, 16)}}
 
 \item{wd_cutfun}{function, cut function for wind direction (to create bins)}
 
-\item{color_scale}{ggplot2 discrete color scale, e.g. scale_color_gradientn(...)}
+\item{color_scale}{ggplot2 discrete color scale, e.g. \code{\link[ggplot2:scale_color_gradientn]{ggplot2::scale_color_gradientn()}}}
 
-\item{fill_scale}{ggplot2 discrete fill scale, e.g. scale_fill_gradientn(...)}
+\item{fill_scale}{ggplot2 discrete fill scale, e.g. \code{\link[ggplot2:scale_fill_gradientn]{ggplot2::scale_fill_gradientn()}}}
 
 \item{bg}{raster map, e.g. ggmap object as plot background}
 
-\item{layer_args}{named list, further arguments passed on to layer() call within stat_summary_wind}
+\item{layer_args}{named list, further arguments passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}} call within \code{\link[=stat_summary_wind]{stat_summary_wind()}}}
 
-\item{param_args}{named list, further arguments passed on to layer(param = param_args) call within stat_summary_wind}
+\item{param_args}{named list, further param passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}} as params within \code{\link[=stat_summary_wind]{stat_summary_wind()}}}
+}
+\value{
+\code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object
 }
 \description{
 ggplot2-wrapper to summarise and plot data by wind direction bins as radar plot
 }
 \examples{
-require(rOstluft)
-require(rOstluft.data)
-require(rOstluft.plot)
-require(lubridate)
-require(ggplot2)
+library(ggplot2)
 
 df <-
   rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv",package = "rOstluft.data", mustWork = TRUE)) \%>\%
@@ -70,9 +70,8 @@ bbox <- c(left = bbox$lon[1], right = bbox$lon[2], bottom = bbox$lat[1], top = b
 raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
                                    source = "stamen", color = "bw")
 
-ggradar(df, aes(wd = wd, ws = ws, z = NOx), param_args = list(fill = "blue", color = "blue", alpha = 0.2), bg = raster_map) +
+ggradar(df, aes(wd = wd, ws = ws, z = NOx), bg = raster_map,
+        param_args = list(fill = "blue", color = "blue", alpha = 0.2)) +
   ylab("NOx") +
   theme(panel.grid.major = ggplot2::element_line(linetype = 1, color = "white"))
-
-
 }

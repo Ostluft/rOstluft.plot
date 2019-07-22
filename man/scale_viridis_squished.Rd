@@ -39,12 +39,7 @@ scale
 squish outliers or extreme values in scales
 }
 \examples{
-require(rOstluft)
-require(rOstluft.data)
-require(rOstluft.plot)
-require(ggplot2)
-require(dplyr)
-require(scales)
+library(ggplot2)
 
 df <-
   rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv", package = "rOstluft.data", mustWork = TRUE)) \%>\%

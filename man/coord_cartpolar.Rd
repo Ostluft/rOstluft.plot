@@ -15,13 +15,16 @@ scale_wd_identity(breaks = c(0, 90, 180, 270), labels = c("N", "O",
 \arguments{
 \item{limit}{limit for coordsystem (xlim(-limit, limit), ylim(-limit, limit))}
 
-\item{expand}{expand limits (probably not used at the moment)}
+\item{expand}{expand limits}
 
 \item{clip}{clip panel (not sure if used)}
 
 \item{bg}{raster for background image}
 
-\item{scale_wd}{pass breaks angle lines (not used at the moment)}
+\item{scale_wd}{pass breaks angle lines}
+
+\item{labels_wd}{\code{\link[ggplot2:element_text]{ggplot2::element_text()}} object to format wd labels. Use \code{\link[ggplot2:element_blank]{ggplot2::element_blank()}}
+to draw nothing}
 
 \item{breaks}{on wd scale}
 

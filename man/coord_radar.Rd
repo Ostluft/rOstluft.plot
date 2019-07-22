@@ -6,6 +6,15 @@
 \usage{
 coord_radar(theta = "x", start = 0, direction = 1, bg = NULL)
 }
+\arguments{
+\item{theta}{variable to map angle to (\code{x} or \code{y})}
+
+\item{start}{offset of starting point from 12 o'clock in radians}
+
+\item{direction}{1, clockwise; -1, anticlockwise}
+
+\item{bg}{raster for background image}
+}
 \description{
 based on coord_polar(), but paths are connected linear
 }

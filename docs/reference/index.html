@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9003</span>
       </span>
     </div>
 
@@ -86,7 +86,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/articles/cal_line.html">Kalender Linie</a>
+      <a href="../articles/articles/Kalender_Linie.html">Kalender_Linie</a>
     </li>
   </ul>
 </li>
@@ -125,14 +125,98 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
+          <h2 id="section-ggplot-wrappers" class="hasAnchor"><a href="#section-ggplot-wrappers" class="anchor"></a>ggplot wrappers</h2>
+          <p class="section-desc"><p>Quickly generate standardized plots</p></p>
         </th>
       </tr>
       <tr>
         
         <td>
-          <p><code><a href="coord_cartpolar.html">coord_cartpolar()</a></code> </p>
+          <p><code><a href="ggcalendar.html">ggcalendar()</a></code> <code><a href="ggcalendar.html">cal_month_border()</a></code> <code><a href="ggcalendar.html">cal_label()</a></code> </p>
+        </td>
+        <td><p>Calendar time series plot with tiles</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ggpolarplot.html">ggpolarplot()</a></code> </p>
+        </td>
+        <td><p>ggplot2 wrapper to create a wind-based polar plot</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ggradar.html">ggradar()</a></code> </p>
+        </td>
+        <td><p>ggplot2-wrapper to summarise and plot data by wind direction bins as radar plot</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ggtraj.html">ggtraj()</a></code> </p>
+        </td>
+        <td><p>Plotting hysplit trajectory</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ggwindrose.html">ggwindrose()</a></code> </p>
+        </td>
+        <td><p>ggplot wrapper to create a windrose (polar wind-bin frequency plot)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ggyearday.html">ggyearday()</a></code> </p>
+        </td>
+        <td><p>ggplot2 heatmap for diurnal-yearly time series</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-layer-stats" class="hasAnchor"><a href="#section-layer-stats" class="anchor"></a>Layer: stats</h2>
+          <p class="section-desc"><p>Statistical transformation of input data. The computed variables can be mapped using <code>stat()</code></p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="stat_filter.html">stat_filter()</a></code> </p>
+        </td>
+        <td><p>Filtering data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="stat_summary_wind.html">stat_summary_wind()</a></code> </p>
+        </td>
+        <td><p>Summarise z values over binned wind data.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="stat_summary_wind_2d.html">stat_summary_wind_2d()</a></code> </p>
+        </td>
+        <td><p>Summarise z values over binned wind data.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-layer-geoms" class="hasAnchor"><a href="#section-layer-geoms" class="anchor"></a>Layer: geoms</h2>
+          <p class="section-desc"><p>geometric objects for ggplot</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="geom_polar_raster.html">geom_polar_raster()</a></code> </p>
+        </td>
+        <td><p>Background Raster for polar plots</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-coordinate-systems" class="hasAnchor"><a href="#section-coordinate-systems" class="anchor"></a>Coordinate systems</h2>
+          <p class="section-desc"><p>Wind data is often displayed in polar coordinate system. The default functionality in ggplot is to limitited</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="coord_cartpolar.html">coord_cartpolar()</a></code> <code><a href="coord_cartpolar.html">scale_wd_identity()</a></code> </p>
         </td>
         <td><p>cartesian coordinate system with polar grid lines</p></td>
       </tr><tr>
@@ -144,15 +228,143 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="geom_polar_raster.html">geom_polar_raster()</a></code> </p>
+          <p><code><a href="coord_radar.html">coord_radar()</a></code> </p>
         </td>
-        <td><p>Background Raster for polar plots</p></td>
+        <td><p>Coordinate system for ggradar()</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-stat-summary-functions" class="hasAnchor"><a href="#section-stat-summary-functions" class="anchor"></a>stat/summary functions</h2>
+          <p class="section-desc"><p>This functions do the heavy lifting for the stats Layers</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="stat_bin_wind.html">stat_bin_wind()</a></code> </p>
+        </td>
+        <td><p>Summarise y values over binned wind data.</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="hysplit_traj.html">hysplit_traj()</a></code> </p>
+          <p><code><a href="stat_bin_wind_2d.html">stat_bin_wind_2d()</a></code> </p>
         </td>
-        <td><p>Plotting hysplit trajectory</p></td>
+        <td><p>Summarise y values over binned wind data, split into u and v components.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-scales" class="hasAnchor"><a href="#section-scales" class="anchor"></a>scales</h2>
+          <p class="section-desc"><p>Scales control the details of how data values are translated to visual properties. Override the default scales to tweak details like the axis labels or legend keys, or to use a completely different translation from data to aesthetic.</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="coord_cartpolar.html">coord_cartpolar()</a></code> <code><a href="coord_cartpolar.html">scale_wd_identity()</a></code> </p>
+        </td>
+        <td><p>cartesian coordinate system with polar grid lines</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="scale_viridis_squished.html">scale_fill_viridis_squished()</a></code> <code><a href="scale_viridis_squished.html">scale_color_viridis_squished()</a></code> <code><a href="scale_viridis_squished.html">scale_fill_gradientn_squished()</a></code> <code><a href="scale_viridis_squished.html">scale_color_gradientn_squished()</a></code> </p>
+        </td>
+        <td><p>squish outliers or extreme values in scales</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="format_sprintf.html">format_sprintf()</a></code> </p>
+        </td>
+        <td><p>Wrapper for sprintf string formatting</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="recode_last_class_label.html">recode_last_class_label()</a></code> </p>
+        </td>
+        <td><p>recode highest <code>[x-y)</code>-style factor level to yield '&gt;y'</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="midpoints.html">midpoints()</a></code> </p>
+        </td>
+        <td><p>returns class midpoint-values for <code>[x-y)</code>-style factor level</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-cut-functions" class="hasAnchor"><a href="#section-cut-functions" class="anchor"></a>cut functions</h2>
+          <p class="section-desc"><p>wrappers and partial functions to cut data</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="cut_wd.fun.html">cut_wd.fun()</a></code> </p>
+        </td>
+        <td><p>Partial function constructor to cut wind direction into factor classes</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cut_wd.html">cut_wd()</a></code> </p>
+        </td>
+        <td><p>Cut wind direction into factor classes</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cut_ws.fun.html">cut_ws.fun()</a></code> </p>
+        </td>
+        <td><p>Partial function constructor to cut wind velocity (or others) into factor classes</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cut_ws.html">cut_ws()</a></code> </p>
+        </td>
+        <td><p>Cut wind velocity (or others) into factor classes</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="y_classes.html">y_classes()</a></code> </p>
+        </td>
+        <td><p>wrapper to cut y data into factor classes</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-utility-functions" class="hasAnchor"><a href="#section-utility-functions" class="anchor"></a>utility functions</h2>
+          <p class="section-desc"><p>Some functions to make the life of a programmer easier</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="uv2wd.html">uv2wd()</a></code> </p>
+        </td>
+        <td><p>calculate wind direction from u, v wind components</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="get_ggmap.html">get_ggmap()</a></code> </p>
+        </td>
+        <td><p>Wrapper to load a ggmap</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="fit_gam_surface.html">fit_gam_surface()</a></code> </p>
+        </td>
+        <td><p>Fits a smooth surface to x, y, z data using generalised additive models</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="bbox.html">bbox()</a></code> </p>
+        </td>
+        <td><p>set up a bounding box for ggmap::get_map()</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="element_render_circle.html">element_render_circle()</a></code> </p>
+        </td>
+        <td><p>renders a circle as element_line</p></td>
       </tr><tr>
         
         <td>
@@ -165,18 +377,6 @@
           <p><code><a href="pad_to_year_fill.html">pad_to_year_fill()</a></code> </p>
         </td>
         <td><p>Pads data to complete year and fill up specific columns</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plt_cal.html">plt_cal()</a></code> <code><a href="plt_cal.html">cal_month_border()</a></code> <code><a href="plt_cal.html">cal_label()</a></code> </p>
-        </td>
-        <td><p>calendar plot</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="stat_filter.html">stat_filter()</a></code> </p>
-        </td>
-        <td><p>Filtering data</p></td>
       </tr>
     </tbody>
     </table>
@@ -185,14 +385,21 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#section-ggplot-wrappers">ggplot wrappers</a></li>
+      <li><a href="#section-layer-stats">Layer: stats</a></li>
+      <li><a href="#section-layer-geoms">Layer: geoms</a></li>
+      <li><a href="#section-coordinate-systems">Coordinate systems</a></li>
+      <li><a href="#section-stat-summary-functions">stat/summary functions</a></li>
+      <li><a href="#section-scales">scales</a></li>
+      <li><a href="#section-cut-functions">cut functions</a></li>
+      <li><a href="#section-utility-functions">utility functions</a></li>
     </ul>
   </div>
 </div>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Thomas von Allmen, Jörg Sintermann, Noël Rederlechner, Hanna Herich.</p>
+  <p>Developed by Thomas von Allmen, Jörg Sintermann.</p>
 </div>
 
 <div class="pkgdown">

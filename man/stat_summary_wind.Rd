@@ -12,12 +12,10 @@ stat_summary_wind(data = NULL, mapping = NULL, fun = "mean",
 }
 \arguments{
 \item{data}{The data to be displayed in this layer.
-#' requires input data including at least three columns carrying information regarding:
-\itemize{
-\item wind direction (in °)
-\item wind velocity
-\item z-values (e.g. air pollutant concentration)
-}}
+requires input data including at least three columns carrying information regarding:
+* wind direction (in °)
+* wind velocity
+* z-values (e.g. air pollutant concentration)}
 
 \item{mapping}{ggplot2 mapping, e.g. aes(wd = wd, ws = ws, z = NOx); requires wd, ws, z}
 
@@ -29,23 +27,28 @@ stat_summary_wind(data = NULL, mapping = NULL, fun = "mean",
 
 \item{wd_cutfun}{function, cut function for wind direction (to create bins)}
 
-\item{wd_offset}{numeric, offset for wind_direction (in °) if groups == "wd"; bins are then calculated over (wd + wd_offset) %% 360}
+\item{wd_offset}{numeric, offset for wind_direction (in °) if groups == "wd"; bins are then calculated
+over \code{(wd + wd_offset) \%\% 360}}
 
 \item{ws_cutfun}{function, cut function for wind speed}
 
 \item{groups}{character string, can be NULL, "wd", ...}
 
-\item{...}{other arguments passed on to layer(params = list(...)).}
+\item{layer_args}{named list, passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}}}
+
+\item{param_args}{named list, passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}} as argument params after combining with the other
+arguments}
+
+\item{...}{other arguments passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}} as \code{params = list(...)}.}
 
 \item{geom}{The geometric object to use display the data.}
 }
 \value{
-ggplot2 layer
+\code{\link[ggplot2:layer]{ggplot2::layer()}}
 }
 \description{
-Binning is done by StatWind, so input data to stat_summary_wind() should be original unbinned data.
+Binning is done by StatWind, so input data to \code{\link[=stat_summary_wind]{stat_summary_wind()}} should be original unbinned data.
 Depending on the groups argument, binning is either done 2-dimensional over cartesian u and v wind vectors
-(calculated from input data; then, stat_summary_wind() yields results similar to openair::polarplot())
-or,
-1-dimensional over wind direction or wind velocity bins, respectively.
+(calculated from input data; then, \code{\link[=stat_summary_wind]{stat_summary_wind()}} yields results similar to \code{\link[openair:polarPlot]{openair::polarPlot()}}
+or, 1-dimensional over wind direction or wind velocity bins, respectively.
 }

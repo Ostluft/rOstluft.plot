@@ -33,7 +33,7 @@ requires input data including at least three columns carrying information regard
 
 \item{ws_max}{numeric or NA, maximum wind velocity for binning: above ws_max, z is set NA}
 
-\item{bins}{numeric, number of bins over the range of values if !groups %in% c("u", "v")}
+\item{bins}{numeric, number of bins over the range of values if \code{!groups \%in\% c("u", "v")}}
 
 \item{smooth}{TRUE/FALSE, applies if groups = c("u", "v"); should smoothing of summary results should be performed
 using fit_gam_surface()?}
@@ -48,8 +48,13 @@ fit_gam_surface(z) should be returned}
 }
 \value{
 a tibble with summarised data along u and v wind vectors
+}
+\description{
+Input data should be original unbinned data including wind direction and wind velocity;
+binning is done 2-dimensional over cartesian u and v wind vectors
+}
+\section{Computed variables}{
 
-Computed variables:
 \itemize{
 \item a tibble is returned, binned over u and v, with variables:
 }
@@ -61,7 +66,4 @@ Computed variables:
 \item z: result from fun(z, ...)
 }
 }
-\description{
-Input data should be original unbinned data including wind direction and wind velocity;
-binning is done 2-dimensional over cartesian u and v wind vectors
-}
+

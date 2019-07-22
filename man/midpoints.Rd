@@ -2,10 +2,13 @@
 % Please edit documentation in R/class_factor_funs.R
 \name{midpoints}
 \alias{midpoints}
-\title{returns class midpoint-values for '[x-y)'-style factor levels}
+\title{returns class midpoint-values for \code{[x-y)}-style factor level}
 \usage{
 midpoints(x)
 }
+\arguments{
+\item{x}{\code{[x-y)}-style factor levels from cutting function}
+}
 \description{
-returns class midpoint-values for '[x-y)'-style factor levels
+returns class midpoint-values for \code{[x-y)}-style factor level
 }

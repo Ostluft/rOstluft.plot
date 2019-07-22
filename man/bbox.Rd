@@ -6,6 +6,9 @@
 \usage{
 bbox(bb)
 }
+\arguments{
+\item{bb}{boundings box specifications}
+}
 \description{
-set up a bounding box for ggmap::get_map()
+Converts a google bounding box to a stamen boundings box
 }

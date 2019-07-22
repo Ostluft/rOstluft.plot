@@ -16,7 +16,8 @@ ggpolarplot(data, mapping, nmin = 3, fun = "mean",
 
 \item{mapping}{ggplot2 mapping, e.g. aes(wd = wd, ws = ws, z = NOx); required aesthetics: wd, ws, z}
 
-\item{nmin}{numeric, minimum number of data points to be averaged in one u, v wind component bin (i.e. wind speed / wind direction bin)}
+\item{nmin}{numeric, minimum number of data points to be averaged in one u, v wind component bin
+(i.e. wind speed / wind direction bin)}
 
 \item{fun}{character string, stat function to be applied at wind-bins}
 
@@ -24,13 +25,16 @@ ggpolarplot(data, mapping, nmin = 3, fun = "mean",
 
 \item{ws_max}{maximum wind speed considered for plotting; wind speeds > ws_max are not plotted}
 
-\item{smooth}{TRUE/FALSE, should the result of stat_summary_wind_2d() be smoothed using fit_gam_surface() (with mgcv::bam())?}
+\item{smooth}{TRUE/FALSE, should the result of \code{\link[=stat_summary_wind_2d]{stat_summary_wind_2d()}} be smoothed using fit_gam_surface()}
 
-\item{k}{numeric, smoothing parameter for formular smoothing term s(..., k = k) in mgcv::bam() (applies if smooth == TRUE)}
+\item{k}{numeric, smoothing parameter for formular smoothing term s(..., k = k) in \code{\link[mgcv:bam]{mgcv::bam()}}, only applies
+if smooth == TRUE}
 
-\item{extrapolate}{TRUE/FALSE, should smoothed surfaced be extended further than bins with actual data? (applies if smooth == TRUE)}
+\item{extrapolate}{TRUE/FALSE, should smoothed surfaced be extended further than bins with actual data? only applies
+if smooth == TRUE}
 
-\item{dist}{mnumeric < 1, maximum distance from bin at which extrapolation is done (if extrapolate == TRUE). dist is relative, i.e. 0.1 = 10% of total range (applies if smooth and extrapolate == TRUE)}
+\item{dist}{numeric < 1, maximum distance from bin at which extrapolation is done. dist is relative:
+0.1 = 10\% of total range. only applies if both smooth and extrapolate are TRUE}
 
 \item{pixels}{number of bins at the 2-dimensional u, v wind component coordinate system}
 
@@ -41,25 +45,22 @@ ggpolarplot(data, mapping, nmin = 3, fun = "mean",
 \item{breaks}{waiver() or numeric vector, provides y-axis breaks}
 
 \item{bg}{raster map, e.g. ggmap object as plot background}
+
+\item{...}{passed onto \code{\link[=stat_summary_wind_2d]{stat_summary_wind_2d()}}}
 }
 \value{
-ggplot2 object
+\code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object
 }
 \description{
-Can mimic openair::polarplot(), i.e. applying a stat function on data to yield a wind direction + wind velocity heatmap,
-(in cartesian u, v wind component space); includes options for smoothing, flexible grid setting,
-flexible stat functions, data extrapolation and plotting over a raster map.
+Can mimic \code{\link[openair:polarPlot]{openair::polarPlot()}}, i.e. applying a stat function on data to yield a wind direction +
+wind velocity heatmap, (in cartesian u, v wind component space); includes options for smoothing, flexible grid
+setting, flexible stat functions, data extrapolation and plotting over a raster map.
 }
 \examples{
-require(rOstluft)
-require(rOstluft.data)
-require(rOstluft.plot)
-require(lubridate)
-require(ggplot2)
-require(dplyr)
+library(ggplot2)
 
-df <-
-  rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv", package = "rOstluft.data", mustWork = TRUE)) \%>\%
+fn <- system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv", package = "rOstluft.data")
+df <- rOstluft::read_airmo_csv(fn) \%>\%
   rOstluft::rolf_to_openair() \%>\%
   dplyr::mutate(wday = lubridate::wday(date, label = TRUE, week_start = 1))
 
@@ -68,7 +69,7 @@ ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx))
 
 # change smoothing degree, add custom breaks and change grid style, different fill scale
 ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), k = 25, breaks = seq(0,10,2))  +
-  theme(panel.grid.major = ggplot2::element_line(linetype = 2, size = 0.25, color = "gray80")) + # ... linetype doesn't work yet
+  theme(panel.grid.major = element_line(linetype = 2, size = 0.25, color = "gray80")) +
   scale_fill_viridis_c(na.value = NA)
 
 # no data extrapolation
@@ -83,7 +84,8 @@ ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), ws_max = 4, smooth = FALSE, brea
 
 # like jet colors better, want it smoothed?
 ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), ws_max = 4, smooth = TRUE, breaks = 0:4) +
-  scale_fill_gradientn_squished(limits = c(0,50), breaks = seq(0,50,10), na.value = NA, colors = matlab::jet.colors(100))
+  scale_fill_gradientn_squished(limits = c(0,50), breaks = seq(0,50,10),
+                                na.value = NA, colors = matlab::jet.colors(100))
 
 # change binning parameters
 ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), smooth = FALSE, pixels = 50^2, nmin = 10, breaks = seq(0,6,2))
@@ -93,11 +95,11 @@ ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), ws_max = 4, pixels = 50^2, k = 2
   facet_wrap(wday~., scales = "fixed")
 
 # different stat fun
-ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), fun = "quantile", fun.args = list(probs = 0.95, na.rm = TRUE), breaks = seq(0,10,2))
+ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), fun = "quantile", fun.args = list(probs = 0.95, na.rm = TRUE),
+            breaks = seq(0,10,2))
 
 # facetting by stat
-ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), fun = list("mean", "median"), ws_max = 4, pixels = 50^2, k = 25, breaks = seq(0,10,2)) +
-  facet_wrap(stat~.) # => hm, warum funzt das nicht??
-
-
+# ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), fun = list("mean", "median"), ws_max = 4,
+#              pixels = 50^2, k = 25, breaks = seq(0,10,2)) +
+#   facet_wrap(stat~.) # => hm, warum funzt das nicht??
 }

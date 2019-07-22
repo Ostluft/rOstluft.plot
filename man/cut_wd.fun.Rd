@@ -2,10 +2,19 @@
 % Please edit documentation in R/cutfuns.R
 \name{cut_wd.fun}
 \alias{cut_wd.fun}
-\title{wrapper to cut wind direction into factor classes}
+\title{Partial function constructor to cut wind direction into factor classes}
 \usage{
 cut_wd.fun(binwidth = 45, ...)
 }
+\arguments{
+\item{binwidth}{width for \code{\link[ggplot2:cut_width]{ggplot2::cut_width()}}}
+
+\item{...}{passed to \code{\link[ggplot2:cut_width]{ggplot2::cut_width()}}}
+}
+\value{
+a partial \code{\link[ggplot2:cut_width]{ggplot2::cut_width()}} function with wd as sole argument
+}
 \description{
-wrapper to cut wind direction into factor classes
+Creates a partial function of \code{\link[ggplot2:cut_width]{ggplot2::cut_width()}} with \code{width = binwidth. closed = "left", boundary = 0} as fixed
+arguments
 }
