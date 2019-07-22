@@ -2,6 +2,7 @@
 #'
 #' Customizing needs to be done
 #'
+#' @param bg raster for background image
 #' @inheritParams ggplot2::coord_polar
 #'
 #' @seealso `ggplot2::cord_polar()`
@@ -11,6 +12,7 @@
 #'
 #' @examples
 #' library(ggplot2)
+#'
 #' fn <- system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv", package = "rOstluft.data")
 #' data <- rOstluft::read_airmo_csv(fn)
 #'
@@ -57,9 +59,7 @@ coord_polar2 <- function(theta = "x", start = 0, direction = 1, clip = "on", bg 
 
 tmp <- new.env()
 
-#' @rdname rOstluft.plot-ggproto
-#' @format NULL
-#' @usage NULL
+#' @rdname rOstluft-ggproto
 #' @export
 CoordPolar2 <- ggproto("CoordPolar2", CoordPolar,
 

@@ -1,5 +1,6 @@
-
-#' recode highest '[x-y)'-style factor level to yield '>y'
+#' recode highest `[x-y)`-style factor level to yield '>y'
+#'
+#' @param factor_var factor from cutting function to recode
 #'
 #' @export
 recode_last_class_label <- function(factor_var) {
@@ -10,7 +11,9 @@ recode_last_class_label <- function(factor_var) {
 
 
 
-#' returns class midpoint-values for '[x-y)'-style factor levels
+#' returns class midpoint-values for `[x-y)`-style factor level
+#'
+#' @param x `[x-y)`-style factor levels from cutting function
 #'
 #' @export
 midpoints <- function(x){

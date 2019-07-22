@@ -12,12 +12,13 @@
 #' @param fun.args a list of extra arguments passed on to fun.
 #' @param nmin numeric, minimum number of values for fun, if n < nmin: NA is returned
 #' @param wd_cutfun function, cut function for wind direction (to create bins)
-#' @param wd_offset numeric, offset for wind_direction (in °) if groups == "wd"; bins are then calculated over (wd + wd_offset) %% 360
+#' @param wd_offset numeric, offset for wind_direction (in °) if groups == "wd"; bins are then calculated
+#'   over `(wd + wd_offset) %% 360`
 #' @param ws_cutfun function, cut function for wind speed
 #'
 #' @return a tibble with summarised data
 #'
-#' Computed variables
+#' @section Computed variables:
 #'
 #' * If groups = NULL: groups = "wd". In this case, bins are calculated over wind direction;
 #'   a tibble including wd and summarised z is returned
@@ -40,7 +41,7 @@ stat_bin_wind <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args
       !!ws := ws_cutfun(!!rlang::sym(ws))
     ) %>%
     stats::na.omit() %>%
-    dplyr::group_by_at(groups) %>%   #xxx wieso group_by_at??
+    dplyr::group_by_at(groups) %>%
     dplyr::summarise_at(
       .vars = z,
       .funs = fun,

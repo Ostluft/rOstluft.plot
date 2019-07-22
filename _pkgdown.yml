@@ -25,3 +25,67 @@ navbar:
     github:
       icon: fa-github fa-lg
       href: https://github.com/Ostluft/rOstluft.plot
+
+
+reference:
+- title: ggplot wrappers
+  desc: Quickly generate standardized plots
+  contents:
+  - starts_with("gg")
+
+- title: "Layer: stats"
+  desc: >
+    Statistical transformation of input data. The computed variables can be mapped using `stat()`
+  contents:
+  - stat_filter
+  - stat_summary_wind
+  - stat_summary_wind_2d
+
+- title: "Layer: geoms"
+  desc: >
+    geometric objects for ggplot
+  contents:
+  - geom_polar_raster
+
+- title: Coordinate systems
+  desc: >
+    Wind data is often displayed in polar coordinate system. The default functionality
+    in ggplot is to limitited
+  contents:
+  - starts_with("coord_")
+
+- title: "stat/summary functions"
+  desc: This functions do the heavy lifting for the stats Layers
+  contents:
+  - stat_bin_wind
+  - stat_bin_wind_2d
+
+- title: "scales"
+  desc: >
+    Scales control the details of how data values are translated to visual
+    properties. Override the default scales to tweak details like the axis
+    labels or legend keys, or to use a completely different translation from
+    data to aesthetic.
+  contents:
+  - starts_with("scale_")
+  - format_sprintf
+  - recode_last_class_label
+  - midpoints
+
+- title: cut functions
+  desc: wrappers and partial functions to cut data
+  contents:
+  - starts_with("cut")
+  - y_classes
+
+- title: utility functions
+  desc: Some functions to make the life of a programmer easier
+  contents:
+  - uv2wd
+  - get_ggmap
+  - fit_gam_surface
+  - bbox
+  - element_render_circle
+  - pad_to_year
+  - pad_to_year_fill
+

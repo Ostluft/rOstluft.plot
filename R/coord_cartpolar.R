@@ -9,10 +9,12 @@
 #'
 #'
 #' @param limit limit for coordsystem (xlim(-limit, limit), ylim(-limit, limit))
-#' @param expand expand limits (probably not used at the moment)
+#' @param expand expand limits
 #' @param clip clip panel (not sure if used)
 #' @param bg raster for background image
-#' @param scale_wd pass breaks angle lines (not used at the moment)
+#' @param scale_wd pass breaks angle lines
+#' @param labels_wd [ggplot2::element_text()] object to format wd labels. Use [ggplot2::element_blank()]
+#'   to draw nothing
 #'
 #' @export
 #'
@@ -87,7 +89,8 @@
 #'     "panel.ontop" = TRUE,
 #'     "panel.background" = element_blank()
 #'   )
-coord_cartpolar <- function(limit = NULL, expand = TRUE, clip = "on", bg = NULL, scale_wd = scale_wd_identity(), labels_wd = element_text()) {
+coord_cartpolar <- function(limit = NULL, expand = TRUE, clip = "on", bg = NULL, scale_wd = scale_wd_identity(),
+                            labels_wd = element_text()) {
   ggproto(NULL, CoordCartPolar,
     limit = limit,
     expand = expand,
@@ -98,9 +101,7 @@ coord_cartpolar <- function(limit = NULL, expand = TRUE, clip = "on", bg = NULL,
   )
 }
 
-#' @rdname ggplot2-ggproto
-#' @format NULL
-#' @usage NULL
+#' @rdname rOstluft-ggproto
 #' @export
 CoordCartPolar <- ggproto("CoordCartPolar", CoordCartesian,
   is_free = function() FALSE,
@@ -226,7 +227,7 @@ scale_wd_identity <- function(breaks = c(0, 90, 180, 270), labels = c("N", "O", 
 #' @param name of generated grid object
 #' @param nseg number of line segments to draw the circle
 #'
-#' @return [grid::zeroGrob()] or [grid::polylineGrob()]
+#' @return [ggplot2::zeroGrob()] or [grid::polylineGrob()]
 #' @export
 element_render_circle <- function(theme, element, x, y, r, ..., name = NULL, nseg = 360) {
   thetafine <- seq(0, 2 * pi, length.out = nseg)  # angle as sequence in radiants

@@ -1,25 +1,24 @@
 #' ggplot2-wrapper to summarise and plot data by wind direction bins as radar plot
 #'
 #' @param data tibble containing wind speed, wind direction and air pollutant concentration data
-#' @param mapping ggplot2 mapping, e.g. aes(wd = wd, ws = ws, z = NOx); require aesthetics wd, ws, z
+#' @param mapping ggplot2 mapping, e.g.` aes(wd = wd, ws = ws, z = NOx)`; require aesthetics wd, ws, z
 #' @param nmin numeric, minimum number of data points to be averaged in one wind direction bin
 #' @param fun character string or vector of character strings, stat function(s) to be applied at wind direction bins
 #' @param fun.args list, arguments to fun
-#' @param wd_binwidth numeric, binwidth for wind direction in °, wd_binwidth should fullfill: (360 / wd_binwidth) %in% c(4, 8, 12, 16)
+#' @param wd_binwidth numeric, binwidth for wind direction in °, wd_binwidth should fullfill:
+#'   `(360 / wd_binwidth) %in% c(4, 8, 12, 16)`
 #' @param wd_cutfun function, cut function for wind direction (to create bins)
-#' @param color_scale ggplot2 discrete color scale, e.g. scale_color_gradientn(...)
-#' @param fill_scale ggplot2 discrete fill scale, e.g. scale_fill_gradientn(...)
+#' @param color_scale ggplot2 discrete color scale, e.g. [ggplot2::scale_color_gradientn()]
+#' @param fill_scale ggplot2 discrete fill scale, e.g. [ggplot2::scale_fill_gradientn()]
 #' @param bg raster map, e.g. ggmap object as plot background
-#' @param layer_args named list, further arguments passed on to layer() call within stat_summary_wind
-#' @param param_args named list, further arguments passed on to layer(param = param_args) call within stat_summary_wind
+#' @param layer_args named list, further arguments passed on to [ggplot2::layer()] call within [stat_summary_wind()]
+#' @param param_args named list, further param passed on to [ggplot2::layer()] as params within [stat_summary_wind()]
 #'
+#' @return [ggplot2::ggplot()] object
+#' @export
 #'
 #' @examples
-#' require(rOstluft)
-#' require(rOstluft.data)
-#' require(rOstluft.plot)
-#' require(lubridate)
-#' require(ggplot2)
+#' library(ggplot2)
 #'
 #' df <-
 #'   rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv",package = "rOstluft.data", mustWork = TRUE)) %>%
@@ -46,12 +45,10 @@
 #' raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
 #'                                    source = "stamen", color = "bw")
 #'
-#' ggradar(df, aes(wd = wd, ws = ws, z = NOx), param_args = list(fill = "blue", color = "blue", alpha = 0.2), bg = raster_map) +
+#' ggradar(df, aes(wd = wd, ws = ws, z = NOx), bg = raster_map,
+#'         param_args = list(fill = "blue", color = "blue", alpha = 0.2)) +
 #'   ylab("NOx") +
 #'   theme(panel.grid.major = ggplot2::element_line(linetype = 1, color = "white"))
-#'
-#'
-#' @export
 ggradar <- function(data,
                     mapping,
                     nmin = 3,

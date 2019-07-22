@@ -15,16 +15,12 @@
 #' @return ggplot
 #'
 #' @examples
-#' require(rOstluft)
-#' require(rOstluft.data)
-#' require(rOstluft.plot)
-#' require(ggplot2)
-#' require(dplyr)
+#' library(ggplot2)
 #'
 #' df <-
 #'   rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv", package = "rOstluft.data", mustWork = TRUE)) %>%
 #'   rOstluft::rolf_to_openair() %>%
-#'   mutate(year = lubridate::year(date))
+#'   dplyr::mutate(year = lubridate::year(date))
 #'
 #' ggyearday(df, time = "date", z = "O3") +
 #'   facet_wrap(year~., scales = "free_x", ncol = 1)

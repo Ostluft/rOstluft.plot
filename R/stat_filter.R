@@ -1,6 +1,4 @@
-#' @rdname rOstluft.plot-ggproto
-#' @usage NULL
-#' @format NULL
+#' @rdname rOstluft-ggproto
 #' @export
 StatFilter <- ggproto("StatFilter", Stat,
   required_aes = c("filter"),

@@ -1,9 +1,14 @@
-
-
 #' calculate wind direction from u, v wind components
 #'
+#' copied from https://github.com/environmentalinformatics-marburg/Rsenal/blob/master/R/uv2wdws.R
+#'
+#' @param u a vector of u components
+#' @param v a vector of v components
+#'
+#' @return a vector of wind direction in °
+#'
 #' @export
-uv2wd <- function(u, v) { #' von hier: https://github.com/environmentalinformatics-marburg/Rsenal/blob/master/R/uv2wdws.R
+uv2wd <- function(u, v) {
   degrees <- function(radians) 180 * radians / pi
   mathdegs <- degrees(atan2(v, u))
   wdcalc <- ifelse(mathdegs > 0, mathdegs, mathdegs + 360)
@@ -15,6 +20,10 @@ uv2wd <- function(u, v) { #' von hier: https://github.com/environmentalinformati
 
 
 #' set up a bounding box for ggmap::get_map()
+#'
+#' Converts a google bounding box to a stamen boundings box
+#'
+#' @param bb boundings box specifications
 #'
 #' @export
 bbox <- function(bb) {

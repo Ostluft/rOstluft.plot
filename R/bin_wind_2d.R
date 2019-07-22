@@ -1,4 +1,3 @@
-
 #' Summarise y values over binned wind data, split into u and v components.
 #'
 #' Input data should be original unbinned data including wind direction and wind velocity;
@@ -17,7 +16,7 @@
 #' @param fun.args a list of extra arguments to pass to fun.
 #' @param nmin numeric, minimum number of values for fun, if n < nmin: NA is returned
 #' @param ws_max numeric or NA, maximum wind velocity for binning: above ws_max, z is set NA
-#' @param bins numeric, number of bins over the range of values if !groups %in% c("u", "v")
+#' @param bins numeric, number of bins over the range of values if `!groups %in% c("u", "v")`
 #' @param smooth TRUE/FALSE, applies if groups = c("u", "v"); should smoothing of summary results should be performed
 #' using fit_gam_surface()?
 #' @param k numeric, applies if smooth = TRUE; degree of smoothing in smooth term in fit_gam_surface()
@@ -28,7 +27,7 @@
 #'
 #' @return a tibble with summarised data along u and v wind vectors
 #'
-#' Computed variables:
+#' @section Computed variables:
 #'
 #' * a tibble is returned, binned over u and v, with variables:
 #' - wd: wind direction corresponding to midpoint value of u and v

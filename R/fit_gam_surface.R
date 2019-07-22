@@ -16,6 +16,7 @@
 #' exactly in the unit square, and dist is a distance within this unit square
 #'
 #' @return tibble with variables u, v, z
+#' @export
 fit_gam_surface <- function(data, x, y, z, weights = NULL, k = 100, extrapolate = FALSE, force_positive = TRUE, dist = 0.05) {
   if (force_positive) force_positive <- 0.5 else force_positive <- 1
   data <-

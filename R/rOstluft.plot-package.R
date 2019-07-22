@@ -5,7 +5,10 @@
 
 #' @title All ggproto Objects
 #'
-#' @seealso ggplot2::ggproto
+#' @seealso
+#' * [ggplot2::ggproto]
+#' * [Base ggproto classes for ggplot2](https://ggplot2.tidyverse.org/reference/ggplot2-ggproto.html)
+#'
 #' @keywords internal
-#' @name rOstluft.plot-ggproto
+#' @name rOstluft-ggproto
 NULL

@@ -68,9 +68,7 @@ geom_polar_raster <- function(raster, interpolate = TRUE, ...) {
   )
 }
 
-#' @rdname rOstluft.plot-ggproto
-#' @format NULL
-#' @usage NULL
+#' @rdname rOstluft-ggproto
 #' @export
 GeomPolarRaster <- ggplot2::ggproto("GeomPolarRaster", Geom,
   required_aes = c("raster"),

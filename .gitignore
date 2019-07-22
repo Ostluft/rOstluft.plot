@@ -14,3 +14,4 @@ archive/temp\.R
 R/\.DS_Store
 
 \.DS_Store
+inst/doc
