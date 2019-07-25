@@ -37,7 +37,7 @@
 #' - z: result from fun(z, ...)
 #'
 #' @export
-stat_bin_wind_2d <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args = list(), nmin = 3, ws_max = NA, bins = 100,
+ssummary_bin_wind_2d <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args = list(), nmin = 3, ws_max = NA, bins = 100,
                              smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1) {
 
   if (is.null(groups) | !("u" %in% groups & "v" %in% groups)) groups <- c(groups, c("u", "v"))

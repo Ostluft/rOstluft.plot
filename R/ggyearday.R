@@ -5,12 +5,12 @@
 #' @param data a data.frame or tibble with input data (containing a POSIXct variable as time parameter).
 #' @param time character string giving time variable name.
 #' @param z character string giving z value variable name.
-#' @param date_breaks character string as input for ggplot2::scale_x_date(), e.g. '1 month', defines date breaks on x-axis.
-#' @param date_labels character string as input for ggplot2::scale_x_date(), formatter for date labels on x-axis.
+#' @param date_breaks character string as input for [ggplot2::scale_x_date()], e.g. '1 month', defines date breaks on x-axis.
+#' @param date_labels character string as input for [ggplot2::scale_x_date()], formatter for date labels on x-axis.
 #' @param ybreaks numeric vector, specifies y-axis breaks.
 #' @param ylabels function, format function for y-axis labels.
-#' @param fill_scale ggplot2 continuous fill scale, e.g. scale_fill_gradient(...).
-#' @param ... other arguments passed on to geom_raster().
+#' @param fill_scale ggplot2 continuous fill scale, e.g. [scale_fill_gradient()].
+#' @param ... other arguments passed on to [ggplot2::geom_raster()].
 #'
 #' @return ggplot
 #'

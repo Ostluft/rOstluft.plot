@@ -7,7 +7,8 @@
 #' @param fun.args list, arguments to fun
 #' @param wd_binwidth numeric, binwidth for wind direction in °, wd_binwidth should fullfill:
 #'   `(360 / wd_binwidth) %in% c(4, 8, 12, 16)`
-#' @param wd_cutfun function, cut function for wind direction (to create bins)
+#' @param ws_binwidth numeric, binwidth for wind speed
+#' @param ws_max numeric, can be NA, wind speed is squished at this value
 #' @param color_scale ggplot2 discrete color scale, e.g. [ggplot2::scale_color_gradientn()]
 #' @param fill_scale ggplot2 discrete fill scale, e.g. [ggplot2::scale_fill_gradientn()]
 #' @param bg raster map, e.g. ggmap object as plot background
@@ -55,7 +56,6 @@ ggradar <- function(data,
                     fun = "mean",
                     fun.args = list(na.rm = TRUE),
                     wd_binwidth = 45,
-                    wd_cutfun = cut_wd.fun(binwidth = 45),
                     color_scale = scale_color_viridis_d(),
                     fill_scale = scale_fill_viridis_d(alpha = 0.25),
                     bg = NULL,
@@ -63,7 +63,9 @@ ggradar <- function(data,
                     param_args = list()
 ) {
 
+  wd_cutfun <- cut_wd.fun(binwidth = wd_binwidth)
   breaks <- levels(wd_cutfun(seq(0, 360, wd_binwidth)))[seq(1, 360 / wd_binwidth, 90 / wd_binwidth)]
+
   plot <-
     ggplot(data, mapping) +
     stat_summary_wind(

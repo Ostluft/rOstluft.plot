@@ -51,7 +51,7 @@ StatWind <- ggproto("StatWind", Stat,
                            wd_cutfun = cut_wd.fun(binwidth = 45), wd_offset = 0,
                            ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = NA), groups = NULL) {
 
-    stat_bin_wind(data = data, wd = "wd", ws = "ws", z = "z", fun = fun, fun.args = fun.args, nmin = nmin,
+    summary_bin_wind(data = data, wd = "wd", ws = "ws", z = "z", fun = fun, fun.args = fun.args, nmin = nmin,
                   wd_cutfun = wd_cutfun, wd_offset = wd_offset, ws_cutfun = ws_cutfun, groups = groups)
   },
   required_aes = c("wd", "ws", "z")

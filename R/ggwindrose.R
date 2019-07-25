@@ -6,9 +6,10 @@
 #' @param mapping ggplot2 mapping, e.g. aes(wd = wd, ws = ws); requires wd, ws
 #' @param wd_binwidth numeric, binwidth for wind direction in °, wd_binwidth should fullfill:
 #'   `(360 / wd_binwidth) %in% c(4, 8, 12, 16)`
-#' @param wd_cutfun function, cut function for wind direction (to create bins)
-#' @param ws_cutfun function, cut function for wind speed
+#' @param ws_binwidth numeric, binwidth for wind speed
+#' @param ws_max numeric, can be NA, wind speed is squished at this value
 #' @param fill_scale ggplot2 discrete fill scale, e.g. [ggplot2::scale_fill_gradientn()]
+#' @param reverse TRUE/FALSE, should wind speed bin factors be sorted descending or ascending (inside-out or reverse)?
 #' @param bg raster map, e.g. ggmap object as plot background
 #' @param param_args named list, passed on to [ggplot2::layer()] as argument params after combining with the other
 #'   arguments
@@ -26,32 +27,36 @@
 #'   openair::cutData(date, type = "daylight")
 #'
 #' ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5,
-#'            wd_cutfun = cut_wd.fun(binwidth = 22.5),
-#'            ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = 5, reverse = TRUE))
+#'            ws_binwidth = 0.5, ws_max = 5)
 #'
 #' # don't like bar outlines?
 #' ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5, param_args = list(color = "black"),
-#'            wd_cutfun = cut_wd.fun(binwidth = 22.5),
-#'            ws_cutfun = cut_ws.fun(binwidth = 0.5, ws_max = 4, reverse = TRUE))
+#'            ws_binwidth = 0.5, ws_max = 4)
+#'
+#' ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5, param_args = list(color = NA),
+#'            ws_binwidth = 0.5, ws_max = 4)
 #'
 #' # facetting
-#' ggwindrose(df, aes(ws = ws, wd = wd),  wd_binwidth = 22.5, param_args = list(color = NA),
-#'            wd_cutfun = cut_wd.fun(binwidth = 22.5),
-#'            ws_cutfun = cut_ws.fun(binwidth = 0.5, ws_max = 3, reverse = TRUE)) +
+#' ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5, param_args = list(color = NA),
+#'             ws_binwidth = 0.5, ws_max = 3) +
 #'   facet_wrap(daylight~.)
 ggwindrose <- function(data,
                        mapping,
                        param_args = list(),
                        ...,
                        wd_binwidth = 45,
-                       wd_cutfun = cut_wd.fun(binwidth = 45),
-                       ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = NA, reverse = TRUE),
+                       ws_binwidth = 1,
+                       ws_max = NA,
                        fill_scale = scale_fill_viridis_d(),
+                       reverse = TRUE,
                        bg = NULL
 ) {
-  param_args <- modify_list(list(color = "white", width = 1, size = 0.25), param_args)
 
+  wd_cutfun <- cut_wd.fun(binwidth = wd_binwidth)
+  ws_cutfun <- cut_ws.fun(binwidth = ws_binwidth, ws_max = ws_max, reverse = reverse)
+  param_args <- modify_list(list(color = "white", width = 1, size = 0.25), param_args)
   mapping$z <- mapping$ws
+
   plot <-
     ggplot(data, mapping) +
     stat_summary_wind(

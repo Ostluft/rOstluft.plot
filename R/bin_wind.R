@@ -26,7 +26,7 @@
 #'   a tibble including groups and summarised z is returned
 #'
 #' @export
-stat_bin_wind <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args = list(), nmin = 3,
+summary_bin_wind <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args = list(), nmin = 3,
                           wd_cutfun = cut_wd.fun(binwidth = 45), wd_offset = 0,
                           ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = NA)) {
 
