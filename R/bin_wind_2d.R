@@ -18,9 +18,9 @@
 #' @param ws_max numeric or NA, maximum wind velocity for binning: above ws_max, z is set NA
 #' @param bins numeric, number of bins over the range of values if `!groups %in% c("u", "v")`
 #' @param smooth TRUE/FALSE, applies if groups = c("u", "v"); should smoothing of summary results should be performed
-#' using fit_gam_surface()?
-#' @param k numeric, applies if smooth = TRUE; degree of smoothing in smooth term in fit_gam_surface()
-#' @param extrapolate TRUE/FALSE, applies if smooth = TRUE; fit_gam_surface() returns extrapolated (predicted) values for u, v coordinates that otherwise would have have NA for summarised z
+#' using [fit_gam_surface()]?
+#' @param k numeric, applies if smooth = TRUE; degree of smoothing in smooth term in [fit_gam_surface()]
+#' @param extrapolate TRUE/FALSE, applies if smooth = TRUE; [fit_gam_surface()] returns extrapolated (predicted) values for u, v coordinates that otherwise would have have NA for summarised z
 #' if extrapolate = TRUE, those values are returned (to a certain degree depending on the value of dist)
 #' @param dist numeric, fraction of 1, applies if smooth = TRUE and extrapolate = TRUE; maximum distance to next coordinate-pair at which the result of
 #' fit_gam_surface(z) should be returned

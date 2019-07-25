@@ -4,10 +4,10 @@
 #' @param data input data
 #' @param x date column as Date, POSIXct or Character
 #' @param z value columns
-#' @param size parameter pssed on to geom_tile() => space between tiles
-#' @param color parameter pssed on to geom_tile() => color of space between tiles
-#' @param ... more options for `ggplot2::geom_tile()`
-#' @param locale locale string for `lubridate::month()` and `lubridate::wday()`. see `Sys.getlocale()`
+#' @param size parameter pssed on to [geom_tile()] => space between tiles
+#' @param color parameter pssed on to [geom_tile()] => color of space between tiles
+#' @param ... more options for [ggplot2::geom_tile()]
+#' @param locale locale string for [lubridate::month()] and [lubridate::wday()]. See [Sys.getlocale()]
 #'
 #' @return ggplot2 object
 #'

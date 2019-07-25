@@ -1,6 +1,6 @@
 #' Fits a smooth surface to x, y, z data using generalised additive models
 #'
-#' @description This is based on mgcv::gam() and derived from openair::polarplot()
+#' @description This is based on [mgcv::gam()] and derived from [openair::polarplot()]
 #'
 #' @param data a data.frame or tibble containing the data (wide format)
 #' @param x string giving the u (wind) component or x coordinate, respectively
@@ -12,7 +12,7 @@
 #' only u, v pairs with !is.na(z) are returned, if TRUE, also fitted z values within a certain distance (dist) from x, y are returned
 #' based on mgcv::exclude.too.far()
 #' @param force_positive TRUE/FALSE, shall fitted values forced to be positive?
-#' @param dist input for mgcv::exclude.too.far(): how far away counts as too far. Grid and data are first scaled so that the grid lies
+#' @param dist input for [mgcv::exclude.too.far()]: how far away counts as too far. Grid and data are first scaled so that the grid lies
 #' exactly in the unit square, and dist is a distance within this unit square
 #'
 #' @return tibble with variables u, v, z

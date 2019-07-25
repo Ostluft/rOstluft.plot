@@ -1,6 +1,6 @@
-#' Coordinate system for ggradar()
+#' Coordinate system for [ggradar()]
 #'
-#' @description based on coord_polar(), but paths are connected linear
+#' @description based on [coord_polar()], but paths are connected linear
 #' @inheritParams coord_polar2
 #'
 #' @export

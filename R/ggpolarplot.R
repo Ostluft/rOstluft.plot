@@ -11,7 +11,7 @@
 #' @param fun character string, stat function to be applied at wind-bins
 #' @param fun.args list, arguments to fun
 #' @param ws_max maximum wind speed considered for plotting; wind speeds > ws_max are not plotted
-#' @param smooth TRUE/FALSE, should the result of [stat_summary_wind_2d()] be smoothed using fit_gam_surface()
+#' @param smooth TRUE/FALSE, should the result of [stat_summary_wind_2d()] be smoothed using [fit_gam_surface()]
 #' @param k numeric, smoothing parameter for formular smoothing term s(..., k = k) in [mgcv::bam()], only applies
 #'   if smooth == TRUE
 #' @param extrapolate TRUE/FALSE, should smoothed surfaced be extended further than bins with actual data? only applies
@@ -19,7 +19,7 @@
 #' @param dist numeric < 1, maximum distance from bin at which extrapolation is done. dist is relative:
 #'   0.1 = 10\% of total range. only applies if both smooth and extrapolate are TRUE
 #' @param pixels number of bins at the 2-dimensional u, v wind component coordinate system
-#' @param fill_scale ggplot2 continuous fill scale, e.g. scale_fill_gradientn(...)
+#' @param fill_scale ggplot2 continuous fill scale, e.g. [scale_fill_gradientn()]
 #' @param ylabels function to format ylabels. Default adds unit " m/s"
 #' @param breaks waiver() or numeric vector, provides y-axis breaks
 #' @param bg raster map, e.g. ggmap object as plot background
