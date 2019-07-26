@@ -9,21 +9,21 @@ get_ggmap(coord, googlekey = NA, zoom = 12, mapstyle = c(feature =
   mapcolor = "bw", ...)
 }
 \arguments{
-\item{coord}{a data.frame or tibble with coordinates (latlon) defining the map extensions () in the form of coord = tibble(lon = ..., lat = ..., type = c("center", "lb", "rt", ...));
-the reason for this structure is, that ggmap::get_googlemap requires a different way (center + zoom) to specify the map frame than ggmap::get_stamenmap (bounding box). If needed, coord is
-converted to bounding box by rOstluft.plot::bbox() which takes type == "lb" as bottom & left coordinate, and "rt" as top & right, respectively.}
+\item{coord}{a data.frame or tibble with coordinates (latlon) defining the map extensions in the form of coord = tibble(lon = ..., lat = ..., type = c("center", "lb", "rt", ...));
+the reason for this structure is, that \code{\link[ggmap:get_googlemap]{ggmap::get_googlemap()}} requires a different way (center + zoom) to specify the map frame than \code{\link[ggmap:get_stamenmap]{ggmap::get_stamenmap()}} (bounding box). If needed, coord is
+converted to bounding box by \code{\link[rOstluft.plot:bbox]{rOstluft.plot::bbox()}} which takes type == "lb" as bottom & left coordinate, and "rt" as top & right, respectively.}
 
-\item{googlekey}{your google api key as a character string (see ?ggmap::get_googlemap; then, a google map is downloaded) or, if NA, a map via  ggmap::get_stamenmap is returned}
+\item{googlekey}{your google api key as a character string (see ?\code{\link[ggmap:get_googlemap]{ggmap::get_googlemap()}}; then, a google map is downloaded) or, if NA, a map via  \code{\link[ggmap:get_stamenmap]{ggmap::get_stamenmap()}} is returned}
 
-\item{zoom}{zoom factor for ggmap::get_googlemap()}
+\item{zoom}{zoom factor for \code{\link[ggmap:get_googlemap]{ggmap::get_googlemap()}}}
 
-\item{mapstyle}{style parameter for ggmap::get_googlemap()}
+\item{mapstyle}{style parameter for \code{\link[ggmap:get_googlemap]{ggmap::get_googlemap()}}}
 
-\item{maptype}{parameter for ggmap::get_googlemap()}
+\item{maptype}{parameter for \code{\link[ggmap:get_googlemap]{ggmap::get_googlemap()}}}
 
-\item{mapcolor}{color parameter for ggmap::get_googlemap()}
+\item{mapcolor}{color parameter for \code{\link[ggmap:get_googlemap]{ggmap::get_googlemap()}}}
 
-\item{...}{additional parameter for ggmap::get_googlemap() or ggmap::get_stamenmap(), respectively}
+\item{...}{additional parameter for \code{\link[ggmap:get_googlemap]{ggmap::get_googlemap()}} or \code{\link[ggmap:get_stamenmap]{ggmap::get_stamenmap()}}, respectively}
 }
 \value{
 ggplot2 / ggmap object

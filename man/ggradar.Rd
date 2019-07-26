@@ -5,8 +5,7 @@
 \title{ggplot2-wrapper to summarise and plot data by wind direction bins as radar plot}
 \usage{
 ggradar(data, mapping, nmin = 3, fun = "mean", fun.args = list(na.rm
-  = TRUE), wd_binwidth = 45, wd_cutfun = cut_wd.fun(binwidth = 45),
-  color_scale = scale_color_viridis_d(),
+  = TRUE), wd_binwidth = 45, color_scale = scale_color_viridis_d(),
   fill_scale = scale_fill_viridis_d(alpha = 0.25), bg = NULL,
   layer_args = list(geom = "polygon"), param_args = list())
 }
@@ -24,8 +23,6 @@ ggradar(data, mapping, nmin = 3, fun = "mean", fun.args = list(na.rm
 \item{wd_binwidth}{numeric, binwidth for wind direction in °, wd_binwidth should fullfill:
 \code{(360 / wd_binwidth) \%in\% c(4, 8, 12, 16)}}
 
-\item{wd_cutfun}{function, cut function for wind direction (to create bins)}
-
 \item{color_scale}{ggplot2 discrete color scale, e.g. \code{\link[ggplot2:scale_color_gradientn]{ggplot2::scale_color_gradientn()}}}
 
 \item{fill_scale}{ggplot2 discrete fill scale, e.g. \code{\link[ggplot2:scale_fill_gradientn]{ggplot2::scale_fill_gradientn()}}}
@@ -35,6 +32,10 @@ ggradar(data, mapping, nmin = 3, fun = "mean", fun.args = list(na.rm
 \item{layer_args}{named list, further arguments passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}} call within \code{\link[=stat_summary_wind]{stat_summary_wind()}}}
 
 \item{param_args}{named list, further param passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}} as params within \code{\link[=stat_summary_wind]{stat_summary_wind()}}}
+
+\item{ws_binwidth}{numeric, binwidth for wind speed}
+
+\item{ws_max}{numeric, can be NA, wind speed is squished at this value}
 }
 \value{
 \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object

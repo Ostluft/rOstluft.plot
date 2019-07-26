@@ -5,9 +5,8 @@
 \title{ggplot wrapper to create a windrose (polar wind-bin frequency plot)}
 \usage{
 ggwindrose(data, mapping, param_args = list(), ..., wd_binwidth = 45,
-  wd_cutfun = cut_wd.fun(binwidth = 45),
-  ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = NA, reverse = TRUE),
-  fill_scale = scale_fill_viridis_d(), bg = NULL)
+  ws_binwidth = 1, ws_max = NA, fill_scale = scale_fill_viridis_d(),
+  reverse = TRUE, bg = NULL)
 }
 \arguments{
 \item{data}{tibble containing wind speed, wind direction and/or air pollutant concentration data}
@@ -22,11 +21,13 @@ arguments}
 \item{wd_binwidth}{numeric, binwidth for wind direction in °, wd_binwidth should fullfill:
 \code{(360 / wd_binwidth) \%in\% c(4, 8, 12, 16)}}
 
-\item{wd_cutfun}{function, cut function for wind direction (to create bins)}
+\item{ws_binwidth}{numeric, binwidth for wind speed}
 
-\item{ws_cutfun}{function, cut function for wind speed}
+\item{ws_max}{numeric, can be NA, wind speed is squished at this value}
 
 \item{fill_scale}{ggplot2 discrete fill scale, e.g. \code{\link[ggplot2:scale_fill_gradientn]{ggplot2::scale_fill_gradientn()}}}
+
+\item{reverse}{TRUE/FALSE, should wind speed bin factors be sorted descending or ascending (inside-out or reverse)?}
 
 \item{bg}{raster map, e.g. ggmap object as plot background}
 }
@@ -47,17 +48,17 @@ df <-
   openair::cutData(date, type = "daylight")
 
 ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5,
-           wd_cutfun = cut_wd.fun(binwidth = 22.5),
-           ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = 5, reverse = TRUE))
+           ws_binwidth = 0.5, ws_max = 5)
 
 # don't like bar outlines?
 ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5, param_args = list(color = "black"),
-           wd_cutfun = cut_wd.fun(binwidth = 22.5),
-           ws_cutfun = cut_ws.fun(binwidth = 0.5, ws_max = 4, reverse = TRUE))
+           ws_binwidth = 0.5, ws_max = 4)
+
+ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5, param_args = list(color = NA),
+           ws_binwidth = 0.5, ws_max = 4)
 
 # facetting
-ggwindrose(df, aes(ws = ws, wd = wd),  wd_binwidth = 22.5, param_args = list(color = NA),
-           wd_cutfun = cut_wd.fun(binwidth = 22.5),
-           ws_cutfun = cut_ws.fun(binwidth = 0.5, ws_max = 3, reverse = TRUE)) +
+ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5, param_args = list(color = NA),
+            ws_binwidth = 0.5, ws_max = 3) +
   facet_wrap(daylight~.)
 }

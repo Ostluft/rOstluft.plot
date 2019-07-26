@@ -26,12 +26,12 @@ based on mgcv::exclude.too.far()}
 
 \item{force_positive}{TRUE/FALSE, shall fitted values forced to be positive?}
 
-\item{dist}{input for mgcv::exclude.too.far(): how far away counts as too far. Grid and data are first scaled so that the grid lies
+\item{dist}{input for \code{\link[mgcv:exclude.too.far]{mgcv::exclude.too.far()}}: how far away counts as too far. Grid and data are first scaled so that the grid lies
 exactly in the unit square, and dist is a distance within this unit square}
 }
 \value{
 tibble with variables u, v, z
 }
 \description{
-This is based on mgcv::gam() and derived from openair::polarplot()
+This is based on \code{\link[mgcv:gam]{mgcv::gam()}} and derived from \code{\link[openair:polarplot]{openair::polarplot()}}
 }

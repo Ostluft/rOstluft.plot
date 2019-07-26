@@ -69,7 +69,7 @@ StatWind2d <- ggproto("StatWind2d", Stat,
   compute_group = function(data, scales, fun = "mean", fun.args = list(), nmin = 3, ws_max = NA,
                            smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1, bins = 100, groups = NULL) {
 
-    summary_bin_wind_2d(data = data, wd = "wd", ws = "ws", z = "z", fun = fun, fun.args = fun.args, nmin = nmin,
+    summary_wind_2d(data = data, wd = "wd", ws = "ws", z = "z", fun = fun, fun.args = fun.args, nmin = nmin,
                      ws_max = ws_max, smooth = smooth, k = k, extrapolate = extrapolate,
                      dist = dist, bins = bins, groups = groups)
   },

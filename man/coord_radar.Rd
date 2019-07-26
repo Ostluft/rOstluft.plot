@@ -2,7 +2,7 @@
 % Please edit documentation in R/coord_radar.R
 \name{coord_radar}
 \alias{coord_radar}
-\title{Coordinate system for ggradar()}
+\title{Coordinate system for \code{\link[=ggradar]{ggradar()}}}
 \usage{
 coord_radar(theta = "x", start = 0, direction = 1, bg = NULL)
 }
@@ -16,5 +16,5 @@ coord_radar(theta = "x", start = 0, direction = 1, bg = NULL)
 \item{bg}{raster for background image}
 }
 \description{
-based on coord_polar(), but paths are connected linear
+based on \code{\link[=coord_polar]{coord_polar()}}, but paths are connected linear
 }

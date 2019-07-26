@@ -16,7 +16,7 @@ ggtraj(data, mapping = aes(x = lon, y = lat, group = date, color =
 
 \item{incr}{sequence of hours to draw an marker on the trajetory. Default -seq(24,96,24); can be NULL - then, no increment markers are plotted}
 
-\item{lims}{list with xlim and ylim items defining the map section. See \code{ggplot::coord_quickmap()}}
+\item{lims}{list with xlim and ylim items defining the map section. See \code{\link[ggplot:coord_quickmap]{ggplot::coord_quickmap()}}}
 
 \item{add_traj_labels}{add text labels with date and time for every trajectory}
 

@@ -25,7 +25,7 @@ ggpolarplot(data, mapping, nmin = 3, fun = "mean",
 
 \item{ws_max}{maximum wind speed considered for plotting; wind speeds > ws_max are not plotted}
 
-\item{smooth}{TRUE/FALSE, should the result of \code{\link[=stat_summary_wind_2d]{stat_summary_wind_2d()}} be smoothed using fit_gam_surface()}
+\item{smooth}{TRUE/FALSE, should the result of \code{\link[=stat_summary_wind_2d]{stat_summary_wind_2d()}} be smoothed using \code{\link[=fit_gam_surface]{fit_gam_surface()}}}
 
 \item{k}{numeric, smoothing parameter for formular smoothing term s(..., k = k) in \code{\link[mgcv:bam]{mgcv::bam()}}, only applies
 if smooth == TRUE}
@@ -38,7 +38,7 @@ if smooth == TRUE}
 
 \item{pixels}{number of bins at the 2-dimensional u, v wind component coordinate system}
 
-\item{fill_scale}{ggplot2 continuous fill scale, e.g. scale_fill_gradientn(...)}
+\item{fill_scale}{ggplot2 continuous fill scale, e.g. \code{\link[=scale_fill_gradientn]{scale_fill_gradientn()}}}
 
 \item{ylabels}{function to format ylabels. Default adds unit " m/s"}
 

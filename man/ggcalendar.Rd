@@ -23,13 +23,13 @@ cal_label(mapping = NULL, stat = "identity", data = NULL,
 
 \item{z}{value columns}
 
-\item{size}{parameter pssed on to geom_tile() => space between tiles}
+\item{size}{parameter pssed on to \code{\link[=geom_tile]{geom_tile()}} => space between tiles}
 
-\item{color}{parameter pssed on to geom_tile() => color of space between tiles}
+\item{color}{parameter pssed on to \code{\link[=geom_tile]{geom_tile()}} => color of space between tiles}
 
-\item{...}{more options for \code{ggplot2::geom_tile()}}
+\item{...}{more options for \code{\link[ggplot2:geom_tile]{ggplot2::geom_tile()}}}
 
-\item{locale}{locale string for \code{lubridate::month()} and \code{lubridate::wday()}. see \code{Sys.getlocale()}}
+\item{locale}{locale string for \code{\link[lubridate:month]{lubridate::month()}} and \code{\link[lubridate:wday]{lubridate::wday()}}. See \code{\link[=Sys.getlocale]{Sys.getlocale()}}}
 
 \item{lineend}{Line end style (round, butt, square).}
 

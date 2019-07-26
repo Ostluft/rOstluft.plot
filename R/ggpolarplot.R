@@ -1,6 +1,6 @@
 #' ggplot2 wrapper to create a wind-based polar plot
 #'
-#' @description Can mimic [openair::polarPlot()], i.e. applying a stat function on data to yield a wind direction +
+#' @description Inspired and derived from [openair::polarPlot()], i.e. applying a stat function on data to yield a wind direction +
 #' wind velocity heatmap, (in cartesian u, v wind component space); includes options for smoothing, flexible grid
 #' setting, flexible stat functions, data extrapolation and plotting over a raster map.
 #'

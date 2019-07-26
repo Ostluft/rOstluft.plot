@@ -16,17 +16,17 @@ ggyearday(data, time, z, date_breaks = "1 month", date_labels = "\%b",
 
 \item{z}{character string giving z value variable name.}
 
-\item{date_breaks}{character string as input for ggplot2::scale_x_date(), e.g. '1 month', defines date breaks on x-axis.}
+\item{date_breaks}{character string as input for \code{\link[ggplot2:scale_x_date]{ggplot2::scale_x_date()}}, e.g. '1 month', defines date breaks on x-axis.}
 
-\item{date_labels}{character string as input for ggplot2::scale_x_date(), formatter for date labels on x-axis.}
+\item{date_labels}{character string as input for \code{\link[ggplot2:scale_x_date]{ggplot2::scale_x_date()}}, formatter for date labels on x-axis.}
 
 \item{ybreaks}{numeric vector, specifies y-axis breaks.}
 
 \item{ylabels}{function, format function for y-axis labels.}
 
-\item{fill_scale}{ggplot2 continuous fill scale, e.g. scale_fill_gradient(...).}
+\item{fill_scale}{ggplot2 continuous fill scale, e.g. \code{\link[=scale_fill_gradient]{scale_fill_gradient()}}.}
 
-\item{...}{other arguments passed on to geom_raster().}
+\item{...}{other arguments passed on to \code{\link[ggplot2:geom_raster]{ggplot2::geom_raster()}}.}
 }
 \value{
 ggplot

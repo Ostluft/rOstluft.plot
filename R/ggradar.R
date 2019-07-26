@@ -7,8 +7,6 @@
 #' @param fun.args list, arguments to fun
 #' @param wd_binwidth numeric, binwidth for wind direction in °, wd_binwidth should fullfill:
 #'   `(360 / wd_binwidth) %in% c(4, 8, 12, 16)`
-#' @param ws_binwidth numeric, binwidth for wind speed
-#' @param ws_max numeric, can be NA, wind speed is squished at this value
 #' @param color_scale ggplot2 discrete color scale, e.g. [ggplot2::scale_color_gradientn()]
 #' @param fill_scale ggplot2 discrete fill scale, e.g. [ggplot2::scale_fill_gradientn()]
 #' @param bg raster map, e.g. ggmap object as plot background
