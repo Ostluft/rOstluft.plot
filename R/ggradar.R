@@ -19,12 +19,16 @@
 #' @examples
 #' library(ggplot2)
 #'
+#' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
+#'
 #' df <-
-#'   rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv",package = "rOstluft.data", mustWork = TRUE)) %>%
+#'   rOstluft::read_airmo_csv(fn) %>%
 #'   rOstluft::rolf_to_openair() %>%
 #'   dplyr::mutate(wday = lubridate::wday(date, label = TRUE, week_start = 1))
 #'
-#' ggradar(df, aes(wd = wd, ws = ws, z = NOx), param_args = list(fill = "blue", color = "blue", alpha = 0.5)) + ylab("NOx")
+#' ggradar(df, aes(wd = wd, ws = ws, z = NOx),
+#'         param_args = list(fill = "blue", color = "blue", alpha = 0.5)) +
+#'   ylab("NOx")
 #'
 #' q95 <- function(x, ...) quantile(x, 0.95, ...)
 #' ggradar(df, aes(wd = wd, ws = ws, z = NOx, group = stat(stat), color = stat(stat)),

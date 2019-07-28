@@ -1,6 +1,6 @@
 #' Fits a smooth surface to x, y, z data using generalised additive models
 #'
-#' @description This is based on [mgcv::gam()] and derived from [openair::polarplot()]
+#' @description This is based on [mgcv::gam()] and derived from [openair::polarPlot()]
 #'
 #' @param data a data.frame or tibble containing the data (wide format)
 #' @param x string giving the u (wind) component or x coordinate, respectively

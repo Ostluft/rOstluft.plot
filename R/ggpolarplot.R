@@ -31,7 +31,8 @@
 #' @examples
 #' library(ggplot2)
 #'
-#' fn <- system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv", package = "rOstluft.data")
+#' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
+#'
 #' df <- rOstluft::read_airmo_csv(fn) %>%
 #'   rOstluft::rolf_to_openair() %>%
 #'   dplyr::mutate(wday = lubridate::wday(date, label = TRUE, week_start = 1))
@@ -60,14 +61,16 @@
 #'                                 na.value = NA, colors = matlab::jet.colors(100))
 #'
 #' # change binning parameters
-#' ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), smooth = FALSE, pixels = 50^2, nmin = 10, breaks = seq(0,6,2))
+#' ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), smooth = FALSE, pixels = 50^2,
+#'             nmin = 10, breaks = seq(0,6,2))
 #'
 #' # facetting
 #' ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), ws_max = 4, pixels = 50^2, k = 25, breaks = 0:4) +
 #'   facet_wrap(wday~., scales = "fixed")
 #'
 #' # different stat fun
-#' ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), fun = "quantile", fun.args = list(probs = 0.95, na.rm = TRUE),
+#' ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), fun = "quantile",
+#'             fun.args = list(probs = 0.95, na.rm = TRUE),
 #'             breaks = seq(0,10,2))
 #'
 #' # facetting by stat
