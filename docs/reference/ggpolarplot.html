@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="ggplot2 wrapper to create a wind-based polar plot — ggpolarplot" />
 
-<meta property="og:description" content="Can mimic openair::polarPlot(), i.e. applying a stat function on data to yield a wind direction +
+<meta property="og:description" content="Inspired and derived from openair::polarPlot(), i.e. applying a stat function on data to yield a wind direction +
 wind velocity heatmap, (in cartesian u, v wind component space); includes options for smoothing, flexible grid
 setting, flexible stat functions, data extrapolation and plotting over a raster map." />
 
@@ -67,7 +67,7 @@ setting, flexible stat functions, data extrapolation and plotting over a raster 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9004</span>
       </span>
     </div>
 
@@ -90,7 +90,7 @@ setting, flexible stat functions, data extrapolation and plotting over a raster 
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/articles/Kalender_Linie.html">Kalender_Linie</a>
+      <a href="../articles/Kalender_Linie.html">Kalender_Linie</a>
     </li>
   </ul>
 </li>
@@ -122,7 +122,7 @@ setting, flexible stat functions, data extrapolation and plotting over a raster 
 
     <div class="ref-description">
     
-    <p>Can mimic <code><a href='https://www.rdocumentation.org/packages/openair/topics/polarPlot'>openair::polarPlot()</a></code>, i.e. applying a stat function on data to yield a wind direction +
+    <p>Inspired and derived from <code><a href='https://www.rdocumentation.org/packages/openair/topics/polarPlot'>openair::polarPlot()</a></code>, i.e. applying a stat function on data to yield a wind direction +
 wind velocity heatmap, (in cartesian u, v wind component space); includes options for smoothing, flexible grid
 setting, flexible stat functions, data extrapolation and plotting over a raster map.</p>
     
@@ -165,7 +165,7 @@ setting, flexible stat functions, data extrapolation and plotting over a raster 
     </tr>
     <tr>
       <th>smooth</th>
-      <td><p>TRUE/FALSE, should the result of <code><a href='stat_summary_wind_2d.html'>stat_summary_wind_2d()</a></code> be smoothed using fit_gam_surface()</p></td>
+      <td><p>TRUE/FALSE, should the result of <code><a href='stat_summary_wind_2d.html'>stat_summary_wind_2d()</a></code> be smoothed using <code><a href='fit_gam_surface.html'>fit_gam_surface()</a></code></p></td>
     </tr>
     <tr>
       <th>k</th>
@@ -188,7 +188,7 @@ if smooth == TRUE</p></td>
     </tr>
     <tr>
       <th>fill_scale</th>
-      <td><p>ggplot2 continuous fill scale, e.g. scale_fill_gradientn(...)</p></td>
+      <td><p>ggplot2 continuous fill scale, e.g. <code>scale_fill_gradientn()</code></p></td>
     </tr>
     <tr>
       <th>ylabels</th>
@@ -216,7 +216,8 @@ if smooth == TRUE</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
 
-<span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"Zch_Stampfenbachstrasse_2010-2014.csv"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"rOstluft.data"</span>)
+<span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft.data</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft.data/topics/f'>f</a></span>(<span class='st'>"Zch_Stampfenbachstrasse_2010-2014.csv"</span>)
+
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft/topics/read_airmo_csv'>read_airmo_csv</a></span>(<span class='no'>fn</span>) <span class='kw'>%&gt;%</span>
   <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft/topics/rolf_to_openair'>rolf_to_openair</a></span>() <span class='kw'>%&gt;%</span>
   <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>wday</span> <span class='kw'>=</span> <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/day.html'>wday</a></span>(<span class='no'>date</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>week_start</span> <span class='kw'>=</span> <span class='fl'>1</span>))
@@ -242,12 +243,14 @@ if smooth == TRUE</p></td>
                                 <span class='kw'>na.value</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='kw pkg'>matlab</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/matlab/topics/jet.colors'>jet.colors</a></span>(<span class='fl'>100</span>))</div><div class='output co'>#&gt; <span class='message'>Scale for 'fill' is already present. Adding another scale for 'fill', which</span>
 #&gt; <span class='message'>will replace the existing scale.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 767 rows containing non-finite values (stat_wind2d).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1832 rows containing missing values (geom_raster).</span></div><div class='img'><img src='ggpolarplot-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># change binning parameters</span>
-<span class='fu'>ggpolarplot</span>(<span class='no'>df</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>wd</span> <span class='kw'>=</span> <span class='no'>wd</span>, <span class='kw'>ws</span> <span class='kw'>=</span> <span class='no'>ws</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>NOx</span>), <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pixels</span> <span class='kw'>=</span> <span class='fl'>50</span>^<span class='fl'>2</span>, <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='fl'>0</span>,<span class='fl'>6</span>,<span class='fl'>2</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 767 rows containing non-finite values (stat_wind2d).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 2151 rows containing missing values (geom_raster).</span></div><div class='img'><img src='ggpolarplot-7.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>ggpolarplot</span>(<span class='no'>df</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>wd</span> <span class='kw'>=</span> <span class='no'>wd</span>, <span class='kw'>ws</span> <span class='kw'>=</span> <span class='no'>ws</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>NOx</span>), <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pixels</span> <span class='kw'>=</span> <span class='fl'>50</span>^<span class='fl'>2</span>,
+            <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='fl'>0</span>,<span class='fl'>6</span>,<span class='fl'>2</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 767 rows containing non-finite values (stat_wind2d).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 2151 rows containing missing values (geom_raster).</span></div><div class='img'><img src='ggpolarplot-7.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># facetting</span>
 <span class='fu'>ggpolarplot</span>(<span class='no'>df</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>wd</span> <span class='kw'>=</span> <span class='no'>wd</span>, <span class='kw'>ws</span> <span class='kw'>=</span> <span class='no'>ws</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>NOx</span>), <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>pixels</span> <span class='kw'>=</span> <span class='fl'>50</span>^<span class='fl'>2</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fl'>0</span>:<span class='fl'>4</span>) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(<span class='no'>wday</span>~<span class='no'>.</span>, <span class='kw'>scales</span> <span class='kw'>=</span> <span class='st'>"fixed"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 767 rows containing non-finite values (stat_wind2d).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 6486 rows containing missing values (geom_raster).</span></div><div class='img'><img src='ggpolarplot-8.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># different stat fun</span>
-<span class='fu'>ggpolarplot</span>(<span class='no'>df</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>wd</span> <span class='kw'>=</span> <span class='no'>wd</span>, <span class='kw'>ws</span> <span class='kw'>=</span> <span class='no'>ws</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>NOx</span>), <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"quantile"</span>, <span class='kw'>fun.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>probs</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
+<span class='fu'>ggpolarplot</span>(<span class='no'>df</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>wd</span> <span class='kw'>=</span> <span class='no'>wd</span>, <span class='kw'>ws</span> <span class='kw'>=</span> <span class='no'>ws</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>NOx</span>), <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"quantile"</span>,
+            <span class='kw'>fun.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>probs</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
             <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='fl'>0</span>,<span class='fl'>10</span>,<span class='fl'>2</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 767 rows containing non-finite values (stat_wind2d).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3825 rows containing missing values (geom_raster).</span></div><div class='img'><img src='ggpolarplot-9.png' alt='' width='700' height='433' /></div><div class='input'>
 # facetting by stat
 # ggpolarplot(df, aes(wd = wd, ws = ws, z = NOx), fun = list("mean", "median"), ws_max = 4,

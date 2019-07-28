@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9004</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/articles/Kalender_Linie.html">Kalender_Linie</a>
+      <a href="../articles/Kalender_Linie.html">Kalender_Linie</a>
     </li>
   </ul>
 </li>
@@ -125,8 +125,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>ggradar</span>(<span class='no'>data</span>, <span class='no'>mapping</span>, <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>fun.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>na.rm</span>
-  <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>wd_binwidth</span> <span class='kw'>=</span> <span class='fl'>45</span>, <span class='kw'>wd_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_wd.fun.html'>cut_wd.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>45</span>),
-  <span class='kw'>color_scale</span> <span class='kw'>=</span> <span class='fu'>scale_color_viridis_d</span>(),
+  <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>wd_binwidth</span> <span class='kw'>=</span> <span class='fl'>45</span>, <span class='kw'>color_scale</span> <span class='kw'>=</span> <span class='fu'>scale_color_viridis_d</span>(),
   <span class='kw'>fill_scale</span> <span class='kw'>=</span> <span class='fu'>scale_fill_viridis_d</span>(<span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.25</span>), <span class='kw'>bg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>layer_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"polygon"</span>), <span class='kw'>param_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>())</pre>
     
@@ -159,10 +158,6 @@
 <code>(360 / wd_binwidth) %in% c(4, 8, 12, 16)</code></p></td>
     </tr>
     <tr>
-      <th>wd_cutfun</th>
-      <td><p>function, cut function for wind direction (to create bins)</p></td>
-    </tr>
-    <tr>
       <th>color_scale</th>
       <td><p>ggplot2 discrete color scale, e.g. <code><a href='https://ggplot2.tidyverse.org/reference/scale_gradient.html'>ggplot2::scale_color_gradientn()</a></code></p></td>
     </tr>
@@ -192,12 +187,16 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
 
+<span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft.data</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft.data/topics/f'>f</a></span>(<span class='st'>"Zch_Stampfenbachstrasse_2010-2014.csv"</span>)
+
 <span class='no'>df</span> <span class='kw'>&lt;-</span>
-  <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft/topics/read_airmo_csv'>read_airmo_csv</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"Zch_Stampfenbachstrasse_2010-2014.csv"</span>,<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"rOstluft.data"</span>, <span class='kw'>mustWork</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft/topics/read_airmo_csv'>read_airmo_csv</a></span>(<span class='no'>fn</span>) <span class='kw'>%&gt;%</span>
   <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft/topics/rolf_to_openair'>rolf_to_openair</a></span>() <span class='kw'>%&gt;%</span>
   <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>wday</span> <span class='kw'>=</span> <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/day.html'>wday</a></span>(<span class='no'>date</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>week_start</span> <span class='kw'>=</span> <span class='fl'>1</span>))
 
-<span class='fu'>ggradar</span>(<span class='no'>df</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>wd</span> <span class='kw'>=</span> <span class='no'>wd</span>, <span class='kw'>ws</span> <span class='kw'>=</span> <span class='no'>ws</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>NOx</span>), <span class='kw'>param_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>fill</span> <span class='kw'>=</span> <span class='st'>"blue"</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"blue"</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span>(<span class='st'>"NOx"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 767 rows containing non-finite values (stat_wind).</span></div><div class='img'><img src='ggradar-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>ggradar</span>(<span class='no'>df</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>wd</span> <span class='kw'>=</span> <span class='no'>wd</span>, <span class='kw'>ws</span> <span class='kw'>=</span> <span class='no'>ws</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>NOx</span>),
+        <span class='kw'>param_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>fill</span> <span class='kw'>=</span> <span class='st'>"blue"</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"blue"</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)) +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span>(<span class='st'>"NOx"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 767 rows containing non-finite values (stat_wind).</span></div><div class='img'><img src='ggradar-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>q95</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>, <span class='no'>...</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/quantile'>quantile</a></span>(<span class='no'>x</span>, <span class='fl'>0.95</span>, <span class='no'>...</span>)
 <span class='fu'>ggradar</span>(<span class='no'>df</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>wd</span> <span class='kw'>=</span> <span class='no'>wd</span>, <span class='kw'>ws</span> <span class='kw'>=</span> <span class='no'>ws</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>NOx</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/stat.html'>stat</a></span>(<span class='no'>stat</span>), <span class='kw'>color</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/stat.html'>stat</a></span>(<span class='no'>stat</span>)),
         <span class='kw'>param_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>fill</span> <span class='kw'>=</span> <span class='fl'>NA</span>), <span class='kw'>fun</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='st'>"mean"</span>, <span class='st'>"median"</span>, <span class='st'>"perc95"</span> <span class='kw'>=</span> <span class='no'>q95</span>)) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span>(<span class='st'>"NOx"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 767 rows containing non-finite values (stat_wind).</span></div><div class='img'><img src='ggradar-2.png' alt='' width='700' height='433' /></div><div class='input'>

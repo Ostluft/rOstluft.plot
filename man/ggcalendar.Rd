@@ -75,8 +75,10 @@ Just a geom_text with some defaults
 \examples{
 library(ggplot2)
 
+fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
+
 df <-
- rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv", package = "rOstluft.data", mustWork = TRUE)) \%>\%
+ rOstluft::read_airmo_csv(fn) \%>\%
  rOstluft::resample(new_interval = "d1") \%>\%
  rOstluft::rolf_to_openair()
 

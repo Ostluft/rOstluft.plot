@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Summarise y values over binned wind data. — stat_bin_wind • rOstluft.plot</title>
+<title>Summarise y values over binned wind data. — summary_wind • rOstluft.plot</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="Summarise y values over binned wind data. — stat_bin_wind" />
+<meta property="og:title" content="Summarise y values over binned wind data. — summary_wind" />
 
 <meta property="og:description" content="Input data should be original unbinned data.
 1-dimensional binning and calculating summary statistics over wind direction and/or wind velocity bins, respectively." />
@@ -66,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9004</span>
       </span>
     </div>
 
@@ -89,7 +89,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/articles/Kalender_Linie.html">Kalender_Linie</a>
+      <a href="../articles/Kalender_Linie.html">Kalender_Linie</a>
     </li>
   </ul>
 </li>
@@ -115,8 +115,8 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summarise y values over binned wind data.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Ostluft/rOstluft.plot/blob/master/R/bin_wind.R'><code>R/bin_wind.R</code></a></small>
-    <div class="hidden name"><code>stat_bin_wind.Rd</code></div>
+    <small class="dont-index">Source: <a href='https://github.com/Ostluft/rOstluft.plot/blob/master/R/summary_wind.R'><code>R/summary_wind.R</code></a></small>
+    <div class="hidden name"><code>summary_wind.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -126,7 +126,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>stat_bin_wind</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='no'>z</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
+    <pre class="usage"><span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='no'>z</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
   <span class='kw'>fun.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>wd_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_wd.fun.html'>cut_wd.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>45</span>),
   <span class='kw'>wd_offset</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>ws_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_ws.fun.html'>cut_ws.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>NA</span>))</pre>
     

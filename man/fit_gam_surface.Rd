@@ -33,5 +33,5 @@ exactly in the unit square, and dist is a distance within this unit square}
 tibble with variables u, v, z
 }
 \description{
-This is based on \code{\link[mgcv:gam]{mgcv::gam()}} and derived from \code{\link[openair:polarplot]{openair::polarplot()}}
+This is based on \code{\link[mgcv:gam]{mgcv::gam()}} and derived from \code{\link[openair:polarPlot]{openair::polarPlot()}}
 }

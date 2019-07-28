@@ -32,10 +32,6 @@ ggradar(data, mapping, nmin = 3, fun = "mean", fun.args = list(na.rm
 \item{layer_args}{named list, further arguments passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}} call within \code{\link[=stat_summary_wind]{stat_summary_wind()}}}
 
 \item{param_args}{named list, further param passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}} as params within \code{\link[=stat_summary_wind]{stat_summary_wind()}}}
-
-\item{ws_binwidth}{numeric, binwidth for wind speed}
-
-\item{ws_max}{numeric, can be NA, wind speed is squished at this value}
 }
 \value{
 \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object
@@ -46,12 +42,16 @@ ggplot2-wrapper to summarise and plot data by wind direction bins as radar plot
 \examples{
 library(ggplot2)
 
+fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
+
 df <-
-  rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv",package = "rOstluft.data", mustWork = TRUE)) \%>\%
+  rOstluft::read_airmo_csv(fn) \%>\%
   rOstluft::rolf_to_openair() \%>\%
   dplyr::mutate(wday = lubridate::wday(date, label = TRUE, week_start = 1))
 
-ggradar(df, aes(wd = wd, ws = ws, z = NOx), param_args = list(fill = "blue", color = "blue", alpha = 0.5)) + ylab("NOx")
+ggradar(df, aes(wd = wd, ws = ws, z = NOx),
+        param_args = list(fill = "blue", color = "blue", alpha = 0.5)) +
+  ylab("NOx")
 
 q95 <- function(x, ...) quantile(x, 0.95, ...)
 ggradar(df, aes(wd = wd, ws = ws, z = NOx, group = stat(stat), color = stat(stat)),

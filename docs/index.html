@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9004</span>
       </span>
     </div>
 
@@ -54,7 +54,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/articles/Kalender_Linie.html">Kalender_Linie</a>
+      <a href="articles/Kalender_Linie.html">Kalender_Linie</a>
     </li>
   </ul>
 </li>
@@ -86,7 +86,7 @@
 <div id="rostluft-plot" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#rostluft-plot" class="anchor"></a>rOstluft.plot</h1></div>
-<p>Erstellen von Diagrammen für Ostluft Auswertungen und Berichte</p>
+<p>Erstellen von Diagrammen für Ostluft Auswertungen und Berichte mit Bezug zu Luftschadstoffen und Meteorologie. Einige Funktionen sind aus dem package <a href="http://www.openair-project.org">openair</a> abgeleitet. Alle plot-Funktionen sind grundsätzlich auf das <a href="https://ggplot2.tidyverse.org">ggplot2</a> package bezogen.</p>
 </div>
 <div id="installation" class="section level1">
 <h1 class="hasAnchor">
@@ -100,12 +100,13 @@
 <a href="#beispiele" class="anchor"></a>Beispiele</h1>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(rOstluft.plot)</a>
-<a class="sourceLine" id="cb2-3" title="3"></a>
-<a class="sourceLine" id="cb2-4" title="4">data &lt;-</a>
-<a class="sourceLine" id="cb2-5" title="5"><span class="st">  </span>rOstluft<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rOstluft/topics/read_airmo_csv">read_airmo_csv</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"Zch_Stampfenbachstrasse_2010-2014.csv"</span>, <span class="dt">package =</span> <span class="st">"rOstluft.data"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-6" title="6"><span class="st">  </span>rOstluft<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rOstluft/topics/rolf_to_openair">rolf_to_openair</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-7" title="7"><span class="st">  </span>openair<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/openair/topics/cutData">cutData</a></span>(date, <span class="dt">type =</span> <span class="st">"daylight"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb2-8" title="8"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">year =</span> lubridate<span class="op">::</span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/year.html">year</a></span>(date))</a></code></pre></div>
+<a class="sourceLine" id="cb2-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a>
+<a class="sourceLine" id="cb2-4" title="4"></a>
+<a class="sourceLine" id="cb2-5" title="5">data &lt;-</a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="st">  </span>rOstluft<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rOstluft/topics/read_airmo_csv">read_airmo_csv</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"Zch_Stampfenbachstrasse_2010-2014.csv"</span>, <span class="dt">package =</span> <span class="st">"rOstluft.data"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="st">  </span>rOstluft<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rOstluft/topics/rolf_to_openair">rolf_to_openair</a></span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="st">  </span>openair<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/openair/topics/cutData">cutData</a></span>(date, <span class="dt">type =</span> <span class="st">"daylight"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">year =</span> lubridate<span class="op">::</span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/year.html">year</a></span>(date))</a></code></pre></div>
 <div id="windrose-auf-karte" class="section level2">
 <h2 class="hasAnchor">
 <a href="#windrose-auf-karte" class="anchor"></a>Windrose auf Karte</h2>
@@ -116,11 +117,9 @@
 <a class="sourceLine" id="cb3-5" title="5">                                   <span class="dt">source =</span> <span class="st">"stamen"</span>, <span class="dt">color =</span> <span class="st">"bw"</span>)</a>
 <a class="sourceLine" id="cb3-6" title="6"></a>
 <a class="sourceLine" id="cb3-7" title="7">plot &lt;-<span class="st"> </span><span class="kw"><a href="reference/ggwindrose.html">ggwindrose</a></span>(data, <span class="kw">aes</span>(<span class="dt">ws =</span> ws, <span class="dt">wd =</span> wd), <span class="dt">wd_binwidth =</span> <span class="fl">22.5</span>, </a>
-<a class="sourceLine" id="cb3-8" title="8">                   <span class="dt">wd_cutfun =</span> <span class="kw"><a href="reference/cut_wd.fun.html">cut_wd.fun</a></span>(<span class="dt">binwidth =</span> <span class="fl">22.5</span>), </a>
-<a class="sourceLine" id="cb3-9" title="9">                   <span class="dt">ws_cutfun =</span> <span class="kw"><a href="reference/cut_ws.fun.html">cut_ws.fun</a></span>(<span class="dt">binwidth =</span> <span class="fl">0.5</span>, <span class="dt">ws_max =</span> <span class="fl">2.5</span>, <span class="dt">reverse =</span> <span class="ot">TRUE</span>), </a>
-<a class="sourceLine" id="cb3-10" title="10">                   <span class="dt">bg =</span> raster_map)</a>
-<a class="sourceLine" id="cb3-11" title="11"></a>
-<a class="sourceLine" id="cb3-12" title="12">plot</a></code></pre></div>
+<a class="sourceLine" id="cb3-8" title="8">                   <span class="dt">ws_binwidth =</span> <span class="fl">0.5</span>, <span class="dt">ws_max =</span> <span class="fl">2.5</span>, <span class="dt">bg =</span> raster_map)</a>
+<a class="sourceLine" id="cb3-9" title="9"></a>
+<a class="sourceLine" id="cb3-10" title="10">plot</a></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">plot <span class="op">+</span><span class="st"> </span><span class="kw">facet_wrap</span>(daylight<span class="op">~</span>.)</a></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-3-2.png" width="100%"></p>
@@ -178,7 +177,7 @@
 <a class="sourceLine" id="cb9-13" title="13">  </a>
 <a class="sourceLine" id="cb9-14" title="14"><span class="kw"><a href="reference/ggcalendar.html">ggcalendar</a></span>(data_d1, <span class="dt">z =</span> <span class="st">"O3_max_h1"</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb9-15" title="15"><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">direction =</span> <span class="dv">-1</span>, <span class="dt">option =</span> <span class="st">"magma"</span>, <span class="dt">na.value =</span> <span class="ot">NA</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb9-16" title="16"><span class="st">  </span><span class="kw"><a href="reference/ggcalendar.html">cal_month_border</a></span>(<span class="dt">color =</span> <span class="st">"white"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-16" title="16"><span class="st">  </span><span class="kw"><a href="reference/ggcalendar.html">cal_month_border</a></span>(<span class="dt">color =</span> <span class="st">"gray80"</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb9-17" title="17"><span class="st">  </span><span class="kw"><a href="reference/stat_filter.html">stat_filter</a></span>(<span class="kw">aes</span>(<span class="dt">filter =</span> O3_max_h1 <span class="op">&gt;</span><span class="st"> </span><span class="dv">120</span>), <span class="dt">size =</span> <span class="fl">0.75</span>, <span class="dt">color =</span> <span class="st">"green"</span>, <span class="dt">fill =</span> <span class="ot">NA</span>, <span class="dt">shape =</span> <span class="dv">21</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb9-18" title="18"><span class="st">  </span><span class="kw"><a href="reference/ggcalendar.html">cal_label</a></span>(<span class="kw">aes</span>(<span class="dt">label =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(O3_max_h1,<span class="dv">0</span>)), <span class="dt">fontface =</span> <span class="st">"bold"</span>)</a></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="100%"></p>

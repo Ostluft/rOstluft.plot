@@ -1,7 +1,7 @@
 Package: rOstluft.plot
 Type: Package
 Title: Ploting air quality data
-Version: 0.0.0.9003
+Version: 0.0.0.9004
 Authors@R: c(
   person("Thomas", "von Allmen", email = "thomas.vonallmen@zuerich.ch", role = c("aut", "cre")),
   person("Jörg", "Sintermann", role = c("aut")),
@@ -31,7 +31,7 @@ Imports:
     sp, 
     stringr,
     rOstluft,
-    rOstluft.data (>= 1.7),
+    rOstluft.data (>= 2.0),
     magrittr,
     mgcv,
     scales,

@@ -42,8 +42,10 @@ ggplot wrapper to create a windrose (polar wind-bin frequency plot)
 \examples{
 library(ggplot2)
 
+fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
+
 df <-
-  rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv", package = "rOstluft.data", mustWork = TRUE)) \%>\%
+  rOstluft::read_airmo_csv(fn) \%>\%
   rOstluft::rolf_to_openair() \%>\%
   openair::cutData(date, type = "daylight")
 

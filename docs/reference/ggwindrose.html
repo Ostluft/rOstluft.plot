@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9004</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/articles/Kalender_Linie.html">Kalender_Linie</a>
+      <a href="../articles/Kalender_Linie.html">Kalender_Linie</a>
     </li>
   </ul>
 </li>
@@ -125,9 +125,8 @@
     </div>
 
     <pre class="usage"><span class='fu'>ggwindrose</span>(<span class='no'>data</span>, <span class='no'>mapping</span>, <span class='kw'>param_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='no'>...</span>, <span class='kw'>wd_binwidth</span> <span class='kw'>=</span> <span class='fl'>45</span>,
-  <span class='kw'>wd_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_wd.fun.html'>cut_wd.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>45</span>),
-  <span class='kw'>ws_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_ws.fun.html'>cut_ws.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>reverse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
-  <span class='kw'>fill_scale</span> <span class='kw'>=</span> <span class='fu'>scale_fill_viridis_d</span>(), <span class='kw'>bg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>ws_binwidth</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>fill_scale</span> <span class='kw'>=</span> <span class='fu'>scale_fill_viridis_d</span>(),
+  <span class='kw'>reverse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>bg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,16 +154,20 @@ arguments</p></td>
 <code>(360 / wd_binwidth) %in% c(4, 8, 12, 16)</code></p></td>
     </tr>
     <tr>
-      <th>wd_cutfun</th>
-      <td><p>function, cut function for wind direction (to create bins)</p></td>
+      <th>ws_binwidth</th>
+      <td><p>numeric, binwidth for wind speed</p></td>
     </tr>
     <tr>
-      <th>ws_cutfun</th>
-      <td><p>function, cut function for wind speed</p></td>
+      <th>ws_max</th>
+      <td><p>numeric, can be NA, wind speed is squished at this value</p></td>
     </tr>
     <tr>
       <th>fill_scale</th>
       <td><p>ggplot2 discrete fill scale, e.g. <code><a href='https://ggplot2.tidyverse.org/reference/scale_gradient.html'>ggplot2::scale_fill_gradientn()</a></code></p></td>
+    </tr>
+    <tr>
+      <th>reverse</th>
+      <td><p>TRUE/FALSE, should wind speed bin factors be sorted descending or ascending (inside-out or reverse)?</p></td>
     </tr>
     <tr>
       <th>bg</th>
@@ -181,23 +184,24 @@ arguments</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
 
+<span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft.data</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft.data/topics/f'>f</a></span>(<span class='st'>"Zch_Stampfenbachstrasse_2010-2014.csv"</span>)
+
 <span class='no'>df</span> <span class='kw'>&lt;-</span>
-  <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft/topics/read_airmo_csv'>read_airmo_csv</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"Zch_Stampfenbachstrasse_2010-2014.csv"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"rOstluft.data"</span>, <span class='kw'>mustWork</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft/topics/read_airmo_csv'>read_airmo_csv</a></span>(<span class='no'>fn</span>) <span class='kw'>%&gt;%</span>
   <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft/topics/rolf_to_openair'>rolf_to_openair</a></span>() <span class='kw'>%&gt;%</span>
   <span class='kw pkg'>openair</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/openair/topics/cutData'>cutData</a></span>(<span class='no'>date</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"daylight"</span>)
 
 <span class='fu'>ggwindrose</span>(<span class='no'>df</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>ws</span> <span class='kw'>=</span> <span class='no'>ws</span>, <span class='kw'>wd</span> <span class='kw'>=</span> <span class='no'>wd</span>), <span class='kw'>wd_binwidth</span> <span class='kw'>=</span> <span class='fl'>22.5</span>,
-           <span class='kw'>wd_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_wd.fun.html'>cut_wd.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>22.5</span>),
-           <span class='kw'>ws_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_ws.fun.html'>cut_ws.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>reverse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 27 rows containing non-finite values (stat_wind).</span></div><div class='img'><img src='ggwindrose-1.png' alt='' width='700' height='433' /></div><div class='input'>
+           <span class='kw'>ws_binwidth</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>5</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 27 rows containing non-finite values (stat_wind).</span></div><div class='img'><img src='ggwindrose-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># don't like bar outlines?</span>
 <span class='fu'>ggwindrose</span>(<span class='no'>df</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>ws</span> <span class='kw'>=</span> <span class='no'>ws</span>, <span class='kw'>wd</span> <span class='kw'>=</span> <span class='no'>wd</span>), <span class='kw'>wd_binwidth</span> <span class='kw'>=</span> <span class='fl'>22.5</span>, <span class='kw'>param_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"black"</span>),
-           <span class='kw'>wd_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_wd.fun.html'>cut_wd.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>22.5</span>),
-           <span class='kw'>ws_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_ws.fun.html'>cut_ws.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>reverse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 27 rows containing non-finite values (stat_wind).</span></div><div class='img'><img src='ggwindrose-2.png' alt='' width='700' height='433' /></div><div class='input'>
+           <span class='kw'>ws_binwidth</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 27 rows containing non-finite values (stat_wind).</span></div><div class='img'><img src='ggwindrose-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>ggwindrose</span>(<span class='no'>df</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>ws</span> <span class='kw'>=</span> <span class='no'>ws</span>, <span class='kw'>wd</span> <span class='kw'>=</span> <span class='no'>wd</span>), <span class='kw'>wd_binwidth</span> <span class='kw'>=</span> <span class='fl'>22.5</span>, <span class='kw'>param_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='fl'>NA</span>),
+           <span class='kw'>ws_binwidth</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 27 rows containing non-finite values (stat_wind).</span></div><div class='img'><img src='ggwindrose-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># facetting</span>
-<span class='fu'>ggwindrose</span>(<span class='no'>df</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>ws</span> <span class='kw'>=</span> <span class='no'>ws</span>, <span class='kw'>wd</span> <span class='kw'>=</span> <span class='no'>wd</span>),  <span class='kw'>wd_binwidth</span> <span class='kw'>=</span> <span class='fl'>22.5</span>, <span class='kw'>param_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='fl'>NA</span>),
-           <span class='kw'>wd_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_wd.fun.html'>cut_wd.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>22.5</span>),
-           <span class='kw'>ws_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_ws.fun.html'>cut_ws.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>reverse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(<span class='no'>daylight</span>~<span class='no'>.</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 27 rows containing non-finite values (stat_wind).</span></div><div class='img'><img src='ggwindrose-3.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>ggwindrose</span>(<span class='no'>df</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>ws</span> <span class='kw'>=</span> <span class='no'>ws</span>, <span class='kw'>wd</span> <span class='kw'>=</span> <span class='no'>wd</span>), <span class='kw'>wd_binwidth</span> <span class='kw'>=</span> <span class='fl'>22.5</span>, <span class='kw'>param_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='fl'>NA</span>),
+            <span class='kw'>ws_binwidth</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>3</span>) +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(<span class='no'>daylight</span>~<span class='no'>.</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 27 rows containing non-finite values (stat_wind).</span></div><div class='img'><img src='ggwindrose-4.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

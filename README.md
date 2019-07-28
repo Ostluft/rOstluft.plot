@@ -5,7 +5,11 @@
 
 # rOstluft.plot
 
-Erstellen von Diagrammen für Ostluft Auswertungen und Berichte
+Erstellen von Diagrammen für Ostluft Auswertungen und Berichte mit Bezug
+zu Luftschadstoffen und Meteorologie. Einige Funktionen sind aus dem
+package [openair](http://www.openair-project.org) abgeleitet. Alle
+plot-Funktionen sind grundsätzlich auf das
+[ggplot2](https://ggplot2.tidyverse.org) package bezogen.
 
 # Installation
 
@@ -24,6 +28,7 @@ devtools::install_github("Ostluft/rOstluft.plot")
 ``` r
 library(ggplot2)
 library(rOstluft.plot)
+library(dplyr)
 
 data <-
   rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv", package = "rOstluft.data", mustWork = TRUE)) %>%
@@ -42,9 +47,7 @@ raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
                                    source = "stamen", color = "bw")
 
 plot <- ggwindrose(data, aes(ws = ws, wd = wd), wd_binwidth = 22.5, 
-                   wd_cutfun = cut_wd.fun(binwidth = 22.5), 
-                   ws_cutfun = cut_ws.fun(binwidth = 0.5, ws_max = 2.5, reverse = TRUE), 
-                   bg = raster_map)
+                   ws_binwidth = 0.5, ws_max = 2.5, bg = raster_map)
 
 plot
 ```
@@ -121,7 +124,7 @@ data_d1 <-
   
 ggcalendar(data_d1, z = "O3_max_h1") +
   scale_fill_viridis_c(direction = -1, option = "magma", na.value = NA) +
-  cal_month_border(color = "white") +
+  cal_month_border(color = "gray80") +
   stat_filter(aes(filter = O3_max_h1 > 120), size = 0.75, color = "green", fill = NA, shape = 21) +
   cal_label(aes(label = round(O3_max_h1,0)), fontface = "bold")
 ```

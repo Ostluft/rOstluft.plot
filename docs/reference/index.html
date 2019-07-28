@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9004</span>
       </span>
     </div>
 
@@ -86,7 +86,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/articles/Kalender_Linie.html">Kalender_Linie</a>
+      <a href="../articles/Kalender_Linie.html">Kalender_Linie</a>
     </li>
   </ul>
 </li>
@@ -191,6 +191,18 @@
           <p><code><a href="stat_summary_wind_2d.html">stat_summary_wind_2d()</a></code> </p>
         </td>
         <td><p>Summarise z values over binned wind data.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="summary_wind.html">summary_wind()</a></code> </p>
+        </td>
+        <td><p>Summarise y values over binned wind data.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="summary_wind_2d.html">summary_wind_2d()</a></code> </p>
+        </td>
+        <td><p>Summarise y values over binned wind data, split into u and v components.</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -230,27 +242,7 @@
         <td>
           <p><code><a href="coord_radar.html">coord_radar()</a></code> </p>
         </td>
-        <td><p>Coordinate system for ggradar()</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-stat-summary-functions" class="hasAnchor"><a href="#section-stat-summary-functions" class="anchor"></a>stat/summary functions</h2>
-          <p class="section-desc"><p>This functions do the heavy lifting for the stats Layers</p></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="stat_bin_wind.html">stat_bin_wind()</a></code> </p>
-        </td>
-        <td><p>Summarise y values over binned wind data.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="stat_bin_wind_2d.html">stat_bin_wind_2d()</a></code> </p>
-        </td>
-        <td><p>Summarise y values over binned wind data, split into u and v components.</p></td>
+        <td><p>Coordinate system for <code>ggradar()</code></p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -389,7 +381,6 @@
       <li><a href="#section-layer-stats">Layer: stats</a></li>
       <li><a href="#section-layer-geoms">Layer: geoms</a></li>
       <li><a href="#section-coordinate-systems">Coordinate systems</a></li>
-      <li><a href="#section-stat-summary-functions">stat/summary functions</a></li>
       <li><a href="#section-scales">scales</a></li>
       <li><a href="#section-cut-functions">cut functions</a></li>
       <li><a href="#section-utility-functions">utility functions</a></li>

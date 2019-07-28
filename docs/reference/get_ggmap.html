@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9004</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/articles/Kalender_Linie.html">Kalender_Linie</a>
+      <a href="../articles/Kalender_Linie.html">Kalender_Linie</a>
     </li>
   </ul>
 </li>
@@ -133,33 +133,33 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>coord</th>
-      <td><p>a data.frame or tibble with coordinates (latlon) defining the map extensions () in the form of coord = tibble(lon = ..., lat = ..., type = c("center", "lb", "rt", ...));
-the reason for this structure is, that ggmap::get_googlemap requires a different way (center + zoom) to specify the map frame than ggmap::get_stamenmap (bounding box). If needed, coord is
-converted to bounding box by rOstluft.plot::bbox() which takes type == "lb" as bottom &amp; left coordinate, and "rt" as top &amp; right, respectively.</p></td>
+      <td><p>a data.frame or tibble with coordinates (latlon) defining the map extensions in the form of coord = tibble(lon = ..., lat = ..., type = c("center", "lb", "rt", ...));
+the reason for this structure is, that <code><a href='https://www.rdocumentation.org/packages/ggmap/topics/get_googlemap'>ggmap::get_googlemap()</a></code> requires a different way (center + zoom) to specify the map frame than <code><a href='https://www.rdocumentation.org/packages/ggmap/topics/get_stamenmap'>ggmap::get_stamenmap()</a></code> (bounding box). If needed, coord is
+converted to bounding box by <code><a href='bbox.html'>rOstluft.plot::bbox()</a></code> which takes type == "lb" as bottom &amp; left coordinate, and "rt" as top &amp; right, respectively.</p></td>
     </tr>
     <tr>
       <th>googlekey</th>
-      <td><p>your google api key as a character string (see ?ggmap::get_googlemap; then, a google map is downloaded) or, if NA, a map via  ggmap::get_stamenmap is returned</p></td>
+      <td><p>your google api key as a character string (see ?<code><a href='https://www.rdocumentation.org/packages/ggmap/topics/get_googlemap'>ggmap::get_googlemap()</a></code>; then, a google map is downloaded) or, if NA, a map via  <code><a href='https://www.rdocumentation.org/packages/ggmap/topics/get_stamenmap'>ggmap::get_stamenmap()</a></code> is returned</p></td>
     </tr>
     <tr>
       <th>zoom</th>
-      <td><p>zoom factor for ggmap::get_googlemap()</p></td>
+      <td><p>zoom factor for <code><a href='https://www.rdocumentation.org/packages/ggmap/topics/get_googlemap'>ggmap::get_googlemap()</a></code></p></td>
     </tr>
     <tr>
       <th>mapstyle</th>
-      <td><p>style parameter for ggmap::get_googlemap()</p></td>
+      <td><p>style parameter for <code><a href='https://www.rdocumentation.org/packages/ggmap/topics/get_googlemap'>ggmap::get_googlemap()</a></code></p></td>
     </tr>
     <tr>
       <th>maptype</th>
-      <td><p>parameter for ggmap::get_googlemap()</p></td>
+      <td><p>parameter for <code><a href='https://www.rdocumentation.org/packages/ggmap/topics/get_googlemap'>ggmap::get_googlemap()</a></code></p></td>
     </tr>
     <tr>
       <th>mapcolor</th>
-      <td><p>color parameter for ggmap::get_googlemap()</p></td>
+      <td><p>color parameter for <code><a href='https://www.rdocumentation.org/packages/ggmap/topics/get_googlemap'>ggmap::get_googlemap()</a></code></p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>additional parameter for ggmap::get_googlemap() or ggmap::get_stamenmap(), respectively</p></td>
+      <td><p>additional parameter for <code><a href='https://www.rdocumentation.org/packages/ggmap/topics/get_googlemap'>ggmap::get_googlemap()</a></code> or <code><a href='https://www.rdocumentation.org/packages/ggmap/topics/get_stamenmap'>ggmap::get_stamenmap()</a></code>, respectively</p></td>
     </tr>
     </table>
     

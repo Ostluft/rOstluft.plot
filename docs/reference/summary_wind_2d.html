@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Summarise y values over binned wind data, split into u and v components. — stat_bin_wind_2d • rOstluft.plot</title>
+<title>Summarise y values over binned wind data, split into u and v components. — summary_wind_2d • rOstluft.plot</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="Summarise y values over binned wind data, split into u and v components. — stat_bin_wind_2d" />
+<meta property="og:title" content="Summarise y values over binned wind data, split into u and v components. — summary_wind_2d" />
 
 <meta property="og:description" content="Input data should be original unbinned data including wind direction and wind velocity;
 binning is done 2-dimensional over cartesian u and v wind vectors" />
@@ -66,7 +66,7 @@ binning is done 2-dimensional over cartesian u and v wind vectors" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9004</span>
       </span>
     </div>
 
@@ -89,7 +89,7 @@ binning is done 2-dimensional over cartesian u and v wind vectors" />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/articles/Kalender_Linie.html">Kalender_Linie</a>
+      <a href="../articles/Kalender_Linie.html">Kalender_Linie</a>
     </li>
   </ul>
 </li>
@@ -115,8 +115,8 @@ binning is done 2-dimensional over cartesian u and v wind vectors" />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summarise y values over binned wind data, split into u and v components.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Ostluft/rOstluft.plot/blob/master/R/bin_wind_2d.R'><code>R/bin_wind_2d.R</code></a></small>
-    <div class="hidden name"><code>stat_bin_wind_2d.Rd</code></div>
+    <small class="dont-index">Source: <a href='https://github.com/Ostluft/rOstluft.plot/blob/master/R/summary_wind_2d.R'><code>R/summary_wind_2d.R</code></a></small>
+    <div class="hidden name"><code>summary_wind_2d.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -126,7 +126,7 @@ binning is done 2-dimensional over cartesian u and v wind vectors</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>stat_bin_wind_2d</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='no'>z</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
+    <pre class="usage"><span class='fu'>summary_wind_2d</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='no'>z</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
   <span class='kw'>fun.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>bins</span> <span class='kw'>=</span> <span class='fl'>100</span>,
   <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>extrapolate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>dist</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</pre>
     
@@ -181,15 +181,15 @@ requires input data including at least three columns carrying information regard
     <tr>
       <th>smooth</th>
       <td><p>TRUE/FALSE, applies if groups = c("u", "v"); should smoothing of summary results should be performed
-using fit_gam_surface()?</p></td>
+using <code><a href='fit_gam_surface.html'>fit_gam_surface()</a></code>?</p></td>
     </tr>
     <tr>
       <th>k</th>
-      <td><p>numeric, applies if smooth = TRUE; degree of smoothing in smooth term in fit_gam_surface()</p></td>
+      <td><p>numeric, applies if smooth = TRUE; degree of smoothing in smooth term in <code><a href='fit_gam_surface.html'>fit_gam_surface()</a></code></p></td>
     </tr>
     <tr>
       <th>extrapolate</th>
-      <td><p>TRUE/FALSE, applies if smooth = TRUE; fit_gam_surface() returns extrapolated (predicted) values for u, v coordinates that otherwise would have have NA for summarised z
+      <td><p>TRUE/FALSE, applies if smooth = TRUE; <code><a href='fit_gam_surface.html'>fit_gam_surface()</a></code> returns extrapolated (predicted) values for u, v coordinates that otherwise would have have NA for summarised z
 if extrapolate = TRUE, those values are returned (to a certain degree depending on the value of dist)</p></td>
     </tr>
     <tr>

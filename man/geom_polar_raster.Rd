@@ -33,7 +33,7 @@ raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
 
 
 # prepare data
-fn <- system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv", package = "rOstluft.data")
+fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 data <- rOstluft::read_airmo_csv(fn)
 
 wide <- rOstluft::rolf_to_openair(data)

@@ -40,6 +40,8 @@ reference:
   - stat_filter
   - stat_summary_wind
   - stat_summary_wind_2d
+  - summary_wind
+  - summary_wind_2d
 
 - title: "Layer: geoms"
   desc: >
@@ -53,12 +55,6 @@ reference:
     in ggplot is to limitited
   contents:
   - starts_with("coord_")
-
-- title: "stat/summary functions"
-  desc: This functions do the heavy lifting for the stats Layers
-  contents:
-  - stat_bin_wind
-  - stat_bin_wind_2d
 
 - title: "scales"
   desc: >

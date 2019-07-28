@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9004</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/articles/Kalender_Linie.html">Kalender_Linie</a>
+      <a href="../articles/Kalender_Linie.html">Kalender_Linie</a>
     </li>
   </ul>
 </li>
@@ -142,11 +142,12 @@
     </tr>
     <tr>
       <th>incr</th>
-      <td><p>sequence of hours to draw an marker on the trajetory. Default -seq(24,96,24); can be NULL - then, no increment markers are plotted</p></td>
+      <td><p>sequence of hours to draw an marker on the trajetory. Default -seq(24,96,24); if NULL no increment
+markers are plotted</p></td>
     </tr>
     <tr>
       <th>lims</th>
-      <td><p>list with xlim and ylim items defining the map section. See <code>ggplot::coord_quickmap()</code></p></td>
+      <td><p>list with xlim and ylim items defining the map section. See <code><a href='https://ggplot2.tidyverse.org/reference/coord_map.html'>ggplot2::coord_quickmap()</a></code></p></td>
     </tr>
     <tr>
       <th>add_traj_labels</th>
@@ -164,7 +165,7 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"2017_ZH-Kaserne-hysplit.rds"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"rOstluft.data"</span>)
+    <pre class="examples"><div class='input'><span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft.data</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft.data/topics/f'>f</a></span>(<span class='st'>"2017_ZH-Kaserne-hysplit.rds"</span>)
 <span class='no'>traj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/readRDS'>readRDS</a></span>(<span class='no'>fn</span>)
 <span class='no'>traj</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>traj</span>, <span class='no'>date</span> <span class='kw'>&lt;</span> <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/ymd.html'>ymd</a></span>(<span class='st'>"2017-01-08"</span>))
 <span class='fu'>ggtraj</span>(<span class='no'>traj</span>)</div><div class='img'><img src='ggtraj-1.png' alt='' width='700' height='433' /></div><div class='input'>

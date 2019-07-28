@@ -14,9 +14,10 @@ ggtraj(data, mapping = aes(x = lon, y = lat, group = date, color =
 
 \item{mapping}{ggplot mapping, typically: aes(x = lon, y = lat, group = date, color = height)}
 
-\item{incr}{sequence of hours to draw an marker on the trajetory. Default -seq(24,96,24); can be NULL - then, no increment markers are plotted}
+\item{incr}{sequence of hours to draw an marker on the trajetory. Default -seq(24,96,24); if NULL no increment
+markers are plotted}
 
-\item{lims}{list with xlim and ylim items defining the map section. See \code{\link[ggplot:coord_quickmap]{ggplot::coord_quickmap()}}}
+\item{lims}{list with xlim and ylim items defining the map section. See \code{\link[ggplot2:coord_quickmap]{ggplot2::coord_quickmap()}}}
 
 \item{add_traj_labels}{add text labels with date and time for every trajectory}
 
@@ -29,7 +30,7 @@ ggplot2 object
 Plotting hysplit trajectory
 }
 \examples{
-fn <- system.file("extdata", "2017_ZH-Kaserne-hysplit.rds", package = "rOstluft.data")
+fn <- rOstluft.data::f("2017_ZH-Kaserne-hysplit.rds")
 traj <- readRDS(fn)
 traj <- dplyr::filter(traj, date < lubridate::ymd("2017-01-08"))
 ggtraj(traj)
