@@ -10,14 +10,20 @@
 
 This package provides functions to quickly display data as diagrams.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/Ostluft/rOstluft.plot}
+  \item Report bugs at \url{https://github.com/Ostluft/rOstluft.plot/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Thomas von Allmen \email{thomas.vonallmen@zuerich.ch}
 
 Authors:
 \itemize{
   \item Jörg Sintermann
-  \item Noël Rederlechner
-  \item Hanna Herich
 }
 
 Other contributors:

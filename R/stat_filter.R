@@ -1,6 +1,4 @@
-#' @rdname rOstluft.plot-ggproto
-#' @usage NULL
-#' @format NULL
+#' @rdname rOstluft-ggproto
 #' @export
 StatFilter <- ggproto("StatFilter", Stat,
   required_aes = c("filter"),
@@ -26,6 +24,7 @@ StatFilter <- ggproto("StatFilter", Stat,
 #' @return ggplot2 layer
 #' @export
 #' @examples
+#' require(ggplot2)
 #' p <- ggplot(mtcars, aes(wt, mpg)) + geom_point()
 #' p + stat_filter(aes(filter = mpg > 30), shape = 21, size = 4, stroke = 2, color = "red", fill = NA)
 stat_filter <- function(mapping = NULL, data = NULL, geom = "point", position = "identity",

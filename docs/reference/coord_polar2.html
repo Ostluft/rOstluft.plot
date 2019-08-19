@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9004</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/articles/cal_line.html">Kalender Linie</a>
+      <a href="../articles/Kalender_Linie.html">Kalender_Linie</a>
     </li>
   </ul>
 </li>
@@ -114,7 +114,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Customized coord_polar</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/Ostluft/rOstluft.plot/blob/master/R/coord_polar2.R'><code>R/coord_polar2.R</code></a></small>
     <div class="hidden name"><code>coord_polar2.Rd</code></div>
     </div>
 
@@ -124,7 +124,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>coord_polar2</span>(<span class='kw'>theta</span> <span class='kw'>=</span> <span class='st'>"x"</span>, <span class='kw'>start</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>direction</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>clip</span> <span class='kw'>=</span> <span class='st'>"on"</span>)</pre>
+    <pre class="usage"><span class='fu'>coord_polar2</span>(<span class='kw'>theta</span> <span class='kw'>=</span> <span class='st'>"x"</span>, <span class='kw'>start</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>direction</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>clip</span> <span class='kw'>=</span> <span class='st'>"on"</span>,
+  <span class='kw'>bg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -147,6 +148,10 @@
 setting of <code>"on"</code> (the default) means yes, and a setting of <code>"off"</code>
 means no. For details, please see <code>coord_cartesian()</code>.</p></td>
     </tr>
+    <tr>
+      <th>bg</th>
+      <td><p>raster for background image</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -158,6 +163,39 @@ means no. For details, please see <code>coord_cartesian()</code>.</p></td>
     <div class='dont-index'><p><code>ggplot2::cord_polar()</code></p></div>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
+
+<span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft.data</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft.data/topics/f'>f</a></span>(<span class='st'>"Zch_Stampfenbachstrasse_2010-2014.csv"</span>)
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft/topics/read_airmo_csv'>read_airmo_csv</a></span>(<span class='no'>fn</span>)
+
+<span class='no'>wide</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft/topics/rolf_to_openair'>rolf_to_openair</a></span>(<span class='no'>data</span>)
+<span class='no'>winkel_sector</span> <span class='kw'>&lt;-</span> <span class='fl'>22.5</span>
+<span class='no'>winkel_half</span> <span class='kw'>&lt;-</span> <span class='no'>winkel_sector</span> / <span class='fl'>2</span>
+<span class='no'>wide</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(
+  <span class='no'>wide</span>,
+  <span class='kw'>wd_shifted</span> <span class='kw'>=</span> (<span class='no'>.data</span>$<span class='no'>wd</span> + <span class='no'>winkel_half</span>) <span class='kw'>%%</span> <span class='fl'>360</span>,
+  <span class='kw'>wd_class</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>cut_width</a></span>(<span class='no'>.data</span>$<span class='no'>wd_shifted</span>, <span class='kw'>center</span> <span class='kw'>=</span> <span class='no'>winkel_half</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='no'>winkel_sector</span>),
+  <span class='kw'>ws_class</span> <span class='kw'>=</span> <span class='kw pkg'>forcats</span><span class='kw ns'>::</span><span class='fu'><a href='https://forcats.tidyverse.org/reference/fct_rev.html'>fct_rev</a></span>(<span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>cut_interval</a></span>(<span class='no'>.data</span>$<span class='no'>ws</span>, <span class='kw'>length</span> <span class='kw'>=</span> <span class='fl'>2</span>))
+)
+
+<span class='co'># background map</span>
+<span class='no'>bbox</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2683141</span> - <span class='fl'>500</span>, <span class='fl'>2683141</span> + <span class='fl'>500</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1249040</span> - <span class='fl'>500</span>, <span class='fl'>1249040</span> + <span class='fl'>500</span>))
+<span class='no'>bbox</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft/topics/transform_crs'>transform_LV95_to_WSG84</a></span>(<span class='no'>bbox</span>)
+
+<span class='no'>bbox</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>left</span> <span class='kw'>=</span> <span class='no'>bbox</span>$<span class='no'>lon</span>[<span class='fl'>1</span>], <span class='kw'>right</span> <span class='kw'>=</span> <span class='no'>bbox</span>$<span class='no'>lon</span>[<span class='fl'>2</span>], <span class='kw'>bottom</span> <span class='kw'>=</span> <span class='no'>bbox</span>$<span class='no'>lat</span>[<span class='fl'>1</span>], <span class='kw'>top</span> <span class='kw'>=</span> <span class='no'>bbox</span>$<span class='no'>lat</span>[<span class='fl'>2</span>])
+
+<span class='no'>raster_map</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>ggmap</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/ggmap/topics/get_stamenmap'>get_stamenmap</a></span>(<span class='no'>bbox</span>, <span class='kw'>zoom</span> <span class='kw'>=</span> <span class='fl'>16</span>, <span class='kw'>maptype</span> <span class='kw'>=</span> <span class='st'>"terrain"</span>,
+                                   <span class='kw'>source</span> <span class='kw'>=</span> <span class='st'>"stamen"</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"bw"</span>)
+
+
+<span class='no'>wind_rose</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>wide</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>wd_class</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='no'>ws_class</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/stat.html'>stat</a></span>(<span class='no'>count</span> / <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sum'>sum</a></span>(<span class='no'>count</span>)))) +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='kw'>width</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>colour</span><span class='kw'>=</span><span class='st'>"grey80"</span>, <span class='kw'>size</span><span class='kw'>=</span><span class='fl'>0.5</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_discrete.html'>scale_x_discrete</a></span>(<span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>na.translate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_discrete.html'>scale_y_discrete</a></span>(<span class='kw'>labels</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) {<span class='kw pkg'>stringr</span><span class='kw ns'>::</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_c.html'>str_c</a></span>(<span class='no'>x</span>*<span class='fl'>100</span>, <span class='st'>" %"</span>) }) +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_viridis.html'>scale_fill_viridis_d</a></span>(<span class='kw'>direction</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+
+<span class='no'>wind_rose</span> + <span class='fu'>coord_polar2</span>(<span class='kw'>start</span> <span class='kw'>=</span> - <span class='no'>winkel_half</span> * <span class='no'>pi</span> / <span class='fl'>180</span>, <span class='kw'>bg</span> <span class='kw'>=</span> <span class='no'>raster_map</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 27 rows containing non-finite values (stat_count).</span></div><div class='img'><img src='coord_polar2-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -167,14 +205,16 @@ means no. For details, please see <code>coord_cartesian()</code>.</p></td>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#see-also">See also</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Thomas von Allmen, Jörg Sintermann, Noël Rederlechner, Hanna Herich.</p>
+  <p>Developed by Thomas von Allmen, Jörg Sintermann.</p>
 </div>
 
 <div class="pkgdown">

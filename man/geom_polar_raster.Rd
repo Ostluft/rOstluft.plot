@@ -20,20 +20,20 @@ ggplot2 layer
 quick and really dirty implementation of a raster rendered on the whole extend of the panel.
 }
 \examples{
+require(ggplot2)
+
 # prepare map as raster
 bbox <- tibble::tibble(x = c(2683141 - 500, 2683141 + 500), y = c(1249040 - 500, 1249040 + 500))
-bbox <- rOstluft::transform_projection(bbox, coord = c("x", "y"),
-                                       initCRS = sp::CRS("+init=epsg:2056"),
-                                       outCRS = sp::CRS("+init=epsg:4326"))
+bbox <- rOstluft::transform_LV95_to_WSG84(bbox)
 
-bbox <- c(left = bbox$x[1], right = bbox$x[2], bottom = bbox$y[1], top = bbox$y[2])
+bbox <- c(left = bbox$lon[1], right = bbox$lon[2], bottom = bbox$lat[1], top = bbox$lat[2])
 
 raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
                                    source = "stamen", color = "bw")
 
 
 # prepare data
-fn <- system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv", package = "rOstluft.data")
+fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 data <- rOstluft::read_airmo_csv(fn)
 
 wide <- rOstluft::rolf_to_openair(data)

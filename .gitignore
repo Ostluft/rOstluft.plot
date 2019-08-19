@@ -2,3 +2,16 @@
 .Rhistory
 .RData
 .Ruserdata
+
+archive/ggplot_on_map\.R
+
+archive/ggtraj\.R
+
+archive/ggyearday\.R
+
+archive/temp\.R
+
+R/\.DS_Store
+
+\.DS_Store
+inst/doc

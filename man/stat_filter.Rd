@@ -26,7 +26,8 @@ data. All objects will be fortified to produce a data frame. See
 
 A \code{function} will be called with a single argument,
 the plot data. The return value must be a \code{data.frame}, and
-will be used as the layer data.}
+will be used as the layer data. A \code{function} can be created
+from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
 \item{geom}{The geometric object to use display the data}
 
@@ -66,6 +67,7 @@ Useful for showing only a subset of the data or to highlight some values, withou
 }
 
 \examples{
+require(ggplot2)
 p <- ggplot(mtcars, aes(wt, mpg)) + geom_point()
 p + stat_filter(aes(filter = mpg > 30), shape = 21, size = 4, stroke = 2, color = "red", fill = NA)
 }

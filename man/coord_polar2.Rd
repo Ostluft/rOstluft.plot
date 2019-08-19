@@ -4,7 +4,8 @@
 \alias{coord_polar2}
 \title{Customized coord_polar}
 \usage{
-coord_polar2(theta = "x", start = 0, direction = 1, clip = "on")
+coord_polar2(theta = "x", start = 0, direction = 1, clip = "on",
+  bg = NULL)
 }
 \arguments{
 \item{theta}{variable to map angle to (\code{x} or \code{y})}
@@ -16,12 +17,48 @@ coord_polar2(theta = "x", start = 0, direction = 1, clip = "on")
 \item{clip}{Should drawing be clipped to the extent of the plot panel? A
 setting of \code{"on"} (the default) means yes, and a setting of \code{"off"}
 means no. For details, please see \code{\link[=coord_cartesian]{coord_cartesian()}}.}
+
+\item{bg}{raster for background image}
 }
 \value{
 ggplot2 coord system
 }
 \description{
 Customizing needs to be done
+}
+\examples{
+library(ggplot2)
+
+fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
+data <- rOstluft::read_airmo_csv(fn)
+
+wide <- rOstluft::rolf_to_openair(data)
+winkel_sector <- 22.5
+winkel_half <- winkel_sector / 2
+wide <- dplyr::mutate(
+  wide,
+  wd_shifted = (.data$wd + winkel_half) \%\% 360,
+  wd_class = ggplot2::cut_width(.data$wd_shifted, center = winkel_half, width = winkel_sector),
+  ws_class = forcats::fct_rev(ggplot2::cut_interval(.data$ws, length = 2))
+)
+
+# background map
+bbox <- tibble::tibble(x = c(2683141 - 500, 2683141 + 500), y = c(1249040 - 500, 1249040 + 500))
+bbox <- rOstluft::transform_LV95_to_WSG84(bbox)
+
+bbox <- c(left = bbox$lon[1], right = bbox$lon[2], bottom = bbox$lat[1], top = bbox$lat[2])
+
+raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
+                                   source = "stamen", color = "bw")
+
+
+wind_rose <- ggplot(wide, aes(x = wd_class, fill = ws_class, y = stat(count / sum(count)))) +
+  geom_bar(width=1, colour="grey80", size=0.5, alpha = 0.5, show.legend = TRUE) +
+  scale_x_discrete(drop = FALSE, na.translate = FALSE) +
+  scale_y_discrete(labels = function(x) {stringr::str_c(x*100, " \%") }) +
+  scale_fill_viridis_d(direction = 1)
+
+wind_rose + coord_polar2(start = - winkel_half * pi / 180, bg = raster_map)
 }
 \seealso{
 \code{ggplot2::cord_polar()}
