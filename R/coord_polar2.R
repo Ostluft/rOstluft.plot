@@ -43,6 +43,36 @@
 #'   scale_fill_viridis_d(direction = 1)
 #'
 #' wind_rose + coord_polar2(start = - winkel_half * pi / 180, bg = raster_map)
+#'
+#'
+#'
+#' # removed outer cirlce
+#' df <- tibble::tibble(x = factor(1:10), y = runif(10, 0, 100))
+#'
+#' p <- ggplot(df, aes(x = x, y = y)) +
+#'   geom_bar( stat = "identity") +
+#'   coord_polar2() +
+#'   scale_x_discrete() +
+#'   theme(
+#'     axis.line.x = element_line(colour = "red"),
+#'     axis.line.y = element_line(colour = "orange"),
+#'     panel.grid.major.x = element_line(colour = "blue"),
+#'     panel.grid.minor.x = element_line(colour = "blue4"),
+#'     panel.grid.major.y = element_line(colour = "darkgreen"),
+#'     panel.grid.minor.y = element_line(colour = "darkolivegreen2")
+#'   )
+#'
+#'
+#' # recreate old behaviour always draw outer line  radius of 0.45 = upper limit of y axis
+#' p + scale_y_continuous(breaks = c(seq(0, 100, 10), 200), limits = c(0, 200))
+#'
+#' # new behaviour only breaks control the drawing
+#' p + scale_y_continuous(breaks = seq(0, 100, 10), limits = c(0, 200))
+#'
+#' # with no breaks
+#' p + scale_y_continuous()
+
+
 coord_polar2 <- function(theta = "x", start = 0, direction = 1, clip = "on", bg = NULL) {
   theta <- match.arg(theta, c("x", "y"))
   r <- if (theta == "x") "y" else "x"
@@ -66,15 +96,20 @@ CoordPolar2 <- ggproto("CoordPolar2", CoordPolar,
   render_bg = function(self, panel_params, theme) {
     panel_params <- rename_data(self, panel_params)
 
-    tmp$polar2 <- self
-
     theta <- if (length(panel_params$theta.major) > 0)
       theta_rescale(self, panel_params$theta.major, panel_params)
     thetamin <- if (length(panel_params$theta.minor) > 0)
       theta_rescale(self, panel_params$theta.minor, panel_params)
     thetafine <- seq(0, 2 * pi, length.out = 100)
 
-    rfine <- c(r_rescale(self, panel_params$r.major, panel_params$r.range), 0.45)
+    # , 0.45 adds the outer circle !
+    # rfine <- c(r_rescale(self, panel_params$r.major, panel_params$r.range), 0.45)
+    rfine <- r_rescale(self, panel_params$r.major, panel_params$r.range)
+    if (length(rfine) > 0) {
+      rmax <- max(rfine)
+    } else {
+      rfine <- rmax <- 0.45
+    }
 
     # This gets the proper theme element for theta and r grid lines:
     #   panel.grid.major.x or .y
@@ -93,15 +128,15 @@ CoordPolar2 <- ggproto("CoordPolar2", CoordPolar,
       background,
       if (length(theta) > 0) element_render(
         theme, majortheta, name = "angle",
-        x = c(rbind(0, 0.45 * sin(theta))) + 0.5,
-        y = c(rbind(0, 0.45 * cos(theta))) + 0.5,
+        x = c(rbind(0, rmax * sin(theta))) + 0.5,
+        y = c(rbind(0, rmax * cos(theta))) + 0.5,
         id.lengths = rep(2, length(theta)),
         default.units = "native"
       ),
       if (length(thetamin) > 0) element_render(
         theme, minortheta, name = "angle",
-        x = c(rbind(0, 0.45 * sin(thetamin))) + 0.5,
-        y = c(rbind(0, 0.45 * cos(thetamin))) + 0.5,
+        x = c(rbind(0, rmax * sin(thetamin))) + 0.5,
+        y = c(rbind(0, rmax * cos(thetamin))) + 0.5,
         id.lengths = rep(2, length(thetamin)),
         default.units = "native"
       ),
@@ -138,5 +173,5 @@ theta_rescale <- function(coord, x, panel_params) {
 
 r_rescale <- function(coord, x, range) {
   x <- scales::squish_infinite(x, range)
-  scales::rescale(x, c(0, 0.4), range)
+  scales::rescale(x, c(0, 0.45), range)
 }
