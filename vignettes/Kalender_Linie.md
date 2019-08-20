@@ -1,7 +1,7 @@
 ---
 title: "Kalender_Linie"
 author: "Thomas von Allmen"
-date: "2019-07-28"
+date: "2019-08-19"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEngine{knitr::knitr}
