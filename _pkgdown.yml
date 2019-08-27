@@ -68,6 +68,14 @@ reference:
   - recode_last_class_label
   - midpoints
 
+- title: map functions
+  desc: functions to create background maps
+  contents:
+  - get_stamen_map
+  - get_google_map
+  - bbox_lv95
+  - get_ggmap
+
 - title: cut functions
   desc: wrappers and partial functions to cut data
   contents:
@@ -78,7 +86,6 @@ reference:
   desc: Some functions to make the life of a programmer easier
   contents:
   - uv2wd
-  - get_ggmap
   - fit_gam_surface
   - bbox
   - element_render_circle

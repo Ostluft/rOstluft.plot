@@ -27,14 +27,8 @@
 #' )
 #'
 #' # background map
-#' bbox <- tibble::tibble(x = c(2683141 - 500, 2683141 + 500), y = c(1249040 - 500, 1249040 + 500))
-#' bbox <- rOstluft::transform_LV95_to_WSG84(bbox)
-#'
-#' bbox <- c(left = bbox$lon[1], right = bbox$lon[2], bottom = bbox$lat[1], top = bbox$lat[2])
-#'
-#' raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
-#'                                    source = "stamen", color = "bw")
-#'
+#' bbox <- bbox_lv95(2683141, 1249040, 500)
+#' raster_map <- get_stamen_map(bbox)
 #'
 #' wind_rose <- ggplot(wide, aes(x = wd_class, fill = ws_class, y = stat(count / sum(count)))) +
 #'   geom_bar(width=1, colour="grey80", size=0.5, alpha = 0.5, show.legend = TRUE) +
@@ -44,33 +38,31 @@
 #'
 #' wind_rose + coord_polar2(start = - winkel_half * pi / 180, bg = raster_map)
 #'
-#'
-#'
-#' # removed outer cirlce
+#' # removed outer circle
 #' df <- tibble::tibble(x = factor(1:10), y = runif(10, 0, 100))
 #'
 #' p <- ggplot(df, aes(x = x, y = y)) +
 #'   geom_bar( stat = "identity") +
-#'   coord_polar2() +
 #'   scale_x_discrete() +
 #'   theme(
 #'     axis.line.x = element_line(colour = "red"),
 #'     axis.line.y = element_line(colour = "orange"),
 #'     panel.grid.major.x = element_line(colour = "blue"),
-#'     panel.grid.minor.x = element_line(colour = "blue4"),
 #'     panel.grid.major.y = element_line(colour = "darkgreen"),
 #'     panel.grid.minor.y = element_line(colour = "darkolivegreen2")
 #'   )
 #'
+#' # default behaviour with no breaks
+#' p + coord_polar() + scale_y_continuous()
 #'
-#' # recreate old behaviour always draw outer line  radius of 0.45 = upper limit of y axis
-#' p + scale_y_continuous(breaks = c(seq(0, 100, 10), 200), limits = c(0, 200))
+#' p + coord_polar2() + scale_y_continuous()
 #'
-#' # new behaviour only breaks control the drawing
-#' p + scale_y_continuous(breaks = seq(0, 100, 10), limits = c(0, 200))
+#' # behavoiur with manuel breaks and limit
+#' p + coord_polar() + scale_y_continuous(breaks = seq(0, 100, 10), limits = c(0, 200))
 #'
-#' # with no breaks
-#' p + scale_y_continuous()
+#' p + coord_polar2() + scale_y_continuous(breaks = seq(0, 100, 10), limits = c(0, 200))
+
+
 
 
 coord_polar2 <- function(theta = "x", start = 0, direction = 1, clip = "on", bg = NULL) {
@@ -86,8 +78,6 @@ coord_polar2 <- function(theta = "x", start = 0, direction = 1, clip = "on", bg 
           bg = bg
   )
 }
-
-tmp <- new.env()
 
 #' @rdname rOstluft-ggproto
 #' @export
