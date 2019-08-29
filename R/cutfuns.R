@@ -41,40 +41,77 @@ cut_wd.fun <- function(binwidth = 45, ...) { # in helpers verschieben
 
 #' Cut wind velocity (or others) into factor classes
 #'
-#' Wraps [base::cut()] with `breaks = seq(0, max(pmin(ws, ws_max, na.rm = TRUE), na.rm = TRUE), binwidth)` as fixed
-#' argument
+#' Based on [base::cut()]. Allows to specifiy maximum wind velocity. If `squish = TRUE` the values greater than `ws_max`
+#' will be combined to one additional factor level ">ws_max". If `squish = FALSE` the resulting vector will contain
+#' NA for this values. The correct handling of the NA values in the factor must be done by the user.
 #'
-#' @param ws numeric vector of wind velocitiy
+#' @param ws numeric vector of wind velocity
 #' @param binwidth width of the bins
 #' @param ws_max cut off wind speed at this maximum
+#' @param squish If TRUE wind velocities greater than will be include as additional level ">ws_max"
+#' @param right logical, indicating if the intervals should be closed on the right (and open on the left) or vice versa.
 #' @param reverse reverse order of result. This is sometimes useful when plotting a factor.
-#' @param ... passed onto [base::cut()]
 #'
 #' @export
-cut_ws <- function(ws, binwidth = 1, ws_max = NA, reverse = FALSE, ...) {
-  ws <- cut(ws, breaks = seq(0, max(pmin(ws, ws_max, na.rm = TRUE), na.rm = TRUE), binwidth), ...)
-    if (isTRUE(reverse)) ws <- forcats::fct_rev(ws)
+#'
+#' @examples
+#' ws <- c(0.5, 1.1, 2.2, 3.3, 4.4, 5, 8.8)
+#'
+#' cut_ws(ws, binwidth = 2)
+#'
+#' # if ws_max not a multiple of binwidth, the last level before squishing will be cut short
+#' cut_ws(ws, binwidth = 2, ws_max = 5)
+#'
+#' cut_ws(ws, binwidth = 2, ws_max = 5, squish = FALSE)
+#'
+#' # close the intervals on the left side
+#' cut_ws(ws, binwidth = 2, ws_max = 5, right = FALSE)
+#'
+#' # reverse the order of the factors, useful for legends while plotting
+#' cut_ws(ws, binwidth = 2, ws_max = 5, reverse = TRUE)
+cut_ws <- function(ws, binwidth = 1, ws_max = NA, squish = TRUE, right = TRUE, reverse = FALSE) {
+  last_label <- NULL
+
+  # find the last cut point. Must be the first multiple of binwidth which is greater then
+  # maximum wind_speed
+  if (is.na(ws_max)) {
+    ws_max_data <- max(ws, na.rm = TRUE)
+    last_cut_point <- ceiling(ws_max_data / binwidth) * binwidth
+    breaks <- seq(0, last_cut_point, binwidth)
+  } else {
+    # ensure ws_max is included for the case, ws_max isn't a mulitple of binwidth
+    breaks <- unique(c(seq(0, floor(ws_max / binwidth) * binwidth, binwidth), ws_max))
+
+    # do we need to squish the data?
+    if (isTRUE(squish)) {
+      last_label <- sprintf(ifelse(isTRUE(right), ">%s", ">=%s"), utils::tail(breaks, 1))
+      breaks <- c(breaks, Inf)
+    }
+  }
+
+  ws <- cut(ws, breaks = breaks, right = right, include.lowest = TRUE)
+
+  if (!is.null(last_label)) {
+    levels(ws)[length(levels(ws))] <- last_label
+  }
+
+
+  if (isTRUE(reverse)) ws <- forcats::fct_rev(ws)
+
   return(ws)
 }
 
 
 #' Partial function constructor to cut wind velocity (or others) into factor classes
 #'
-#' Creates a partial function of [base::cut()] with
-#' `breaks = seq(0, max(pmin(ws, ws_max, na.rm = TRUE), na.rm = TRUE), binwidth)` as fixed argument
-#' @param binwidth width of the bins
-#' @param ws_max cut off wind speed at this maximum
-#' @param reverse reverse order of result. This is sometimes useful when plotting a factor.
-#' @param ... passed onto [base::cut()]
+#' @inheritParams cut_ws
 #'
-#' @return a partial [base::cut()] function with ws as sole argument
+#' @return a partial [cut_ws()] function with ws as sole argument
 #'
 #' @export
-cut_ws.fun <- function(binwidth = 1, ws_max = NA, reverse = FALSE, ...) {
+cut_ws.fun <- function(binwidth = 1, ws_max = NA, squish = TRUE, right = TRUE, reverse = FALSE) {
   function(ws) {
-    ws <- cut(ws, breaks = seq(0, max(pmin(ws, ws_max, na.rm = TRUE), na.rm = TRUE), binwidth), ...)
-    if (isTRUE(reverse)) ws <- forcats::fct_rev(ws)
-    return(ws)
+    cut_ws(ws, binwidth, ws_max, squish, right, reverse)
   }
 }
 
