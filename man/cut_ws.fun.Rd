@@ -4,21 +4,23 @@
 \alias{cut_ws.fun}
 \title{Partial function constructor to cut wind velocity (or others) into factor classes}
 \usage{
-cut_ws.fun(binwidth = 1, ws_max = NA, reverse = FALSE, ...)
+cut_ws.fun(binwidth = 1, ws_max = NA, squish = TRUE, right = TRUE,
+  reverse = FALSE)
 }
 \arguments{
 \item{binwidth}{width of the bins}
 
 \item{ws_max}{cut off wind speed at this maximum}
 
-\item{reverse}{reverse order of result. This is sometimes useful when plotting a factor.}
+\item{squish}{If TRUE wind velocities greater than will be include as additional level ">ws_max"}
 
-\item{...}{passed onto \code{\link[base:cut]{base::cut()}}}
+\item{right}{logical, indicating if the intervals should be closed on the right (and open on the left) or vice versa.}
+
+\item{reverse}{reverse order of result. This is sometimes useful when plotting a factor.}
 }
 \value{
-a partial \code{\link[base:cut]{base::cut()}} function with ws as sole argument
+a partial \code{\link[=cut_ws]{cut_ws()}} function with ws as sole argument
 }
 \description{
-Creates a partial function of \code{\link[base:cut]{base::cut()}} with
-\code{breaks = seq(0, max(pmin(ws, ws_max, na.rm = TRUE), na.rm = TRUE), binwidth)} as fixed argument
+Partial function constructor to cut wind velocity (or others) into factor classes
 }

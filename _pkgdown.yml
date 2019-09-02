@@ -37,9 +37,7 @@ reference:
   desc: >
     Statistical transformation of input data. The computed variables can be mapped using `stat()`
   contents:
-  - stat_filter
-  - stat_summary_wind
-  - stat_summary_wind_2d
+  - starts_with("stat_")
   - summary_wind
   - summary_wind_2d
 
@@ -47,7 +45,7 @@ reference:
   desc: >
     geometric objects for ggplot
   contents:
-  - geom_polar_raster
+  - starts_with("geom_")
 
 - title: Coordinate systems
   desc: >

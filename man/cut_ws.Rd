@@ -4,20 +4,40 @@
 \alias{cut_ws}
 \title{Cut wind velocity (or others) into factor classes}
 \usage{
-cut_ws(ws, binwidth = 1, ws_max = NA, reverse = FALSE, ...)
+cut_ws(ws, binwidth = 1, ws_max = NA, squish = TRUE, right = TRUE,
+  reverse = FALSE)
 }
 \arguments{
-\item{ws}{numeric vector of wind velocitiy}
+\item{ws}{numeric vector of wind velocity}
 
 \item{binwidth}{width of the bins}
 
 \item{ws_max}{cut off wind speed at this maximum}
 
-\item{reverse}{reverse order of result. This is sometimes useful when plotting a factor.}
+\item{squish}{If TRUE wind velocities greater than will be include as additional level ">ws_max"}
 
-\item{...}{passed onto \code{\link[base:cut]{base::cut()}}}
+\item{right}{logical, indicating if the intervals should be closed on the right (and open on the left) or vice versa.}
+
+\item{reverse}{reverse order of result. This is sometimes useful when plotting a factor.}
 }
 \description{
-Wraps \code{\link[base:cut]{base::cut()}} with \code{breaks = seq(0, max(pmin(ws, ws_max, na.rm = TRUE), na.rm = TRUE), binwidth)} as fixed
-argument
+Based on \code{\link[base:cut]{base::cut()}}. Allows to specifiy maximum wind velocity. If \code{squish = TRUE} the values greater than \code{ws_max}
+will be combined to one additional factor level ">ws_max". If \code{squish = FALSE} the resulting vector will contain
+NA for this values. The correct handling of the NA values in the factor must be done by the user.
+}
+\examples{
+ws <- c(0.5, 1.1, 2.2, 3.3, 4.4, 5, 8.8)
+
+cut_ws(ws, binwidth = 2)
+
+# if ws_max not a multiple of binwidth, the last level before squishing will be cut short
+cut_ws(ws, binwidth = 2, ws_max = 5)
+
+cut_ws(ws, binwidth = 2, ws_max = 5, squish = FALSE)
+
+# close the intervals on the left side
+cut_ws(ws, binwidth = 2, ws_max = 5, right = FALSE)
+
+# reverse the order of the factors, useful for legends while plotting
+cut_ws(ws, binwidth = 2, ws_max = 5, reverse = TRUE)
 }

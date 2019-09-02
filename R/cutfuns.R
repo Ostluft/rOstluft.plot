@@ -8,12 +8,21 @@
 #' @param ... passed to [ggplot2::cut_width()]
 #'
 #' @export
-cut_wd <- function(wd, binwidth = 45, ...) { # in helpers verschieben
-  stopifnot((360 / binwidth) %in% c(4, 8, 12, 16))
-  if ((360 / binwidth) %in% c(4, 8, 12, 16)) {
-    wd <- (wd + binwidth / 2) %% 360
+cut_wd <- function(wd, binwidth = 45, add_labels = TRUE, ...) { # in helpers verschieben
+  nsectors <- 360 / binwidth
+  stopifnot(nsectors %in% c(4, 8, 12, 16))
+  # ll <- c("N", "NNO", "NO", "NOO", "O", "SOO", "SO", "SSO",
+  #         "S", "SSW", "SW", "SWW", "W", "NWW", "NW", "NNW")
+
+  if (isTRUE(add_labels)) {
+    labels <- seq(0, 359, binwidth)
+  } else {
+    labels <- NULL
   }
-  ggplot2::cut_width(wd, width = binwidth, closed = "left", boundary = 0, ...)
+
+  wd <- (wd + binwidth / 2) %% 360
+
+  ggplot2::cut_width(wd, width = binwidth, closed = "left", boundary = 0, labels = labels, ...)
 }
 
 #' Partial function constructor to cut wind direction into factor classes
@@ -28,12 +37,8 @@ cut_wd <- function(wd, binwidth = 45, ...) { # in helpers verschieben
 #'
 #' @export
 cut_wd.fun <- function(binwidth = 45, ...) { # in helpers verschieben
-  stopifnot((360 / binwidth) %in% c(4, 8, 12, 16))
   function(wd) {
-    if ((360 / binwidth) %in% c(4, 8, 12, 16)) {
-      wd <- (wd + binwidth / 2) %% 360
-    }
-    ggplot2::cut_width(wd, width = binwidth, closed = "left", boundary = 0, ...)
+    cut_wd(wd, binwidth = binwidth, ...)
   }
 }
 
@@ -84,7 +89,7 @@ cut_ws <- function(ws, binwidth = 1, ws_max = NA, squish = TRUE, right = TRUE, r
 
     # do we need to squish the data?
     if (isTRUE(squish)) {
-      last_label <- sprintf(ifelse(isTRUE(right), ">%s", ">=%s"), utils::tail(breaks, 1))
+      last_label <- sprintf(ifelse(isTRUE(right), ">%s", "\U2265%s"), utils::tail(breaks, 1))
       breaks <- c(breaks, Inf)
     }
   }

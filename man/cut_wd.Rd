@@ -4,7 +4,7 @@
 \alias{cut_wd}
 \title{Cut wind direction into factor classes}
 \usage{
-cut_wd(wd, binwidth = 45, ...)
+cut_wd(wd, binwidth = 45, add_labels = TRUE, ...)
 }
 \arguments{
 \item{wd}{numeric vector of wind directions in °}

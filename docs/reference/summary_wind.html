@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Summarise y values over binned wind data. — summary_wind • rOstluft.plot</title>
+<title>Summarise z values over binned wind data. — summary_wind • rOstluft.plot</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,11 @@
 
 
 
-<meta property="og:title" content="Summarise y values over binned wind data. — summary_wind" />
+<meta property="og:title" content="Summarise z values over binned wind data. — summary_wind" />
 
 <meta property="og:description" content="Input data should be original unbinned data.
-1-dimensional binning and calculating summary statistics over wind direction and/or wind velocity bins, respectively." />
+1-dimensional binning and calculating summary statistics over wind direction and/or wind velocity bins, respectively.
+NA values in z will be silently removed before applying functions" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -114,7 +115,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Summarise y values over binned wind data.</h1>
+    <h1>Summarise z values over binned wind data.</h1>
     <small class="dont-index">Source: <a href='https://github.com/Ostluft/rOstluft.plot/blob/master/R/summary_wind.R'><code>R/summary_wind.R</code></a></small>
     <div class="hidden name"><code>summary_wind.Rd</code></div>
     </div>
@@ -122,13 +123,14 @@
     <div class="ref-description">
     
     <p>Input data should be original unbinned data.
-1-dimensional binning and calculating summary statistics over wind direction and/or wind velocity bins, respectively.</p>
+1-dimensional binning and calculating summary statistics over wind direction and/or wind velocity bins, respectively.
+NA values in z will be silently removed before applying functions</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='no'>z</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
+    <pre class="usage"><span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='no'>z</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(), <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
   <span class='kw'>fun.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>wd_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_wd.fun.html'>cut_wd.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>45</span>),
-  <span class='kw'>wd_offset</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>ws_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_ws.fun.html'>cut_ws.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>NA</span>))</pre>
+  <span class='kw'>ws_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_ws.fun.html'>cut_ws.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>1</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -139,19 +141,19 @@
     </tr>
     <tr>
       <th>ws</th>
-      <td><p>string giving the wind velocity parameter name (wind velocity preferably in m/s)</p></td>
+      <td><p>symbol giving the wind velocity parameter name (wind velocity preferably in m/s)</p></td>
     </tr>
     <tr>
       <th>wd</th>
-      <td><p>string giving the wind direction parameter name  in degrees</p></td>
+      <td><p>symbol giving the wind direction parameter name  in degrees</p></td>
     </tr>
     <tr>
       <th>z</th>
-      <td><p>string giving the parameter name to be summarised</p></td>
+      <td><p>symbol giving the parameter name to be summarised</p></td>
     </tr>
     <tr>
       <th>groups</th>
-      <td><p>character string, can be NULL, 'wd', 'ws', ...</p></td>
+      <td><p>one or more character string for additional grouping</p></td>
     </tr>
     <tr>
       <th>fun</th>
@@ -167,16 +169,11 @@
     </tr>
     <tr>
       <th>wd_cutfun</th>
-      <td><p>function, cut function for wind direction (to create bins)</p></td>
-    </tr>
-    <tr>
-      <th>wd_offset</th>
-      <td><p>numeric, offset for wind_direction (in °) if groups == "wd"; bins are then calculated
-over <code>(wd + wd_offset) %% 360</code></p></td>
+      <td><p>function, cut function for wind direction (to create bins). See <code>wd_cut.fun()</code> for options.</p></td>
     </tr>
     <tr>
       <th>ws_cutfun</th>
-      <td><p>function, cut function for wind speed</p></td>
+      <td><p>function, cut function for wind speed. See <code>ws_cut.fun()</code> for examples</p></td>
     </tr>
     </table>
     
@@ -187,14 +184,144 @@ over <code>(wd + wd_offset) %% 360</code></p></td>
     <h2 class="hasAnchor" id="computed-variables"><a class="anchor" href="#computed-variables"></a>Computed variables</h2>
 
     
-    <ul>
-<li><p>If groups = NULL: groups = "wd". In this case, bins are calculated over wind direction;
-a tibble including wd and summarised z is returned</p></li>
-<li><p>groups can be strings for other variables in data; then fun is applied over those;
-a tibble including groups and summarised z is returned</p></li>
+    <p>The names of the columns stay the same as in <code>data</code> (for the arguments "ws", "wd" and "z").</p><ul>
+<li><p>binned column <code>ws</code></p></li>
+<li><p>binned column <code>wd</code></p></li>
+<li><p>factor column <code>stat</code> containing the name of the summarize function as level</p></li>
+<li><p>column <code>z</code> with the result of the summarize function</p></li>
+<li><p><code>n</code> count of occurrences for the corresponding bin</p></li>
+<li><p><code>freq</code> frequency of the corresponding bin</p></li>
 </ul>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft.data</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft.data/topics/f'>f</a></span>(<span class='st'>"Zch_Stampfenbachstrasse_2010-2014.csv"</span>)
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft/topics/read_airmo_csv'>read_airmo_csv</a></span>(<span class='no'>fn</span>)
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft/topics/rolf_to_openair'>rolf_to_openair</a></span>(<span class='no'>data</span>)
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='no'>data</span>, <span class='kw'>year</span> <span class='kw'>=</span> <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/year.html'>year</a></span>(<span class='no'>date</span>))
+
+<span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='st'>"ws"</span>, <span class='st'>"wd"</span>, <span class='st'>"NO2"</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 57 x 6</span><span>
+#&gt;    wd    ws        n stat    NO2     freq
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 0     [0,1]  </span><span style='text-decoration: underline;'>3</span><span>230 mean   43.6 0.037</span><span style='text-decoration: underline;'>2</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 0     (1,2]  </span><span style='text-decoration: underline;'>5</span><span>764 mean   39.4 0.066</span><span style='text-decoration: underline;'>4</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 0     (2,3]  </span><span style='text-decoration: underline;'>2</span><span>017 mean   36.7 0.023</span><span style='text-decoration: underline;'>2</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 0     (3,4]   257 mean   32.7 0.002</span><span style='text-decoration: underline;'>96</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 0     (4,5]    22 mean   19.9 0.000</span><span style='text-decoration: underline;'>253</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 45    [0,1]  </span><span style='text-decoration: underline;'>3</span><span>894 mean   44.6 0.044</span><span style='text-decoration: underline;'>8</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 45    (1,2] </span><span style='text-decoration: underline;'>10</span><span>172 mean   41.3 0.117   
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 45    (2,3]  </span><span style='text-decoration: underline;'>6</span><span>036 mean   34.3 0.069</span><span style='text-decoration: underline;'>5</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 45    (3,4]  </span><span style='text-decoration: underline;'>1</span><span>871 mean   28.0 0.021</span><span style='text-decoration: underline;'>5</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 45    (4,5]   417 mean   24.5 0.004</span><span style='text-decoration: underline;'>80</span><span> 
+#&gt; </span><span style='color: #949494;'># ... with 47 more rows</span><span></div><div class='input'>
+<span class='co'># works with symbols too and additional grouping</span>
+<span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='no'>NO2</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"site"</span>, <span class='st'>"year"</span>))</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 235 x 8</span><span>
+#&gt;    wd    ws    site                     year     n stat    NO2    freq
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>                   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 0     [0,1] Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>010   618 mean   45.9 0.007</span><span style='text-decoration: underline;'>11</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 0     [0,1] Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>011   637 mean   43.8 0.007</span><span style='text-decoration: underline;'>33</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 0     [0,1] Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>012   691 mean   41.9 0.007</span><span style='text-decoration: underline;'>96</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 0     [0,1] Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>013   632 mean   45.9 0.007</span><span style='text-decoration: underline;'>28</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 0     [0,1] Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>014   652 mean   40.7 0.007</span><span style='text-decoration: underline;'>51</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 0     (1,2] Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>010  </span><span style='text-decoration: underline;'>1</span><span>177 mean   42.6 0.013</span><span style='text-decoration: underline;'>6</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 0     (1,2] Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>011  </span><span style='text-decoration: underline;'>1</span><span>228 mean   39.7 0.014</span><span style='text-decoration: underline;'>1</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 0     (1,2] Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>012  </span><span style='text-decoration: underline;'>1</span><span>107 mean   38.0 0.012</span><span style='text-decoration: underline;'>7</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 0     (1,2] Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>013  </span><span style='text-decoration: underline;'>1</span><span>164 mean   40.2 0.013</span><span style='text-decoration: underline;'>4</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 0     (1,2] Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>014  </span><span style='text-decoration: underline;'>1</span><span>088 mean   36.1 0.012</span><span style='text-decoration: underline;'>5</span><span> 
+#&gt; </span><span style='color: #949494;'># ... with 225 more rows</span><span></div><div class='input'>
+<span class='co'># multiple stats: Pass function, by name, reference, as function or one sided formula</span>
+<span class='no'>q95</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/quantile'>quantile</a></span>(<span class='no'>x</span>, <span class='kw'>probs</span> <span class='kw'>=</span> <span class='fl'>0.95</span>)
+
+<span class='no'>funs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(
+  <span class='st'>"mean"</span>,
+  <span class='st'>"median"</span>,
+  <span class='st'>"q95_1"</span> <span class='kw'>=</span> <span class='no'>q95</span>,
+  <span class='st'>"q95_2"</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/quantile'>quantile</a></span>(<span class='no'>x</span>, <span class='kw'>probs</span> <span class='kw'>=</span> <span class='fl'>0.95</span>),
+  <span class='st'>"q95_3"</span> <span class='kw'>=</span> ~ <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/quantile'>quantile</a></span>(<span class='no'>.</span>, <span class='kw'>probs</span> <span class='kw'>=</span> <span class='fl'>0.95</span>)
+)
+
+<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='st'>"ws"</span>, <span class='st'>"wd"</span>, <span class='st'>"NO2"</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>funs</span>)
+<span class='no'>res</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 285 x 6</span><span>
+#&gt;    wd    ws        n stat    NO2      freq
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 0     [0,1]  </span><span style='text-decoration: underline;'>3</span><span>230 mean   43.6 0.007</span><span style='text-decoration: underline;'>44</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 0     (1,2]  </span><span style='text-decoration: underline;'>5</span><span>764 mean   39.4 0.013</span><span style='text-decoration: underline;'>3</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 0     (2,3]  </span><span style='text-decoration: underline;'>2</span><span>017 mean   36.7 0.004</span><span style='text-decoration: underline;'>64</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 0     (3,4]   257 mean   32.7 0.000</span><span style='text-decoration: underline;'>592</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 0     (4,5]    22 mean   19.9 0.000</span><span style='text-decoration: underline;'>050</span><span>7
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 45    [0,1]  </span><span style='text-decoration: underline;'>3</span><span>894 mean   44.6 0.008</span><span style='text-decoration: underline;'>97</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 45    (1,2] </span><span style='text-decoration: underline;'>10</span><span>172 mean   41.3 0.023</span><span style='text-decoration: underline;'>4</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 45    (2,3]  </span><span style='text-decoration: underline;'>6</span><span>036 mean   34.3 0.013</span><span style='text-decoration: underline;'>9</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 45    (3,4]  </span><span style='text-decoration: underline;'>1</span><span>871 mean   28.0 0.004</span><span style='text-decoration: underline;'>31</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 45    (4,5]   417 mean   24.5 0.000</span><span style='text-decoration: underline;'>960</span><span> 
+#&gt; </span><span style='color: #949494;'># ... with 275 more rows</span><span></div><div class='input'>
+<span class='co'># and q95, q95_1, q95_2, q95_3 alle have the same value</span>
+<span class='kw pkg'>tidyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://tidyr.tidyverse.org/reference/spread.html'>spread</a></span>(<span class='no'>res</span>, <span class='st'>"stat"</span>, <span class='st'>"NO2"</span>) <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>q95_1</span>, <span class='no'>q95_2</span>, <span class='no'>q95_3</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 57 x 3</span><span>
+#&gt;    q95_1 q95_2 q95_3
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>  79.8  79.8  79.8
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>  74.2  74.2  74.2
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>  67.1  67.1  67.1
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>  79.6  79.6  79.6
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>  33.1  33.1  33.1
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>  81.6  81.6  81.6
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>  77.1  77.1  77.1
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>  65.4  65.4  65.4
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>  52.2  52.2  52.2
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>  45.4  45.4  45.4
+#&gt; </span><span style='color: #949494;'># ... with 47 more rows</span><span></div><div class='input'>
+<span class='co'># is for some reason fun.args used with multiple functions, use ... to catch</span>
+<span class='co'># superfluous arguments:</span>
+<span class='no'>funs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(
+  <span class='st'>"q95"</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>, <span class='no'>...</span>) <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/quantile'>quantile</a></span>(<span class='no'>x</span>, <span class='kw'>probs</span> <span class='kw'>=</span> <span class='fl'>0.95</span>),
+  <span class='st'>"mean"</span>
+)
+<span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='st'>"ws"</span>, <span class='st'>"wd"</span>, <span class='st'>"NO2"</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>funs</span>, <span class='kw'>fun.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 114 x 6</span><span>
+#&gt;    wd    ws        n stat    NO2     freq
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 0     [0,1]  </span><span style='text-decoration: underline;'>3</span><span>230 q95    79.8 0.018</span><span style='text-decoration: underline;'>6</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 0     (1,2]  </span><span style='text-decoration: underline;'>5</span><span>764 q95    74.2 0.033</span><span style='text-decoration: underline;'>2</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 0     (2,3]  </span><span style='text-decoration: underline;'>2</span><span>017 q95    67.1 0.011</span><span style='text-decoration: underline;'>6</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 0     (3,4]   257 q95    79.6 0.001</span><span style='text-decoration: underline;'>48</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 0     (4,5]    22 q95    33.1 0.000</span><span style='text-decoration: underline;'>127</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 45    [0,1]  </span><span style='text-decoration: underline;'>3</span><span>894 q95    81.6 0.022</span><span style='text-decoration: underline;'>4</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 45    (1,2] </span><span style='text-decoration: underline;'>10</span><span>172 q95    77.1 0.058</span><span style='text-decoration: underline;'>6</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 45    (2,3]  </span><span style='text-decoration: underline;'>6</span><span>036 q95    65.4 0.034</span><span style='text-decoration: underline;'>7</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 45    (3,4]  </span><span style='text-decoration: underline;'>1</span><span>871 q95    52.2 0.010</span><span style='text-decoration: underline;'>8</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 45    (4,5]   417 q95    45.4 0.002</span><span style='text-decoration: underline;'>40</span><span> 
+#&gt; </span><span style='color: #949494;'># ... with 104 more rows</span><span></div><div class='input'>
+
+<span class='co'># more wd classes, less ws classes and squish ws</span>
+<span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='st'>"ws"</span>, <span class='st'>"wd"</span>, <span class='st'>"NO"</span>,
+             <span class='kw'>wd_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_wd.fun.html'>cut_wd.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>22.5</span>),
+             <span class='kw'>ws_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_ws.fun.html'>cut_ws.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>6</span>))</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 54 x 6</span><span>
+#&gt;    wd    ws        n stat     NO      freq
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 0     [0,2]  </span><span style='text-decoration: underline;'>4</span><span>225 mean  27.0  0.048</span><span style='text-decoration: underline;'>6</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 0     (2,4]   931 mean  22.6  0.010</span><span style='text-decoration: underline;'>7</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 0     (4,6]    17 mean   6.06 0.000</span><span style='text-decoration: underline;'>196</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 22.5  [0,2]  </span><span style='text-decoration: underline;'>8</span><span>338 mean  34.5  0.096</span><span style='text-decoration: underline;'>0</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 22.5  (2,4]  </span><span style='text-decoration: underline;'>3</span><span>290 mean  26.4  0.037</span><span style='text-decoration: underline;'>9</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 22.5  (4,6]    22 mean  12.8  0.000</span><span style='text-decoration: underline;'>253</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 45    [0,2]  </span><span style='text-decoration: underline;'>7</span><span>623 mean  28.4  0.087</span><span style='text-decoration: underline;'>8</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 45    (2,4]  </span><span style='text-decoration: underline;'>5</span><span>228 mean  17.6  0.060</span><span style='text-decoration: underline;'>2</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 45    (4,6]   446 mean   8.89 0.005</span><span style='text-decoration: underline;'>13</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 45    &gt;6        4 mean   3.19 0.000</span><span style='text-decoration: underline;'>046</span><span>1
+#&gt; </span><span style='color: #949494;'># ... with 44 more rows</span><span></div><div class='input'>
+<span class='co'># only one ws class ()</span>
+<span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='st'>"ws"</span>, <span class='st'>"wd"</span>, <span class='st'>"NO"</span>,
+             <span class='kw'>ws_cutfun</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='st'>"ws"</span>))</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 8 x 6</span><span>
+#&gt;   wd    ws        n stat     NO   freq
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 0     ws    </span><span style='text-decoration: underline;'>11</span><span>292 mean   27.8 0.130 
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> 45    ws    </span><span style='text-decoration: underline;'>22</span><span>480 mean   25.9 0.259 
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> 90    ws     </span><span style='text-decoration: underline;'>2</span><span>564 mean   21.1 0.029</span><span style='text-decoration: underline;'>5</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> 135   ws     </span><span style='text-decoration: underline;'>3</span><span>422 mean   16.7 0.039</span><span style='text-decoration: underline;'>4</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> 180   ws    </span><span style='text-decoration: underline;'>13</span><span>007 mean   18.3 0.150 
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> 225   ws    </span><span style='text-decoration: underline;'>12</span><span>088 mean   13.5 0.139 
+#&gt; </span><span style='color: #BCBCBC;'>7</span><span> 270   ws    </span><span style='text-decoration: underline;'>13</span><span>197 mean   14.8 0.152 
+#&gt; </span><span style='color: #BCBCBC;'>8</span><span> 315   ws     </span><span style='text-decoration: underline;'>8</span><span>809 mean   15.0 0.101 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -204,7 +331,9 @@ a tibble including groups and summarised z is returned</p></li>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#computed-variables">Computed variables</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

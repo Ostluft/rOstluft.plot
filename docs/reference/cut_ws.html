@@ -32,8 +32,9 @@
 
 <meta property="og:title" content="Cut wind velocity (or others) into factor classes — cut_ws" />
 
-<meta property="og:description" content="Wraps base::cut() with breaks = seq(0, max(pmin(ws, ws_max, na.rm = TRUE), na.rm = TRUE), binwidth) as fixed
-argument" />
+<meta property="og:description" content="Based on base::cut(). Allows to specifiy maximum wind velocity. If squish = TRUE the values greater than ws_max
+will be combined to one additional factor level &quot;&amp;gt;ws_max&quot;. If squish = FALSE the resulting vector will contain
+NA for this values. The correct handling of the NA values in the factor must be done by the user." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -121,19 +122,21 @@ argument" />
 
     <div class="ref-description">
     
-    <p>Wraps <code><a href='https://www.rdocumentation.org/packages/base/topics/cut'>base::cut()</a></code> with <code>breaks = seq(0, max(pmin(ws, ws_max, na.rm = TRUE), na.rm = TRUE), binwidth)</code> as fixed
-argument</p>
+    <p>Based on <code><a href='https://www.rdocumentation.org/packages/base/topics/cut'>base::cut()</a></code>. Allows to specifiy maximum wind velocity. If <code>squish = TRUE</code> the values greater than <code>ws_max</code>
+will be combined to one additional factor level "&gt;ws_max". If <code>squish = FALSE</code> the resulting vector will contain
+NA for this values. The correct handling of the NA values in the factor must be done by the user.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>cut_ws</span>(<span class='no'>ws</span>, <span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>reverse</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>cut_ws</span>(<span class='no'>ws</span>, <span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>squish</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>right</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>reverse</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>ws</th>
-      <td><p>numeric vector of wind velocitiy</p></td>
+      <td><p>numeric vector of wind velocity</p></td>
     </tr>
     <tr>
       <th>binwidth</th>
@@ -144,22 +147,44 @@ argument</p>
       <td><p>cut off wind speed at this maximum</p></td>
     </tr>
     <tr>
-      <th>reverse</th>
-      <td><p>reverse order of result. This is sometimes useful when plotting a factor.</p></td>
+      <th>squish</th>
+      <td><p>If TRUE wind velocities greater than will be include as additional level "&gt;ws_max"</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>passed onto <code><a href='https://www.rdocumentation.org/packages/base/topics/cut'>base::cut()</a></code></p></td>
+      <th>right</th>
+      <td><p>logical, indicating if the intervals should be closed on the right (and open on the left) or vice versa.</p></td>
+    </tr>
+    <tr>
+      <th>reverse</th>
+      <td><p>reverse order of result. This is sometimes useful when plotting a factor.</p></td>
     </tr>
     </table>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>ws</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.5</span>, <span class='fl'>1.1</span>, <span class='fl'>2.2</span>, <span class='fl'>3.3</span>, <span class='fl'>4.4</span>, <span class='fl'>5</span>, <span class='fl'>8.8</span>)
+
+<span class='fu'>cut_ws</span>(<span class='no'>ws</span>, <span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; [1] [0,2]  [0,2]  (2,4]  (2,4]  (4,6]  (4,6]  (8,10]
+#&gt; Levels: [0,2] (2,4] (4,6] (6,8] (8,10]</div><div class='input'>
+<span class='co'># if ws_max not a multiple of binwidth, the last level before squishing will be cut short</span>
+<span class='fu'>cut_ws</span>(<span class='no'>ws</span>, <span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>5</span>)</div><div class='output co'>#&gt; [1] [0,2] [0,2] (2,4] (2,4] (4,5] (4,5] &gt;5   
+#&gt; Levels: [0,2] (2,4] (4,5] &gt;5</div><div class='input'>
+<span class='fu'>cut_ws</span>(<span class='no'>ws</span>, <span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>squish</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] [0,2] [0,2] (2,4] (2,4] (4,5] (4,5] &lt;NA&gt; 
+#&gt; Levels: [0,2] (2,4] (4,5]</div><div class='input'>
+<span class='co'># close the intervals on the left side</span>
+<span class='fu'>cut_ws</span>(<span class='no'>ws</span>, <span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>right</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] [0,2) [0,2) [2,4) [2,4) [4,5) &gt;=5   &gt;=5  
+#&gt; Levels: [0,2) [2,4) [4,5) &gt;=5</div><div class='input'>
+<span class='co'># reverse the order of the factors, useful for legends while plotting</span>
+<span class='fu'>cut_ws</span>(<span class='no'>ws</span>, <span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>reverse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] [0,2] [0,2] (2,4] (2,4] (4,5] (4,5] &gt;5   
+#&gt; Levels: &gt;5 (4,5] (2,4] [0,2]</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+            
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
