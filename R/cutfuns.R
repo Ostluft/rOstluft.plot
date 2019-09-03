@@ -137,3 +137,66 @@ y_classes <- function(y, binwidth, ymax = NA, boundary = 0, ...) {
   levels(y) <- rev(levels(y))
   return(y)
 }
+
+
+#' Partial function constructor for ggplot2 cut functions
+#'
+#' This Wrappers creates partial functions with x as sole argument of
+#' the [ggplot2 cut functions][ggplot2::cut_interval()]
+#'
+#'
+#' @inheritParams ggplot2::cut_interval
+#'
+#' @return function
+#'
+#' @export
+#' @examples
+#'
+#' data <- tibble::tibble(x = runif(100, 0, 10))
+#'
+#' funs <- list(
+#'   interval = cut_interval.fun(n = 5),
+#'   number = cut_number.fun(n = 5),
+#'   width = cut_width.fun(width = 2, boundary = 0)
+#' )
+#'
+#' res <- dplyr::mutate_all(tibble::tibble(x = runif(100, 0, 10)), funs)
+#'
+#' res
+#'
+#' table(res$interval)
+#'
+#' table(res$number)
+#'
+#' table(res$width)
+cut_interval.fun <- function(n = NULL, length = NULL, ...) {
+  function(x) {
+    ggplot2::cut_interval(x, n = n, length = length, ...)
+  }
+}
+
+#' @inheritParams ggplot2::cut_number
+#'
+#' @export
+#' @rdname cut_interval.fun
+cut_number.fun <- function(n = NULL, ...) {
+  function(x) {
+    ggplot2::cut_number(x, n = n, ...)
+  }
+}
+
+
+#' @inheritParams ggplot2::cut_width
+#'
+#' @export
+#' @rdname cut_interval.fun
+cut_width.fun <- function(width, center = NULL, boundary = NULL,
+                          closed = c("right", "left"), ...) {
+  function(x) {
+    ggplot2::cut_width(x, width, center, boundary, closed, ...)
+  }
+}
+
+
+
+

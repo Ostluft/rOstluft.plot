@@ -6,13 +6,13 @@
 \title{Summarise z values over binned wind data.}
 \usage{
 geom_bar_wind(mapping = NULL, data = NULL, stat = "summary_wind",
-  position = "stack", ..., groups = c(), fun = "mean",
+  position = "stack", ..., groupings = groups(), fun = "mean",
   fun.args = list(), nmin = 3, wd_cutfun = cut_wd.fun(binwidth = 45),
   ws_cutfun = cut_ws.fun(binwidth = 1), na.rm = FALSE,
   show.legend = NA, inherit.aes = TRUE)
 
 stat_summary_wind(data = NULL, mapping = NULL, geom = "bar_wind",
-  position = "stack", ..., groups = c(), fun = "mean",
+  position = "stack", ..., groupings = groups(), fun = "mean",
   fun.args = list(), nmin = 3, wd_cutfun = cut_wd.fun(binwidth = 45),
   ws_cutfun = cut_ws.fun(binwidth = 1), na.rm = FALSE,
   show.legend = NA, inherit.aes = TRUE)
@@ -36,7 +36,7 @@ often aesthetics, used to set an aesthetic to a fixed value, like
 \code{colour = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
 
-\item{groups}{one or more character string for additional grouping}
+\item{groupings}{additional groupings. Use helper \code{\link[=groups]{groups()}} to create}
 
 \item{fun}{function or list of functions for summary.}
 
@@ -71,6 +71,10 @@ for \code{\link[=summary_wind]{summary_wind()}}. The computed variables are name
 is an extension to \code{\link[ggplot2:geom_bar]{ggplot2::geom_bar()}} with \code{\link[=stat_summary_wind]{stat_summary_wind()}} as default stat and correct
 handling of the factorized \code{x} aesthetic. To map the computed Variables use \code{\link[ggplot2:stat]{ggplot2::stat()}}.
 }
+\section{Grouping}{
+
+}
+
 \examples{
 library(ggplot2)
 
@@ -109,6 +113,7 @@ ggplot(data, aes(x = stat(wd), y = stat(z), color = stat(stat), group = stat(sta
     size = 1
   ) +
   coord_radar(start = - 22.5 / 180 * pi) +
+  scale_y_continuous(limits = c(0, NA), expand = c(0,0)) +
   scale_color_viridis_d(end = 0.8)
 
 # ggplot2 doesn't support faceting over a Variable computed in a stat.
@@ -122,5 +127,23 @@ ggplot(data_summarized, aes(x = wd, y = NOx, color = stat, group = stat)) +
   geom_polygon(size = 1, fill = NA) +
   coord_radar(start = - 22.5 / 180 * pi ) +
   scale_color_viridis_d(end = 0.8) +
+  scale_y_continuous(limits = c(0, NA), expand = c(0,0)) +
   facet_wrap(vars(stat))
+
+# like faceting the mapping mechanism makes it hard to impossible
+# to use the grouping argument of summary wind. Do the summarise
+# external.
+# For example: how often comes which concentration from a sector
+data_summarized <- summary_wind(data, ws, wd, NOx,
+  groupings = groups(
+    fNOx = ggplot2::cut_number(NO2, 5),
+    year = lubridate::year(date)
+  ),
+  ws_cutfun = cut_number.fun(1)
+)
+
+ggplot(data_summarized, aes(x = wd, y = freq, fill = forcats::fct_rev(fNOx))) +
+  geom_bar(stat = "identity") +
+  coord_polar2(start = - 22.5 / 180 * pi ) +
+  scale_fill_viridis_d(direction = -1, name = "NOx")
 }

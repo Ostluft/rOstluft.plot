@@ -8,7 +8,7 @@
 #' @param ws symbol giving the wind velocity parameter name (wind velocity preferably in m/s)
 #' @param wd symbol giving the wind direction parameter name  in degrees
 #' @param z symbol giving the parameter name to be summarised
-#' @param groups one or more character string for additional grouping
+#' @param groupings additional groupings. Use helper [groups()] to create
 #' @param fun function or list of functions for summary.
 #' @param fun.args a list of extra arguments passed on to fun.
 #' @param nmin numeric, minimum number of values for fun, if n < nmin: NA is returned
@@ -37,9 +37,6 @@
 #' data <- dplyr::mutate(data, year = lubridate::year(date))
 #'
 #' summary_wind(data, "ws", "wd", "NO2")
-#'
-#' # works with symbols too and additional grouping
-#' summary_wind(data, ws, wd, NO2, groups = c("site", "year"))
 #'
 #' # multiple stats: Pass function, by name, reference, as function or one sided formula
 #' q95 <- function(x) stats::quantile(x, probs = 0.95)
@@ -75,10 +72,19 @@
 #'
 #' # only one ws class ()
 #' summary_wind(data, "ws", "wd", "NO",
-#'              ws_cutfun = function(x) factor("ws"))
-summary_wind <- function(data, ws, wd, z, groups = c(), fun = "mean", fun.args = list(), nmin = 3,
+#'              ws_cutfun = cut_number.fun(1))
+#'
+#' # additional grouping with strings, symbols or named expressions
+#' summary_wind(data, ws, wd, NO2, group = groups("site", year, wday = lubridate::wday(date)))
+#'
+#' # how often comes which concentration from one direction
+#' summary_wind(data, ws, wd, NO2,
+#'              group = groups(NO2_class = ggplot2::cut_number(NO2, 5)),
+#'              ws_cutfun = cut_number.fun(1))
+summary_wind <- function(data, ws, wd, z, groupings = groups(), fun = "mean", fun.args = list(), nmin = 3,
                           wd_cutfun = cut_wd.fun(binwidth = 45),
                           ws_cutfun = cut_ws.fun(binwidth = 1)) {
+
 
   wd <- rlang::ensym(wd)
   ws <- rlang::ensym(ws)
@@ -95,7 +101,7 @@ summary_wind <- function(data, ws, wd, z, groups = c(), fun = "mean", fun.args =
   data <- dplyr::filter(data, !(is.na(!!wd) | is.na(!!ws) | is.na(!!z)))
 
   # apply the summarize function regarding the addiotional grouping columns
-  data <- dplyr::group_by(data, wd, ws, !!!rlang::syms(groups))
+  data <- dplyr::group_by(data, wd, ws, !!!groupings)
   data <- dplyr::summarise_at(data,
       .vars = dplyr::vars(!!z),
       .funs = fun,
@@ -104,7 +110,7 @@ summary_wind <- function(data, ws, wd, z, groups = c(), fun = "mean", fun.args =
   data <- dplyr::ungroup(data)
 
   if (length(groups) > 0) { # probably a more elegant way exists, but i'm stupid
-    data <- tidyr::gather(data, key = "stat", value = !!z, -!!wd, -!!ws,  -n, -dplyr::one_of(!!!groups))
+    data <- tidyr::gather(data, key = "stat", value = !!z, -!!wd, -!!ws, -dplyr::one_of(names(groupings)), -n)
   } else {
     data <- tidyr::gather(data, key = "stat", value = !!z, -!!wd, -!!ws,  -n)
   }

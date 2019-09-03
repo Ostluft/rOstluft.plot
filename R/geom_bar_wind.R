@@ -6,6 +6,9 @@
 #' is an extension to [ggplot2::geom_bar()] with [stat_summary_wind()] as default stat and correct
 #' handling of the factorized `x` aesthetic. To map the computed Variables use [ggplot2::stat()].
 #'
+#' @section Grouping:
+#'
+#'
 #' @param ... Other arguments passed on to [layer()]. These are
 #'   often aesthetics, used to set an aesthetic to a fixed value, like
 #'   `colour = "red"` or `size = 3`. They may also be parameters
@@ -55,6 +58,7 @@
 #'     size = 1
 #'   ) +
 #'   coord_radar(start = - 22.5 / 180 * pi) +
+#'   scale_y_continuous(limits = c(0, NA), expand = c(0,0)) +
 #'   scale_color_viridis_d(end = 0.8)
 #'
 #' # ggplot2 doesn't support faceting over a Variable computed in a stat.
@@ -68,10 +72,28 @@
 #'   geom_polygon(size = 1, fill = NA) +
 #'   coord_radar(start = - 22.5 / 180 * pi ) +
 #'   scale_color_viridis_d(end = 0.8) +
+#'   scale_y_continuous(limits = c(0, NA), expand = c(0,0)) +
 #'   facet_wrap(vars(stat))
+#'
+#' # like faceting the mapping mechanism makes it hard to impossible
+#' # to use the grouping argument of summary wind. Do the summarise
+#' # external.
+#' # For example: how often comes which concentration from a sector
+#' data_summarized <- summary_wind(data, ws, wd, NOx,
+#'   groupings = groups(
+#'     fNOx = ggplot2::cut_number(NO2, 5),
+#'     year = lubridate::year(date)
+#'   ),
+#'   ws_cutfun = cut_number.fun(1)
+#' )
+#'
+#' ggplot(data_summarized, aes(x = wd, y = freq, fill = forcats::fct_rev(fNOx))) +
+#'   geom_bar(stat = "identity") +
+#'   coord_polar2(start = - 22.5 / 180 * pi ) +
+#'   scale_fill_viridis_d(direction = -1, name = "NOx")
 geom_bar_wind <- function(mapping = NULL, data = NULL, stat = "summary_wind", position = "stack",
                           ...,
-                          groups = c(),
+                          groupings = groups(),
                           fun = "mean",
                           fun.args = list(),
                           nmin = 3,
@@ -90,7 +112,7 @@ geom_bar_wind <- function(mapping = NULL, data = NULL, stat = "summary_wind", po
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = list(
-      groups = groups,
+      groupings = groupings,
       fun = fun,
       fun.args = fun.args,
       nmin = nmin,

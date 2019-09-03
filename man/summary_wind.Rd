@@ -4,7 +4,7 @@
 \alias{summary_wind}
 \title{Summarise z values over binned wind data.}
 \usage{
-summary_wind(data, ws, wd, z, groups = c(), fun = "mean",
+summary_wind(data, ws, wd, z, groupings = groups(), fun = "mean",
   fun.args = list(), nmin = 3, wd_cutfun = cut_wd.fun(binwidth = 45),
   ws_cutfun = cut_ws.fun(binwidth = 1))
 }
@@ -17,7 +17,7 @@ summary_wind(data, ws, wd, z, groups = c(), fun = "mean",
 
 \item{z}{symbol giving the parameter name to be summarised}
 
-\item{groups}{one or more character string for additional grouping}
+\item{groupings}{additional groupings. Use helper \code{\link[=groups]{groups()}} to create}
 
 \item{fun}{function or list of functions for summary.}
 
@@ -59,9 +59,6 @@ data <- dplyr::mutate(data, year = lubridate::year(date))
 
 summary_wind(data, "ws", "wd", "NO2")
 
-# works with symbols too and additional grouping
-summary_wind(data, ws, wd, NO2, groups = c("site", "year"))
-
 # multiple stats: Pass function, by name, reference, as function or one sided formula
 q95 <- function(x) stats::quantile(x, probs = 0.95)
 
@@ -96,5 +93,13 @@ summary_wind(data, "ws", "wd", "NO",
 
 # only one ws class ()
 summary_wind(data, "ws", "wd", "NO",
-             ws_cutfun = function(x) factor("ws"))
+             ws_cutfun = cut_number.fun(1))
+
+# additional grouping with strings, symbols or named expressions
+summary_wind(data, ws, wd, NO2, group = groups("site", year, wday = lubridate::wday(date)))
+
+# how often comes which concentration from one direction
+summary_wind(data, ws, wd, NO2,
+             group = groups(NO2_class = ggplot2::cut_number(NO2, 5)),
+             ws_cutfun = cut_number.fun(1))
 }
