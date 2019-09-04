@@ -23,57 +23,80 @@
 #'
 #' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 #'
-#' df <-
+#' data <-
 #'   rOstluft::read_airmo_csv(fn) %>%
 #'   rOstluft::rolf_to_openair() %>%
 #'   openair::cutData(date, type = "daylight")
 #'
-#' ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5,
-#'            ws_binwidth = 0.5, ws_max = 5)
+#' ggwindrose(data, ws, wd)
+#'
+#' # squish ws
+#' ggwindrose(data, ws, wd, ws_max = 5)
+#'
+#' # change binning
+#' ggwindrose(data, ws, wd, wd_binwidth = 22.5, ws_binwidth = 1.5, ws_max = 4.5)
 #'
 #' # don't like bar outlines?
-#' ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5, param_args = list(color = "black"),
-#'            ws_binwidth = 0.5, ws_max = 4)
+#' ggwindrose(data, "ws", "wd", color = "black", ws_max = 4)
 #'
-#' ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5, param_args = list(color = NA),
-#'            ws_binwidth = 0.5, ws_max = 4)
+#' # bigger outlines
+#' ggwindrose(data, ws, wd, ws_max = 5, size = 1)
 #'
-#' # facetting
-#' ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5, param_args = list(color = NA),
-#'             ws_binwidth = 0.5, ws_max = 3) +
-#'   facet_wrap(daylight~.)
-ggwindrose <- function(data,
-                       mapping,
-                       param_args = list(),
+#' # another fill scale
+#' ggwindrose(data, ws, wd, ws_max = 5,
+#'            fill_scale = scale_fill_manual(values = matlab::jet.colors(6)))
+#'
+#' # reverse the order of ws
+#' ggwindrose(data, ws, wd, ws_max = 5, reverse = TRUE)
+#'
+#' # faceting: important the faceting variable, must also be in grouping!
+#' ggwindrose(data, ws, wd, ws_max = 5, groupings = groups(daylight)) +
+#'   facet_wrap(vars(daylight))
+#'
+#' # you can use groupings to directly mutate the data for faceting.
+#' # in this example we define the groupings external for better
+#' # readability
+#' groupings = groups(
+#'   season = lubridate::quarter(date),  # placeholder
+#'   year = lubridate::year(date)
+#' )
+#'
+#' ggwindrose(data, ws, wd, ws_max = 3, groupings = groupings) +
+#'   facet_grid(rows = vars(year), cols = vars(season))
+ggwindrose <- function(data, ws, wd,
                        ...,
                        wd_binwidth = 45,
                        ws_binwidth = 1,
                        ws_max = NA,
+                       groupings = groups(),
                        fill_scale = scale_fill_viridis_d(),
-                       reverse = TRUE,
+                       reverse = FALSE,
                        bg = NULL
 ) {
 
+  ws <- rlang::ensym(ws)  # or enquo but summary_wind accept only strings or symbols
+  wd <- rlang::ensym(wd)
   wd_cutfun <- cut_wd.fun(binwidth = wd_binwidth)
-  ws_cutfun <- cut_ws.fun(binwidth = ws_binwidth, ws_max = ws_max, reverse = reverse)
-  param_args <- modify_list(list(color = "white", width = 1, size = 0.25), param_args)
-  mapping$z <- mapping$ws
+  ws_cutfun <- cut_ws.fun(binwidth = ws_binwidth, ws_max = ws_max, reverse = TRUE)
 
-  plot <-
-    ggplot(data, mapping) +
-    stat_summary_wind(
-      mapping = aes(x = as.numeric(stat(wd)), y = stat(freq), group = stat(ws), fill = stat(ws)),
-      layer_args = list(geom = "bar"),
-      param_args = param_args,
-      wd_cutfun = wd_cutfun,
-      wd_offset = wd_binwidth / 2, ws_cutfun = ws_cutfun, groups = c("wd", "ws"),
-      ...
-    ) +
+
+  data_summarized <- summary_wind(data, ws, wd, ws, groupings = groupings,
+                                  wd_cutfun = wd_cutfun, ws_cutfun = ws_cutfun)
+
+  bar_args <- modify_list(list(color = "white", width = 1, size = 0.25), rlang::dots_list(...))
+  bar_layer <- rlang::exec(geom_bar, stat = "identity", !!!bar_args)
+
+  wd_levels <- levels(dplyr::pull(data_summarized, !!wd))
+  breaks <- wd_levels[c(0, 90, 180, 270) / wd_binwidth + 1]
+
+
+  plot <- ggplot(data_summarized, aes(x = as.numeric(!!wd), y = freq, fill = !!ws)) +
+    bar_layer +
     coord_polar2(start = -2 * pi / 360 * wd_binwidth / 2, bg = bg) +
-    scale_x_continuous(breaks = c(0, 90, 180, 270) / wd_binwidth + 1, labels = c("N", "E", "S", "W"), expand = c(0,0)) +
+    scale_x_discrete(breaks = breaks, labels = c("N", "E", "S", "W"), expand = c(0,0)) +
     scale_y_continuous(limits = c(0, NA), expand = c(0,0), labels = scales::percent) +
     fill_scale +
-    guides(fill = guide_legend(title = rlang::quo_text(mapping$z))) +
+    guides(fill = guide_legend(title = rlang::quo_text(ws), reverse = reverse)) +
     theme_windrose
 
   return(plot)

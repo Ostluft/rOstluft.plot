@@ -4,17 +4,12 @@
 \alias{ggwindrose}
 \title{ggplot wrapper to create a windrose (polar wind-bin frequency plot)}
 \usage{
-ggwindrose(data, mapping, param_args = list(), ..., wd_binwidth = 45,
-  ws_binwidth = 1, ws_max = NA, fill_scale = scale_fill_viridis_d(),
-  reverse = TRUE, bg = NULL)
+ggwindrose(data, ws, wd, ..., wd_binwidth = 45, ws_binwidth = 1,
+  ws_max = NA, groupings = groups(),
+  fill_scale = scale_fill_viridis_d(), reverse = FALSE, bg = NULL)
 }
 \arguments{
 \item{data}{tibble containing wind speed, wind direction and/or air pollutant concentration data}
-
-\item{mapping}{ggplot2 mapping, e.g. aes(wd = wd, ws = ws); requires wd, ws}
-
-\item{param_args}{named list, passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}} as argument params after combining with the other
-arguments}
 
 \item{...}{passed onto \code{\link[=stat_summary_wind]{stat_summary_wind()}}}
 
@@ -30,6 +25,11 @@ arguments}
 \item{reverse}{TRUE/FALSE, should wind speed bin factors be sorted descending or ascending (inside-out or reverse)?}
 
 \item{bg}{raster map, e.g. ggmap object as plot background}
+
+\item{mapping}{ggplot2 mapping, e.g. aes(wd = wd, ws = ws); requires wd, ws}
+
+\item{param_args}{named list, passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}} as argument params after combining with the other
+arguments}
 }
 \value{
 ggplot object
@@ -44,23 +44,44 @@ library(ggplot2)
 
 fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 
-df <-
+data <-
   rOstluft::read_airmo_csv(fn) \%>\%
   rOstluft::rolf_to_openair() \%>\%
   openair::cutData(date, type = "daylight")
 
-ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5,
-           ws_binwidth = 0.5, ws_max = 5)
+ggwindrose(data, ws, wd)
+
+# squish ws
+ggwindrose(data, ws, wd, ws_max = 5)
+
+# change binning
+ggwindrose(data, ws, wd, wd_binwidth = 22.5, ws_binwidth = 1.5, ws_max = 4.5)
 
 # don't like bar outlines?
-ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5, param_args = list(color = "black"),
-           ws_binwidth = 0.5, ws_max = 4)
+ggwindrose(data, "ws", "wd", color = "black", ws_max = 4)
 
-ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5, param_args = list(color = NA),
-           ws_binwidth = 0.5, ws_max = 4)
+# bigger outlines
+ggwindrose(data, ws, wd, ws_max = 5, size = 1)
 
-# facetting
-ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5, param_args = list(color = NA),
-            ws_binwidth = 0.5, ws_max = 3) +
-  facet_wrap(daylight~.)
+# another fill scale
+ggwindrose(data, ws, wd, ws_max = 5,
+           fill_scale = scale_fill_manual(values = matlab::jet.colors(6)))
+
+# reverse the order of ws
+ggwindrose(data, ws, wd, ws_max = 5, reverse = TRUE)
+
+# faceting: important the faceting variable, must also be in grouping!
+ggwindrose(data, ws, wd, ws_max = 5, groupings = groups(daylight)) +
+  facet_wrap(vars(daylight))
+
+# you can use groupings to directly mutate the data for faceting.
+# in this example we define the groupings external for better
+# readability
+groupings = groups(
+  season = lubridate::quarter(date),  # placeholder
+  year = lubridate::year(date)
+)
+
+ggwindrose(data, ws, wd, ws_max = 3, groupings = groupings) +
+  facet_grid(rows = vars(year), cols = vars(season))
 }

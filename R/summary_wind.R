@@ -85,14 +85,26 @@ summary_wind <- function(data, ws, wd, z, groupings = groups(), fun = "mean", fu
                           wd_cutfun = cut_wd.fun(binwidth = 45),
                           ws_cutfun = cut_ws.fun(binwidth = 1)) {
 
-
   wd <- rlang::ensym(wd)
   ws <- rlang::ensym(ws)
   z <- rlang::ensym(z)
 
-  fun <- c(fun, "n" = function(x, ...) {sum(!is.na(x))})
-  names <- purrr::map2(fun, rlang::names2(fun), function(element, name) {if (name != "") name else element})
-  fun <- rlang::set_names(fun, names)
+  # rename z if needed. we can't apply summarize functions on grouping columns!
+  # for ws and wd we do auto renaming.
+
+  if (ws == z) {
+    z <- rlang::sym(stringr::str_c(rlang::as_string(ws), ".stat"))
+    data <- dplyr::mutate(data, !!z := !!ws)
+  }
+
+  if (wd == z) {
+    z <- rlang::sym(stringr::str_c(rlang::as_string(wd), ".stat"))
+    data <- dplyr::mutate(data, !!z := !!wd)
+  }
+
+  fun <- auto_name(c(fun, "n" = function(x, ...) {sum(!is.na(x))}))
+  # names <- purrr::map2(fun, rlang::names2(fun), function(element, name) {if (name != "") name else element})
+  # fun <- rlang::set_names(fun, names)
 
   # apply binning trough cut fuctions
   data <- dplyr::mutate(data, !!wd := wd_cutfun(!!wd), !!ws := ws_cutfun(!!ws))
@@ -100,7 +112,7 @@ summary_wind <- function(data, ws, wd, z, groupings = groups(), fun = "mean", fu
   # with stats::na.omit() every row containing a NA value will be filtered
   data <- dplyr::filter(data, !(is.na(!!wd) | is.na(!!ws) | is.na(!!z)))
 
-  # apply the summarize function regarding the addiotional grouping columns
+ # apply the summarize function regarding the addiotional grouping columns
   data <- dplyr::group_by(data, wd, ws, !!!groupings)
   data <- dplyr::summarise_at(data,
       .vars = dplyr::vars(!!z),
@@ -109,13 +121,19 @@ summary_wind <- function(data, ws, wd, z, groupings = groups(), fun = "mean", fu
   )
   data <- dplyr::ungroup(data)
 
-  if (length(groups) > 0) { # probably a more elegant way exists, but i'm stupid
-    data <- tidyr::gather(data, key = "stat", value = !!z, -!!wd, -!!ws, -dplyr::one_of(names(groupings)), -n)
+  if (length(groups) > 0) {
+    data <- dplyr::group_by(data, !!!rlang::syms(names(groupings)))
+    data <- dplyr::mutate(data, freq = .data$n / sum(.data$n, na.rm = TRUE))
+    data <- dplyr::ungroup(data)
+    data <- tidyr::gather(data, key = "stat", value = !!z, -!!wd, -!!ws, -n, -freq,
+                          -dplyr::one_of(names(groupings)))
   } else {
-    data <- tidyr::gather(data, key = "stat", value = !!z, -!!wd, -!!ws,  -n)
+    data <- dplyr::mutate(data, freq = .data$n / sum(.data$n, na.rm = TRUE))
+    data <- tidyr::gather(data, key = "stat", value = !!z, -!!wd, -!!ws, -n, -freq)
   }
 
-  data <- dplyr::mutate(data, stat = factor(stat), freq = n / sum(n, na.rm = TRUE))
+  # factorize stat column
+  data <- dplyr::mutate(data, stat = factor(stat))
   data <- dplyr::filter(data, n >= nmin)
 
   return(data)

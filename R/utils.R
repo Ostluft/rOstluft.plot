@@ -98,3 +98,39 @@ groups <- function(...) {
 }
 
 
+
+#' Ensure that all elements of a list of expressions are named
+#'
+#' Nearly identical to [rlang::exprs_auto_name()], but [rlang::quo_name()]
+#' is used instead of [rlang::as_label()]. For String items the string will
+#' returned without wrapping in double quotes. The naming of functions and
+#' formulas is not optimal, it is better to manually name theme.
+#'
+#' @param exprs  A list of expressions.
+#'
+#' @return A named list of expressions
+#' @export
+#'
+#' @examples
+#' funs <- list(
+#'   "mean",
+#'   function(x) stats::quantile(x, probs = 0.95),
+#'   ~ stats::quantile(., probs = 0.95),
+#'   q95 = function(x) stats::quantile(x, probs = 0.95)
+#' )
+#'
+#' auto_name(funs)
+#'
+#' # exprs_autoname adds double quotes to strings
+#' rlang::exprs_auto_name(funs)
+auto_name <- function(exprs) {
+  have_name <- rlang::have_name(exprs)
+  if (any(!have_name)) {
+    nms <- purrr::map_chr(exprs[!have_name], rlang::quo_name)
+    names(exprs)[!have_name] <- nms
+  }
+  exprs
+}
+
+
+
