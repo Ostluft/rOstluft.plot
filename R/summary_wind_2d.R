@@ -164,6 +164,7 @@ summary_wind_2d <- function(data, ws, wd, z, groupings = groups(), fun = "mean",
       ~ fit_gam_surface(.x, x = "u", y = "v", z = z, weights = pmin(3, .x$n) / 3,
                         k = k, extrapolate = extrapolate, dist = dist)
     )
+    data <- dplyr::ungroup(data)
   }
 
   # calculate wd and ws for the midpoints of uv

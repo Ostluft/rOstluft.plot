@@ -241,6 +241,18 @@ a tibble including groups and summarised z is returned</p></li>
 </ul>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
+
+<span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft.data</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft.data/topics/f'>f</a></span>(<span class='st'>"Zch_Stampfenbachstrasse_2010-2014.csv"</span>)
+
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft/topics/read_airmo_csv'>read_airmo_csv</a></span>(<span class='no'>fn</span>) <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft/topics/rolf_to_openair'>rolf_to_openair</a></span>()
+
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>df</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/stat.html'>stat</a></span>(<span class='no'>u</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/stat.html'>stat</a></span>(<span class='no'>v</span>), <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/stat.html'>stat</a></span>(<span class='no'>z</span>))) +
+  <span class='fu'>stat_summary_wind_2d</span>(<span class='kw'>mapping</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>wd</span> <span class='kw'>=</span> <span class='no'>wd</span>, <span class='kw'>ws</span> <span class='kw'>=</span> <span class='no'>ws</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>NO2</span>), <span class='kw'>bins</span> <span class='kw'>=</span> <span class='fl'>50</span>^<span class='fl'>2</span>) +
+  <span class='fu'><a href='coord_cartpolar.html'>coord_cartpolar</a></span>() +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_viridis.html'>scale_fill_viridis_c</a></span>(<span class='kw'>na.value</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 767 rows containing non-finite values (stat_summary_wind2d).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 991 rows containing missing values (geom_raster).</span></div><div class='img'><img src='stat_summary_wind_2d-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -252,7 +264,9 @@ a tibble including groups and summarised z is returned</p></li>
       <li><a href="#aesthetics">Aesthetics</a></li>
 
       <li><a href="#computed-variables">Computed variables</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

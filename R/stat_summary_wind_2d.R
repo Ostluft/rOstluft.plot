@@ -52,6 +52,19 @@
 #'   a tibble including groups and summarised z is returned
 #'
 #' @export
+#'
+#' @examples
+#' library(ggplot2)
+#'
+#' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
+#'
+#' df <- rOstluft::read_airmo_csv(fn) %>%
+#'   rOstluft::rolf_to_openair()
+#'
+#' ggplot(df, aes(x = stat(u), y = stat(v), fill = stat(z))) +
+#'   stat_summary_wind_2d(mapping = aes(wd = wd, ws = ws, z = NO2), bins = 50^2) +
+#'   coord_cartpolar() +
+#'   scale_fill_viridis_c(na.value = NA)
 stat_summary_wind_2d <- function (data = NULL, mapping = NULL, geom = "raster", position = "identity",
                                   ...,
                                   fun = "mean",
@@ -85,6 +98,7 @@ stat_summary_wind_2d <- function (data = NULL, mapping = NULL, geom = "raster", 
       k = k,
       extrapolate = extrapolate,
       dist = dist,
+      na.rm = na.rm,
       ...
     )
   )
@@ -105,8 +119,9 @@ StatSummaryWind2d <- ggproto("StatSummaryWind2d", Stat,
                            dist = 0.1) {
 
     summary_wind_2d(data = data, wd = "wd", ws = "ws", z = "z", fun = fun, fun.args = fun.args, nmin = nmin,
-                     ws_max = ws_max, smooth = smooth, k = k, extrapolate = extrapolate,
-                     dist = dist, bins = bins)
+                    ws_max = ws_max, smooth = smooth, k = k, extrapolate = extrapolate,
+                    dist = dist, bins = bins)
+
   },
   required_aes = c("wd", "ws", "z")
 )

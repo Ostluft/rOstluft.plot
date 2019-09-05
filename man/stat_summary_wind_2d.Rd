@@ -87,3 +87,16 @@ a tibble including groups and summarised z is returned
 }
 }
 
+\examples{
+library(ggplot2)
+
+fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
+
+df <- rOstluft::read_airmo_csv(fn) \%>\%
+  rOstluft::rolf_to_openair()
+
+ggplot(df, aes(x = stat(u), y = stat(v), fill = stat(z))) +
+  stat_summary_wind_2d(mapping = aes(wd = wd, ws = ws, z = NO2), bins = 50^2) +
+  coord_cartpolar() +
+  scale_fill_viridis_c(na.value = NA)
+}
