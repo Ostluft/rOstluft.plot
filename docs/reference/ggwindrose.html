@@ -126,7 +126,7 @@
 
     <pre class="usage"><span class='fu'>ggwindrose</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='no'>...</span>, <span class='kw'>wd_binwidth</span> <span class='kw'>=</span> <span class='fl'>45</span>, <span class='kw'>ws_binwidth</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>groupings</span> <span class='kw'>=</span> <span class='fu'><a href='groups.html'>groups</a></span>(),
-  <span class='kw'>fill_scale</span> <span class='kw'>=</span> <span class='fu'>scale_fill_viridis_d</span>(), <span class='kw'>reverse</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>bg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>fill_scale</span> <span class='kw'>=</span> <span class='fu'>scale_fill_viridis_d</span>(), <span class='kw'>reverse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>bg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -137,7 +137,8 @@
     </tr>
     <tr>
       <th>...</th>
-      <td><p>passed onto <code><a href='geom_bar_wind.html'>stat_summary_wind()</a></code></p></td>
+      <td><p>Other arguments passed on to <code><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>ggplot2::geom_bar()</a></code>. these are often aesthetics, used
+to set an aesthetic to a fixed value. Defaults are <code>color = "white", width = 1, size = 0.25</code></p></td>
     </tr>
     <tr>
       <th>wd_binwidth</th>
@@ -158,20 +159,13 @@
     </tr>
     <tr>
       <th>reverse</th>
-      <td><p>TRUE/FALSE, should wind speed bin factors be sorted descending or ascending (inside-out or reverse)?</p></td>
+      <td><p>TRUE/FALSE, should wind speed bin factors be sorted descending (TRUE)
+or ascending (FALSE). Usually for wind roses a descending order (higher wind speed on
+the outside) is used.</p></td>
     </tr>
     <tr>
       <th>bg</th>
       <td><p>raster map, e.g. ggmap object as plot background</p></td>
-    </tr>
-    <tr>
-      <th>mapping</th>
-      <td><p>ggplot2 mapping, e.g. aes(wd = wd, ws = ws); requires wd, ws</p></td>
-    </tr>
-    <tr>
-      <th>param_args</th>
-      <td><p>named list, passed on to <code><a href='https://ggplot2.tidyverse.org/reference/layer.html'>ggplot2::layer()</a></code> as argument params after combining with the other
-arguments</p></td>
     </tr>
     </table>
     
@@ -182,7 +176,8 @@ arguments</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)</div><div class='output co'>#&gt; <span class='message'>Need help? Try Stackoverflow: https://stackoverflow.com/tags/ggplot2.</span></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
+
 <span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft.data</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft.data/topics/f'>f</a></span>(<span class='st'>"Zch_Stampfenbachstrasse_2010-2014.csv"</span>)
 
 <span class='no'>data</span> <span class='kw'>&lt;-</span>
@@ -190,23 +185,23 @@ arguments</p></td>
   <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft/topics/rolf_to_openair'>rolf_to_openair</a></span>() <span class='kw'>%&gt;%</span>
   <span class='kw pkg'>openair</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/openair/topics/cutData'>cutData</a></span>(<span class='no'>date</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"daylight"</span>)
 
-<span class='fu'>ggwindrose</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>)</div><div class='img'><img src='ggwindrose-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>ggwindrose</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='img'><img src='ggwindrose-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># squish ws</span>
-<span class='fu'>ggwindrose</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>5</span>)</div><div class='img'><img src='ggwindrose-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>ggwindrose</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>5</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='img'><img src='ggwindrose-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># change binning</span>
-<span class='fu'>ggwindrose</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='kw'>wd_binwidth</span> <span class='kw'>=</span> <span class='fl'>22.5</span>, <span class='kw'>ws_binwidth</span> <span class='kw'>=</span> <span class='fl'>1.5</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>4.5</span>)</div><div class='img'><img src='ggwindrose-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>ggwindrose</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='kw'>wd_binwidth</span> <span class='kw'>=</span> <span class='fl'>22.5</span>, <span class='kw'>ws_binwidth</span> <span class='kw'>=</span> <span class='fl'>1.5</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>4.5</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='img'><img src='ggwindrose-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># don't like bar outlines?</span>
-<span class='fu'>ggwindrose</span>(<span class='no'>data</span>, <span class='st'>"ws"</span>, <span class='st'>"wd"</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='img'><img src='ggwindrose-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>ggwindrose</span>(<span class='no'>data</span>, <span class='st'>"ws"</span>, <span class='st'>"wd"</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='img'><img src='ggwindrose-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># bigger outlines</span>
-<span class='fu'>ggwindrose</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='img'><img src='ggwindrose-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>ggwindrose</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='img'><img src='ggwindrose-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># another fill scale</span>
 <span class='fu'>ggwindrose</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-           <span class='kw'>fill_scale</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_fill_manual</a></span>(<span class='kw'>values</span> <span class='kw'>=</span> <span class='kw pkg'>matlab</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/matlab/topics/jet.colors'>jet.colors</a></span>(<span class='fl'>6</span>)))</div><div class='img'><img src='ggwindrose-6.png' alt='' width='700' height='433' /></div><div class='input'>
+           <span class='kw'>fill_scale</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_fill_manual</a></span>(<span class='kw'>values</span> <span class='kw'>=</span> <span class='kw pkg'>matlab</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/matlab/topics/jet.colors'>jet.colors</a></span>(<span class='fl'>6</span>)))</div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='img'><img src='ggwindrose-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># reverse the order of ws</span>
-<span class='fu'>ggwindrose</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>reverse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='ggwindrose-7.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>ggwindrose</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>reverse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='img'><img src='ggwindrose-7.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># faceting: important the faceting variable, must also be in grouping!</span>
 <span class='fu'>ggwindrose</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>groupings</span> <span class='kw'>=</span> <span class='fu'><a href='groups.html'>groups</a></span>(<span class='no'>daylight</span>)) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/vars.html'>vars</a></span>(<span class='no'>daylight</span>))</div><div class='img'><img src='ggwindrose-8.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/vars.html'>vars</a></span>(<span class='no'>daylight</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='img'><img src='ggwindrose-8.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># you can use groupings to directly mutate the data for faceting.</span>
 <span class='co'># in this example we define the groupings external for better</span>
 <span class='co'># readability</span>
@@ -216,7 +211,7 @@ arguments</p></td>
 )
 
 <span class='fu'>ggwindrose</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>groupings</span> <span class='kw'>=</span> <span class='no'>groupings</span>) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/vars.html'>vars</a></span>(<span class='no'>year</span>), <span class='kw'>cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/vars.html'>vars</a></span>(<span class='no'>season</span>))</div><div class='img'><img src='ggwindrose-9.png' alt='' width='700' height='433' /></div></pre>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/vars.html'>vars</a></span>(<span class='no'>year</span>), <span class='kw'>cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/vars.html'>vars</a></span>(<span class='no'>season</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='img'><img src='ggwindrose-9.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

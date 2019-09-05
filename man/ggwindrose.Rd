@@ -6,12 +6,13 @@
 \usage{
 ggwindrose(data, ws, wd, ..., wd_binwidth = 45, ws_binwidth = 1,
   ws_max = NA, groupings = groups(),
-  fill_scale = scale_fill_viridis_d(), reverse = FALSE, bg = NULL)
+  fill_scale = scale_fill_viridis_d(), reverse = TRUE, bg = NULL)
 }
 \arguments{
 \item{data}{tibble containing wind speed, wind direction and/or air pollutant concentration data}
 
-\item{...}{passed onto \code{\link[=stat_summary_wind]{stat_summary_wind()}}}
+\item{...}{Other arguments passed on to \code{\link[ggplot2:geom_bar]{ggplot2::geom_bar()}}. these are often aesthetics, used
+to set an aesthetic to a fixed value. Defaults are \code{color = "white", width = 1, size = 0.25}}
 
 \item{wd_binwidth}{numeric, binwidth for wind direction in °, wd_binwidth should fullfill:
 \code{(360 / wd_binwidth) \%in\% c(4, 8, 12, 16)}}
@@ -22,14 +23,11 @@ ggwindrose(data, ws, wd, ..., wd_binwidth = 45, ws_binwidth = 1,
 
 \item{fill_scale}{ggplot2 discrete fill scale, e.g. \code{\link[ggplot2:scale_fill_gradientn]{ggplot2::scale_fill_gradientn()}}}
 
-\item{reverse}{TRUE/FALSE, should wind speed bin factors be sorted descending or ascending (inside-out or reverse)?}
+\item{reverse}{TRUE/FALSE, should wind speed bin factors be sorted descending (TRUE)
+or ascending (FALSE). Usually for wind roses a descending order (higher wind speed on
+the outside) is used.}
 
 \item{bg}{raster map, e.g. ggmap object as plot background}
-
-\item{mapping}{ggplot2 mapping, e.g. aes(wd = wd, ws = ws); requires wd, ws}
-
-\item{param_args}{named list, passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}} as argument params after combining with the other
-arguments}
 }
 \value{
 ggplot object

@@ -35,7 +35,7 @@ a tibble with summarised data
 \description{
 Input data should be original unbinned data.
 1-dimensional binning and calculating summary statistics over wind direction and/or wind velocity bins, respectively.
-NA values in z will be silently removed before applying functions
+NA values in z and in ws, wd (after cutting) will be silently removed before applying functions
 }
 \section{Computed variables}{
 
@@ -102,4 +102,7 @@ summary_wind(data, ws, wd, NO2, group = groups("site", year, wday = lubridate::w
 summary_wind(data, ws, wd, NO2,
              group = groups(NO2_class = ggplot2::cut_number(NO2, 5)),
              ws_cutfun = cut_number.fun(1))
+
+# the same but we use ws as pollutant
+summary_wind(data, NO2, wd, NO2, ws_cutfun = cut_number.fun(5))
 }

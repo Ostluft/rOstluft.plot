@@ -3,17 +3,17 @@
 #' @return ggplot object
 #'
 #' @param data tibble containing wind speed, wind direction and/or air pollutant concentration data
-#' @param mapping ggplot2 mapping, e.g. aes(wd = wd, ws = ws); requires wd, ws
 #' @param wd_binwidth numeric, binwidth for wind direction in °, wd_binwidth should fullfill:
 #'   `(360 / wd_binwidth) %in% c(4, 8, 12, 16)`
 #' @param ws_binwidth numeric, binwidth for wind speed
 #' @param ws_max numeric, can be NA, wind speed is squished at this value
 #' @param fill_scale ggplot2 discrete fill scale, e.g. [ggplot2::scale_fill_gradientn()]
-#' @param reverse TRUE/FALSE, should wind speed bin factors be sorted descending or ascending (inside-out or reverse)?
+#' @param reverse TRUE/FALSE, should wind speed bin factors be sorted descending (TRUE)
+#'   or ascending (FALSE). Usually for wind roses a descending order (higher wind speed on
+#'   the outside) is used.
 #' @param bg raster map, e.g. ggmap object as plot background
-#' @param param_args named list, passed on to [ggplot2::layer()] as argument params after combining with the other
-#'   arguments
-#' @param ... passed onto [stat_summary_wind()]
+#' @param ... Other arguments passed on to [ggplot2::geom_bar()]. these are often aesthetics, used
+#'   to set an aesthetic to a fixed value. Defaults are `color = "white", width = 1, size = 0.25`
 #'
 #' @return [ggplot2::ggplot()] object
 #' @export
@@ -70,15 +70,14 @@ ggwindrose <- function(data, ws, wd,
                        ws_max = NA,
                        groupings = groups(),
                        fill_scale = scale_fill_viridis_d(),
-                       reverse = FALSE,
+                       reverse = TRUE,
                        bg = NULL
 ) {
 
   ws <- rlang::ensym(ws)  # or enquo but summary_wind accept only strings or symbols
   wd <- rlang::ensym(wd)
   wd_cutfun <- cut_wd.fun(binwidth = wd_binwidth)
-  ws_cutfun <- cut_ws.fun(binwidth = ws_binwidth, ws_max = ws_max, reverse = TRUE)
-
+  ws_cutfun <- cut_ws.fun(binwidth = ws_binwidth, ws_max = ws_max, reverse = reverse)
 
   data_summarized <- summary_wind(data, ws, wd, ws, groupings = groupings,
                                   wd_cutfun = wd_cutfun, ws_cutfun = ws_cutfun)
@@ -86,17 +85,17 @@ ggwindrose <- function(data, ws, wd,
   bar_args <- modify_list(list(color = "white", width = 1, size = 0.25), rlang::dots_list(...))
   bar_layer <- rlang::exec(geom_bar, stat = "identity", !!!bar_args)
 
-  wd_levels <- levels(dplyr::pull(data_summarized, !!wd))
-  breaks <- wd_levels[c(0, 90, 180, 270) / wd_binwidth + 1]
-
+  # we will convert the wd factor to numeric. so we can always place breaks on NESW
+  breaks <- c(0, 90, 180, 270) / wd_binwidth + 1
+  xexpand <- expand_scale(add = (1 - bar_args$width) / 2)
 
   plot <- ggplot(data_summarized, aes(x = as.numeric(!!wd), y = freq, fill = !!ws)) +
     bar_layer +
-    coord_polar2(start = -2 * pi / 360 * wd_binwidth / 2, bg = bg) +
-    scale_x_discrete(breaks = breaks, labels = c("N", "E", "S", "W"), expand = c(0,0)) +
-    scale_y_continuous(limits = c(0, NA), expand = c(0,0), labels = scales::percent) +
+    coord_polar2(start = -2 * pi / 360 * wd_binwidth / 2) +
+    scale_x_continuous(breaks = breaks, labels = c("N", "E", "S", "W"), expand = xexpand) +
+    scale_y_continuous( limits = c(0, NA), expand = expand_scale(0), labels = scales::percent) +
     fill_scale +
-    guides(fill = guide_legend(title = rlang::quo_text(ws), reverse = reverse)) +
+    guides(fill = guide_legend(title = rlang::quo_text(ws))) +
     theme_windrose
 
   return(plot)

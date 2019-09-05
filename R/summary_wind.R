@@ -2,7 +2,7 @@
 #'
 #' Input data should be original unbinned data.
 #' 1-dimensional binning and calculating summary statistics over wind direction and/or wind velocity bins, respectively.
-#' NA values in z will be silently removed before applying functions
+#' NA values in z and in ws, wd (after cutting) will be silently removed before applying functions
 #'
 #' @param data a data.frame or tibble containing the data (wide format)
 #' @param ws symbol giving the wind velocity parameter name (wind velocity preferably in m/s)
@@ -81,6 +81,9 @@
 #' summary_wind(data, ws, wd, NO2,
 #'              group = groups(NO2_class = ggplot2::cut_number(NO2, 5)),
 #'              ws_cutfun = cut_number.fun(1))
+#'
+#' # the same but we use ws as pollutant
+#' summary_wind(data, NO2, wd, NO2, ws_cutfun = cut_number.fun(5))
 summary_wind <- function(data, ws, wd, z, groupings = groups(), fun = "mean", fun.args = list(), nmin = 3,
                           wd_cutfun = cut_wd.fun(binwidth = 45),
                           ws_cutfun = cut_ws.fun(binwidth = 1)) {
@@ -113,7 +116,7 @@ summary_wind <- function(data, ws, wd, z, groupings = groups(), fun = "mean", fu
   data <- dplyr::filter(data, !(is.na(!!wd) | is.na(!!ws) | is.na(!!z)))
 
  # apply the summarize function regarding the addiotional grouping columns
-  data <- dplyr::group_by(data, wd, ws, !!!groupings)
+  data <- dplyr::group_by(data, !!wd, !!ws, !!!groupings)
   data <- dplyr::summarise_at(data,
       .vars = dplyr::vars(!!z),
       .funs = fun,
@@ -121,7 +124,7 @@ summary_wind <- function(data, ws, wd, z, groupings = groups(), fun = "mean", fu
   )
   data <- dplyr::ungroup(data)
 
-  if (length(groups) > 0) {
+  if (length(groupings) > 0) {
     data <- dplyr::group_by(data, !!!rlang::syms(names(groupings)))
     data <- dplyr::mutate(data, freq = .data$n / sum(.data$n, na.rm = TRUE))
     data <- dplyr::ungroup(data)
