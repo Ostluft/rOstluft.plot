@@ -94,7 +94,6 @@ summary_wind <- function(data, ws, wd, z, groupings = groups(), fun = "mean", fu
 
   # rename z if needed. we can't apply summarize functions on grouping columns!
   # for ws and wd we do auto renaming.
-
   if (ws == z) {
     z <- rlang::sym(stringr::str_c(rlang::as_string(ws), ".stat"))
     data <- dplyr::mutate(data, !!z := !!ws)

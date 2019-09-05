@@ -130,10 +130,11 @@ or 1-dimensional over wind direction or wind velocity bins, respectively.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>stat_summary_wind_2d</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
-  <span class='kw'>fun.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>bins</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>extrapolate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>dist</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"raster"</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>stat_summary_wind_2d</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"raster"</span>,
+  <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"identity"</span>, <span class='no'>...</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>fun.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(),
+  <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>bins</span> <span class='kw'>=</span> <span class='fl'>10</span>^<span class='fl'>2</span>, <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>100</span>,
+  <span class='kw'>extrapolate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>dist</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -149,6 +150,14 @@ columns carrying information regarding:
     <tr>
       <th>mapping</th>
       <td><p>ggplot2 mapping, e.g. aes(wd = wd, ws = ws, z = NOx); requires wd, ws, z</p></td>
+    </tr>
+    <tr>
+      <th>geom</th>
+      <td><p>The geometric object to use display the data (in this case: raster).</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>other arguments passed on to <code><a href='https://ggplot2.tidyverse.org/reference/layer.html'>ggplot2::layer()</a></code> as <code>params = list(...)</code>.</p></td>
     </tr>
     <tr>
       <th>fun</th>
@@ -193,14 +202,6 @@ coordinate-pair at which the result of fit_gam_surface(z) should be returned</p>
     <tr>
       <th>groups</th>
       <td><p>can be NULL, c("u", "v"), "wd_class", "ws_class", ...</p></td>
-    </tr>
-    <tr>
-      <th>geom</th>
-      <td><p>The geometric object to use display the data (in this case: raster).</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>other arguments passed on to <code><a href='https://ggplot2.tidyverse.org/reference/layer.html'>ggplot2::layer()</a></code> as <code>params = list(...)</code>.</p></td>
     </tr>
     </table>
     

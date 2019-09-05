@@ -4,8 +4,8 @@
 \alias{summary_wind_2d}
 \title{Summarise y values over binned wind data, split into u and v components.}
 \usage{
-summary_wind_2d(data, ws, wd, z, groups = NULL, fun = "mean",
-  fun.args = list(), nmin = 3, ws_max = NA, bins = 100,
+summary_wind_2d(data, ws, wd, z, groupings = groups(), fun = "mean",
+  fun.args = list(), nmin = 3, ws_max = NA, bins = 10^2,
   smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1)
 }
 \arguments{
@@ -17,13 +17,13 @@ requires input data including at least three columns carrying information regard
 \item z-values (e.g. air pollutant concentration)
 }}
 
-\item{ws}{string giving the wind velocity parameter name (wind velocity preferably in m/s)}
+\item{ws}{symbol giving the wind velocity parameter name (wind velocity preferably in m/s)}
 
-\item{wd}{string giving the wind direction parameter name  in degrees}
+\item{wd}{symbol giving the wind direction parameter name  in degrees}
 
-\item{z}{string giving the parameter name to be summarised}
+\item{z}{symbol giving the parameter name to be summarised}
 
-\item{groups}{can be NULL, c("u", "v"), "wd_class", "ws_class", ...}
+\item{groupings}{additional groupings. Use helper \code{\link[=groups]{groups()}} to create}
 
 \item{fun}{function or list of functions for summary.}
 
@@ -61,9 +61,59 @@ binning is done 2-dimensional over cartesian u and v wind vectors
 \itemize{
 \item wd: wind direction corresponding to midpoint value of u and v
 \item ws: wind velocity corresponding to midpoint value of u and v
-\item u: bins over u (from input wd and ws)
-\item v: bins over v (from input wd and ws)
+\item u: midpoints of bins over u (from input wd and ws)
+\item v: midpoints of bins over v (from input wd and ws)
 \item z: result from fun(z, ...)
 }
 }
 
+\examples{
+fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
+data <- rOstluft::read_airmo_csv(fn)
+data <- rOstluft::rolf_to_openair(data)
+
+# summary NO2
+summary_wind_2d(data, ws, wd, NO2, smooth = FALSE)
+
+# multiple stats: Pass function, by name, reference, as function or one sided formula
+funs <- list(
+  "mean",
+  "median" = function(x) median(x, na.rm = TRUE),
+  "q95" = ~ stats::quantile(., probs = 0.95)
+)
+
+summary_wind_2d(data, ws, wd, NO2, fun = funs, smooth = FALSE)
+
+# is for some reason fun.args used with multiple functions, use ... to catch
+# superfluous arguments:
+funs <- list(
+  "q95" = function(x, ...) stats::quantile(x, probs = 0.95),
+  "mean"
+)
+
+summary_wind_2d(data, ws, wd, NO2, fun = funs, fun.args = list(na.rm = TRUE),
+                smooth = FALSE)
+
+# additional groupings
+summary_wind_2d(data, ws, wd, NO2, groupings = groups(site), smooth = FALSE)
+
+# we can use expressions in groups. For better readability groupings is
+# defined outside of the function call
+groupings = groups("site", year = lubridate::year(date))
+
+summary_wind_2d(data, ws, wd, NO2, groupings = groupings, smooth = FALSE)
+
+# smoothing
+df1 <- summary_wind_2d(data, ws, wd, NO2, bins = 100^2, smooth = TRUE, k = 100)
+df2 <- summary_wind_2d(data, ws, wd, NO2, bins = 100^2, smooth = FALSE)
+
+df <- dplyr::bind_rows(smoothed = df1, raw = df2, .id = "smoothing")
+
+ggplot(df, aes(x = u, y=v, fill=NO2)) +
+  geom_raster() +
+  scale_fill_viridis_c(na.value = NA) +
+  facet_wrap(vars(smoothing))
+
+# for a small number of bins reduce k
+summary_wind_2d(data, ws, wd, NO2, bins = 5^2, smooth = TRUE, k = 5)
+}

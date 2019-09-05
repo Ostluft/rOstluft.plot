@@ -81,7 +81,7 @@ ggwindrose <- function(data, ws, wd,
   wd_cutfun <- cut_wd.fun(binwidth = wd_binwidth)
   ws_cutfun <- cut_ws.fun(binwidth = ws_binwidth, ws_max = ws_max, reverse = reverse)
 
-  data_summarized <- summary_wind(data, ws, wd, ws, groupings = groupings,
+  data_summarized <- summary_wind(data, !!ws, !!wd, !!ws, groupings = groupings,
                                   wd_cutfun = wd_cutfun, ws_cutfun = ws_cutfun)
 
   bar_args <- modify_list(list(color = "white", width = 1, size = 0.25), rlang::dots_list(...))
@@ -89,13 +89,13 @@ ggwindrose <- function(data, ws, wd,
 
   # we will convert the wd factor to numeric. so we can always place breaks on NESW
   breaks <- c(0, 90, 180, 270) / wd_binwidth + 1
-  xexpand <- expansion(add = (1 - bar_args$width) / 2)
+  xexpand <- expand_scale(add = (1 - bar_args$width) / 2)
 
   plot <- ggplot(data_summarized, aes(x = as.numeric(!!wd), y = freq, fill = !!ws)) +
     bar_layer +
     coord_polar2(start = -2 * pi / 360 * wd_binwidth / 2) +
     scale_x_continuous(breaks = breaks, labels = c("N", "O", "S", "W"), expand = xexpand) +
-    scale_y_continuous( limits = c(0, NA), expand = expansion(), labels = scales::percent) +
+    scale_y_continuous( limits = c(0, NA), expand = expand_scale(), labels = scales::percent) +
     fill_scale +
     guides(fill = guide_legend(title = rlang::quo_text(ws))) +
     theme_windrose

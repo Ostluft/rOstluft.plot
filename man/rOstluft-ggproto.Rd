@@ -13,7 +13,7 @@
 \alias{rOstluft-ggproto}
 \alias{StatFilter}
 \alias{StatSummaryWind}
-\alias{StatWind2d}
+\alias{StatSummaryWind2d}
 \title{All ggproto Objects}
 \format{An object of class \code{CoordCartPolar} (inherits from \code{CoordCartesian}, \code{Coord}, \code{ggproto}, \code{gg}) of length 5.}
 \usage{
@@ -31,7 +31,7 @@ StatFilter
 
 StatSummaryWind
 
-StatWind2d
+StatSummaryWind2d
 }
 \description{
 All ggproto Objects

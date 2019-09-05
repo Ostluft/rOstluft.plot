@@ -4,10 +4,11 @@
 \alias{stat_summary_wind_2d}
 \title{Summarise z values over binned wind data.}
 \usage{
-stat_summary_wind_2d(data = NULL, mapping = NULL, fun = "mean",
-  fun.args = list(), nmin = 1, ws_max = NA, bins = 100,
-  smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1,
-  groups = NULL, geom = "raster", ...)
+stat_summary_wind_2d(data = NULL, mapping = NULL, geom = "raster",
+  position = "identity", ..., fun = "mean", fun.args = list(),
+  nmin = 1, ws_max = NA, bins = 10^2, smooth = TRUE, k = 100,
+  extrapolate = TRUE, dist = 0.1, na.rm = FALSE, show.legend = NA,
+  inherit.aes = TRUE)
 }
 \arguments{
 \item{data}{The data to be displayed in this layer. Requires input data including at least three
@@ -17,6 +18,10 @@ columns carrying information regarding:
 * z-values (e.g. air pollutant concentration)}
 
 \item{mapping}{ggplot2 mapping, e.g. aes(wd = wd, ws = ws, z = NOx); requires wd, ws, z}
+
+\item{geom}{The geometric object to use display the data (in this case: raster).}
+
+\item{...}{other arguments passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}} as \code{params = list(...)}.}
 
 \item{fun}{function or list of functions for summary.}
 
@@ -41,10 +46,6 @@ those values are returned (to a certain degree depending on the value of dist)}
 coordinate-pair at which the result of fit_gam_surface(z) should be returned}
 
 \item{groups}{can be NULL, c("u", "v"), "wd_class", "ws_class", ...}
-
-\item{geom}{The geometric object to use display the data (in this case: raster).}
-
-\item{...}{other arguments passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}} as \code{params = list(...)}.}
 }
 \value{
 ggplot2 layer
