@@ -67,7 +67,7 @@ NA for this values. The correct handling of the NA values in the factor must be 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9006</span>
       </span>
     </div>
 
@@ -172,8 +172,8 @@ NA for this values. The correct handling of the NA values in the factor must be 
 <span class='fu'>cut_ws</span>(<span class='no'>ws</span>, <span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>squish</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] [0,2] [0,2] (2,4] (2,4] (4,5] (4,5] &lt;NA&gt; 
 #&gt; Levels: [0,2] (2,4] (4,5]</div><div class='input'>
 <span class='co'># close the intervals on the left side</span>
-<span class='fu'>cut_ws</span>(<span class='no'>ws</span>, <span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>right</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] [0,2) [0,2) [2,4) [2,4) [4,5) &gt;=5   &gt;=5  
-#&gt; Levels: [0,2) [2,4) [4,5) &gt;=5</div><div class='input'>
+<span class='fu'>cut_ws</span>(<span class='no'>ws</span>, <span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>right</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] [0,2) [0,2) [2,4) [2,4) [4,5) =5    =5   
+#&gt; Levels: [0,2) [2,4) [4,5) =5</div><div class='input'>
 <span class='co'># reverse the order of the factors, useful for legends while plotting</span>
 <span class='fu'>cut_ws</span>(<span class='no'>ws</span>, <span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>reverse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] [0,2] [0,2] (2,4] (2,4] (4,5] (4,5] &gt;5   
 #&gt; Levels: &gt;5 (4,5] (2,4] [0,2]</div></pre>

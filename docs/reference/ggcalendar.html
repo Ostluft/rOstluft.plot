@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9006</span>
       </span>
     </div>
 
@@ -234,13 +234,13 @@ a warning. If <code>TRUE</code>, missing values are silently removed.</p></td>
  <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft/topics/rolf_to_openair'>rolf_to_openair</a></span>()
 
 <span class='fu'>ggcalendar</span>(<span class='no'>df</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='st'>"PM10"</span>) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_viridis.html'>scale_fill_viridis_c</a></span>(<span class='kw'>direction</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='kw'>option</span> <span class='kw'>=</span> <span class='st'>"magma"</span>, <span class='kw'>na.value</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</div><div class='img'><img src='ggcalendar-1.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_viridis.html'>scale_fill_viridis_c</a></span>(<span class='kw'>direction</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='kw'>option</span> <span class='kw'>=</span> <span class='st'>"magma"</span>, <span class='kw'>na.value</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</div><div class='output co'>#&gt; <span class='error'>Error: Breaks and labels are different lengths</span></div><div class='input'>
 <span class='co'># can be customised...</span>
 <span class='fu'>ggcalendar</span>(<span class='no'>df</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='st'>"PM10"</span>) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_viridis.html'>scale_fill_viridis_c</a></span>(<span class='kw'>direction</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='kw'>option</span> <span class='kw'>=</span> <span class='st'>"magma"</span>, <span class='kw'>na.value</span> <span class='kw'>=</span> <span class='fl'>NA</span>) +
   <span class='fu'>cal_month_border</span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"white"</span>) +
   <span class='fu'><a href='stat_filter.html'>stat_filter</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>filter</span> <span class='kw'>=</span> <span class='no'>PM10</span> <span class='kw'>&gt;</span> <span class='fl'>50</span>), <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>0.75</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='fl'>21</span>) +
-  <span class='fu'>cal_label</span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Round'>round</a></span>(<span class='no'>PM10</span>,<span class='fl'>0</span>)))</div><div class='img'><img src='ggcalendar-2.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'>cal_label</span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Round'>round</a></span>(<span class='no'>PM10</span>,<span class='fl'>0</span>)))</div><div class='output co'>#&gt; <span class='error'>Error: Breaks and labels are different lengths</span></div><div class='img'><img src='ggcalendar-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -98,7 +98,7 @@ CoordPolar2 <- ggproto("CoordPolar2", CoordPolar,
     if (length(rfine) > 0) {
       rmax <- max(rfine)
     } else {
-      rfine <- rmax <- 0.45
+      rfine <- rmax <- 0.40
     }
 
     # This gets the proper theme element for theta and r grid lines:
@@ -163,5 +163,5 @@ theta_rescale <- function(coord, x, panel_params) {
 
 r_rescale <- function(coord, x, range) {
   x <- scales::squish_infinite(x, range)
-  scales::rescale(x, c(0, 0.45), range)
+  scales::rescale(x, c(0, 0.40), range)
 }

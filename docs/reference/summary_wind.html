@@ -67,7 +67,7 @@ NA values in z and in ws, wd (after cutting) will be silently removed before app
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9006</span>
       </span>
     </div>
 
@@ -308,9 +308,7 @@ NA values in z and in ws, wd (after cutting) will be silently removed before app
 #&gt; </span><span style='color: #BCBCBC;'>7</span><span> 270   [0.00477,9.73] </span><span style='text-decoration: underline;'>13</span><span>197 0.152  mean   14.8
 #&gt; </span><span style='color: #BCBCBC;'>8</span><span> 315   [0.00477,9.73]  </span><span style='text-decoration: underline;'>8</span><span>809 0.101  mean   15.0</div><div class='input'>
 <span class='co'># additional grouping with strings, symbols or named expressions</span>
-<span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='no'>NO2</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='fu'><a href='groups.html'>groups</a></span>(<span class='st'>"site"</span>, <span class='no'>year</span>, <span class='kw'>wday</span> <span class='kw'>=</span> <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/day.html'>wday</a></span>(<span class='no'>date</span>)))</div><div class='output co'>#&gt; <span class='warning'>Warning: Assigning non-quosure objects to quosure lists is deprecated as of rlang 0.3.0.</span>
-#&gt; <span class='warning'>Please coerce to a bare list beforehand with `as.list()`</span>
-#&gt; <span class='warning'></span><span style='color: #555555;'>This warning is displayed once per session.</span><span></span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1,284 x 9</span><span>
+<span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='no'>NO2</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='fu'><a href='groups.html'>groups</a></span>(<span class='st'>"site"</span>, <span class='no'>year</span>, <span class='kw'>wday</span> <span class='kw'>=</span> <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/day.html'>wday</a></span>(<span class='no'>date</span>)))</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1,284 x 9</span><span>
 #&gt;    wd    ws    site                     year  wday     n   freq stat    NO2
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>                   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 0     [0,1] Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>010     1    76 0.030</span><span style='text-decoration: underline;'>4</span><span> mean   37.1

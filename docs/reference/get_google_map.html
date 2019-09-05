@@ -69,7 +69,7 @@ Maps Static API and ggmap::get_googlemap()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9006</span>
       </span>
     </div>
 
@@ -118,7 +118,7 @@ Maps Static API and ggmap::get_googlemap()." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Wrapper around ggmap::get_googlemap</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Ostluft/rOstluft.plot/blob/master/R/get_ggmap_stamen.R'><code>R/get_ggmap_stamen.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/Ostluft/rOstluft.plot/blob/master/R/maps.R'><code>R/maps.R</code></a></small>
     <div class="hidden name"><code>get_google_map.Rd</code></div>
     </div>
 
@@ -183,9 +183,8 @@ the google maps platform</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw pkg'>ggmap</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/ggmap/topics/register_google'>register_google</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Sys.getenv'>Sys.getenv</a></span>(<span class='st'>"GGMAP_GOOGLE_API_KEY"</span>))
-<span class='no'>bb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='bbox_lv95.html'>bbox_lv95</a></span>(<span class='fl'>2683141</span>, <span class='fl'>1249040</span>, <span class='fl'>500</span>) <span class='co'># site Zch_Stamfenbachstrasse</span>
-<span class='fu'>get_google_map</span>(<span class='no'>bb</span>) <span class='kw'>%&gt;%</span>  <span class='kw pkg'>ggmap</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/ggmap/topics/ggmap'>ggmap</a></span>()</div><div class='output co'>#&gt; <span class='message'>Source : https://maps.googleapis.com/maps/api/staticmap?center=47.386943,8.53975&amp;zoom=15&amp;size=320x320&amp;scale=2&amp;maptype=terrain&amp;language=de-CH&amp;style=feature:all%7Celement:labels%7Cvisibility:off&amp;key=xxx</span></div><div class='img'><img src='get_google_map-1.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='kw pkg'>ggmap</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/ggmap/topics/register_google'>register_google</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Sys.getenv'>Sys.getenv</a></span>(<span class='st'>"GGMAP_GOOGLE_API_KEY"</span>))</div><div class='output co'>#&gt; <span class='error'>Error in class(options) &lt;- "ggmap_credentials": attempt to set an attribute on NULL</span></div><div class='input'><span class='no'>bb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='bbox_lv95.html'>bbox_lv95</a></span>(<span class='fl'>2683141</span>, <span class='fl'>1249040</span>, <span class='fl'>500</span>) <span class='co'># site Zch_Stamfenbachstrasse</span>
+<span class='fu'>get_google_map</span>(<span class='no'>bb</span>) <span class='kw'>%&gt;%</span>  <span class='kw pkg'>ggmap</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/ggmap/topics/ggmap'>ggmap</a></span>()</div><div class='output co'>#&gt; <span class='error'>Error in if (showing_key()) message("Source : ", url) else message("Source : ",     scrub_key(url)): argument is of length zero</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

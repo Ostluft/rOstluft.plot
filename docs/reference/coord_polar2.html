@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9006</span>
       </span>
     </div>
 
@@ -180,14 +180,8 @@ means no. For details, please see <code>coord_cartesian()</code>.</p></td>
 )
 
 <span class='co'># background map</span>
-<span class='no'>bbox</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2683141</span> - <span class='fl'>500</span>, <span class='fl'>2683141</span> + <span class='fl'>500</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1249040</span> - <span class='fl'>500</span>, <span class='fl'>1249040</span> + <span class='fl'>500</span>))
-<span class='no'>bbox</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rOstluft/topics/transform_crs'>transform_LV95_to_WSG84</a></span>(<span class='no'>bbox</span>)
-
-<span class='no'>bbox</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>left</span> <span class='kw'>=</span> <span class='no'>bbox</span>$<span class='no'>lon</span>[<span class='fl'>1</span>], <span class='kw'>right</span> <span class='kw'>=</span> <span class='no'>bbox</span>$<span class='no'>lon</span>[<span class='fl'>2</span>], <span class='kw'>bottom</span> <span class='kw'>=</span> <span class='no'>bbox</span>$<span class='no'>lat</span>[<span class='fl'>1</span>], <span class='kw'>top</span> <span class='kw'>=</span> <span class='no'>bbox</span>$<span class='no'>lat</span>[<span class='fl'>2</span>])
-
-<span class='no'>raster_map</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>ggmap</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/ggmap/topics/get_stamenmap'>get_stamenmap</a></span>(<span class='no'>bbox</span>, <span class='kw'>zoom</span> <span class='kw'>=</span> <span class='fl'>16</span>, <span class='kw'>maptype</span> <span class='kw'>=</span> <span class='st'>"terrain"</span>,
-                                   <span class='kw'>source</span> <span class='kw'>=</span> <span class='st'>"stamen"</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"bw"</span>)
-
+<span class='no'>bbox</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='bbox_lv95.html'>bbox_lv95</a></span>(<span class='fl'>2683141</span>, <span class='fl'>1249040</span>, <span class='fl'>500</span>)
+<span class='no'>raster_map</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_stamen_map.html'>get_stamen_map</a></span>(<span class='no'>bbox</span>)
 
 <span class='no'>wind_rose</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>wide</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>wd_class</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='no'>ws_class</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/stat.html'>stat</a></span>(<span class='no'>count</span> / <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sum'>sum</a></span>(<span class='no'>count</span>)))) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='kw'>width</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>colour</span><span class='kw'>=</span><span class='st'>"grey80"</span>, <span class='kw'>size</span><span class='kw'>=</span><span class='fl'>0.5</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) +

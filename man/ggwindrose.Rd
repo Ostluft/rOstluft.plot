@@ -21,6 +21,8 @@ to set an aesthetic to a fixed value. Defaults are \code{color = "white", width 
 
 \item{ws_max}{numeric, can be NA, wind speed is squished at this value}
 
+\item{groupings}{additional groupings. Use helper \code{\link[=groups]{groups()}} to create. \strong{Necessary} for facets!}
+
 \item{fill_scale}{ggplot2 discrete fill scale, e.g. \code{\link[ggplot2:scale_fill_gradientn]{ggplot2::scale_fill_gradientn()}}}
 
 \item{reverse}{TRUE/FALSE, should wind speed bin factors be sorted descending (TRUE)
@@ -79,6 +81,7 @@ groupings = groups(
   season = lubridate::quarter(date),  # placeholder
   year = lubridate::year(date)
 )
+
 
 ggwindrose(data, ws, wd, ws_max = 3, groupings = groupings) +
   facet_grid(rows = vars(year), cols = vars(season))

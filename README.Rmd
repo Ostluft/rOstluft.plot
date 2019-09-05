@@ -64,7 +64,7 @@ bbox <- c(left = bbox$lon[1], right = bbox$lon[2], bottom = bbox$lat[1], top = b
 raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
                                    source = "stamen", color = "bw")
 
-plot <- ggwindrose(data, aes(ws = ws, wd = wd), wd_binwidth = 22.5, 
+plot <- ggwindrose(data, ws, wd, wd_binwidth = 22.5, 
                    ws_binwidth = 0.5, ws_max = 2.5, bg = raster_map)
 
 plot

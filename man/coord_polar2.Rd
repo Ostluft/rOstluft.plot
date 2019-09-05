@@ -43,14 +43,8 @@ wide <- dplyr::mutate(
 )
 
 # background map
-bbox <- tibble::tibble(x = c(2683141 - 500, 2683141 + 500), y = c(1249040 - 500, 1249040 + 500))
-bbox <- rOstluft::transform_LV95_to_WSG84(bbox)
-
-bbox <- c(left = bbox$lon[1], right = bbox$lon[2], bottom = bbox$lat[1], top = bbox$lat[2])
-
-raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
-                                   source = "stamen", color = "bw")
-
+bbox <- bbox_lv95(2683141, 1249040, 500)
+raster_map <- get_stamen_map(bbox)
 
 wind_rose <- ggplot(wide, aes(x = wd_class, fill = ws_class, y = stat(count / sum(count)))) +
   geom_bar(width=1, colour="grey80", size=0.5, alpha = 0.5, show.legend = TRUE) +

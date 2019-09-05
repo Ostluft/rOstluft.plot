@@ -7,6 +7,7 @@
 #'   `(360 / wd_binwidth) %in% c(4, 8, 12, 16)`
 #' @param ws_binwidth numeric, binwidth for wind speed
 #' @param ws_max numeric, can be NA, wind speed is squished at this value
+#' @param groupings additional groupings. Use helper [groups()] to create. **Necessary** for facets!
 #' @param fill_scale ggplot2 discrete fill scale, e.g. [ggplot2::scale_fill_gradientn()]
 #' @param reverse TRUE/FALSE, should wind speed bin factors be sorted descending (TRUE)
 #'   or ascending (FALSE). Usually for wind roses a descending order (higher wind speed on
@@ -61,6 +62,7 @@
 #'   year = lubridate::year(date)
 #' )
 #'
+#'
 #' ggwindrose(data, ws, wd, ws_max = 3, groupings = groupings) +
 #'   facet_grid(rows = vars(year), cols = vars(season))
 ggwindrose <- function(data, ws, wd,
@@ -87,13 +89,13 @@ ggwindrose <- function(data, ws, wd,
 
   # we will convert the wd factor to numeric. so we can always place breaks on NESW
   breaks <- c(0, 90, 180, 270) / wd_binwidth + 1
-  xexpand <- expand_scale(add = (1 - bar_args$width) / 2)
+  xexpand <- expansion(add = (1 - bar_args$width) / 2)
 
   plot <- ggplot(data_summarized, aes(x = as.numeric(!!wd), y = freq, fill = !!ws)) +
     bar_layer +
     coord_polar2(start = -2 * pi / 360 * wd_binwidth / 2) +
-    scale_x_continuous(breaks = breaks, labels = c("N", "E", "S", "W"), expand = xexpand) +
-    scale_y_continuous( limits = c(0, NA), expand = expand_scale(0), labels = scales::percent) +
+    scale_x_continuous(breaks = breaks, labels = c("N", "O", "S", "W"), expand = xexpand) +
+    scale_y_continuous( limits = c(0, NA), expand = expansion(), labels = scales::percent) +
     fill_scale +
     guides(fill = guide_legend(title = rlang::quo_text(ws))) +
     theme_windrose
