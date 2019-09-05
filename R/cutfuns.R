@@ -198,5 +198,46 @@ cut_width.fun <- function(width, center = NULL, boundary = NULL,
 }
 
 
+#' Cut date-time vectors into seasons
+#'
+#' @param x a date-time vector
+#' @param labels a list for recoding. Names should be "DJF", "MAM", "JJA", "SON"
+#'
+#' @return factor of seasons
+#' @export
+#'
+#' @examples
+#' dates <- lubridate::ymd(010101) + months(0:11)
+#'
+#' cut_season(dates)
+#'
+#' cut_season(dates, c(DJF = "winter", JJA = "summer", MAM = "spring", SON = "autumn"))
+cut_season <- function(x, labels = NULL) {
+  cc <- c(
+    "DJF", "DJF", "MAM", "MAM", "MAM", "JJA",
+    "JJA", "JJA", "SON" , "SON" , "SON", "DJF"
+  )
+
+  x <- as.factor(cc[lubridate::month(x)])
+
+  if (!is.null(labels)) {
+    x <- dplyr::recode_factor(x, !!!labels)
+  }
+  x
+}
+
+
+#' Partial function constructor for cut_season
+#'
+#' @inheritParams cut_season
+#'
+#' @return Partial function of [cut_season()] with x as sole argument
+#' @export
+cut_season.fun <- function(labels = NULL) {
+  x <- 2
+  function(x) {
+    cut_season(x, labels = labels)
+  }
+}
 
 
