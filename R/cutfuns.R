@@ -241,3 +241,65 @@ cut_season.fun <- function(labels = NULL) {
 }
 
 
+#' Cut seasons, keep years together
+#'
+#' Cut the data in year-season intervals while keeping the seasons together.
+#' This means december will be added to the following year.
+#'
+#' With `label = "year"` only the year will be adjustet.
+#'
+#' @param x a date-time vector
+#' @param label choice between `c("yearseason", "year")`. `"yearseason"` will combine
+#'   the year and the output from [cut_season()], `"year"` will return only the
+#'   adjustet year.
+#' @param labels forwarded to [cut_season()]
+#'
+#' @return factor of yearseasons
+#' @export
+#'
+#' @examples
+#' dates <- lubridate::ymd(010101) + months(0:11)
+#'
+#' cut_seasonyear(dates)
+#'
+#' cut_seasonyear(dates, "year")
+#'
+#' # customize season labels
+#' labels =  c(
+#'   DJF = "winter", JJA = "summer",
+#'   MAM = "spring", SON = "autumn"
+#' )
+#'
+#' cut_seasonyear(dates, labels = labels)
+cut_seasonyear <- function(x, label = c("yearseason", "year"), labels = NULL) {
+  label <- match.arg(label)
+
+  out <- dplyr::if_else(
+    lubridate::month(x) == 12,   # if december
+    lubridate::year(x) + 1,      # add to following year's season
+    lubridate::year(x)
+  )
+
+  if (label == "yearseason") {
+    out <- stringr::str_c(out, "-", cut_season(x, labels))
+  }
+
+  as.factor(out)
+}
+
+#' Partial function constructor for cut_season
+#'
+#' @inheritParams cut_seasonyear
+#'
+#' @return Partial function of [cut_seasonyear()] with x as sole argument
+#' @export
+cut_seasonyear.fun <- function(label = c("yearseason", "year"), labels = NULL) {
+  function(x) {
+    cut_seasonyear(label = label, labels = labels)
+  }
+}
+
+
+
+
+
