@@ -21,7 +21,7 @@ to set an aesthetic to a fixed value. Defaults are \code{color = "white", width 
 
 \item{ws_max}{numeric, can be NA, wind speed is squished at this value}
 
-\item{groupings}{additional groupings. Use helper \code{\link[=groups]{groups()}} to create. \strong{Necessary} for facets!}
+\item{groupings}{additional groupings. Use helper \code{\link[=groups]{groups()}} to create. \strong{Necessary} for some facets!}
 
 \item{fill_scale}{ggplot2 discrete fill scale, e.g. \code{\link[ggplot2:scale_fill_gradientn]{ggplot2::scale_fill_gradientn()}}}
 
@@ -63,12 +63,21 @@ ggwindrose(data, "ws", "wd", color = "black", ws_max = 4)
 # bigger outlines
 ggwindrose(data, ws, wd, ws_max = 5, size = 1)
 
+# a map as background
+bb <- bbox_lv95(2683141, 1249040, 500)
+bg <- get_stamen_map(bb)
+ggwindrose(data, ws, wd, ws_max = 5, alpha = 0.8, bg = bg) +
+  theme(
+    panel.grid.major = element_line(linetype = 2, color = "black", size = 0.5)
+   )
+
 # another fill scale
 ggwindrose(data, ws, wd, ws_max = 5,
            fill_scale = scale_fill_manual(values = matlab::jet.colors(6)))
 
-# reverse the order of ws
-ggwindrose(data, ws, wd, ws_max = 5, reverse = TRUE)
+# reverse the order of ws, but keep the coloring and legend order
+ggwindrose(data, ws, wd, ws_max = 4, reverse = FALSE,
+           fill_scale = scale_fill_viridis_d(direction = -1))
 
 # faceting: important the faceting variable, must also be in grouping!
 ggwindrose(data, ws, wd, ws_max = 5, groupings = groups(daylight)) +
@@ -78,11 +87,18 @@ ggwindrose(data, ws, wd, ws_max = 5, groupings = groups(daylight)) +
 # in this example we define the groupings external for better
 # readability
 groupings = groups(
-  season = lubridate::quarter(date),  # placeholder
-  year = lubridate::year(date)
+  season = cut_season(date, labels = c(DJF = "winter", MAM = "spring",
+                      JJA = "summer", SON = "autumn")),
+  year = cut_seasonyear(date, label = "year")
 )
 
-
+# only three years for smaller plot size and cut the last december
+# theming remove the NOSW labels and reduce the y spacing between plots
+data <- dplyr::filter(data, date < lubridate::ymd(20121201))
 ggwindrose(data, ws, wd, ws_max = 3, groupings = groupings) +
-  facet_grid(rows = vars(year), cols = vars(season))
+  facet_grid(rows = vars(year), cols = vars(season)) +
+  theme(
+    axis.text.x = element_blank(),
+    panel.spacing.y = unit(0, "pt")
+  )
 }

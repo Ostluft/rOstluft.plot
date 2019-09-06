@@ -21,7 +21,7 @@ navbar:
       text: Articles
       menu:
       - text: 'Linien Kalender'
-        href: articles/articles/cal_line.html
+        href: articles/articles/Kalender_Linie.html
     github:
       icon: fa-github fa-lg
       href: https://github.com/Ostluft/rOstluft.plot

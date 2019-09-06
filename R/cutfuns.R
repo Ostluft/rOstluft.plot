@@ -201,7 +201,7 @@ cut_width.fun <- function(width, center = NULL, boundary = NULL,
 #' Cut date-time vectors into seasons
 #'
 #' @param x a date-time vector
-#' @param labels a list for recoding. Names should be "DJF", "MAM", "JJA", "SON"
+#' @param labels a list for recoding. Names and order should be "DJF", "MAM", "JJA", "SON"
 #'
 #' @return factor of seasons
 #' @export
@@ -211,17 +211,17 @@ cut_width.fun <- function(width, center = NULL, boundary = NULL,
 #'
 #' cut_season(dates)
 #'
-#' cut_season(dates, c(DJF = "winter", JJA = "summer", MAM = "spring", SON = "autumn"))
+#' cut_season(dates, c(DJF = "winter", MAM = "spring", JJA = "summer", SON = "autumn"))
 cut_season <- function(x, labels = NULL) {
   cc <- c(
     "DJF", "DJF", "MAM", "MAM", "MAM", "JJA",
     "JJA", "JJA", "SON" , "SON" , "SON", "DJF"
   )
 
-  x <- as.factor(cc[lubridate::month(x)])
+  x <- ordered(cc[lubridate::month(x)], levels = c("DJF", "MAM", "JJA", "SON"))
 
   if (!is.null(labels)) {
-    x <- dplyr::recode_factor(x, !!!labels)
+    x <- dplyr::recode_factor(x, !!!labels, .ordered = TRUE)
   }
   x
 }
@@ -243,7 +243,7 @@ cut_season.fun <- function(labels = NULL) {
 
 #' Cut seasons, keep years together
 #'
-#' Cut the data in year-season intervals while keeping the seasons together.
+#' @description Cut the data in year-season intervals while keeping the seasons together.
 #' This means december will be added to the following year.
 #'
 #' With `label = "year"` only the year will be adjustet.
@@ -281,10 +281,10 @@ cut_seasonyear <- function(x, label = c("yearseason", "year"), labels = NULL) {
   )
 
   if (label == "yearseason") {
-    out <- stringr::str_c(out, "-", cut_season(x, labels))
+    out <- stringr::str_c(out, "-", cut_season(x, labels = labels))
   }
 
-  as.factor(out)
+  ordered(out, levels = unique(out))
 }
 
 #' Partial function constructor for cut_season

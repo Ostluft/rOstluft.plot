@@ -9,7 +9,7 @@ cut_season(x, labels = NULL)
 \arguments{
 \item{x}{a date-time vector}
 
-\item{labels}{a list for recoding. Names should be "DJF", "MAM", "JJA", "SON"}
+\item{labels}{a list for recoding. Names and order should be "DJF", "MAM", "JJA", "SON"}
 }
 \value{
 factor of seasons
@@ -22,5 +22,5 @@ dates <- lubridate::ymd(010101) + months(0:11)
 
 cut_season(dates)
 
-cut_season(dates, c(DJF = "winter", JJA = "summer", MAM = "spring", SON = "autumn"))
+cut_season(dates, c(DJF = "winter", MAM = "spring", JJA = "summer", SON = "autumn"))
 }

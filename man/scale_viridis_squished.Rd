@@ -36,7 +36,9 @@ as output. Adds leading ">" for last element
 scale
 }
 \description{
-squish outliers or extreme values in scales
+The scale only applies the limits to the determination of the color.
+The underlying data isn't squish. All values outside the limit are
+simple colored the same.
 }
 \examples{
 library(ggplot2)
@@ -45,44 +47,62 @@ fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 
 df <-
   rOstluft::read_airmo_csv(fn) \%>\%
-  rOstluft::rolf_to_openair() \%>\%
-  dplyr::mutate(year = lubridate::year(date))
+  dplyr::filter(starttime < lubridate::ymd(20140101)) \%>\%
+  rOstluft::rolf_to_openair()
 
 # data with outliers / extreme values
-ggyearday(df, time = "date", z = "PM10") +
-  facet_wrap(year~., scales = "free_x", ncol = 1)
+ggyearday(df, time = "date", z = "PM10")
 
 # simple squished scale
-fill_scale <- scale_fill_viridis_squished(limits = c(0, 75), breaks = c(0, 25, 50, 75),
-                                          direction = -1, na.value = NA, option = "A")
+fill_scale <- scale_fill_viridis_squished(
+  limits = c(0, 75),
+  breaks = c(0, 25, 50, 75),
+  direction = -1,
+  na.value = NA,
+  option = "A"
+)
 ggyearday(df, time = "date", z = "PM10", fill_scale = fill_scale) +
   facet_wrap(year~., scales = "free_x", ncol = 1)
 
 # add unit to scale (or any other label formating function)
-fill_scale <- scale_fill_viridis_squished(limits = c(0, 75), breaks = c(0, 25, 50, 75),
-                                          labels = scales::unit_format(unit = "\\u00b5g/m3"),
-                                          direction = -1, na.value = NA, option = "A")
-ggyearday(df, time = "date", z = "PM10", fill_scale = fill_scale) +
-  facet_wrap(year~., scales = "free_x", ncol = 1)
-
+fill_scale <- scale_fill_viridis_squished(
+  limits = c(0, 75),
+  breaks = c(0, 25, 50, 75),
+  labels = scales::unit_format(unit = "\\u00b5g/m3"),
+  direction = -1,
+  na.value = NA,
+  option = "A"
+)
+ggyearday(df, time = "date", z = "PM10", fill_scale = fill_scale)
 
 # custom labels for breaks
-fill_scale <- scale_fill_viridis_squished(limits = c(0, 75), breaks = c(0, 25, 50, 75),
-                                          labels = c("A", "B", "C", "D"),
-                                          direction = -1, na.value = NA, option = "A")
-ggyearday(df, time = "date", z = "PM10", fill_scale = fill_scale) +
-  facet_wrap(year~., scales = "free_x", ncol = 1)
+fill_scale <- scale_fill_viridis_squished(
+  limits = c(0, 75),
+  breaks = c(0, 25, 50, 75),
+  labels = c("A", "B", "C", "D"),
+  direction = -1,
+  na.value = NA,
+  option = "A"
+)
+ggyearday(df, time = "date", z = "PM10", fill_scale = fill_scale)
 
 # No labels for breaks
-fill_scale <- scale_fill_viridis_squished(limits = c(0, 75), breaks = c(0, 25, 50, 75),
-                                          labels = NULL,
-                                          direction = -1, na.value = NA, option = "A")
-ggyearday(df, time = "date", z = "PM10", fill_scale = fill_scale) +
-  facet_wrap(year~., scales = "free_x", ncol = 1)
+fill_scale <- scale_fill_viridis_squished(
+  limits = c(0, 75),
+  breaks = c(0, 25, 50, 75),
+  labels = NULL,
+  direction = -1,
+  na.value = NA,
+  option = "A"
+)
+ggyearday(df, time = "date", z = "PM10", fill_scale = fill_scale)
 
 # simple squished jet gradientn scale
-fill_scale <- scale_fill_gradientn_squished(limits = c(0, 75), breaks = c(0, 25, 50, 75),
-                                            colors = matlab::jet.colors(20), na.value = NA)
-ggyearday(df, time = "date", z = "PM10", fill_scale = fill_scale) +
-  facet_wrap(year~., scales = "free_x", ncol = 1)
+fill_scale <- scale_fill_gradientn_squished(
+  limits = c(0, 75),
+  breaks = c(0, 25, 50, 75),
+  colors = matlab::jet.colors(20),
+  na.value = NA
+)
+ggyearday(df, time = "date", z = "PM10", fill_scale = fill_scale)
 }

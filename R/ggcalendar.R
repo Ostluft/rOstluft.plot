@@ -1,11 +1,13 @@
 #' Calendar time series plot with tiles
 #'
+#' ggcalendar calculates the necessary date components and creates a ggplot object with the correct
+#' mappings for the other cal_* components.
 #'
 #' @param data input data
 #' @param x date column as Date, POSIXct or Character
 #' @param z value columns
-#' @param size parameter pssed on to [geom_tile()] => space between tiles
-#' @param color parameter pssed on to [geom_tile()] => color of space between tiles
+#' @param size parameter passed on to [geom_tile()] => space between tiles
+#' @param color parameter passed on to [geom_tile()] => color of space between tiles
 #' @param ... more options for [ggplot2::geom_tile()]
 #' @param locale locale string for [lubridate::month()] and [lubridate::wday()]. See [Sys.getlocale()]
 #'
@@ -16,8 +18,10 @@
 #'
 #' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 #'
+#' # keep only 2 years for smaller plotsize
 #' df <-
 #'  rOstluft::read_airmo_csv(fn) %>%
+#'  dplyr::filter(starttime < lubridate::ymd(20120101)) %>%
 #'  rOstluft::resample(new_interval = "d1") %>%
 #'  rOstluft::rolf_to_openair()
 #'
@@ -27,8 +31,9 @@
 #' # can be customised...
 #' ggcalendar(df, z = "PM10") +
 #'   scale_fill_viridis_c(direction = -1, option = "magma", na.value = NA) +
-#'   cal_month_border(color = "white") +
-#'   stat_filter(aes(filter = PM10 > 50), size = 0.75, color = "green", fill = NA, shape = 21) +
+#'   cal_month_border(color = "black") +
+#'   stat_filter(aes(filter = PM10 > 50),  position = position_nudge(y = 0.25),
+#'               size = 1, shape = 21, color = "white", fill = "white") +
 #'   cal_label(aes(label = round(PM10,0)))
 #'
 #' @export
@@ -130,6 +135,8 @@ CalMonthBorder <- ggproto("CalMonthBorder", Stat,
 
 #' Adds month border to calendar
 #'
+#' cal_month_border uses [ggplot2::geom_segment()] to draw a border around the months.
+#'
 #' @inheritParams ggplot2::geom_segment
 #'
 #' @return ggplot2 layer
@@ -150,7 +157,7 @@ cal_month_border <- function(size = 0.5, lineend = "square", linejoin = "bevel",
 
 #' Adds Label to a calendar
 #'
-#' Just a geom_text with some defaults
+#' cal_label is a wrapper around [ggplot2::geom_text()] (but [ggplot2::geom_label()] could be used).
 #'
 #' @inheritParams ggplot2::geom_text
 #' @param geom geom used for layer. "label" could be an alternative

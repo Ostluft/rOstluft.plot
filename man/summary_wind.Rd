@@ -11,11 +11,11 @@ summary_wind(data, ws, wd, z, groupings = groups(), fun = "mean",
 \arguments{
 \item{data}{a data.frame or tibble containing the data (wide format)}
 
-\item{ws}{symbol giving the wind velocity parameter name (wind velocity preferably in m/s)}
+\item{ws}{symbol giving the wind velocity column name (wind velocity preferably in m/s)}
 
-\item{wd}{symbol giving the wind direction parameter name  in degrees}
+\item{wd}{symbol giving the wind direction column name  in degrees}
 
-\item{z}{symbol giving the parameter name to be summarised}
+\item{z}{symbol giving the column name to be summarised}
 
 \item{groupings}{additional groupings. Use helper \code{\link[=groups]{groups()}} to create}
 
@@ -105,4 +105,56 @@ summary_wind(data, ws, wd, NO2,
 
 # the same but we use ws as pollutant
 summary_wind(data, NO2, wd, NO2, ws_cutfun = cut_number.fun(5))
+
+# some plots using the summarized data
+
+# a radar plot
+funs <- list(
+  "mean",
+  "median",
+  "q95" = ~ stats::quantile(., probs = 0.95)
+)
+
+data_summarized <- summary_wind(data, ws, wd, NOx, fun = funs,
+  ws_cutfun = cut_number.fun(1)
+)
+
+ggplot(data_summarized, aes(x = wd, y = NOx, color = stat, group = stat)) +
+  geom_polygon(size = 1, fill = NA) +
+  coord_radar(start = - 22.5 / 180 * pi ) +
+  scale_color_viridis_d(end = 0.8) +
+  scale_y_continuous(limits = c(0, NA), expand = c(0,0, 0, 0)) +
+  facet_wrap(vars(stat))
+
+
+# a wind rose
+data_summarized <- summary_wind(data, ws, wd, ws,
+  ws_cutfun = cut_ws.fun(ws_max = 4, reverse = TRUE)
+)
+
+ggplot(data_summarized, aes(x = wd, y = freq, fill = ws)) +
+  geom_bar(stat = "identity") +
+  coord_polar2(start = - 22.5 / 180 * pi ) +
+  scale_y_continuous(
+    limits = c(0, NA),
+    expand = c(0,0, 0, 0),
+    labels = scales::percent
+  ) +
+  scale_fill_viridis_d()
+
+
+# a pollution rose
+data_summarized <- summary_wind(data, ws, wd, NOx,
+  groupings = groups(
+    fNOx = ggplot2::cut_number(NO2, 5),
+    year = lubridate::year(date)
+  ),
+  ws_cutfun = cut_number.fun(1)
+)
+
+ggplot(data_summarized, aes(x = wd, y = freq, fill = forcats::fct_rev(fNOx))) +
+  geom_bar(stat = "identity") +
+  coord_polar2(start = - 22.5 / 180 * pi ) +
+  scale_y_continuous(limits = c(0, NA), expand = c(0,0, 0, 0)) +
+  scale_fill_viridis_d(direction = -1, name = "NOx")
 }

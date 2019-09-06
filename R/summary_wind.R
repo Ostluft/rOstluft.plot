@@ -5,9 +5,9 @@
 #' NA values in z and in ws, wd (after cutting) will be silently removed before applying functions
 #'
 #' @param data a data.frame or tibble containing the data (wide format)
-#' @param ws symbol giving the wind velocity parameter name (wind velocity preferably in m/s)
-#' @param wd symbol giving the wind direction parameter name  in degrees
-#' @param z symbol giving the parameter name to be summarised
+#' @param ws symbol giving the wind velocity column name (wind velocity preferably in m/s)
+#' @param wd symbol giving the wind direction column name  in degrees
+#' @param z symbol giving the column name to be summarised
 #' @param groupings additional groupings. Use helper [groups()] to create
 #' @param fun function or list of functions for summary.
 #' @param fun.args a list of extra arguments passed on to fun.
@@ -84,6 +84,58 @@
 #'
 #' # the same but we use ws as pollutant
 #' summary_wind(data, NO2, wd, NO2, ws_cutfun = cut_number.fun(5))
+#'
+#' # some plots using the summarized data
+#'
+#' # a radar plot
+#' funs <- list(
+#'   "mean",
+#'   "median",
+#'   "q95" = ~ stats::quantile(., probs = 0.95)
+#' )
+#'
+#' data_summarized <- summary_wind(data, ws, wd, NOx, fun = funs,
+#'   ws_cutfun = cut_number.fun(1)
+#' )
+#'
+#' ggplot(data_summarized, aes(x = wd, y = NOx, color = stat, group = stat)) +
+#'   geom_polygon(size = 1, fill = NA) +
+#'   coord_radar(start = - 22.5 / 180 * pi ) +
+#'   scale_color_viridis_d(end = 0.8) +
+#'   scale_y_continuous(limits = c(0, NA), expand = c(0,0, 0, 0)) +
+#'   facet_wrap(vars(stat))
+#'
+#'
+#' # a wind rose
+#' data_summarized <- summary_wind(data, ws, wd, ws,
+#'   ws_cutfun = cut_ws.fun(ws_max = 4, reverse = TRUE)
+#' )
+#'
+#' ggplot(data_summarized, aes(x = wd, y = freq, fill = ws)) +
+#'   geom_bar(stat = "identity") +
+#'   coord_polar2(start = - 22.5 / 180 * pi ) +
+#'   scale_y_continuous(
+#'     limits = c(0, NA),
+#'     expand = c(0,0, 0, 0),
+#'     labels = scales::percent
+#'   ) +
+#'   scale_fill_viridis_d()
+#'
+#'
+#' # a pollution rose
+#' data_summarized <- summary_wind(data, ws, wd, NOx,
+#'   groupings = groups(
+#'     fNOx = ggplot2::cut_number(NO2, 5),
+#'     year = lubridate::year(date)
+#'   ),
+#'   ws_cutfun = cut_number.fun(1)
+#' )
+#'
+#' ggplot(data_summarized, aes(x = wd, y = freq, fill = forcats::fct_rev(fNOx))) +
+#'   geom_bar(stat = "identity") +
+#'   coord_polar2(start = - 22.5 / 180 * pi ) +
+#'   scale_y_continuous(limits = c(0, NA), expand = c(0,0, 0, 0)) +
+#'   scale_fill_viridis_d(direction = -1, name = "NOx")
 summary_wind <- function(data, ws, wd, z, groupings = groups(), fun = "mean", fun.args = list(), nmin = 3,
                           wd_cutfun = cut_wd.fun(binwidth = 45),
                           ws_cutfun = cut_ws.fun(binwidth = 1)) {

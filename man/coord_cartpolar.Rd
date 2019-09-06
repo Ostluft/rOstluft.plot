@@ -36,13 +36,17 @@ to draw nothing}
 \code{\link[ggplot2:scale_continuous_identity]{ggplot2::scale_continuous_identity()}}
 }
 \description{
-WIP:
+A cartesian coordinate system overlayed with a polar grid.
+It is used together with \code{\link[=summary_wind_2d]{summary_wind_2d()}} in \code{\link[=ggpolarplot]{ggpolarplot()}}.
+}
+\section{TODO}{
+
 \itemize{
-\item render_axis_h / render_axis_v probably needs an overwrite
-\item labels for polar grid lines
-\item wd scale / breaks but how exactly?
+\item optimize scaling to match \code{\link[=coord_polar2]{coord_polar2()}} / \code{\link[ggplot2:polar]{ggplot2::polar()}}
+\item Option to plot only positive y breaks
 }
 }
+
 \examples{
 library(ggplot2)
 
@@ -89,26 +93,19 @@ ggplot(df, aes(x=u, y=v)) + geom_point() +
 
 
 # background map
-bbox <- tibble::tibble(x = c(2683141 - 500, 2683141 + 500), y = c(1249040 - 500, 1249040 + 500))
-bbox <- rOstluft::transform_LV95_to_WSG84(bbox)
-bbox <- c(left = bbox$lon[1], right = bbox$lon[2], bottom = bbox$lat[1], top = bbox$lat[2])
-
-raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
-                                   source = "stamen", color = "bw")
-
-pbg <- ggplot(df, aes(x=u, y=v)) + geom_point() + coord_cartpolar(bg = raster_map)
+bb <- bbox_lv95(2683141, 1249040, 500)
+bg <- get_stamen_map(bb)
+pbg <- ggplot(df, aes(x=u, y=v)) + geom_point() + coord_cartpolar(bg = bg)
 pbg
 
-
 # faceting
-pbg + facet_wrap(~facet)
-
+pbg + facet_wrap(vars(facet))
 
 # if plotting a raster layer, use annotation_raster, panel.ontop and panel.background
 df <- expand.grid(u = -5:5, v = -5:5)
 df$z <- runif(nrow(df))
 ggplot(df, aes(x=u, y=v, fill=z)) + coord_cartpolar(expand = FALSE) +
-  annotation_raster(raster_map, -Inf, Inf, -Inf, Inf) +
+  annotation_raster(bg, -Inf, Inf, -Inf, Inf) +
   geom_raster(alpha = 0.5) +
   theme(
     "panel.ontop" = TRUE,

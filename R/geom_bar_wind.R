@@ -6,8 +6,16 @@
 #' is an extension to [ggplot2::geom_bar()] with [stat_summary_wind()] as default stat and correct
 #' handling of the factorized `x` aesthetic. To map the computed Variables use [ggplot2::stat()].
 #'
-#' @section Grouping:
+#' @section Recommendation:
 #'
+#' The facetting functions takes the inputs and evaluate them in the context of the dataset.
+#' This means it is impossible to use a computed variable from a stat or from an asthetic.
+#' This limitation means [summary_wind()] isn't a good fit with ggplot as a stat.
+#'
+#' In most cases it is simpler to summarize the data beforehand and then create a plot
+#' from the summarized data.
+#'
+#' [ggwindrose()] and [ggradar()] can be used to create some standardized plots.
 #'
 #' @param ... Other arguments passed on to [layer()]. These are
 #'   often aesthetics, used to set an aesthetic to a fixed value, like
@@ -93,7 +101,6 @@
 #'   scale_fill_viridis_d(direction = -1, name = "NOx")
 geom_bar_wind <- function(mapping = NULL, data = NULL, stat = "summary_wind", position = "stack",
                           ...,
-                          groupings = groups(),
                           fun = "mean",
                           fun.args = list(),
                           nmin = 3,
@@ -112,7 +119,6 @@ geom_bar_wind <- function(mapping = NULL, data = NULL, stat = "summary_wind", po
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = list(
-      groupings = groupings,
       fun = fun,
       fun.args = fun.args,
       nmin = nmin,

@@ -7,7 +7,7 @@
 #'   `(360 / wd_binwidth) %in% c(4, 8, 12, 16)`
 #' @param ws_binwidth numeric, binwidth for wind speed
 #' @param ws_max numeric, can be NA, wind speed is squished at this value
-#' @param groupings additional groupings. Use helper [groups()] to create. **Necessary** for facets!
+#' @param groupings additional groupings. Use helper [groups()] to create. **Necessary** for some facets!
 #' @param fill_scale ggplot2 discrete fill scale, e.g. [ggplot2::scale_fill_gradientn()]
 #' @param reverse TRUE/FALSE, should wind speed bin factors be sorted descending (TRUE)
 #'   or ascending (FALSE). Usually for wind roses a descending order (higher wind speed on
@@ -43,12 +43,21 @@
 #' # bigger outlines
 #' ggwindrose(data, ws, wd, ws_max = 5, size = 1)
 #'
+#' # a map as background
+#' bb <- bbox_lv95(2683141, 1249040, 500)
+#' bg <- get_stamen_map(bb)
+#' ggwindrose(data, ws, wd, ws_max = 5, alpha = 0.8, bg = bg) +
+#'   theme(
+#'     panel.grid.major = element_line(linetype = 2, color = "black", size = 0.5)
+#'    )
+#'
 #' # another fill scale
 #' ggwindrose(data, ws, wd, ws_max = 5,
 #'            fill_scale = scale_fill_manual(values = matlab::jet.colors(6)))
 #'
-#' # reverse the order of ws
-#' ggwindrose(data, ws, wd, ws_max = 5, reverse = TRUE)
+#' # reverse the order of ws, but keep the coloring and legend order
+#' ggwindrose(data, ws, wd, ws_max = 4, reverse = FALSE,
+#'            fill_scale = scale_fill_viridis_d(direction = -1))
 #'
 #' # faceting: important the faceting variable, must also be in grouping!
 #' ggwindrose(data, ws, wd, ws_max = 5, groupings = groups(daylight)) +
@@ -58,13 +67,20 @@
 #' # in this example we define the groupings external for better
 #' # readability
 #' groupings = groups(
-#'   season = lubridate::quarter(date),  # placeholder
-#'   year = lubridate::year(date)
+#'   season = cut_season(date, labels = c(DJF = "winter", MAM = "spring",
+#'                       JJA = "summer", SON = "autumn")),
+#'   year = cut_seasonyear(date, label = "year")
 #' )
 #'
-#'
+#' # only three years for smaller plot size and cut the last december
+#' # theming remove the NOSW labels and reduce the y spacing between plots
+#' data <- dplyr::filter(data, date < lubridate::ymd(20121201))
 #' ggwindrose(data, ws, wd, ws_max = 3, groupings = groupings) +
-#'   facet_grid(rows = vars(year), cols = vars(season))
+#'   facet_grid(rows = vars(year), cols = vars(season)) +
+#'   theme(
+#'     axis.text.x = element_blank(),
+#'     panel.spacing.y = unit(0, "pt")
+#'   )
 ggwindrose <- function(data, ws, wd,
                        ...,
                        wd_binwidth = 45,
@@ -93,11 +109,11 @@ ggwindrose <- function(data, ws, wd,
 
   plot <- ggplot(data_summarized, aes(x = as.numeric(!!wd), y = freq, fill = !!ws)) +
     bar_layer +
-    coord_polar2(start = -2 * pi / 360 * wd_binwidth / 2) +
+    coord_polar2(start = -2 * pi / 360 * wd_binwidth / 2, bg = bg) +
     scale_x_continuous(breaks = breaks, labels = c("N", "O", "S", "W"), expand = xexpand) +
     scale_y_continuous( limits = c(0, NA), expand = expand_scale(), labels = scales::percent) +
     fill_scale +
-    guides(fill = guide_legend(title = rlang::quo_text(ws))) +
+    guides(fill = guide_legend(title = rlang::quo_text(ws), reverse = !reverse)) +
     theme_windrose
 
   return(plot)

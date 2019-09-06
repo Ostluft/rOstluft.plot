@@ -21,8 +21,7 @@ factor of yearseasons
 \description{
 Cut the data in year-season intervals while keeping the seasons together.
 This means december will be added to the following year.
-}
-\details{
+
 With \code{label = "year"} only the year will be adjustet.
 }
 \examples{

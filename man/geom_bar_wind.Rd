@@ -6,8 +6,8 @@
 \title{Summarise z values over binned wind data.}
 \usage{
 geom_bar_wind(mapping = NULL, data = NULL, stat = "summary_wind",
-  position = "stack", ..., groupings = groups(), fun = "mean",
-  fun.args = list(), nmin = 3, wd_cutfun = cut_wd.fun(binwidth = 45),
+  position = "stack", ..., fun = "mean", fun.args = list(),
+  nmin = 3, wd_cutfun = cut_wd.fun(binwidth = 45),
   ws_cutfun = cut_ws.fun(binwidth = 1), na.rm = FALSE,
   show.legend = NA, inherit.aes = TRUE)
 
@@ -36,8 +36,6 @@ often aesthetics, used to set an aesthetic to a fixed value, like
 \code{colour = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
 
-\item{groupings}{additional groupings. Use helper \code{\link[=groups]{groups()}} to create}
-
 \item{fun}{function or list of functions for summary.}
 
 \item{fun.args}{a list of extra arguments passed on to fun.}
@@ -60,6 +58,8 @@ that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[=borders]{borders()}}.}
 
 \item{geom}{The geometric object to use display the data}
+
+\item{groupings}{additional groupings. Use helper \code{\link[=groups]{groups()}} to create}
 }
 \value{
 \code{\link[ggplot2:layer]{ggplot2::layer()}}
@@ -71,8 +71,17 @@ for \code{\link[=summary_wind]{summary_wind()}}. The computed variables are name
 is an extension to \code{\link[ggplot2:geom_bar]{ggplot2::geom_bar()}} with \code{\link[=stat_summary_wind]{stat_summary_wind()}} as default stat and correct
 handling of the factorized \code{x} aesthetic. To map the computed Variables use \code{\link[ggplot2:stat]{ggplot2::stat()}}.
 }
-\section{Grouping}{
+\section{Recommendation}{
 
+
+The facetting functions takes the inputs and evaluate them in the context of the dataset.
+This means it is impossible to use a computed variable from a stat or from an asthetic.
+This limitation means \code{\link[=summary_wind]{summary_wind()}} isn't a good fit with ggplot as a stat.
+
+In most cases it is simpler to summarize the data beforehand and then create a plot
+from the summarized data.
+
+\code{\link[=ggwindrose]{ggwindrose()}} and \code{\link[=ggradar]{ggradar()}} can be used to create some standardized plots.
 }
 
 \examples{

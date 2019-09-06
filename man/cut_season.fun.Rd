@@ -7,7 +7,7 @@
 cut_season.fun(labels = NULL)
 }
 \arguments{
-\item{labels}{a list for recoding. Names should be "DJF", "MAM", "JJA", "SON"}
+\item{labels}{a list for recoding. Names and order should be "DJF", "MAM", "JJA", "SON"}
 }
 \value{
 Partial function of \code{\link[=cut_season]{cut_season()}} with x as sole argument
