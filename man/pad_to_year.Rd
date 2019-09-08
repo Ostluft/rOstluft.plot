@@ -4,18 +4,42 @@
 \alias{pad_to_year}
 \title{Pads data to complete year}
 \usage{
-pad_to_year(data, date_col, interval)
+pad_to_year(data, date_col, interval, fill = list(), start_date = NULL,
+  end_date = NULL)
 }
 \arguments{
 \item{data}{input data}
 
-\item{date_col}{column containing date information}
+\item{date_col}{column containing date information, every date should be unique}
 
 \item{interval}{interval between two dates}
+
+\item{fill}{A named list that for each variable supplies a single value to use instead of
+NA for missing combinations.}
+
+\item{start_date}{optional start_date instead of \code{min(data[[date_col]])}}
+
+\item{end_date}{optional start_date instead of \code{max(data[[date_col]])}}
 }
 \value{
 padded data
 }
 \description{
-Generic padding function.
+Generic padding function. Generates a sequence from \code{lubridate::floor(start_date, "year")}
+to \code{lubridate::ceil(end_date, "year")}. The last point is excluded if \code{end_date != max(data[[date_col]])}.
+Under the hood the heavy lifting is done by \code{\link[tidyr:complete]{tidyr::complete()}}.
+}
+\examples{
+fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_min30_2013_Jan.csv")
+data <- rOstluft::read_airmo_csv(fn)
+data <- rOstluft::rolf_to_openair(data)
+
+# last data point is at 2013-01-31 23:30:00
+tail(data)
+
+# the site column get filled with NA, this could lead to problems
+tail(pad_to_year(data, date, "30 min"))
+
+# better to provide a fill value, for more complex cases use pad_to_year_fill()
+tail(pad_to_year(data, date, "30 min", fill = list(site = "Zch_Stampfenbachstrasse")))
 }

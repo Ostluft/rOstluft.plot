@@ -9,9 +9,9 @@ pad_to_year_fill(data, date_col, interval, ...)
 \arguments{
 \item{data}{input data}
 
-\item{date_col}{column containing date information}
+\item{date_col}{column containing time information}
 
-\item{interval}{interval between two dates}
+\item{interval}{interval between two dates. See \code{\link[=seq.POSIXt]{seq.POSIXt()}} for valid values}
 
 \item{...}{columns to fill up}
 }
@@ -19,5 +19,38 @@ pad_to_year_fill(data, date_col, interval, ...)
 padded data
 }
 \description{
-Pads data to complete year and fill up specific columns
+This function pad data to complete years. The fill mechanism is:
+\itemize{
+\item find min- and max time
+\item group data by columns provided by \code{...} or all factor/character columns
+\item \code{\link[dplyr:group_nest]{dplyr::group_nest()}}
+\item pass the nested data for each group to \code{\link[=pad_to_year]{pad_to_year()}} with the min- and max time
+\item \code{\link[tidyr:unnest]{tidyr::unnest()}}
+}
+}
+\examples{
+fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_min30_2013_Jan.csv")
+data <- rOstluft::read_airmo_csv(fn)
+
+tail(data)
+
+# fills up all factor and character columns
+pad_to_year_fill(data, starttime, "30 min") \%>\% tail()
+
+# or only the specific and the rest with na
+pad_to_year_fill(data, starttime, "30 min", site) \%>\% tail()
+
+# data in wide format
+data <- rOstluft::rolf_to_openair(data)
+pad_to_year_fill(data, date, "30 min") \%>\% tail()
+
+# but be careful not to include cutting factors
+data <- openair::cutData(data, "month") \%>\%
+  dplyr::select(month, dplyr::everything())
+
+# fills up month and would multiply the data by the numbers of months
+pad_to_year_fill(data, date, "30 min") \%>\% tail()
+
+# only fills up the site column
+pad_to_year_fill(data, date, "30 min", site) \%>\% tail()
 }

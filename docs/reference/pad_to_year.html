@@ -41,7 +41,9 @@
 
 <meta property="og:title" content="Pads data to complete year — pad_to_year" />
 
-<meta property="og:description" content="Generic padding function." />
+<meta property="og:description" content="Generic padding function. Generates a sequence from lubridate::floor(start_date, &quot;year&quot;)
+to lubridate::ceil(end_date, &quot;year&quot;). The last point is excluded if end_date != max(data[[date_col]]).
+Under the hood the heavy lifting is done by tidyr::complete()." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -131,11 +133,14 @@
 
     <div class="ref-description">
     
-    <p>Generic padding function.</p>
+    <p>Generic padding function. Generates a sequence from <code>lubridate::floor(start_date, "year")</code>
+to <code>lubridate::ceil(end_date, "year")</code>. The last point is excluded if <code>end_date != max(data[[date_col]])</code>.
+Under the hood the heavy lifting is done by <code><a href='https://tidyr.tidyverse.org/reference/complete.html'>tidyr::complete()</a></code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>pad_to_year</span>(<span class='no'>data</span>, <span class='no'>date_col</span>, <span class='no'>interval</span>)</pre>
+    <pre class="usage"><span class='fu'>pad_to_year</span>(<span class='no'>data</span>, <span class='no'>date_col</span>, <span class='no'>interval</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>start_date</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>end_date</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -146,11 +151,24 @@
     </tr>
     <tr>
       <th>date_col</th>
-      <td><p>column containing date information</p></td>
+      <td><p>column containing date information, every date should be unique</p></td>
     </tr>
     <tr>
       <th>interval</th>
       <td><p>interval between two dates</p></td>
+    </tr>
+    <tr>
+      <th>fill</th>
+      <td><p>A named list that for each variable supplies a single value to use instead of
+NA for missing combinations.</p></td>
+    </tr>
+    <tr>
+      <th>start_date</th>
+      <td><p>optional start_date instead of <code><a href='https://rdrr.io/r/base/Extremes.html'>min(data[[date_col]])</a></code></p></td>
+    </tr>
+    <tr>
+      <th>end_date</th>
+      <td><p>optional start_date instead of <code><a href='https://rdrr.io/r/base/Extremes.html'>max(data[[date_col]])</a></code></p></td>
     </tr>
     </table>
     
@@ -159,6 +177,47 @@
     <p>padded data</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft.data</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft.data/man/f.html'>f</a></span>(<span class='st'>"Zch_Stampfenbachstrasse_min30_2013_Jan.csv"</span>)
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/read_airmo_csv.html'>read_airmo_csv</a></span>(<span class='no'>fn</span>)
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/rolf_to_openair.html'>rolf_to_openair</a></span>(<span class='no'>data</span>)
+
+<span class='co'># last data point is at 2013-01-31 23:30:00</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span>(<span class='no'>data</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 16</span><span>
+#&gt;   date                site     CO    Hr    NO   NO2   NOx    O3     p  PM10
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dttm&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 2013-01-31 </span><span style='color: #949494;'>21:00:00</span><span> Zch_~ 0.191  67.3 0.675  7.70  4.57  71.0  970.  7.21
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> 2013-01-31 </span><span style='color: #949494;'>21:30:00</span><span> Zch_~ 0.195  64.9 0.359  7.72  4.33  69.7  970.  4.89
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> 2013-01-31 </span><span style='color: #949494;'>22:00:00</span><span> Zch_~ 0.191  65.1 0.424  6.84  3.92  69.0  970.  6.71
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> 2013-01-31 </span><span style='color: #949494;'>22:30:00</span><span> Zch_~ 0.184  67.3 0.353  5.38  3.09  70.5  970.  5.19
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> 2013-01-31 </span><span style='color: #949494;'>23:00:00</span><span> Zch_~ 0.186  67.3 0.634  5.87  3.58  70.2  969.  5.79
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> 2013-01-31 </span><span style='color: #949494;'>23:30:00</span><span> Zch_~ 0.189  68.7 0.435  6.76  3.88  67.6  969.  7.92
+#&gt; </span><span style='color: #949494;'># ... with 6 more variables: RainDur </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, SO2 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, StrGlo </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, T </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>,
+#&gt; #   wd </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, ws </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'>
+<span class='co'># the site column get filled with NA, this could lead to problems</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span>(<span class='fu'>pad_to_year</span>(<span class='no'>data</span>, <span class='no'>date</span>, <span class='st'>"30 min"</span>))</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 6 x 16</span><span>
+#&gt;   date                site     CO    Hr    NO   NO2   NOx    O3     p  PM10
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dttm&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 2013-12-31 </span><span style='color: #949494;'>21:00:00</span><span> </span><span style='color: #BB0000;'>NA</span><span>       </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> 2013-12-31 </span><span style='color: #949494;'>21:30:00</span><span> </span><span style='color: #BB0000;'>NA</span><span>       </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> 2013-12-31 </span><span style='color: #949494;'>22:00:00</span><span> </span><span style='color: #BB0000;'>NA</span><span>       </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> 2013-12-31 </span><span style='color: #949494;'>22:30:00</span><span> </span><span style='color: #BB0000;'>NA</span><span>       </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> 2013-12-31 </span><span style='color: #949494;'>23:00:00</span><span> </span><span style='color: #BB0000;'>NA</span><span>       </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> 2013-12-31 </span><span style='color: #949494;'>23:30:00</span><span> </span><span style='color: #BB0000;'>NA</span><span>       </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #949494;'># ... with 6 more variables: RainDur </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, SO2 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, StrGlo </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, T </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>,
+#&gt; #   wd </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, ws </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'>
+<span class='co'># better to provide a fill value, for more complex cases use pad_to_year_fill()</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span>(<span class='fu'>pad_to_year</span>(<span class='no'>data</span>, <span class='no'>date</span>, <span class='st'>"30 min"</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>site</span> <span class='kw'>=</span> <span class='st'>"Zch_Stampfenbachstrasse"</span>)))</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 6 x 16</span><span>
+#&gt;   date                site     CO    Hr    NO   NO2   NOx    O3     p  PM10
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dttm&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 2013-12-31 </span><span style='color: #949494;'>21:00:00</span><span> Zch_~    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> 2013-12-31 </span><span style='color: #949494;'>21:30:00</span><span> Zch_~    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> 2013-12-31 </span><span style='color: #949494;'>22:00:00</span><span> Zch_~    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> 2013-12-31 </span><span style='color: #949494;'>22:30:00</span><span> Zch_~    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> 2013-12-31 </span><span style='color: #949494;'>23:00:00</span><span> Zch_~    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> 2013-12-31 </span><span style='color: #949494;'>23:30:00</span><span> Zch_~    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #949494;'># ... with 6 more variables: RainDur </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, SO2 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, StrGlo </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, T </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>,
+#&gt; #   wd </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, ws </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -166,7 +225,9 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
