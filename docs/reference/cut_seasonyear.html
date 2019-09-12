@@ -42,7 +42,8 @@
 <meta property="og:title" content="Cut seasons, keep years together — cut_seasonyear" />
 
 <meta property="og:description" content="Cut the data in year-season intervals while keeping the seasons together.
-This means december will be added to the following year." />
+This means december will be added to the following year.
+With label = &quot;year&quot; only the year will be adjustet." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -76,7 +77,7 @@ This means december will be added to the following year." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9007</span>
       </span>
     </div>
 
@@ -134,6 +135,7 @@ This means december will be added to the following year." />
     
     <p>Cut the data in year-season intervals while keeping the seasons together.
 This means december will be added to the following year.</p>
+<p>With <code>label = "year"</code> only the year will be adjustet.</p>
     
     </div>
 
@@ -162,10 +164,6 @@ adjustet year.</p></td>
 
     <p>factor of yearseasons</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>With <code>label = "year"</code> only the year will be adjustet.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>dates</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/ymd.html'>ymd</a></span>(<span class='fl'>010101</span>) + <span class='fu'><a href='https://rdrr.io/r/base/weekday.POSIXt.html'>months</a></span>(<span class='fl'>0</span>:<span class='fl'>11</span>)
@@ -191,8 +189,6 @@ adjustet year.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

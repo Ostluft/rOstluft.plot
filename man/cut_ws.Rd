@@ -36,6 +36,9 @@ cut_ws(ws, binwidth = 2, ws_max = 5)
 cut_ws(ws, binwidth = 2, ws_max = 5, squish = FALSE)
 
 # close the intervals on the left side
+# unfortunately there is a issue in converting the console output to
+# html: the unicode character for >= gets scrambled to =
+# https://github.com/r-lib/evaluate/issues/59
 cut_ws(ws, binwidth = 2, ws_max = 5, right = FALSE)
 
 # reverse the order of the factors, useful for legends while plotting

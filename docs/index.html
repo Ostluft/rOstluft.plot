@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9007</span>
       </span>
     </div>
 
@@ -86,7 +86,24 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<p><img src="reference/figures/logo.png" align="right"></p>
+<ul>
+<li><a href="#rostluft.plot">rOstluft.plot</a></li>
+<li><a href="#installation">Installation</a></li>
+<li>
+<a href="#beispiele">Beispiele</a>
+<ul>
+<li><a href="#windrose-auf-karte">Windrose auf Karte</a></li>
+<li><a href="#radar-chart-windstatistik">Radar-chart Windstatistik</a></li>
+<li><a href="#polarplot-openair-style">polarplot openair-style</a></li>
+<li><a href="#tagesgang-jahresgang-heatmap">Tagesgang-Jahresgang heatmap</a></li>
+<li><a href="#kalender-stat_filter">Kalender + stat_filter</a></li>
+<li><a href="#hysplit-trajektorien-openair-data-format">Hysplit Trajektorien (openair data format)</a></li>
+<li><a href="#squishing-data">Squishing data</a></li>
+<li><a href="#padding-data">padding data</a></li>
+</ul>
+</li>
+</ul>
+<!-- README.md is generated from README.Rmd. Please edit that file --><p><img src="reference/figures/logo.png" align="right"></p>
 <div id="rostluftplot" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#rostluftplot" class="anchor"></a>rOstluft.plot</h1></div>
@@ -116,14 +133,17 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">bb &lt;-<span class="st"> </span><span class="kw"><a href="reference/bbox_lv95.html">bbox_lv95</a></span>(<span class="dv">2683141</span>, <span class="dv">1249040</span>, <span class="dv">500</span>)</a>
 <a class="sourceLine" id="cb3-2" title="2">bg &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_stamen_map.html">get_stamen_map</a></span>(bb)</a>
 <a class="sourceLine" id="cb3-3" title="3"></a>
-<a class="sourceLine" id="cb3-4" title="4"><span class="kw"><a href="reference/ggwindrose.html">ggwindrose</a></span>(data, ws, wd, <span class="dt">ws_max =</span> <span class="dv">4</span>, <span class="dt">bg =</span> bg)</a></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-4-1.png" width="100%"></p>
+<a class="sourceLine" id="cb3-4" title="4"><span class="kw"><a href="reference/ggwindrose.html">ggwindrose</a></span>(data, ws, wd, <span class="dt">ws_max =</span> <span class="dv">4</span>, <span class="dt">bg =</span> bg) <span class="op">+</span></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="st">  </span><span class="kw">theme</span>(</a>
+<a class="sourceLine" id="cb3-6" title="6">    <span class="dt">panel.grid.major =</span> <span class="kw">element_line</span>(<span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">color =</span> <span class="st">"black"</span>, <span class="dt">size =</span> <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb3-7" title="7">   )</a></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">groupings =<span class="st"> </span>rOstluft.plot<span class="op">::</span><span class="kw">groups</span>(daylight)</a>
 <a class="sourceLine" id="cb4-2" title="2"></a>
 <a class="sourceLine" id="cb4-3" title="3"><span class="co"># the facetting variable has to be in the groupings argument</span></a>
 <a class="sourceLine" id="cb4-4" title="4"><span class="kw"><a href="reference/ggwindrose.html">ggwindrose</a></span>(data, ws, wd, <span class="dt">ws_max =</span> <span class="dv">4</span>, <span class="dt">groupings =</span> groupings) <span class="op">+</span></a>
 <a class="sourceLine" id="cb4-5" title="5"><span class="st">   </span><span class="kw">facet_wrap</span>(<span class="kw">vars</span>(daylight))</a></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-4-2.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-3-2.png" width="100%"></p>
 </div>
 <div id="radar-chart-windstatistik" class="section level2">
 <h2 class="hasAnchor">
@@ -149,13 +169,13 @@
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">fill_scale =<span class="st"> </span><span class="kw">scale_fill_gradientn</span>(<span class="dt">colours =</span> <span class="kw">alpha</span>(matlab<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/matlab/man/jet.colors.html">jet.colors</a></span>(<span class="dv">100</span>), <span class="fl">0.75</span>), <span class="dt">na.value =</span> <span class="ot">NA</span>)</a>
 <a class="sourceLine" id="cb6-2" title="2"><span class="kw"><a href="reference/ggpolarplot.html">ggpolarplot</a></span>(data, <span class="dt">wd =</span> wd, <span class="dt">ws =</span> ws, <span class="dt">z =</span> NOx, <span class="dt">bg =</span> bg, </a>
 <a class="sourceLine" id="cb6-3" title="3">            <span class="dt">fill_scale =</span> fill_scale, <span class="dt">breaks =</span> <span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>,<span class="dv">8</span>,<span class="dv">2</span>))</a></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
 </div>
 <div id="tagesgang-jahresgang-heatmap" class="section level2">
 <h2 class="hasAnchor">
 <a href="#tagesgang-jahresgang-heatmap" class="anchor"></a>Tagesgang-Jahresgang heatmap</h2>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="reference/ggyearday.html">ggyearday</a></span>(data, <span class="dt">time =</span> <span class="st">"date"</span>, <span class="dt">z =</span> <span class="st">"O3"</span>)</a></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="100%"></p>
 </div>
 <div id="kalender--stat_filter" class="section level2">
 <h2 class="hasAnchor">
@@ -185,7 +205,7 @@
 <a class="sourceLine" id="cb8-22" title="22">    <span class="dt">position =</span> <span class="kw">position_nudge</span>(<span class="dt">y =</span> <span class="fl">0.25</span>)</a>
 <a class="sourceLine" id="cb8-23" title="23">  ) <span class="op">+</span></a>
 <a class="sourceLine" id="cb8-24" title="24"><span class="st">  </span><span class="kw"><a href="reference/ggcalendar.html">cal_label</a></span>(<span class="kw">aes</span>(<span class="dt">label =</span> <span class="kw"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(O3_max_h1,<span class="dv">0</span>)), <span class="dt">fontface =</span> <span class="st">"bold"</span>)</a></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="100%"></p>
 </div>
 <div id="hysplit-trajektorien-openair-data-format" class="section level2">
 <h2 class="hasAnchor">
@@ -195,7 +215,142 @@
 <a class="sourceLine" id="cb9-3" title="3">traj &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(traj, date <span class="op">&lt;</span><span class="st"> </span>lubridate<span class="op">::</span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span>(<span class="st">"2017-01-08"</span>))</a>
 <a class="sourceLine" id="cb9-4" title="4"></a>
 <a class="sourceLine" id="cb9-5" title="5"><span class="kw"><a href="reference/ggtraj.html">ggtraj</a></span>(traj, <span class="dt">color_scale =</span> ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_color_viridis_c</a></span>(<span class="dt">name =</span> <span class="st">"m agl."</span>))</a></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="100%"></p>
+</div>
+<div id="squishing-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#squishing-data" class="anchor"></a>Squishing data</h2>
+<p>Messdaten enthalten oft Extremwerte von ausserordentlichen Episoden oder Ereignissen. Als Beispiel Feuwerwerke oder Inversionen in den PM10 Daten:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="reference/ggyearday.html">ggyearday</a></span>(data, <span class="dt">time =</span> date, <span class="dt">z =</span> PM10)</a></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="100%"></p>
+<p>In einem ggplot2 Diagramm kann bei continuous scales mit Hilfe dem Argument <code>oob</code> eine Funktion übergeben werden, was mit Werten ausserhalb des Limits geschieht. Mit Hilfe der Funktion <a href="https://scales.r-lib.org/reference/squish.html"><code><a href="https://rdrr.io/pkg/scales/man/squish.html">scales::squish()</a></code></a> werden diese Werte auf das Minima, bzw. Maxima der Limits gesetzt. In rOstluft.plot sind die Hilfsfunktionen <code><a href="reference/scale_viridis_squished.html">scale_fill_viridis_squished()</a></code>, <code><a href="reference/scale_viridis_squished.html">scale_color_viridis_squished()</a></code>, <code><a href="reference/scale_viridis_squished.html">scale_fill_gradientn_squished()</a></code> und <code><a href="reference/scale_viridis_squished.html">scale_color_gradientn_squished()</a></code> enthalten:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">fill_scale &lt;-<span class="st"> </span><span class="kw"><a href="reference/scale_viridis_squished.html">scale_fill_viridis_squished</a></span>(</a>
+<a class="sourceLine" id="cb11-2" title="2">  <span class="dt">breaks=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">60</span>, <span class="dv">80</span>), </a>
+<a class="sourceLine" id="cb11-3" title="3">  <span class="dt">limits =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">80</span>),</a>
+<a class="sourceLine" id="cb11-4" title="4">  <span class="dt">direction =</span> <span class="dv">-1</span>, </a>
+<a class="sourceLine" id="cb11-5" title="5">  <span class="dt">na.value =</span> <span class="ot">NA</span>, </a>
+<a class="sourceLine" id="cb11-6" title="6">  <span class="dt">option =</span> <span class="st">"A"</span></a>
+<a class="sourceLine" id="cb11-7" title="7">)</a>
+<a class="sourceLine" id="cb11-8" title="8"></a>
+<a class="sourceLine" id="cb11-9" title="9"><span class="kw"><a href="reference/ggyearday.html">ggyearday</a></span>(data, <span class="dt">time =</span> date, <span class="dt">z =</span> PM10, <span class="dt">fill_scale =</span> fill_scale)</a></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-10-1.png" width="100%"></p>
+<p>Teilweise ist es für Klassierungen praktisch alle Werte über einem Maximum in einer zusätzlichen Klasse zusammen zu fassen. Die Funktion <code><a href="reference/cut_ws.html">cut_ws()</a></code> beinhaltet diese Funktionalität, hat jedoch gewisse Einschränkungen (Negative Werte werden zu NA, Breite der Klasse fix):</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">pm10_right &lt;-<span class="st"> </span><span class="kw"><a href="reference/cut_ws.html">cut_ws</a></span>(data<span class="op">$</span>PM10, <span class="dt">binwidth =</span> <span class="dv">20</span>, <span class="dt">ws_max =</span> <span class="dv">80</span>)</a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(pm10_right)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="co">#&gt; pm10_right</span></a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="co">#&gt;  [0,20] (20,40] (40,60] (60,80]     &gt;80 </span></a>
+<a class="sourceLine" id="cb13-3" title="3"><span class="co">#&gt;   48146   27874    6162    1191     476</span></a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">pm10_left &lt;-<span class="st"> </span><span class="kw"><a href="reference/cut_ws.html">cut_ws</a></span>(data<span class="op">$</span>PM10, <span class="dv">20</span>, <span class="dv">80</span>, <span class="dt">right =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb14-2" title="2"></a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="co"># bei der Umwandlung der Ausgabe nach HTML wird "≥80" in "=80" </span></a>
+<a class="sourceLine" id="cb14-4" title="4"><span class="co"># umgewandelt. In Diagrammen und der R Konsole wird das Zeichen</span></a>
+<a class="sourceLine" id="cb14-5" title="5"><span class="co"># jedoch korrekt dargestellt. See https://github.com/r-lib/evaluate/issues/59</span></a>
+<a class="sourceLine" id="cb14-6" title="6"><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(pm10_left)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="co">#&gt; pm10_left</span></a>
+<a class="sourceLine" id="cb15-2" title="2"><span class="co">#&gt;  [0,20) [20,40) [40,60) [60,80)     =80 </span></a>
+<a class="sourceLine" id="cb15-3" title="3"><span class="co">#&gt;   48146   27874    6162    1191     476</span></a></code></pre></div>
+<p>Für mehr Flexibilät kann direkt <code><a href="https://rdrr.io/r/base/cut.html">base::cut()</a></code> verwendet werden und breaks mit <code>-Inf</code> und <code>Inf</code> definiert werden.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">breaks &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="ot">Inf</span>, <span class="dv">0</span>, <span class="dv">19</span>, <span class="dv">41</span>, <span class="dv">66</span>, <span class="dv">80</span>, <span class="ot">Inf</span>)</a>
+<a class="sourceLine" id="cb16-2" title="2">pm10_cut &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/cut.html">cut</a></span>(data<span class="op">$</span>PM10, <span class="dt">breaks =</span> breaks, <span class="dt">right =</span> <span class="ot">TRUE</span>, <span class="dt">include.lowest =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb16-3" title="3"><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(pm10_cut)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="co">#&gt; pm10_cut</span></a>
+<a class="sourceLine" id="cb17-2" title="2"><span class="co">#&gt;  [-Inf,0]    (0,19]   (19,41]   (41,66]   (66,80] (80, Inf] </span></a>
+<a class="sourceLine" id="cb17-3" title="3"><span class="co">#&gt;      1141     45516     31079      6164       614       476</span></a></code></pre></div>
+</div>
+<div id="padding-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#padding-data" class="anchor"></a>padding data</h2>
+<p>Messdaten liegen nicht immer in vollständigen Zeitreihen vor. Für einige Diagramme ist es jedoch erforderlich, dass für alle Zeitpunkte ein Wert oder ein NA vorhanden ist. Für Daten im rolf Format können die rOstluft Funktionen <code><a href="https://rdrr.io/pkg/rOstluft/man/pad.html">rOstluft::pad()</a></code> und <code><a href="https://rdrr.io/pkg/rOstluft/man/pad_year.html">rOstluft::pad_year()</a></code> verwenden werden. rOstluft.plot enthält 2 generische padding Funktionen:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">fn &lt;-<span class="st"> </span>rOstluft.data<span class="op">::</span><span class="kw">f</span>(<span class="st">"Zch_Stampfenbachstrasse_min30_2013_Jan.csv"</span>)</a>
+<a class="sourceLine" id="cb18-2" title="2">january &lt;-<span class="st"> </span>rOstluft<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/rOstluft/man/read_airmo_csv.html">read_airmo_csv</a></span>(fn)</a>
+<a class="sourceLine" id="cb18-3" title="3">january_oa &lt;-<span class="st"> </span>rOstluft<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/rOstluft/man/rolf_to_openair.html">rolf_to_openair</a></span>(january</a>
+<a class="sourceLine" id="cb18-4" title="4">                                        )</a>
+<a class="sourceLine" id="cb18-5" title="5"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>(january_oa)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="co">#&gt; # A tibble: 6 x 16</span></a>
+<a class="sourceLine" id="cb19-2" title="2"><span class="co">#&gt;   date                site     CO    Hr    NO   NO2   NOx    O3     p  PM10</span></a>
+<a class="sourceLine" id="cb19-3" title="3"><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb19-4" title="4"><span class="co">#&gt; 1 2013-01-31 21:00:00 Zch_~ 0.191  67.3 0.675  7.70  4.57  71.0  970.  7.21</span></a>
+<a class="sourceLine" id="cb19-5" title="5"><span class="co">#&gt; 2 2013-01-31 21:30:00 Zch_~ 0.195  64.9 0.359  7.72  4.33  69.7  970.  4.89</span></a>
+<a class="sourceLine" id="cb19-6" title="6"><span class="co">#&gt; 3 2013-01-31 22:00:00 Zch_~ 0.191  65.1 0.424  6.84  3.92  69.0  970.  6.71</span></a>
+<a class="sourceLine" id="cb19-7" title="7"><span class="co">#&gt; 4 2013-01-31 22:30:00 Zch_~ 0.184  67.3 0.353  5.38  3.09  70.5  970.  5.19</span></a>
+<a class="sourceLine" id="cb19-8" title="8"><span class="co">#&gt; 5 2013-01-31 23:00:00 Zch_~ 0.186  67.3 0.634  5.87  3.58  70.2  969.  5.79</span></a>
+<a class="sourceLine" id="cb19-9" title="9"><span class="co">#&gt; 6 2013-01-31 23:30:00 Zch_~ 0.189  68.7 0.435  6.76  3.88  67.6  969.  7.92</span></a>
+<a class="sourceLine" id="cb19-10" title="10"><span class="co">#&gt; # ... with 6 more variables: RainDur &lt;dbl&gt;, SO2 &lt;dbl&gt;, StrGlo &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb19-11" title="11"><span class="co">#&gt; #   T &lt;dbl&gt;, wd &lt;dbl&gt;, ws &lt;dbl&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="co"># site mit "Zch_Stampfenbachstrasse" füllen</span></a>
+<a class="sourceLine" id="cb20-2" title="2"><span class="kw"><a href="reference/pad_to_year.html">pad_to_year</a></span>(january_oa, date, <span class="st">"30 min"</span>, <span class="dt">fill =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">site =</span> <span class="st">"Zch_Stampfenbachstrasse"</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb20-3" title="3"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="co">#&gt; # A tibble: 6 x 16</span></a>
+<a class="sourceLine" id="cb21-2" title="2"><span class="co">#&gt;   date                site     CO    Hr    NO   NO2   NOx    O3     p  PM10</span></a>
+<a class="sourceLine" id="cb21-3" title="3"><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb21-4" title="4"><span class="co">#&gt; 1 2013-12-31 21:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb21-5" title="5"><span class="co">#&gt; 2 2013-12-31 21:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb21-6" title="6"><span class="co">#&gt; 3 2013-12-31 22:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb21-7" title="7"><span class="co">#&gt; 4 2013-12-31 22:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb21-8" title="8"><span class="co">#&gt; 5 2013-12-31 23:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb21-9" title="9"><span class="co">#&gt; 6 2013-12-31 23:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb21-10" title="10"><span class="co">#&gt; # ... with 6 more variables: RainDur &lt;dbl&gt;, SO2 &lt;dbl&gt;, StrGlo &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb21-11" title="11"><span class="co">#&gt; #   T &lt;dbl&gt;, wd &lt;dbl&gt;, ws &lt;dbl&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="co"># automatisch alle factor/character columns füllen</span></a>
+<a class="sourceLine" id="cb22-2" title="2"><span class="kw"><a href="reference/pad_to_year_fill.html">pad_to_year_fill</a></span>(january_oa, date, <span class="st">"30 min"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb22-3" title="3"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="co">#&gt; # A tibble: 6 x 16</span></a>
+<a class="sourceLine" id="cb23-2" title="2"><span class="co">#&gt;   date                site     CO    Hr    NO   NO2   NOx    O3     p  PM10</span></a>
+<a class="sourceLine" id="cb23-3" title="3"><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb23-4" title="4"><span class="co">#&gt; 1 2013-12-31 21:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb23-5" title="5"><span class="co">#&gt; 2 2013-12-31 21:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb23-6" title="6"><span class="co">#&gt; 3 2013-12-31 22:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb23-7" title="7"><span class="co">#&gt; 4 2013-12-31 22:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb23-8" title="8"><span class="co">#&gt; 5 2013-12-31 23:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb23-9" title="9"><span class="co">#&gt; 6 2013-12-31 23:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb23-10" title="10"><span class="co">#&gt; # ... with 6 more variables: RainDur &lt;dbl&gt;, SO2 &lt;dbl&gt;, StrGlo &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb23-11" title="11"><span class="co">#&gt; #   T &lt;dbl&gt;, wd &lt;dbl&gt;, ws &lt;dbl&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw"><a href="reference/pad_to_year_fill.html">pad_to_year_fill</a></span>(january, starttime, <span class="st">"30 min"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb24-2" title="2"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="co">#&gt; # A tibble: 6 x 6</span></a>
+<a class="sourceLine" id="cb25-2" title="2"><span class="co">#&gt;   starttime           site                   parameter interval unit  value</span></a>
+<a class="sourceLine" id="cb25-3" title="3"><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt;                  &lt;fct&gt;     &lt;fct&gt;    &lt;fct&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb25-4" title="4"><span class="co">#&gt; 1 2013-12-31 21:00:00 Zch_Stampfenbachstras~ WVv       min30    m/s      NA</span></a>
+<a class="sourceLine" id="cb25-5" title="5"><span class="co">#&gt; 2 2013-12-31 21:30:00 Zch_Stampfenbachstras~ WVv       min30    m/s      NA</span></a>
+<a class="sourceLine" id="cb25-6" title="6"><span class="co">#&gt; 3 2013-12-31 22:00:00 Zch_Stampfenbachstras~ WVv       min30    m/s      NA</span></a>
+<a class="sourceLine" id="cb25-7" title="7"><span class="co">#&gt; 4 2013-12-31 22:30:00 Zch_Stampfenbachstras~ WVv       min30    m/s      NA</span></a>
+<a class="sourceLine" id="cb25-8" title="8"><span class="co">#&gt; 5 2013-12-31 23:00:00 Zch_Stampfenbachstras~ WVv       min30    m/s      NA</span></a>
+<a class="sourceLine" id="cb25-9" title="9"><span class="co">#&gt; 6 2013-12-31 23:30:00 Zch_Stampfenbachstras~ WVv       min30    m/s      NA</span></a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="co"># enthalten die Daten jedoch eine Klassifizierungs Spalte</span></a>
+<a class="sourceLine" id="cb26-2" title="2"><span class="co"># muss man die zu füllenden Spalten explixit angeben</span></a>
+<a class="sourceLine" id="cb26-3" title="3"></a>
+<a class="sourceLine" id="cb26-4" title="4">january_oa &lt;-<span class="st"> </span>openair<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/openair/man/cutData.html">cutData</a></span>(january_oa, <span class="st">"month"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb26-5" title="5"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(date, month, dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/reexports.html">everything</a></span>())</a>
+<a class="sourceLine" id="cb26-6" title="6"></a>
+<a class="sourceLine" id="cb26-7" title="7"><span class="co"># Monats Spalte wird falscherweise mit Januar gefüllt</span></a>
+<a class="sourceLine" id="cb26-8" title="8"><span class="co"># Ausserdem würden für jeden Monat die Daten multipliziert</span></a>
+<a class="sourceLine" id="cb26-9" title="9"><span class="kw"><a href="reference/pad_to_year_fill.html">pad_to_year_fill</a></span>(january_oa, date, <span class="st">"30 min"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb26-10" title="10"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="co">#&gt; # A tibble: 6 x 17</span></a>
+<a class="sourceLine" id="cb27-2" title="2"><span class="co">#&gt;   date                month site     CO    Hr    NO   NO2   NOx    O3     p</span></a>
+<a class="sourceLine" id="cb27-3" title="3"><span class="co">#&gt;   &lt;dttm&gt;              &lt;ord&gt; &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb27-4" title="4"><span class="co">#&gt; 1 2013-12-31 21:00:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb27-5" title="5"><span class="co">#&gt; 2 2013-12-31 21:30:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb27-6" title="6"><span class="co">#&gt; 3 2013-12-31 22:00:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb27-7" title="7"><span class="co">#&gt; 4 2013-12-31 22:30:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb27-8" title="8"><span class="co">#&gt; 5 2013-12-31 23:00:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb27-9" title="9"><span class="co">#&gt; 6 2013-12-31 23:30:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb27-10" title="10"><span class="co">#&gt; # ... with 7 more variables: PM10 &lt;dbl&gt;, RainDur &lt;dbl&gt;, SO2 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb27-11" title="11"><span class="co">#&gt; #   StrGlo &lt;dbl&gt;, T &lt;dbl&gt;, wd &lt;dbl&gt;, ws &lt;dbl&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="co"># mit explixiter Defintion der zu füllenden Spalten klappt es</span></a>
+<a class="sourceLine" id="cb28-2" title="2"><span class="kw"><a href="reference/pad_to_year_fill.html">pad_to_year_fill</a></span>(january_oa, date, <span class="st">"30 min"</span>, site) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb28-3" title="3"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="co">#&gt; # A tibble: 6 x 17</span></a>
+<a class="sourceLine" id="cb29-2" title="2"><span class="co">#&gt;   date                month site     CO    Hr    NO   NO2   NOx    O3     p</span></a>
+<a class="sourceLine" id="cb29-3" title="3"><span class="co">#&gt;   &lt;dttm&gt;              &lt;ord&gt; &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb29-4" title="4"><span class="co">#&gt; 1 2013-12-31 21:00:00 &lt;NA&gt;  Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb29-5" title="5"><span class="co">#&gt; 2 2013-12-31 21:30:00 &lt;NA&gt;  Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb29-6" title="6"><span class="co">#&gt; 3 2013-12-31 22:00:00 &lt;NA&gt;  Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb29-7" title="7"><span class="co">#&gt; 4 2013-12-31 22:30:00 &lt;NA&gt;  Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb29-8" title="8"><span class="co">#&gt; 5 2013-12-31 23:00:00 &lt;NA&gt;  Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb29-9" title="9"><span class="co">#&gt; 6 2013-12-31 23:30:00 &lt;NA&gt;  Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
+<a class="sourceLine" id="cb29-10" title="10"><span class="co">#&gt; # ... with 7 more variables: PM10 &lt;dbl&gt;, RainDur &lt;dbl&gt;, SO2 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb29-11" title="11"><span class="co">#&gt; #   StrGlo &lt;dbl&gt;, T &lt;dbl&gt;, wd &lt;dbl&gt;, ws &lt;dbl&gt;</span></a></code></pre></div>
 </div>
 </div>
 
