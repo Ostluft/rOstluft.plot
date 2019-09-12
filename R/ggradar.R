@@ -1,23 +1,22 @@
 #' ggplot2-wrapper to summarise and plot data by wind direction bins as radar plot
 #'
 #' @param data tibble containing wind speed, wind direction and air pollutant concentration data
-#' @param mapping ggplot2 mapping, e.g.` aes(wd = wd, ws = ws, z = NOx)`; require aesthetics wd, ws, z
-#' @param nmin numeric, minimum number of data points to be averaged in one wind direction bin
 #' @param fun character string or vector of character strings, stat function(s) to be applied at wind direction bins
 #' @param fun.args list, arguments to fun
+#' @param nmin numeric, minimum number of data points to be averaged in one wind direction bin
 #' @param wd_binwidth numeric, binwidth for wind direction in °, wd_binwidth should fullfill:
-#'   `(360 / wd_binwidth) %in% c(4, 8, 12, 16)`
+#'   `(360 / wd_binwidth) %in% c(4, 8, 16, 32)`
 #' @param color_scale ggplot2 discrete color scale, e.g. [ggplot2::scale_color_gradientn()]
 #' @param fill_scale ggplot2 discrete fill scale, e.g. [ggplot2::scale_fill_gradientn()]
 #' @param bg raster map, e.g. ggmap object as plot background
-#' @param layer_args named list, further arguments passed on to [ggplot2::layer()] call within [stat_summary_wind()]
-#' @param param_args named list, further param passed on to [ggplot2::layer()] as params within [stat_summary_wind()]
+#' @inheritParams summary_wind
 #'
 #' @return [ggplot2::ggplot()] object
 #' @export
 #'
 #' @examples
 #' library(ggplot2)
+#' library(dplyr)
 #'
 #' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 #'
@@ -52,36 +51,51 @@
 #'         param_args = list(fill = "blue", color = "blue", alpha = 0.2)) +
 #'   ylab("NOx") +
 #'   theme(panel.grid.major = ggplot2::element_line(linetype = 1, color = "white"))
-ggradar <- function(data,
-                    mapping,
-                    nmin = 3,
+ggradar <- function(data, wd, y,
+                    groupings = groups(),
+                    wd_binwidth = 45,
                     fun = "mean",
                     fun.args = list(na.rm = TRUE),
-                    wd_binwidth = 45,
+                    nmin = 3,
+                    reverse = TRUE,
                     color_scale = scale_color_viridis_d(),
                     fill_scale = scale_fill_viridis_d(alpha = 0.25),
                     bg = NULL,
-                    layer_args = list(geom = "polygon"),
-                    param_args = list()
+                    ...
 ) {
 
+  wd <- rlang::ensym(wd) # or enquo but summary_wind accept only strings or symbols
   wd_cutfun <- cut_wd.fun(binwidth = wd_binwidth)
-  breaks <- levels(wd_cutfun(seq(0, 360, wd_binwidth)))[seq(1, 360 / wd_binwidth, 90 / wd_binwidth)]
+  ws_cutfun <- function(ws) 1
+  ws <- rlang::ensym(y)
+  y2 <- rlang::ensym(paste0(y,".stat"))
+  data_summarized <- summary_wind(data, !!ws, !!wd, !!ws, groupings = groupings,
+                                  wd_cutfun = wd_cutfun, ws_cutfun = ws_cutfun, fun = fun, fun.args = fun.args)
+  data_summarized <- dplyr::select(data_summarized, -!!ws)
+  if (length(groupings) == 0) {
+    groupings <- "dummy"
+    fill <- paste0(y,".stat")
+    color <- paste0(y,".stat")
+    theme_lgnd_gr <- "none"
+  } else {
+    groupings <- rlang::ensym(as.character(groupings[[1]])[2])
+    fill <- groupings
+    color <- groupings
+    theme_lgnd_gr <- "right"
+  }
+  polygon_layer <- rlang::exec(geom_polygon, !!!rlang::dots_list())
 
   plot <-
-    ggplot(data, mapping) +
-    stat_summary_wind(
-      mapping = aes(x = stat(wd), y = stat(z)),
-      fun = fun, fun.args = fun.args, nmin = nmin, wd_cutfun = wd_cutfun,
-      wd_offset = wd_binwidth / 2, ws_cutfun = identity, groups = NULL, layer_args = layer_args,
-      param_args = param_args
-    ) +
+    ggplot(data_summarized, aes(x = !!wd, y = !!y2, color = !!color, fill = !!fill, group = !!groupings)) +
+    polygon_layer +
     coord_radar(start = -2 * pi / 360 * wd_binwidth / 2, bg = bg) +
-    scale_x_discrete(breaks = breaks, labels = c("N", "E", "S", "W")) +
+    scale_x_discrete() +
     scale_y_continuous(limits = c(0, NA), expand = c(0,0)) +
     color_scale +
     fill_scale +
-    theme_radar
+    ylab(y) +
+    theme_radar +
+    theme(legend.position = theme_lgnd_gr)
 
   return(plot)
 }

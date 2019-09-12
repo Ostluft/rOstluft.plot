@@ -4,26 +4,32 @@
 #' arguments
 #'
 #' @param wd numeric vector of wind directions in °
-#' @param binwidth width for [ggplot2::cut_width()]
+#' @param binwidth width for [ggplot2::cut_width()] in degrees wind  direction
+#' (must fullfill binwidth %in% 360 / c(4, 8, 16, 32))
+#' @param labels character vector as labels for wind direction bins; can be NULL (no labels are returned),
+#' if !is.null(labels) then length(labels) == 32 must be fullfilled (actual labels are subsampled with
+#' indices of seq(1, length(labels), length(labels) / nsectors))
+#'
 #' @param ... passed to [ggplot2::cut_width()]
 #'
 #' @export
-cut_wd <- function(wd, binwidth = 45, add_labels = TRUE, ...) { # in helpers verschieben
+cut_wd <- function(wd, binwidth = 45,
+                   labels = c("N", "", "NNO", "", "NO", "", "NOO", "", "O", "", "SOO", "", "SO", "", "SSO",
+                              "", "S", "", "SSW", "", "SW", "", "SWW", "", "W", "", "NWW", "", "NW", "", "NNW", ""),
+                   ...) {
+
   nsectors <- 360 / binwidth
-  stopifnot(nsectors %in% c(4, 8, 12, 16))
-  # ll <- c("N", "NNO", "NO", "NOO", "O", "SOO", "SO", "SSO",
-  #         "S", "SSW", "SW", "SWW", "W", "NWW", "NW", "NNW")
+  stopifnot(nsectors %in% c(4, 8, 16, 32))
+  stopifnot(length(labels) %in% c(4, 8, 16, 32) | is.null(labels))
 
-  if (isTRUE(add_labels)) {
-    labels <- seq(0, 359, binwidth)
-  } else {
-    labels <- NULL
+  if (!is.null(labels)) {
+    labels <- labels[seq(1, length(labels), length(labels) / nsectors)]
   }
-
   wd <- (wd + binwidth / 2) %% 360
 
   ggplot2::cut_width(wd, width = binwidth, closed = "left", boundary = 0, labels = labels, ...)
 }
+
 
 #' Partial function constructor to cut wind direction into factor classes
 #'
@@ -36,7 +42,7 @@ cut_wd <- function(wd, binwidth = 45, add_labels = TRUE, ...) { # in helpers ver
 #' @return a partial [ggplot2::cut_width()] function with wd as sole argument
 #'
 #' @export
-cut_wd.fun <- function(binwidth = 45, ...) { # in helpers verschieben
+cut_wd.fun <- function(binwidth = 45, ...) {
   function(wd) {
     cut_wd(wd, binwidth = binwidth, ...)
   }
@@ -121,22 +127,6 @@ cut_ws.fun <- function(binwidth = 1, ws_max = NA, squish = TRUE, right = TRUE, r
 }
 
 
-#' wrapper to cut y data into factor classes
-#'
-#' Wraps [ggplot2::cut_width()] function
-#'
-#' @param y a numeric vector
-#' @param binwidth for [ggplot2::cut_width()]
-#' @param ymax cut off at this maximum
-#' @param boundary for [ggplot2::cut_width()]
-#' @param ... passed to [ggplot2::cut_width()]
-#'
-#' @export
-y_classes <- function(y, binwidth, ymax = NA, boundary = 0, ...) {
-  y <- ggplot2::cut_width(pmin(y, ymax, na.rm = TRUE), width = binwidth, boundary = boundary, ...)
-  levels(y) <- rev(levels(y))
-  return(y)
-}
 
 
 #' Partial function constructor for ggplot2 cut functions

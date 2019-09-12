@@ -5,7 +5,7 @@
 #' setting, flexible stat functions, data extrapolation and plotting over a raster map.
 #'
 #' @param data tibble containing wind speed, wind direction and air pollutant data
-#' @param pixels number of bins at the 2-dimensional u, v wind component coordinate system
+#' @param pixels number of bins at the cartesian 2-dimensional u, v wind component coordinate system
 #' @param fill_scale ggplot2 continuous fill scale, e.g. [scale_fill_gradientn()]
 #' @param ylabels function to format ylabels. Default adds unit " m/s"
 #' @param breaks waiver() or numeric vector, provides y-axis breaks
@@ -66,22 +66,23 @@
 #'              pixels = 50^2, k = 25, breaks = seq(0,10,2)) +
 #'   facet_wrap(vars(stat))
 ggpolarplot <- function(data, ws, wd, z,
-                        nmin = 3,
                         groupings = groups(),
                         fun = "mean",
                         fun.args = list(na.rm = TRUE),
+                        nmin = 3,
                         ws_max = NA,
                         smooth = TRUE,
                         k = 200,
                         extrapolate = TRUE,
                         dist = 0.1,
                         pixels = 80^2,
-                        fill_scale = scale_fill_gradientn(colours = matlab::jet.colors(100), na.value = NA),
+                        fill_scale = scale_fill_gradientn(colours = matlab::jet.colors(20), na.value = NA),
                         ylabels = scales::unit_format(unit = "m/s"),
                         breaks = waiver(),
                         bg = NA,
                         ...
 ) {
+
   ws <- rlang::ensym(ws)
   wd <- rlang::ensym(wd)
   z <- rlang::ensym(z)
