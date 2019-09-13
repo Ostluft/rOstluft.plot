@@ -55,7 +55,7 @@ ggradar <- function(data, wd, y,
                     groupings = groups(),
                     wd_binwidth = 45,
                     fun = "mean",
-                    fun.args = list(na.rm = TRUE),
+                    fun.args = list(),
                     nmin = 3,
                     reverse = TRUE,
                     color_scale = scale_color_viridis_d(),
@@ -66,18 +66,20 @@ ggradar <- function(data, wd, y,
 
   wd <- rlang::ensym(wd) # or enquo but summary_wind accept only strings or symbols
   wd_cutfun <- cut_wd.fun(binwidth = wd_binwidth)
-  ws_cutfun <- function(ws) 1
-  ws <- rlang::ensym(y)
-  y2 <- rlang::ensym(paste0(y,".stat"))
-  data_summarized <- summary_wind(data, !!ws, !!wd, !!ws, groupings = groupings,
-                                  wd_cutfun = wd_cutfun, ws_cutfun = ws_cutfun, fun = fun, fun.args = fun.args)
-  data_summarized <- dplyr::select(data_summarized, -!!ws)
+  y <- rlang::ensym(y)
+  #y2 <- rlang::ensym(paste0(y,".stat"))
+  data_summarized <- summary_wind(data, NULL, !!wd, !!y, groupings = groupings,
+                                  wd_cutfun = wd_cutfun, fun = fun, fun.args = fun.args)
+
+
+
   if (length(groupings) == 0) {
     groupings <- "dummy"
     fill <- paste0(y,".stat")
     color <- paste0(y,".stat")
     theme_lgnd_gr <- "none"
   } else {
+
     groupings <- rlang::ensym(as.character(groupings[[1]])[2])
     fill <- groupings
     color <- groupings
@@ -86,7 +88,7 @@ ggradar <- function(data, wd, y,
   polygon_layer <- rlang::exec(geom_polygon, !!!rlang::dots_list())
 
   plot <-
-    ggplot(data_summarized, aes(x = !!wd, y = !!y2, color = !!color, fill = !!fill, group = !!groupings)) +
+    ggplot(data_summarized, aes(x = !!wd, y = !!y, color = !!color, fill = !!fill, group = !!groupings)) +
     polygon_layer +
     coord_radar(start = -2 * pi / 360 * wd_binwidth / 2, bg = bg) +
     scale_x_discrete() +
