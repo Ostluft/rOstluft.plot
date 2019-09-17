@@ -17,6 +17,7 @@
 #'
 #' @examples
 #' library(ggplot2)
+#' library(dplyr)
 #'
 #' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 #'
