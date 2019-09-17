@@ -14,23 +14,18 @@ coord_cartpolar2(limit = NULL, clip = "on", bg = NULL,
 
 \item{bg}{raster for background image}
 
-\item{expand}{expand limits}
-
-\item{scale_wd}{pass breaks angle lines}
-
-\item{labels_wd}{\code{\link[ggplot2:element_text]{ggplot2::element_text()}} object to format wd labels. Use \code{\link[ggplot2:element_blank]{ggplot2::element_blank()}}
-to draw nothing}
+\item{grill}{draw the lines and labels of the polar grill in the foreground or
+background}
 }
 \description{
 A cartesian coordinate system overlayed with a polar grid.
 It is used together with \code{\link[=summary_wind_2d]{summary_wind_2d()}} in \code{\link[=ggpolarplot]{ggpolarplot()}}.
 }
-\section{TODO}{
+\section{Warning}{
 
-\itemize{
-\item optimize scaling to match \code{\link[=coord_polar2]{coord_polar2()}} / \code{\link[ggplot2:polar]{ggplot2::polar()}}
-\item Option to plot only positive y breaks
-}
+This coordinate system bends some ggplot2 internals (eg. diverted x axis). It works
+for our scope, but the testing was surficial. And probably some things could easily
+break.
 }
 
 \examples{
@@ -61,8 +56,7 @@ p <-  ggplot(df, aes(x=u, y=v)) + geom_point()
 p + coord_cartpolar2()
 
 
-# y scale is used for uv scaling (negative breaks
-# are ignored)
+# y scale is used for uv scaling (negative breaks are ignored)
 p  + coord_cartpolar2() +
   scale_y_continuous(
     limits = c(-10, 10),
