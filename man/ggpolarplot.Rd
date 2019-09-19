@@ -10,7 +10,7 @@ ggpolarplot(data, ws, wd, z, nmin = 3, groupings = groups(),
   pixels = 80^2, fill_scale = scale_fill_gradientn(colours =
   matlab::jet.colors(100), na.value = NA),
   ylabels = scales::unit_format(unit = "m/s"), breaks = waiver(),
-  bg = NA, ...)
+  bg = NULL, ...)
 }
 \arguments{
 \item{data}{tibble containing wind speed, wind direction and air pollutant data}
@@ -44,7 +44,9 @@ fit_gam_surface(z) should be returned}
 
 \item{pixels}{number of bins at the 2-dimensional u, v wind component coordinate system}
 
-\item{fill_scale}{ggplot2 continuous fill scale, e.g. \code{\link[=scale_fill_gradientn]{scale_fill_gradientn()}}}
+\item{fill_scale}{ggplot2 continuous fill scale, e.g. \code{\link[=scale_fill_gradientn]{scale_fill_gradientn()}}. If prefered the
+scale can added later to the returned ggplot object, but a message that the scale is replaced
+will be printed.}
 
 \item{ylabels}{function to format ylabels. Default adds unit " m/s"}
 
@@ -73,9 +75,10 @@ df <- rOstluft::read_airmo_csv(fn) \%>\%
 ggpolarplot(df, wd = wd, ws = ws, z = NOx)
 
 # change smoothing degree, add custom breaks and change grid style, different fill scale
-ggpolarplot(df, wd = wd, ws = ws, z = NOx, k = 25, breaks = seq(0,10,2))  +
-  theme(panel.grid.major = element_line(linetype = 2, size = 0.25, color = "gray80")) +
-  scale_fill_viridis_c(na.value = NA)
+fs <- scale_fill_viridis_c(na.value = NA)
+ggpolarplot(df, wd = wd, ws = ws, z = NOx, k = 25, fill_scale = fs, breaks = seq(0,8,2))  +
+  theme(panel.grid.major = element_line(linetype = 2, size = 0.25, color = "gray80"))
+
 
 # no data extrapolation
 ggpolarplot(df, wd = wd, ws = ws, z = NOx, extrapolate = FALSE, breaks = seq(0,8,2))
@@ -83,9 +86,11 @@ ggpolarplot(df, wd = wd, ws = ws, z = NOx, extrapolate = FALSE, breaks = seq(0,8
 # no smoothing
 ggpolarplot(df, wd = wd, ws = ws, z = NOx, smooth = FALSE, breaks = seq(0,8,2))
 
-# cap maximum NOx concentration and wind velocity
-ggpolarplot(df, wd = wd, ws = ws, z = NOx, ws_max = 4, smooth = FALSE, breaks = 0:4) +
-  scale_fill_viridis_squished(limits = c(0,50), breaks = seq(0,50,10), na.value = NA)
+# squish maximum NOx concentration and cut off wind velocity at 4 m/s
+fs = scale_fill_viridis_squished(limits = c(0,50), breaks = seq(0,50,10), na.value = NA)
+ggpolarplot(df, wd = wd, ws = ws, z = NOx, ws_max = 4,  fill_scale = fs,
+            smooth = FALSE, breaks = c(0, 2, 4))
+
 
 # like jet colors better, want it smoothed?
 ggpolarplot(df, wd = wd, ws = ws, z = NOx, ws_max = 4, smooth = TRUE, breaks = 0:4) +
@@ -98,8 +103,8 @@ ggpolarplot(df, wd = wd, ws = ws, z = NOx, smooth = FALSE, pixels = 50^2,
 
 # facetting variable must be included in groups
 ggpolarplot(df, wd = wd, ws = ws, z = NOx, groupings = groups(wday),
-            ws_max = 4, pixels = 50^2, k = 25, breaks = 0:4) +
-  facet_wrap(vars(wday), scales = "fixed")
+            ws_max = 4, pixels = 50^2, k = 25, breaks = c(0, 2, 4)) +
+  facet_wrap(vars(wday))
 
 # different stat fun
 ggpolarplot(df, wd = wd, ws = ws, z = NOx, fun = "quantile",
@@ -108,6 +113,23 @@ ggpolarplot(df, wd = wd, ws = ws, z = NOx, fun = "quantile",
 
 # facetting by stat
 ggpolarplot(df, wd = wd, ws = ws, z = NOx, fun = list("mean", "median"), ws_max = 4,
-             pixels = 50^2, k = 25, breaks = seq(0,10,2)) +
+             pixels = 50^2, k = 25, breaks = c(0, 2, 4)) +
   facet_wrap(vars(stat))
+
+# background map, just remember the location on the map has no correlation with
+# the overlaying data. Only the direction.
+bb <- bbox_lv95(2683141, 1249040, 500)
+bg <- get_stamen_map(bb)
+fs <- scale_fill_gradientn_squished(
+  limits = c(0,50), breaks = seq(0,50,10),
+  na.value = NA, colors = matlab::jet.colors(20)
+)
+
+ggpolarplot(df, wd = wd, ws = ws, z = NOx, ws_max = 4,
+            bg = bg, alpha = 0.6,
+            fill_scale = fs, smooth = TRUE, breaks = c(0,2,4)) +
+  theme(
+    panel.grid.major = element_line(linetype = 2, color = "black", size = 0.5)
+  )
+
 }

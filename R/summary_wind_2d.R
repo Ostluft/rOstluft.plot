@@ -173,5 +173,11 @@ summary_wind_2d <- function(data, ws, wd, z, groupings = groups(), fun = "mean",
     !!ws := sqrt(.data$u^2 + .data$v^2)
   )
 
+  # set z for ws > ws_max to NA
+  if (!is.na(ws_max)) {
+    data <- dplyr::mutate(data, !!z := dplyr::if_else(!!ws > ws_max + binwidth / 2, NA_real_, !!z))
+  }
+
+
   return(data)
 }
