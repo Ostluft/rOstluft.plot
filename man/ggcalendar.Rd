@@ -23,9 +23,9 @@ cal_label(mapping = NULL, stat = "identity", data = NULL,
 
 \item{z}{value columns}
 
-\item{size}{parameter pssed on to \code{\link[=geom_tile]{geom_tile()}} => space between tiles}
+\item{size}{parameter passed on to \code{\link[=geom_tile]{geom_tile()}} => space between tiles}
 
-\item{color}{parameter pssed on to \code{\link[=geom_tile]{geom_tile()}} => color of space between tiles}
+\item{color}{parameter passed on to \code{\link[=geom_tile]{geom_tile()}} => color of space between tiles}
 
 \item{...}{more options for \code{\link[ggplot2:geom_tile]{ggplot2::geom_tile()}}}
 
@@ -70,15 +70,22 @@ ggplot2 layer
 ggplot2 layer
 }
 \description{
-Just a geom_text with some defaults
+ggcalendar calculates the necessary date components and creates a ggplot object with the correct
+mappings for the other cal_* components.
+
+cal_month_border uses \code{\link[ggplot2:geom_segment]{ggplot2::geom_segment()}} to draw a border around the months.
+
+cal_label is a wrapper around \code{\link[ggplot2:geom_text]{ggplot2::geom_text()}} (but \code{\link[ggplot2:geom_label]{ggplot2::geom_label()}} could be used).
 }
 \examples{
 library(ggplot2)
 
 fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 
+# keep only 2 years for smaller plotsize
 df <-
  rOstluft::read_airmo_csv(fn) \%>\%
+ dplyr::filter(starttime < lubridate::ymd(20120101)) \%>\%
  rOstluft::resample(new_interval = "d1") \%>\%
  rOstluft::rolf_to_openair()
 
@@ -88,8 +95,9 @@ ggcalendar(df, z = "PM10") +
 # can be customised...
 ggcalendar(df, z = "PM10") +
   scale_fill_viridis_c(direction = -1, option = "magma", na.value = NA) +
-  cal_month_border(color = "white") +
-  stat_filter(aes(filter = PM10 > 50), size = 0.75, color = "green", fill = NA, shape = 21) +
+  cal_month_border(color = "black") +
+  stat_filter(aes(filter = PM10 > 50),  position = position_nudge(y = 0.25),
+              size = 1, shape = 21, color = "white", fill = "white") +
   cal_label(aes(label = round(PM10,0)))
 
 }

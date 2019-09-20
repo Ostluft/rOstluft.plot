@@ -2,22 +2,22 @@
 % Please edit documentation in R/summary_wind.R
 \name{summary_wind}
 \alias{summary_wind}
-\title{Summarise y values over binned wind data.}
+\title{Summarise z values over binned wind data.}
 \usage{
-summary_wind(data, ws, wd, z, groups = NULL, fun = "mean",
+summary_wind(data, ws, wd, z, groupings = groups(), fun = "mean",
   fun.args = list(), nmin = 3, wd_cutfun = cut_wd.fun(binwidth = 45),
-  wd_offset = 0, ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = NA))
+  ws_cutfun = cut_ws.fun(binwidth = 1))
 }
 \arguments{
 \item{data}{a data.frame or tibble containing the data (wide format)}
 
-\item{ws}{string giving the wind velocity parameter name (wind velocity preferably in m/s)}
+\item{ws}{symbol giving the wind velocity column name (wind velocity preferably in m/s)}
 
-\item{wd}{string giving the wind direction parameter name  in degrees}
+\item{wd}{symbol giving the wind direction column name  in degrees}
 
-\item{z}{string giving the parameter name to be summarised}
+\item{z}{symbol giving the column name to be summarised}
 
-\item{groups}{character string, can be NULL, 'wd', 'ws', ...}
+\item{groupings}{additional groupings. Use helper \code{\link[=groups]{groups()}} to create}
 
 \item{fun}{function or list of functions for summary.}
 
@@ -25,12 +25,9 @@ summary_wind(data, ws, wd, z, groups = NULL, fun = "mean",
 
 \item{nmin}{numeric, minimum number of values for fun, if n < nmin: NA is returned}
 
-\item{wd_cutfun}{function, cut function for wind direction (to create bins)}
+\item{wd_cutfun}{function, cut function for wind direction (to create bins). See \code{\link[=wd_cut.fun]{wd_cut.fun()}} for options.}
 
-\item{wd_offset}{numeric, offset for wind_direction (in °) if groups == "wd"; bins are then calculated
-over \code{(wd + wd_offset) \%\% 360}}
-
-\item{ws_cutfun}{function, cut function for wind speed}
+\item{ws_cutfun}{function, cut function for wind speed. See \code{\link[=ws_cut.fun]{ws_cut.fun()}} for examples}
 }
 \value{
 a tibble with summarised data
@@ -38,14 +35,126 @@ a tibble with summarised data
 \description{
 Input data should be original unbinned data.
 1-dimensional binning and calculating summary statistics over wind direction and/or wind velocity bins, respectively.
+NA values in z and in ws, wd (after cutting) will be silently removed before applying functions
 }
 \section{Computed variables}{
 
+
+The names of the columns stay the same as in \code{data} (for the arguments "ws", "wd" and "z").
 \itemize{
-\item If groups = NULL: groups = "wd". In this case, bins are calculated over wind direction;
-a tibble including wd and summarised z is returned
-\item groups can be strings for other variables in data; then fun is applied over those;
-a tibble including groups and summarised z is returned
+\item binned column \code{ws}
+\item binned column \code{wd}
+\item factor column \code{stat} containing the name of the summarize function as level
+\item column \code{z} with the result of the summarize function
+\item \code{n} count of occurrences for the corresponding bin
+\item \code{freq} frequency of the corresponding bin
 }
 }
 
+\examples{
+fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
+data <- rOstluft::read_airmo_csv(fn)
+data <- rOstluft::rolf_to_openair(data)
+data <- dplyr::mutate(data, year = lubridate::year(date))
+
+summary_wind(data, "ws", "wd", "NO2")
+
+# multiple stats: Pass function, by name, reference, as function or one sided formula
+q95 <- function(x) stats::quantile(x, probs = 0.95)
+
+funs <- list(
+  "mean",
+  "median",
+  "q95_1" = q95,
+  "q95_2" = function(x) stats::quantile(x, probs = 0.95),
+  "q95_3" = ~ stats::quantile(., probs = 0.95)
+)
+
+res <- summary_wind(data, "ws", "wd", "NO2", fun = funs)
+res
+
+# and q95, q95_1, q95_2, q95_3 alle have the same value
+tidyr::spread(res, "stat", "NO2") \%>\%
+  dplyr::select(q95_1, q95_2, q95_3)
+
+# is for some reason fun.args used with multiple functions, use ... to catch
+# superfluous arguments:
+funs <- list(
+  "q95" = function(x, ...) stats::quantile(x, probs = 0.95),
+  "mean"
+)
+summary_wind(data, "ws", "wd", "NO2", fun = funs, fun.args = list(na.rm = TRUE))
+
+
+# more wd classes, less ws classes and squish ws
+summary_wind(data, "ws", "wd", "NO",
+             wd_cutfun = cut_wd.fun(binwidth = 22.5),
+             ws_cutfun = cut_ws.fun(binwidth = 2, ws_max = 6))
+
+# only one ws class ()
+summary_wind(data, "ws", "wd", "NO",
+             ws_cutfun = cut_number.fun(1))
+
+# additional grouping with strings, symbols or named expressions
+summary_wind(data, ws, wd, NO2, group = groups("site", year, wday = lubridate::wday(date)))
+
+# how often comes which concentration from one direction
+summary_wind(data, ws, wd, NO2,
+             group = groups(NO2_class = ggplot2::cut_number(NO2, 5)),
+             ws_cutfun = cut_number.fun(1))
+
+# the same but we use ws as pollutant
+summary_wind(data, NO2, wd, NO2, ws_cutfun = cut_number.fun(5))
+
+# some plots using the summarized data
+
+# a radar plot
+funs <- list(
+  "mean",
+  "median",
+  "q95" = ~ stats::quantile(., probs = 0.95)
+)
+
+data_summarized <- summary_wind(data, ws, wd, NOx, fun = funs,
+  ws_cutfun = cut_number.fun(1)
+)
+
+ggplot(data_summarized, aes(x = wd, y = NOx, color = stat, group = stat)) +
+  geom_polygon(size = 1, fill = NA) +
+  coord_radar(start = - 22.5 / 180 * pi ) +
+  scale_color_viridis_d(end = 0.8) +
+  scale_y_continuous(limits = c(0, NA), expand = c(0,0, 0, 0)) +
+  facet_wrap(vars(stat))
+
+
+# a wind rose
+data_summarized <- summary_wind(data, ws, wd, ws,
+  ws_cutfun = cut_ws.fun(ws_max = 4, reverse = TRUE)
+)
+
+ggplot(data_summarized, aes(x = wd, y = freq, fill = ws)) +
+  geom_bar(stat = "identity") +
+  coord_polar2(start = - 22.5 / 180 * pi ) +
+  scale_y_continuous(
+    limits = c(0, NA),
+    expand = c(0,0, 0, 0),
+    labels = scales::percent
+  ) +
+  scale_fill_viridis_d()
+
+
+# a pollution rose
+data_summarized <- summary_wind(data, ws, wd, NOx,
+  groupings = groups(
+    fNOx = ggplot2::cut_number(NO2, 5),
+    year = lubridate::year(date)
+  ),
+  ws_cutfun = cut_number.fun(1)
+)
+
+ggplot(data_summarized, aes(x = wd, y = freq, fill = forcats::fct_rev(fNOx))) +
+  geom_bar(stat = "identity") +
+  coord_polar2(start = - 22.5 / 180 * pi ) +
+  scale_y_continuous(limits = c(0, NA), expand = c(0,0, 0, 0)) +
+  scale_fill_viridis_d(direction = -1, name = "NOx")
+}

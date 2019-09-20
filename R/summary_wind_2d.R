@@ -8,10 +8,10 @@
 #' * wind direction (in °)
 #' * wind velocity
 #' * z-values (e.g. air pollutant concentration)
-#' @param ws string giving the wind velocity parameter name (wind velocity preferably in m/s)
-#' @param wd string giving the wind direction parameter name  in degrees
-#' @param z string giving the parameter name to be summarised
-#' @param groups can be NULL, c("u", "v"), "wd_class", "ws_class", ...
+#' @param ws symbol giving the wind velocity parameter name (wind velocity preferably in m/s)
+#' @param wd symbol giving the wind direction parameter name  in degrees
+#' @param z symbol giving the parameter name to be summarised
+#' @param groupings additional groupings. Use helper [groups()] to create
 #' @param fun function or list of functions for summary.
 #' @param fun.args a list of extra arguments to pass to fun.
 #' @param nmin numeric, minimum number of values for fun, if n < nmin: NA is returned
@@ -32,80 +32,152 @@
 #' * a tibble is returned, binned over u and v, with variables:
 #' - wd: wind direction corresponding to midpoint value of u and v
 #' - ws: wind velocity corresponding to midpoint value of u and v
-#' - u: bins over u (from input wd and ws)
-#' - v: bins over v (from input wd and ws)
+#' - u: midpoints of bins over u (from input wd and ws)
+#' - v: midpoints of bins over v (from input wd and ws)
 #' - z: result from fun(z, ...)
 #'
 #' @export
-summary_wind_2d <- function(data, ws, wd, z, groups = NULL, fun = "mean", fun.args = list(), nmin = 3, ws_max = NA, bins = 100,
-                             smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1) {
+#'
+#' @examples
+#' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
+#' data <- rOstluft::read_airmo_csv(fn)
+#' data <- rOstluft::rolf_to_openair(data)
+#'
+#' # summary NO2
+#' summary_wind_2d(data, ws, wd, NO2, smooth = FALSE)
+#'
+#' # multiple stats: Pass function, by name, reference, as function or one sided formula
+#' funs <- list(
+#'   "mean",
+#'   "median" = function(x) median(x, na.rm = TRUE),
+#'   "q95" = ~ stats::quantile(., probs = 0.95)
+#' )
+#'
+#' summary_wind_2d(data, ws, wd, NO2, fun = funs, smooth = FALSE)
+#'
+#' # is for some reason fun.args used with multiple functions, use ... to catch
+#' # superfluous arguments:
+#' funs <- list(
+#'   "q95" = function(x, ...) stats::quantile(x, probs = 0.95),
+#'   "mean"
+#' )
+#'
+#' summary_wind_2d(data, ws, wd, NO2, fun = funs, fun.args = list(na.rm = TRUE),
+#'                 smooth = FALSE)
+#'
+#' # additional groupings
+#' summary_wind_2d(data, ws, wd, NO2, groupings = groups(site), smooth = FALSE)
+#'
+#' # we can use expressions in groups. For better readability groupings is
+#' # defined outside of the function call
+#' groupings = groups("site", year = lubridate::year(date))
+#'
+#' summary_wind_2d(data, ws, wd, NO2, groupings = groupings, smooth = FALSE)
+#'
+#' # smoothing
+#' df1 <- summary_wind_2d(data, ws, wd, NO2, bins = 100^2, smooth = TRUE, k = 100)
+#' df2 <- summary_wind_2d(data, ws, wd, NO2, bins = 100^2, smooth = FALSE)
+#'
+#' df <- dplyr::bind_rows(smoothed = df1, raw = df2, .id = "smoothing")
+#'
+#' ggplot(df, aes(x = u, y=v, fill=NO2)) +
+#'   geom_raster() +
+#'   scale_fill_viridis_c(na.value = NA) +
+#'   facet_wrap(vars(smoothing))
+#'
+#' # for a small number of bins reduce k
+#' summary_wind_2d(data, ws, wd, NO2, bins = 5^2, smooth = TRUE, k = 5)
+summary_wind_2d <- function(data, ws, wd, z, groupings = groups(), fun = "mean", fun.args = list(), nmin = 3, ws_max = NA,
+                            bins = 10^2, smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1) {
 
-  if (is.null(groups) | !("u" %in% groups & "v" %in% groups)) groups <- c(groups, c("u", "v"))
-  fun <- c(as.list(fun), "n" = function(x, ...) {sum(!is.na(x))})
-  names <- purrr::map2(fun, rlang::names2(fun), function(element, name) {if (name != "") name else element})
-  fun <- rlang::set_names(fun, names)
-  data <-
-    data %>%
-    dplyr::mutate(
-      u = !!rlang::sym(ws) * sin(pi * !!rlang::sym(wd) / 180),
-      v = !!rlang::sym(ws) * cos(pi * !!rlang::sym(wd) / 180)
-    )
-  uv_max <- pmin(max(abs(c(data$u, data$v)), na.rm = TRUE), ws_max, na.rm = TRUE)
-  uv_cuts <- seq(-uv_max, uv_max, length.out = round(sqrt(bins), 0))
-  uv_factor <- cut(uv_cuts, breaks = uv_cuts, dig.lab = 10, include.lowest = TRUE)
-  uv_mids <- midpoints(uv_factor)
-  data <-
-    data %>%
-    dplyr::mutate(
-      u = cut(u, breaks = uv_cuts, dig.lab = 10, include.lowest = TRUE),
-      v = cut(v, breaks = uv_cuts, dig.lab = 10, include.lowest = TRUE)
-    ) %>%
-    stats::na.omit() %>%
-    dplyr::group_by_at(groups) %>%
-    dplyr::summarise_at(
-      .vars = z,
-      .funs = fun,
-      !!!fun.args
-    ) %>%
-    dplyr::ungroup() %>%
-    tidyr::gather(stat, !!z, -!!groups, -n) %>%
-    dplyr::mutate(
-      u = as.numeric(u),
-      v = as.numeric(v),
-      stat = factor(stat),
-      freq = n / sum(n, na.rm = TRUE)
-    ) %>%
-    dplyr::filter(n >= nmin)
-  data <-
-    expand.grid(
-      list(
-        u = as.numeric(factor(uv_mids)),
-        v = as.numeric(factor(uv_mids)),
-        stat = unique((data$stat))
-      )) %>%
-    stats::na.omit() %>%
-    dplyr::tbl_df() %>%
-    dplyr::left_join(data, by = c("u", "v", "stat"))
-  if (smooth) {
-    data <-
-      data %>%
-      dplyr::group_by(stat) %>%
-      dplyr::do({
-        fit_gam_surface(., x = "u", y = "v", z = z, weights = pmin(3, .$n) / 3,
-                        k = k, extrapolate = extrapolate, dist = dist)
-      }) %>%
-      dplyr::ungroup()
+  ws <- rlang::ensym(ws)
+  wd <- rlang::ensym(wd)
+  z <- rlang::ensym(z)
+
+    # rename z if needed. we can't apply summarize functions on grouping columns!
+  # for ws and wd we do auto renaming.
+  if (ws == z) {
+    z <- rlang::sym(stringr::str_c(rlang::as_string(ws), ".stat"))
+    data <- dplyr::mutate(data, !!z := !!ws)
   }
-  data <-
-    data %>%
-    dplyr::mutate(
-      u = dplyr::recode(u, !!!rlang::set_names(uv_mids, as.numeric(uv_factor))),
-      v = dplyr::recode(v, !!!rlang::set_names(uv_mids, as.numeric(uv_factor))),
-      !!wd := uv2wd(u, v),
-      !!ws := sqrt(u^2 + v^2),
-      !!z := ifelse(!!rlang::sym(ws) > pmin(Inf, ws_max, na.rm = TRUE), NA, !!rlang::sym(z))
+
+  if (wd == z) {
+    z <- rlang::sym(stringr::str_c(rlang::as_string(wd), ".stat"))
+    data <- dplyr::mutate(data, !!z := !!wd)
+  }
+
+  fun <- auto_name(c(fun, "n" = function(x, ...) {sum(!is.na(x))}))
+
+  data <- dplyr::mutate(data,
+      u = !!ws * sin(pi * !!wd / 180),
+      v = !!ws * cos(pi * !!wd / 180)
+  )
+
+  # shouldn't it be ws_max / sqrt(2) ??
+  uv_max <- pmin(max(abs(c(data$u, data$v)), na.rm = TRUE), ws_max, na.rm = TRUE)
+  nbins <- round(sqrt(bins), 0)
+  binwidth <- 2 * uv_max / nbins
+  uv_breaks <- seq(-uv_max, by = binwidth, length.out = nbins + 1)
+
+  data <- dplyr::mutate(data,
+    u = cut(u, breaks = uv_breaks, include.lowest = TRUE),
+    v = cut(v, breaks = uv_breaks, include.lowest = TRUE)
+  )
+
+  # filter NAs, ith stats::na.omit() every row containing a NA value will be removed
+  data <- dplyr::filter(data, !(is.na(u) | is.na(v) | is.na(!!z)))
+
+   # apply the summarize function regarding the addiotional grouping columns
+  data <- dplyr::group_by(data, .data$u, .data$v, !!!groupings)
+
+  data <- dplyr::summarise_at(data,
+    .vars = dplyr::vars(!!z),
+    .funs = fun,
+    !!!fun.args
+  )
+  data <- dplyr::ungroup(data)
+
+  # calculate freqency per groupings
+  data <- dplyr::group_by(data, !!!rlang::syms(names(groupings)))
+  data <- dplyr::mutate(data, freq = .data$n / sum(.data$n, na.rm = TRUE))
+  data <- dplyr::ungroup(data)
+
+  data <- dplyr::filter(data, n >= nmin)
+  data <- tidyr::gather(data, "stat", !!z, -u, -v, -n, -freq,
+                        -dplyr::one_of(names(groupings)))
+
+  # ensure that for every combination of u, v, stat and groupings a value is present
+  # predict in fit_gam_surface needs a complete grid
+  # geom_raster doesn't like missing raster points
+  cols <- c("u", "v", "stat", names(groupings))
+  data <- tidyr::complete(data, !!!rlang::syms(cols), fill = list(n = 0, freq = 0))
+
+  # convert the uv factors to the numeric mid point
+  data <- dplyr::mutate(data,
+    u = -uv_max + binwidth * as.numeric(.data$u) - binwidth / 2,
+    v = -uv_max + binwidth * as.numeric(.data$v) - binwidth / 2
+  )
+
+  if (isTRUE(smooth)) {
+    data <- dplyr::group_by(data, .data$stat, !!!rlang::syms(names(groupings)))
+    data <- dplyr::group_modify(data,
+      ~ fit_gam_surface(.x, x = "u", y = "v", z = z, weights = pmin(3, .x$n) / 3,
+                        k = k, extrapolate = extrapolate, dist = dist)
     )
+    data <- dplyr::ungroup(data)
+  }
+
+  # calculate wd and ws for the midpoints of uv
+  data <- dplyr::mutate(data,
+    !!wd := uv2wd(.data$u, .data$v),
+    !!ws := sqrt(.data$u^2 + .data$v^2)
+  )
+
+  # set z for ws > ws_max to NA
+  if (!is.na(ws_max)) {
+    data <- dplyr::mutate(data, !!z := dplyr::if_else(!!ws > ws_max + binwidth / 2, NA_real_, !!z))
+  }
+
 
   return(data)
 }
-

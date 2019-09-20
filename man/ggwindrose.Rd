@@ -4,19 +4,15 @@
 \alias{ggwindrose}
 \title{ggplot wrapper to create a windrose (polar wind-bin frequency plot)}
 \usage{
-ggwindrose(data, mapping, param_args = list(), ..., wd_binwidth = 45,
-  ws_binwidth = 1, ws_max = NA, fill_scale = scale_fill_viridis_d(),
-  reverse = TRUE, bg = NULL)
+ggwindrose(data, ws, wd, ..., wd_binwidth = 45, ws_binwidth = 1,
+  ws_max = NA, groupings = groups(),
+  fill_scale = scale_fill_viridis_d(), reverse = TRUE, bg = NULL)
 }
 \arguments{
 \item{data}{tibble containing wind speed, wind direction and/or air pollutant concentration data}
 
-\item{mapping}{ggplot2 mapping, e.g. aes(wd = wd, ws = ws); requires wd, ws}
-
-\item{param_args}{named list, passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}} as argument params after combining with the other
-arguments}
-
-\item{...}{passed onto \code{\link[=stat_summary_wind]{stat_summary_wind()}}}
+\item{...}{Other arguments passed on to \code{\link[ggplot2:geom_bar]{ggplot2::geom_bar()}}. these are often aesthetics, used
+to set an aesthetic to a fixed value. Defaults are \code{color = "white", width = 1, size = 0.25}}
 
 \item{wd_binwidth}{numeric, binwidth for wind direction in °, wd_binwidth should fullfill:
 \code{(360 / wd_binwidth) \%in\% c(4, 8, 12, 16)}}
@@ -25,9 +21,13 @@ arguments}
 
 \item{ws_max}{numeric, can be NA, wind speed is squished at this value}
 
+\item{groupings}{additional groupings. Use helper \code{\link[=groups]{groups()}} to create. \strong{Necessary} for some facets!}
+
 \item{fill_scale}{ggplot2 discrete fill scale, e.g. \code{\link[ggplot2:scale_fill_gradientn]{ggplot2::scale_fill_gradientn()}}}
 
-\item{reverse}{TRUE/FALSE, should wind speed bin factors be sorted descending or ascending (inside-out or reverse)?}
+\item{reverse}{TRUE/FALSE, should wind speed bin factors be sorted descending (TRUE)
+or ascending (FALSE). Usually for wind roses a descending order (higher wind speed on
+the outside) is used.}
 
 \item{bg}{raster map, e.g. ggmap object as plot background}
 }
@@ -44,23 +44,61 @@ library(ggplot2)
 
 fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 
-df <-
+data <-
   rOstluft::read_airmo_csv(fn) \%>\%
   rOstluft::rolf_to_openair() \%>\%
   openair::cutData(date, type = "daylight")
 
-ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5,
-           ws_binwidth = 0.5, ws_max = 5)
+ggwindrose(data, ws, wd)
+
+# squish ws
+ggwindrose(data, ws, wd, ws_max = 5)
+
+# change binning
+ggwindrose(data, ws, wd, wd_binwidth = 22.5, ws_binwidth = 1.5, ws_max = 4.5)
 
 # don't like bar outlines?
-ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5, param_args = list(color = "black"),
-           ws_binwidth = 0.5, ws_max = 4)
+ggwindrose(data, "ws", "wd", color = "black", ws_max = 4)
 
-ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5, param_args = list(color = NA),
-           ws_binwidth = 0.5, ws_max = 4)
+# bigger outlines
+ggwindrose(data, ws, wd, ws_max = 5, size = 1)
 
-# facetting
-ggwindrose(df, aes(ws = ws, wd = wd), wd_binwidth = 22.5, param_args = list(color = NA),
-            ws_binwidth = 0.5, ws_max = 3) +
-  facet_wrap(daylight~.)
+# a map as background
+bb <- bbox_lv95(2683141, 1249040, 500)
+bg <- get_stamen_map(bb)
+ggwindrose(data, ws, wd, ws_max = 5, alpha = 0.8, bg = bg) +
+  theme(
+    panel.grid.major = element_line(linetype = 2, color = "black", size = 0.5)
+   )
+
+# another fill scale
+ggwindrose(data, ws, wd, ws_max = 5,
+           fill_scale = scale_fill_manual(values = matlab::jet.colors(6)))
+
+# reverse the order of ws, but keep the coloring and legend order
+ggwindrose(data, ws, wd, ws_max = 4, reverse = FALSE,
+           fill_scale = scale_fill_viridis_d(direction = -1))
+
+# faceting: important the faceting variable, must also be in grouping!
+ggwindrose(data, ws, wd, ws_max = 5, groupings = groups(daylight)) +
+  facet_wrap(vars(daylight))
+
+# you can use groupings to directly mutate the data for faceting.
+# in this example we define the groupings external for better
+# readability
+groupings = groups(
+  season = cut_season(date, labels = c(DJF = "winter", MAM = "spring",
+                      JJA = "summer", SON = "autumn")),
+  year = cut_seasonyear(date, label = "year")
+)
+
+# only three years for smaller plot size and cut the last december
+# theming remove the NOSW labels and reduce the y spacing between plots
+data <- dplyr::filter(data, date < lubridate::ymd(20121201))
+ggwindrose(data, ws, wd, ws_max = 3, groupings = groupings) +
+  facet_grid(rows = vars(year), cols = vars(season)) +
+  theme(
+    axis.text.x = element_blank(),
+    panel.spacing.y = unit(0, "pt")
+  )
 }

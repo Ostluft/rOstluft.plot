@@ -2,52 +2,45 @@
 % Please edit documentation in R/coord_cartpolar.R
 \name{coord_cartpolar}
 \alias{coord_cartpolar}
-\alias{scale_wd_identity}
 \title{cartesian coordinate system with polar grid lines}
 \usage{
-coord_cartpolar(limit = NULL, expand = TRUE, clip = "on",
-  bg = NULL, scale_wd = scale_wd_identity(),
-  labels_wd = element_text())
-
-scale_wd_identity(breaks = c(0, 90, 180, 270), labels = c("N", "O",
-  "S", "W"), ...)
+coord_cartpolar(limit = NA, expand = TRUE, clip = "on", bg = NULL,
+  grid = c("background", "foreground"))
 }
 \arguments{
 \item{limit}{limit for coordsystem (xlim(-limit, limit), ylim(-limit, limit))}
 
-\item{expand}{expand limits}
+\item{expand}{if \code{TRUE}}
 
 \item{clip}{clip panel (not sure if used)}
 
 \item{bg}{raster for background image}
 
-\item{scale_wd}{pass breaks angle lines}
-
-\item{labels_wd}{\code{\link[ggplot2:element_text]{ggplot2::element_text()}} object to format wd labels. Use \code{\link[ggplot2:element_blank]{ggplot2::element_blank()}}
-to draw nothing}
-
-\item{breaks}{on wd scale}
-
-\item{labels}{for wd scale}
-
-\item{...}{passed onto \code{\link[ggplot2:scale_continuous_identity]{ggplot2::scale_continuous_identity()}}}
-}
-\value{
-\code{\link[ggplot2:scale_continuous_identity]{ggplot2::scale_continuous_identity()}}
+\item{grid}{draw the lines and labels of the polar grid in the foreground or
+background}
 }
 \description{
-WIP:
+A cartesian coordinate system overlayed with a polar grid.
+It is used together with \code{\link[=summary_wind_2d]{summary_wind_2d()}} in \code{\link[=ggpolarplot]{ggpolarplot()}}.
+}
+\section{Warning}{
+
+This coordinate system bends some ggplot2 internals (eg. diverted x axis). It works
+for our scope, but the testing was surficial. And probably some things could easily
+break. Things that breaks this coord:
 \itemize{
-\item render_axis_h / render_axis_v probably needs an overwrite
-\item labels for polar grid lines
-\item wd scale / breaks but how exactly?
+\item setting limits in x scale
 }
 }
+
 \examples{
 library(ggplot2)
 
 df <- tibble::tribble(
   ~wd, ~ws, ~facet,
+  0, 5, 1,
+  0, 2.5, 1,
+  0, 9.5, 1,
   0, 4, 1,
   90, 4, 1,
   180, 4, 1,
@@ -63,55 +56,66 @@ df <- dplyr::mutate(df,
   v = .data$ws * cos(2 * pi * .data$wd / 360)
 )
 
-p <-  ggplot(df, aes(x=u, y=v)) + geom_point() + coord_cartpolar()
-p
+p <-  ggplot(df, aes(x=u, y=v)) + geom_point()
 
-# theming for panel.grid.major.x and panel.grid.minor.x is applied to polar grid lines
-# panel.grid.major.y is applied to the wd lines, to format the labels use an element_text
-# in the coord_cartpolar constructor as arugment labels_wd
-ggplot(df, aes(x=u, y=v)) + geom_point() +
-  coord_cartpolar(labels_wd = element_text(color = "violet", size = 14, face = "bold")) +
+p + coord_cartpolar()
+
+
+# y scale is used for uv scaling (negative breaks are ignored)
+p  + coord_cartpolar() +
+  scale_y_continuous(
+    limits = c(-10, 10),
+    breaks = c(-5, 0, 1, 2.5, 7.5, 10),
+    expand = c(0, 0, 0, 0)
+  )
+
+# alternative argument limit of coord_cartpolar can be used
+p  + coord_cartpolar(limit = 5)
+
+# a continuous x scale is used to control the breaks and labels
+# for wd. Setting limits in this scale will cause problems
+p  + coord_cartpolar() +
+  scale_x_continuous(
+    breaks = c(0, 45, 90, 180, 270),
+    labels = c("Nord", "NE", "E", "S", "W")
+  )
+
+
+# theming: only major grid is draw
+p + coord_cartpolar() +
   theme(
-      "panel.grid.minor.x" = element_line(color = "blue", linetyp = "dotted"),
-      "panel.grid.major.x" = element_line(color = "red", size = 2, linetyp = "dashed"),
-      "panel.grid.major.y" = element_line(color = "green", arrow = arrow()),
-    )
-
-# x breaks are polar grid radiuses:
-p + scale_x_continuous(breaks = c(1, 2.5, 5, 10)) +
-  theme("panel.grid.minor.x" = element_blank())
-
-# wd scale in coord_cartpolar constructor as arugment scale_wd
-ggplot(df, aes(x=u, y=v)) + geom_point() +
-  coord_cartpolar(scale_wd = scale_wd_identity(
-    breaks = seq(0, 315, 45), labels = c("N", "NO", "O", "SO", "S", "SW", "W", "NW")
-  ))
+    "panel.grid.major.x" = element_line(color = "red", size = 2, linetyp = "dashed"),
+    "panel.grid.major.y" = element_line(color = "green", arrow = arrow()),
+    "axis.text.x" = element_text(color = "violet", size = 14, face = "bold"),
+    "axis.text.y" = element_text(color = "blue")
+  )
 
 
 # background map
-bbox <- tibble::tibble(x = c(2683141 - 500, 2683141 + 500), y = c(1249040 - 500, 1249040 + 500))
-bbox <- rOstluft::transform_LV95_to_WSG84(bbox)
-bbox <- c(left = bbox$lon[1], right = bbox$lon[2], bottom = bbox$lat[1], top = bbox$lat[2])
+bb <- bbox_lv95(2683141, 1249040, 500)
+bg <- get_stamen_map(bb)
 
-raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
-                                   source = "stamen", color = "bw")
-
-pbg <- ggplot(df, aes(x=u, y=v)) + geom_point() + coord_cartpolar(bg = raster_map)
-pbg
-
+p + coord_cartpolar(bg = bg)
 
 # faceting
-pbg + facet_wrap(~facet)
+p + coord_cartpolar(bg = bg) +
+  facet_wrap(vars(facet))
 
-
-# if plotting a raster layer, use annotation_raster, panel.ontop and panel.background
-df <- expand.grid(u = -5:5, v = -5:5)
-df$z <- runif(nrow(df))
-ggplot(df, aes(x=u, y=v, fill=z)) + coord_cartpolar(expand = FALSE) +
-  annotation_raster(raster_map, -Inf, Inf, -Inf, Inf) +
+# if plotting a raster layer, use grid = "foreground" to draw
+# the polar grid over the raster. an expand of c(0, 0.5, 0, 0.5)
+# can be used to compensated the added 0.5 from raster
+raster <- expand.grid(u = -10:10, v = -10:10)
+raster$z <- runif(nrow(raster))
+ggplot(raster, aes(x=u, y=v, fill=z)) +
+  coord_cartpolar(bg = bg, grid = "foreground") +
   geom_raster(alpha = 0.5) +
-  theme(
-    "panel.ontop" = TRUE,
-    "panel.background" = element_blank()
-  )
+  scale_y_continuous(expand = c(0, 0.5, 0, 0.5))
+
+# -Inf, Inf, -Inf, Inf from annotation_raster get mapped
+# over the complete panel
+ggplot(raster, aes(x=u, y=v, fill=z)) +
+  coord_cartpolar(grid = "foreground") +
+  annotation_raster(bg, -Inf, Inf, -Inf, Inf) +
+  geom_raster(alpha = 0.5) +
+  scale_y_continuous(expand = c(0, 0.5, 0, 0.5))
 }

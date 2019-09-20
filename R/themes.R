@@ -18,7 +18,7 @@ theme_polarplot <-
   ggplot2::theme_minimal() +
   ggplot2::theme(
     axis.ticks.y = ggplot2::element_line(),
-    panel.ontop = TRUE,
+#    panel.ontop = TRUE,
     panel.grid.minor.y = ggplot2::element_line(linetype = 2, color = "gray80", size = 0.5),
     panel.grid.minor.x = ggplot2::element_line(linetype = 2, color = "gray80", size = 0.5),
     panel.grid.major = ggplot2::element_line(linetype = 2, color = "gray80", size = 0.5),

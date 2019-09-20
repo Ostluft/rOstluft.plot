@@ -21,7 +21,7 @@ navbar:
       text: Articles
       menu:
       - text: 'Linien Kalender'
-        href: articles/articles/cal_line.html
+        href: articles/articles/Kalender_Linie.html
     github:
       icon: fa-github fa-lg
       href: https://github.com/Ostluft/rOstluft.plot
@@ -37,9 +37,7 @@ reference:
   desc: >
     Statistical transformation of input data. The computed variables can be mapped using `stat()`
   contents:
-  - stat_filter
-  - stat_summary_wind
-  - stat_summary_wind_2d
+  - starts_with("stat_")
   - summary_wind
   - summary_wind_2d
 
@@ -47,7 +45,7 @@ reference:
   desc: >
     geometric objects for ggplot
   contents:
-  - geom_polar_raster
+  - starts_with("geom_")
 
 - title: Coordinate systems
   desc: >
@@ -68,6 +66,14 @@ reference:
   - recode_last_class_label
   - midpoints
 
+- title: map functions
+  desc: functions to create background maps
+  contents:
+  - get_stamen_map
+  - get_google_map
+  - bbox_lv95
+  - get_ggmap
+
 - title: cut functions
   desc: wrappers and partial functions to cut data
   contents:
@@ -78,10 +84,11 @@ reference:
   desc: Some functions to make the life of a programmer easier
   contents:
   - uv2wd
-  - get_ggmap
   - fit_gam_surface
   - bbox
   - element_render_circle
   - pad_to_year
   - pad_to_year_fill
+  - groups
+  - auto_name
 
