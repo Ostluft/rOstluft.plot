@@ -6,7 +6,8 @@
 #' @section Warning:
 #' This coordinate system bends some ggplot2 internals (eg. diverted x axis). It works
 #' for our scope, but the testing was surficial. And probably some things could easily
-#' break.
+#' break. Things that breaks this coord:
+#' * setting limits in x scale
 #'
 #' @param limit limit for coordsystem (xlim(-limit, limit), ylim(-limit, limit))
 #' @param expand if `TRUE`
@@ -86,14 +87,22 @@
 #'   facet_wrap(vars(facet))
 #'
 #' # if plotting a raster layer, use grid = "foreground" to draw
-#' # the polar grid over the raster and set the limit to max + 0.5
-#' # and all expands to zero
+#' # the polar grid over the raster. an expand of c(0, 0.5, 0, 0.5)
+#' # can be used to compensated the added 0.5 from raster
 #' raster <- expand.grid(u = -10:10, v = -10:10)
 #' raster$z <- runif(nrow(raster))
 #' ggplot(raster, aes(x=u, y=v, fill=z)) +
-#'   coord_cartpolar(bg = bg, grid = "foreground",  limit = 10.5) +
+#'   coord_cartpolar(bg = bg, grid = "foreground") +
 #'   geom_raster(alpha = 0.5) +
-#'   scale_y_continuous(expand = c(0, 0, 0, 0))
+#'   scale_y_continuous(expand = c(0, 0.5, 0, 0.5))
+#'
+#' # -Inf, Inf, -Inf, Inf from annotation_raster get mapped
+#' # over the complete panel
+#' ggplot(raster, aes(x=u, y=v, fill=z)) +
+#'   coord_cartpolar(grid = "foreground") +
+#'   annotation_raster(bg, -Inf, Inf, -Inf, Inf) +
+#'   geom_raster(alpha = 0.5) +
+#'   scale_y_continuous(expand = c(0, 0.5, 0, 0.5))
 coord_cartpolar <- function(limit = NA, expand = TRUE, clip = "on",
                              bg = NULL, grid = c("background", "foreground")) {
   grid <- match.arg(grid)

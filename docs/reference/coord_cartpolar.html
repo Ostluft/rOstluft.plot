@@ -172,7 +172,10 @@ background</p></td>
 
 <p>This coordinate system bends some ggplot2 internals (eg. diverted x axis). It works
 for our scope, but the testing was surficial. And probably some things could easily
-break.</p>
+break. Things that breaks this coord:</p><ul>
+<li><p>setting limits in x scale</p></li>
+</ul>
+
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -237,14 +240,21 @@ break.</p>
 <span class='no'>p</span> + <span class='fu'>coord_cartpolar</span>(<span class='kw'>bg</span> <span class='kw'>=</span> <span class='no'>bg</span>) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/vars.html'>vars</a></span>(<span class='no'>facet</span>))</div><div class='img'><img src='coord_cartpolar-7.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># if plotting a raster layer, use grid = "foreground" to draw</span>
-<span class='co'># the polar grid over the raster and set the limit to max + 0.5</span>
-<span class='co'># and all expands to zero</span>
+<span class='co'># the polar grid over the raster. an expand of c(0, 0.5, 0, 0.5)</span>
+<span class='co'># can be used to compensated the added 0.5 from raster</span>
 <span class='no'>raster</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/expand.grid.html'>expand.grid</a></span>(<span class='kw'>u</span> <span class='kw'>=</span> -<span class='fl'>10</span>:<span class='fl'>10</span>, <span class='kw'>v</span> <span class='kw'>=</span> -<span class='fl'>10</span>:<span class='fl'>10</span>)
 <span class='no'>raster</span>$<span class='no'>z</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>raster</span>))
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>raster</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='no'>u</span>, <span class='kw'>y</span><span class='kw'>=</span><span class='no'>v</span>, <span class='kw'>fill</span><span class='kw'>=</span><span class='no'>z</span>)) +
-  <span class='fu'>coord_cartpolar</span>(<span class='kw'>bg</span> <span class='kw'>=</span> <span class='no'>bg</span>, <span class='kw'>grid</span> <span class='kw'>=</span> <span class='st'>"foreground"</span>,  <span class='kw'>limit</span> <span class='kw'>=</span> <span class='fl'>10.5</span>) +
+  <span class='fu'>coord_cartpolar</span>(<span class='kw'>bg</span> <span class='kw'>=</span> <span class='no'>bg</span>, <span class='kw'>grid</span> <span class='kw'>=</span> <span class='st'>"foreground"</span>) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_tile.html'>geom_raster</a></span>(<span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.5</span>) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span>(<span class='kw'>expand</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>))</div><div class='img'><img src='coord_cartpolar-8.png' alt='' width='700' height='433' /></div></pre>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span>(<span class='kw'>expand</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0.5</span>, <span class='fl'>0</span>, <span class='fl'>0.5</span>))</div><div class='img'><img src='coord_cartpolar-8.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># -Inf, Inf, -Inf, Inf from annotation_raster get mapped</span>
+<span class='co'># over the complete panel</span>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>raster</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='no'>u</span>, <span class='kw'>y</span><span class='kw'>=</span><span class='no'>v</span>, <span class='kw'>fill</span><span class='kw'>=</span><span class='no'>z</span>)) +
+  <span class='fu'>coord_cartpolar</span>(<span class='kw'>grid</span> <span class='kw'>=</span> <span class='st'>"foreground"</span>) +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/annotation_raster.html'>annotation_raster</a></span>(<span class='no'>bg</span>, -<span class='fl'>Inf</span>, <span class='fl'>Inf</span>, -<span class='fl'>Inf</span>, <span class='fl'>Inf</span>) +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_tile.html'>geom_raster</a></span>(<span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.5</span>) +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span>(<span class='kw'>expand</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0.5</span>, <span class='fl'>0</span>, <span class='fl'>0.5</span>))</div><div class='img'><img src='coord_cartpolar-9.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -1,17 +1,4 @@
 
-  - [rOstluft.plot](#rostluft.plot)
-  - [Installation](#installation)
-  - [Beispiele](#beispiele)
-      - [Windrose auf Karte](#windrose-auf-karte)
-      - [Radar-chart Windstatistik](#radar-chart-windstatistik)
-      - [polarplot openair-style](#polarplot-openair-style)
-      - [Tagesgang-Jahresgang heatmap](#tagesgang-jahresgang-heatmap)
-      - [Kalender + stat\_filter](#kalender-stat_filter)
-      - [Hysplit Trajektorien (openair data
-        format)](#hysplit-trajektorien-openair-data-format)
-      - [Squishing data](#squishing-data)
-      - [padding data](#padding-data)
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 <img src="man/figures/logo.png" align="right" />
