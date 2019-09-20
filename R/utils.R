@@ -77,7 +77,7 @@ quo_is_character <- function(quo) {
 #' data <- rOstluft::read_airmo_csv(fn)
 #'
 #' # adding group_nest to quickly glance over the groups
-#' groupby <- function(df, group = groups()) {
+#' groupby <- function(df, group = grp()) {
 #'   dplyr::group_by(df, !!!group) %>%
 #'     dplyr::group_nest()
 #' }
@@ -86,13 +86,13 @@ quo_is_character <- function(quo) {
 #' groupby(data)
 #'
 #' # use a symbol, string or an expression
-#' groupby(data, groups(site, "unit", lubridate::year(starttime)))
+#' groupby(data, grp(site, "unit", lubridate::year(starttime)))
 #'
 #' # autonaming works fine with strings and symbols, but for expressions
 #' # it probably a good idea to provide a name:
-#' groupby(data, groups(site, year = lubridate::year(starttime)))
-groups <- function(...) {
-  quos <- rlang::quos(...)
+#' groupby(data, grp(site, year = lubridate::year(starttime)))
+grp <- function(...) {
+  quos <- as.list(rlang::quos(...))
   quos <- purrr::modify_if(quos, quo_is_character, quo_as_symbol)
   rlang::exprs_auto_name(quos)
 }

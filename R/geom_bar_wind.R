@@ -88,7 +88,7 @@
 #' # external.
 #' # For example: how often comes which concentration from a sector
 #' data_summarized <- summary_wind(data, ws, wd, NOx,
-#'   groupings = groups(
+#'   groupings = grp(
 #'     fNOx = ggplot2::cut_number(NO2, 5),
 #'     year = lubridate::year(date)
 #'   ),

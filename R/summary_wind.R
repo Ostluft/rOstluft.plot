@@ -8,7 +8,7 @@
 #' @param ws symbol giving the wind velocity column name (wind velocity preferably in m/s)
 #' @param wd symbol giving the wind direction column name  in degrees
 #' @param z symbol giving the column name to be summarised
-#' @param groupings additional groupings. Use helper [groups()] to create
+#' @param groupings additional groupings. Use helper [grp()] to create
 #' @param fun function or list of functions for summary.
 #' @param fun.args a list of extra arguments passed on to fun.
 #' @param nmin numeric, minimum number of values for fun, if n < nmin: NA is returned
@@ -75,11 +75,11 @@
 #'              ws_cutfun = cut_number.fun(1))
 #'
 #' # additional grouping with strings, symbols or named expressions
-#' summary_wind(data, ws, wd, NO2, group = groups("site", year, wday = lubridate::wday(date)))
+#' summary_wind(data, ws, wd, NO2, group = grp("site", year, wday = lubridate::wday(date)))
 #'
 #' # how often comes which concentration from one direction
 #' summary_wind(data, ws, wd, NO2,
-#'              group = groups(NO2_class = ggplot2::cut_number(NO2, 5)),
+#'              group = grp(NO2_class = ggplot2::cut_number(NO2, 5)),
 #'              ws_cutfun = cut_number.fun(1))
 #'
 #' # the same but we use ws as pollutant
@@ -124,7 +124,7 @@
 #'
 #' # a pollution rose
 #' data_summarized <- summary_wind(data, ws, wd, NOx,
-#'   groupings = groups(
+#'   groupings = grp(
 #'     fNOx = ggplot2::cut_number(NO2, 5),
 #'     year = lubridate::year(date)
 #'   ),
@@ -136,7 +136,7 @@
 #'   coord_polar2(start = - 22.5 / 180 * pi ) +
 #'   scale_y_continuous(limits = c(0, NA), expand = c(0,0, 0, 0)) +
 #'   scale_fill_viridis_d(direction = -1, name = "NOx")
-summary_wind <- function(data, ws, wd, z, groupings = groups(), fun = "mean", fun.args = list(), nmin = 3,
+summary_wind <- function(data, ws, wd, z, groupings = grp(), fun = "mean", fun.args = list(), nmin = 3,
                           wd_cutfun = cut_wd.fun(binwidth = 45),
                           ws_cutfun = cut_ws.fun(binwidth = 1)) {
 

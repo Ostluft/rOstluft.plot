@@ -2,7 +2,7 @@
 #' @export
 stat_summary_wind <- function (data = NULL, mapping = NULL, geom = "bar_wind", position = "stack",
                                ...,
-                               groupings = groups(),
+                               groupings = grp(),
                                fun = "mean",
                                fun.args = list(),
                                nmin = 3,
@@ -38,7 +38,7 @@ stat_summary_wind <- function (data = NULL, mapping = NULL, geom = "bar_wind", p
 StatSummaryWind <- ggproto("StatSummaryWind", Stat,
   compute_group = function(data, scales, fun = "mean", fun.args = list(), nmin = 3,
                            wd_cutfun = cut_wd.fun(binwidth = 45),
-                           ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = NA), groupings = groups(), ...) {
+                           ws_cutfun = cut_ws.fun(binwidth = 1, ws_max = NA), groupings = grp(), ...) {
 
     summary_wind(data = data, wd = "wd", ws = "ws", z = "z", fun = fun, fun.args = fun.args, nmin = nmin,
                   wd_cutfun = wd_cutfun, ws_cutfun = ws_cutfun, groupings = groupings)

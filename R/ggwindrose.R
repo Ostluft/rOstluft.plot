@@ -7,7 +7,7 @@
 #'   `(360 / wd_binwidth) %in% c(4, 8, 12, 16)`
 #' @param ws_binwidth numeric, binwidth for wind speed
 #' @param ws_max numeric, can be NA, wind speed is squished at this value
-#' @param groupings additional groupings. Use helper [groups()] to create. **Necessary** for some facets!
+#' @param groupings additional groupings. Use helper [grp()] to create. **Necessary** for some facets!
 #' @param fill_scale ggplot2 discrete fill scale, e.g. [ggplot2::scale_fill_gradientn()]
 #' @param reverse TRUE/FALSE, should wind speed bin factors be sorted descending (TRUE)
 #'   or ascending (FALSE). Usually for wind roses a descending order (higher wind speed on
@@ -60,13 +60,13 @@
 #'            fill_scale = scale_fill_viridis_d(direction = -1))
 #'
 #' # faceting: important the faceting variable, must also be in grouping!
-#' ggwindrose(data, ws, wd, ws_max = 5, groupings = groups(daylight)) +
+#' ggwindrose(data, ws, wd, ws_max = 5, groupings = grp(daylight)) +
 #'   facet_wrap(vars(daylight))
 #'
 #' # you can use groupings to directly mutate the data for faceting.
 #' # in this example we define the groupings external for better
 #' # readability
-#' groupings = groups(
+#' groupings = grp(
 #'   season = cut_season(date, labels = c(DJF = "winter", MAM = "spring",
 #'                       JJA = "summer", SON = "autumn")),
 #'   year = cut_seasonyear(date, label = "year")
@@ -86,7 +86,7 @@ ggwindrose <- function(data, ws, wd,
                        wd_binwidth = 45,
                        ws_binwidth = 1,
                        ws_max = NA,
-                       groupings = groups(),
+                       groupings = grp(),
                        fill_scale = scale_fill_viridis_d(),
                        reverse = TRUE,
                        bg = NULL

@@ -11,7 +11,7 @@
 #' @param ws symbol giving the wind velocity parameter name (wind velocity preferably in m/s)
 #' @param wd symbol giving the wind direction parameter name  in degrees
 #' @param z symbol giving the parameter name to be summarised
-#' @param groupings additional groupings. Use helper [groups()] to create
+#' @param groupings additional groupings. Use helper [grp()] to create
 #' @param fun function or list of functions for summary.
 #' @param fun.args a list of extra arguments to pass to fun.
 #' @param nmin numeric, minimum number of values for fun, if n < nmin: NA is returned
@@ -66,11 +66,11 @@
 #'                 smooth = FALSE)
 #'
 #' # additional groupings
-#' summary_wind_2d(data, ws, wd, NO2, groupings = groups(site), smooth = FALSE)
+#' summary_wind_2d(data, ws, wd, NO2, groupings = grp(site), smooth = FALSE)
 #'
-#' # we can use expressions in groups. For better readability groupings is
+#' # we can use expressions in grp For better readability groupings is
 #' # defined outside of the function call
-#' groupings = groups("site", year = lubridate::year(date))
+#' groupings = grp("site", year = lubridate::year(date))
 #'
 #' summary_wind_2d(data, ws, wd, NO2, groupings = groupings, smooth = FALSE)
 #'
@@ -87,7 +87,7 @@
 #'
 #' # for a small number of bins reduce k
 #' summary_wind_2d(data, ws, wd, NO2, bins = 5^2, smooth = TRUE, k = 5)
-summary_wind_2d <- function(data, ws, wd, z, groupings = groups(), fun = "mean", fun.args = list(), nmin = 3, ws_max = NA,
+summary_wind_2d <- function(data, ws, wd, z, groupings = grp(), fun = "mean", fun.args = list(), nmin = 3, ws_max = NA,
                             bins = 10^2, smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1) {
 
   ws <- rlang::ensym(ws)

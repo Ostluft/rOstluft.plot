@@ -4,7 +4,7 @@
 \alias{summary_wind}
 \title{Summarise z values over binned wind data.}
 \usage{
-summary_wind(data, ws, wd, z, groupings = groups(), fun = "mean",
+summary_wind(data, ws, wd, z, groupings = grp(), fun = "mean",
   fun.args = list(), nmin = 3, wd_cutfun = cut_wd.fun(binwidth = 45),
   ws_cutfun = cut_ws.fun(binwidth = 1))
 }
@@ -17,7 +17,7 @@ summary_wind(data, ws, wd, z, groupings = groups(), fun = "mean",
 
 \item{z}{symbol giving the column name to be summarised}
 
-\item{groupings}{additional groupings. Use helper \code{\link[=groups]{groups()}} to create}
+\item{groupings}{additional groupings. Use helper \code{\link[=grp]{grp()}} to create}
 
 \item{fun}{function or list of functions for summary.}
 
@@ -96,11 +96,11 @@ summary_wind(data, "ws", "wd", "NO",
              ws_cutfun = cut_number.fun(1))
 
 # additional grouping with strings, symbols or named expressions
-summary_wind(data, ws, wd, NO2, group = groups("site", year, wday = lubridate::wday(date)))
+summary_wind(data, ws, wd, NO2, group = grp("site", year, wday = lubridate::wday(date)))
 
 # how often comes which concentration from one direction
 summary_wind(data, ws, wd, NO2,
-             group = groups(NO2_class = ggplot2::cut_number(NO2, 5)),
+             group = grp(NO2_class = ggplot2::cut_number(NO2, 5)),
              ws_cutfun = cut_number.fun(1))
 
 # the same but we use ws as pollutant
@@ -145,7 +145,7 @@ ggplot(data_summarized, aes(x = wd, y = freq, fill = ws)) +
 
 # a pollution rose
 data_summarized <- summary_wind(data, ws, wd, NOx,
-  groupings = groups(
+  groupings = grp(
     fNOx = ggplot2::cut_number(NO2, 5),
     year = lubridate::year(date)
   ),

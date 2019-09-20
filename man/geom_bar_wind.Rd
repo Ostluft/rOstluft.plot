@@ -12,7 +12,7 @@ geom_bar_wind(mapping = NULL, data = NULL, stat = "summary_wind",
   show.legend = NA, inherit.aes = TRUE)
 
 stat_summary_wind(data = NULL, mapping = NULL, geom = "bar_wind",
-  position = "stack", ..., groupings = groups(), fun = "mean",
+  position = "stack", ..., groupings = grp(), fun = "mean",
   fun.args = list(), nmin = 3, wd_cutfun = cut_wd.fun(binwidth = 45),
   ws_cutfun = cut_ws.fun(binwidth = 1), na.rm = FALSE,
   show.legend = NA, inherit.aes = TRUE)
@@ -59,7 +59,7 @@ the default plot specification, e.g. \code{\link[=borders]{borders()}}.}
 
 \item{geom}{The geometric object to use display the data}
 
-\item{groupings}{additional groupings. Use helper \code{\link[=groups]{groups()}} to create}
+\item{groupings}{additional groupings. Use helper \code{\link[=grp]{grp()}} to create}
 }
 \value{
 \code{\link[ggplot2:layer]{ggplot2::layer()}}
@@ -144,7 +144,7 @@ ggplot(data_summarized, aes(x = wd, y = NOx, color = stat, group = stat)) +
 # external.
 # For example: how often comes which concentration from a sector
 data_summarized <- summary_wind(data, ws, wd, NOx,
-  groupings = groups(
+  groupings = grp(
     fNOx = ggplot2::cut_number(NO2, 5),
     year = lubridate::year(date)
   ),

@@ -5,7 +5,7 @@
 \title{ggplot wrapper to create a windrose (polar wind-bin frequency plot)}
 \usage{
 ggwindrose(data, ws, wd, ..., wd_binwidth = 45, ws_binwidth = 1,
-  ws_max = NA, groupings = groups(),
+  ws_max = NA, groupings = grp(),
   fill_scale = scale_fill_viridis_d(), reverse = TRUE, bg = NULL)
 }
 \arguments{
@@ -21,7 +21,7 @@ to set an aesthetic to a fixed value. Defaults are \code{color = "white", width 
 
 \item{ws_max}{numeric, can be NA, wind speed is squished at this value}
 
-\item{groupings}{additional groupings. Use helper \code{\link[=groups]{groups()}} to create. \strong{Necessary} for some facets!}
+\item{groupings}{additional groupings. Use helper \code{\link[=grp]{grp()}} to create. \strong{Necessary} for some facets!}
 
 \item{fill_scale}{ggplot2 discrete fill scale, e.g. \code{\link[ggplot2:scale_fill_gradientn]{ggplot2::scale_fill_gradientn()}}}
 
@@ -80,13 +80,13 @@ ggwindrose(data, ws, wd, ws_max = 4, reverse = FALSE,
            fill_scale = scale_fill_viridis_d(direction = -1))
 
 # faceting: important the faceting variable, must also be in grouping!
-ggwindrose(data, ws, wd, ws_max = 5, groupings = groups(daylight)) +
+ggwindrose(data, ws, wd, ws_max = 5, groupings = grp(daylight)) +
   facet_wrap(vars(daylight))
 
 # you can use groupings to directly mutate the data for faceting.
 # in this example we define the groupings external for better
 # readability
-groupings = groups(
+groupings = grp(
   season = cut_season(date, labels = c(DJF = "winter", MAM = "spring",
                       JJA = "summer", SON = "autumn")),
   year = cut_seasonyear(date, label = "year")

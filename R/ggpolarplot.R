@@ -56,8 +56,8 @@
 #' ggpolarplot(df, wd = wd, ws = ws, z = NOx, smooth = FALSE, pixels = 50^2,
 #'             nmin = 10, breaks = seq(0,6,2))
 #'
-#' # facetting variable must be included in groups
-#' ggpolarplot(df, wd = wd, ws = ws, z = NOx, groupings = groups(wday),
+#' # facetting variable must be included in grp
+#' ggpolarplot(df, wd = wd, ws = ws, z = NOx, groupings = grp(wday),
 #'             ws_max = 4, pixels = 50^2, k = 25, breaks = c(0, 2, 4)) +
 #'   facet_wrap(vars(wday))
 #'
@@ -89,7 +89,7 @@
 #'
 ggpolarplot <- function(data, ws, wd, z,
                         nmin = 3,
-                        groupings = groups(),
+                        groupings = grp(),
                         fun = "mean",
                         fun.args = list(na.rm = TRUE),
                         ws_max = NA,

@@ -89,6 +89,6 @@ reference:
   - element_render_circle
   - pad_to_year
   - pad_to_year_fill
-  - groups
+  - grp
   - auto_name
 

@@ -4,7 +4,7 @@
 \alias{ggpolarplot}
 \title{ggplot2 wrapper to create a wind-based polar plot}
 \usage{
-ggpolarplot(data, ws, wd, z, nmin = 3, groupings = groups(),
+ggpolarplot(data, ws, wd, z, nmin = 3, groupings = grp(),
   fun = "mean", fun.args = list(na.rm = TRUE), ws_max = NA,
   smooth = TRUE, k = 200, extrapolate = TRUE, dist = 0.1,
   pixels = 80^2, fill_scale = scale_fill_gradientn(colours =
@@ -23,7 +23,7 @@ ggpolarplot(data, ws, wd, z, nmin = 3, groupings = groups(),
 
 \item{nmin}{numeric, minimum number of values for fun, if n < nmin: NA is returned}
 
-\item{groupings}{additional groupings. Use helper \code{\link[=groups]{groups()}} to create}
+\item{groupings}{additional groupings. Use helper \code{\link[=grp]{grp()}} to create}
 
 \item{fun}{function or list of functions for summary.}
 
@@ -101,8 +101,8 @@ ggpolarplot(df, wd = wd, ws = ws, z = NOx, ws_max = 4, smooth = TRUE, breaks = 0
 ggpolarplot(df, wd = wd, ws = ws, z = NOx, smooth = FALSE, pixels = 50^2,
             nmin = 10, breaks = seq(0,6,2))
 
-# facetting variable must be included in groups
-ggpolarplot(df, wd = wd, ws = ws, z = NOx, groupings = groups(wday),
+# facetting variable must be included in grp
+ggpolarplot(df, wd = wd, ws = ws, z = NOx, groupings = grp(wday),
             ws_max = 4, pixels = 50^2, k = 25, breaks = c(0, 2, 4)) +
   facet_wrap(vars(wday))
 
