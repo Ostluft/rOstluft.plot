@@ -1,7 +1,7 @@
 #' Plotting hysplit trajectory
 #'
 #' @param data tibble containing hysplit trajectories, format preferably similar to that of the 'openair' package
-#' @param mapping ggplot mapping, typically: aes(x = lon, y = lat, group = date, color = height)
+#' @param mapping add or overwrite mapping. default is aes(x = lon, y = lat, group = date, color = height)
 #' @param incr sequence of hours to draw an marker on the trajetory. Default -seq(24,96,24); if NULL no increment
 #'   markers are plotted
 #' @param lims list with xlim and ylim items defining the map section. See [ggplot2::coord_quickmap()]
@@ -11,15 +11,32 @@
 #' @return ggplot2 object
 #'
 #' @examples
+#' library(ggplot2)
 #' fn <- rOstluft.data::f("2017_ZH-Kaserne-hysplit.rds")
 #' traj <- readRDS(fn)
 #' traj <- dplyr::filter(traj, date < lubridate::ymd("2017-01-08"))
 #' ggtraj(traj)
 #'
+#' # not really meaningful: overwrite the mapping for aesthetic
+#' # color and change the color_scale
+#' cs <- scale_color_viridis_c(name = "pressure")
+#' ggtraj(traj, aes(color = pressure), color_scale = cs)
+#'
 #' @export
-ggtraj <- function(data, mapping = aes(x = lon, y = lat, group = date, color = height),
-                   incr = -seq(24,96,24), lims = NULL, add_traj_labels = TRUE,
-                   color_scale = ggplot2::scale_color_gradient(name = "m agl.")) {
+ggtraj <- function(
+  data,
+  mapping = NULL,
+  incr = -seq(24,96,24),
+  lims = NULL,
+  add_traj_labels = TRUE,
+  color_scale = ggplot2::scale_color_gradient(name = "m agl.")
+) {
+
+  mapping_default <- aes(x = .data$lon, y = .data$lat, group = .data$date, color = .data$height)
+
+  if (!is.null(mapping)) {
+    mapping_default <- modify_list(mapping_default, mapping)
+  }
 
   if (is.null(lims)) {
     lims <- list(
@@ -28,13 +45,15 @@ ggtraj <- function(data, mapping = aes(x = lon, y = lat, group = date, color = h
     )
   }
 
-
-  plot <- ggplot2::ggplot(data, mapping)
+  plot <- ggplot2::ggplot(data, mapping_default)
 
   # add background map
   plot <- plot +
-    ggplot2::geom_polygon(ggplot2::aes(x = long, y = lat, group = group), ggplot2::map_data("world"),
-                          color = "gray40", fill = "gray90", inherit.aes = FALSE, size = 0.25) +
+    ggplot2::geom_polygon(
+      ggplot2::aes(x = .data$long, y = .data$lat, group = .data$group),
+      ggplot2::map_data("world"),
+      color = "gray40", fill = "gray90", inherit.aes = FALSE, size = 0.25
+    ) +
     ggplot2::coord_quickmap(xlim = lims$xlim, ylim = lims$ylim) +
     ggplot2::geom_path()
 
