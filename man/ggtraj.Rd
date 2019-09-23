@@ -4,15 +4,14 @@
 \alias{ggtraj}
 \title{Plotting hysplit trajectory}
 \usage{
-ggtraj(data, mapping = aes(x = lon, y = lat, group = date, color =
-  height), incr = -seq(24, 96, 24), lims = NULL,
+ggtraj(data, mapping = NULL, incr = -seq(24, 96, 24), lims = NULL,
   add_traj_labels = TRUE,
   color_scale = ggplot2::scale_color_gradient(name = "m agl."))
 }
 \arguments{
 \item{data}{tibble containing hysplit trajectories, format preferably similar to that of the 'openair' package}
 
-\item{mapping}{ggplot mapping, typically: aes(x = lon, y = lat, group = date, color = height)}
+\item{mapping}{add or overwrite mapping. default is aes(x = lon, y = lat, group = date, color = height)}
 
 \item{incr}{sequence of hours to draw an marker on the trajetory. Default -seq(24,96,24); if NULL no increment
 markers are plotted}
@@ -30,9 +29,15 @@ ggplot2 object
 Plotting hysplit trajectory
 }
 \examples{
+library(ggplot2)
 fn <- rOstluft.data::f("2017_ZH-Kaserne-hysplit.rds")
 traj <- readRDS(fn)
 traj <- dplyr::filter(traj, date < lubridate::ymd("2017-01-08"))
 ggtraj(traj)
+
+# not really meaningful: overwrite the mapping for aesthetic
+# color and change the color_scale
+cs <- scale_color_viridis_c(name = "pressure")
+ggtraj(traj, aes(color = pressure), color_scale = cs)
 
 }

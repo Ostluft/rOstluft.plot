@@ -81,7 +81,7 @@ ggradar <- function(data,
     scale_y_continuous(limits = c(0, NA), expand = c(0,0)) +
     color_scale +
     fill_scale +
-    theme_radar
+    theme_rop_radar
 
   return(plot)
 }

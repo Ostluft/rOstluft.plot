@@ -116,7 +116,7 @@ ggwindrose <- function(data, ws, wd,
     scale_y_continuous( limits = c(0, NA), expand = expand_scale(), labels = scales::percent) +
     fill_scale +
     guides(fill = guide_legend(title = rlang::quo_text(ws), reverse = !reverse)) +
-    theme_windrose
+    theme_rop_windrose
 
   return(plot)
 }
