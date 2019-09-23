@@ -37,7 +37,10 @@ prepare_release <- function() {
   )
 
   if (choice == 2) {
-    devtools::check()
+    #
+    devtools::check(env_vars = list(
+      GGMAP_GOOGLE_API_KEY = Sys.getenv("GGMAP_GOOGLE_API_KEY")
+    ))
   }
 
   choice <- utils::menu(

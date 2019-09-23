@@ -53,6 +53,9 @@ will be printed.}
 \item{breaks}{waiver() or numeric vector, provides y-axis breaks}
 
 \item{bg}{raster map, e.g. ggmap object as plot background}
+
+\item{...}{Other arguments passed on to \code{\link[ggplot2:geom_raster]{ggplot2::geom_raster()}}. Used
+to set an aesthetic to a fixed value}
 }
 \value{
 \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object

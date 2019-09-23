@@ -46,6 +46,9 @@ to the paired geom/stat.}
 
 \item{ws_cutfun}{function, cut function for wind speed. See \code{\link[=ws_cut.fun]{ws_cut.fun()}} for examples}
 
+\item{na.rm}{If \code{FALSE}, the default, missing values are removed with
+a warning. If \code{TRUE}, missing values are silently removed.}
+
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
 \code{FALSE} never includes, and \code{TRUE} always includes.

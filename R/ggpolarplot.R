@@ -12,6 +12,9 @@
 #' @param ylabels function to format ylabels. Default adds unit " m/s"
 #' @param breaks waiver() or numeric vector, provides y-axis breaks
 #' @param bg raster map, e.g. ggmap object as plot background
+#' @param ... Other arguments passed on to [ggplot2::geom_raster()]. Used
+#'   to set an aesthetic to a fixed value
+#'
 #' @inheritParams summary_wind_2d
 #'
 #' @return [ggplot2::ggplot()] object
@@ -115,7 +118,7 @@ ggpolarplot <- function(data, ws, wd, z,
 
 
   plot <-
-    ggplot(data_summarized, aes(x = u, y = v, fill = !!z)) +
+    ggplot(data_summarized, aes(x = .data$u, y = .data$v, fill = !!z)) +
     geom_raster(...) +
     scale_y_continuous(breaks = breaks, labels = ylabels, expand = ggplot2::expand_scale(add = 0.5)) +
     coord_cartpolar(limit = ws_max, bg = bg, grid = "foreground") +

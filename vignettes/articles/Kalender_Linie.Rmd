@@ -2,11 +2,6 @@
 title: "Kalender_Linie"
 author: "Thomas von Allmen"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteEngine{knitr::knitr}
-  %\VignetteIndexEntry{Kalender Linie}
-  %\usepackage[UTF-8]{inputenc}
 ---
 
 ```{r setup, include = FALSE}

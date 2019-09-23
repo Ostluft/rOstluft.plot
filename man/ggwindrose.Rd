@@ -11,7 +11,11 @@ ggwindrose(data, ws, wd, ..., wd_binwidth = 45, ws_binwidth = 1,
 \arguments{
 \item{data}{tibble containing wind speed, wind direction and/or air pollutant concentration data}
 
-\item{...}{Other arguments passed on to \code{\link[ggplot2:geom_bar]{ggplot2::geom_bar()}}. these are often aesthetics, used
+\item{ws}{symbol giving the wind velocity column name (wind velocity preferably in m/s)}
+
+\item{wd}{symbol giving the wind direction column name  in degrees}
+
+\item{...}{Other arguments passed on to \code{\link[ggplot2:geom_bar]{ggplot2::geom_bar()}}. Used
 to set an aesthetic to a fixed value. Defaults are \code{color = "white", width = 1, size = 0.25}}
 
 \item{wd_binwidth}{numeric, binwidth for wind direction in °, wd_binwidth should fullfill:

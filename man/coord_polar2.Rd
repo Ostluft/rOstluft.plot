@@ -26,7 +26,7 @@ ggplot2 coord system
 \description{
 The differences between \code{\link[ggplot2:cord_polar]{ggplot2::cord_polar()}} and \code{\link[=coord_polar2]{coord_polar2()}} are:
 \itemize{
-\item Add a raster (image) as background. As example a map created with \code{\link[=get_stampen_map]{get_stampen_map()}}
+\item Add a raster (image) as background. As example a map created with \code{\link[=get_stamen_map]{get_stamen_map()}}
 \item \code{\link[ggplot2:cord_polar]{ggplot2::cord_polar()}} always adds an outer circle with r = 0.45 to the plot. This circle is removed.
 }
 }
@@ -81,5 +81,5 @@ p + coord_polar() + scale_y_continuous(breaks = seq(0, 100, 20), limits = c(0, 2
 p + coord_polar2() + scale_y_continuous(breaks = seq(0, 100, 20), limits = c(0, 200))
 }
 \seealso{
-\code{ggplot2::cord_polar()}
+\code{ggplot2::coord_polar()}
 }

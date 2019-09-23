@@ -34,7 +34,7 @@ get_stamen_map <- function(bbox, width = 640, zoom = "auto", color =  "bw", ...)
 #' The functions [get_googlemap()] and [get_stamen_map()] tries to harmonize the calls to [ggmap()]. The objective is
 #' to get interchangeable functions with sensible defaults. For example automatic calculation of the zoom. The function
 #' [bbox_lv95()] generates a bbox object compatible with both functions. Before using this function you need to register
-#' your google API key with [ggmap::register_google(key)]. For details consult the documentation of the
+#' your google API key with [ggmap::register_google()]. For details consult the documentation of the
 #' [Maps Static API](https://developers.google.com/maps/documentation/maps-static/intro) and [ggmap::get_googlemap()].
 #'
 #'
@@ -55,6 +55,7 @@ get_stamen_map <- function(bbox, width = 640, zoom = "auto", color =  "bw", ...)
 #' @export
 #'
 #' @examples
+#' library(ggmap)
 #' ggmap::register_google(Sys.getenv("GGMAP_GOOGLE_API_KEY"))
 #' bb <- bbox_lv95(2683141, 1249040, 500) # site Zch_Stamfenbachstrasse
 #' get_google_map(bb) %>%  ggmap::ggmap()

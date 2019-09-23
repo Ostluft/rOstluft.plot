@@ -54,7 +54,7 @@ ggcalendar <- function(data, x = "date", z = "O3_max_h1",
                         month = lubridate::month(.data$date, label = TRUE, locale = locale),
                         year = lubridate::year(.data$date),
                         weekday = lubridate::wday(.data$date, label = TRUE, week_start = 1, locale = locale),
-                        weekday = forcats::fct_rev(weekday),
+                        weekday = forcats::fct_rev(.data$weekday),
                         week = as.numeric(format(.data$date,"%W")),
                         # we need a continuous x axis based on week of the year for placing x breaks
                         x = .data$year * 100 + .data$week
@@ -64,7 +64,7 @@ ggcalendar <- function(data, x = "date", z = "O3_max_h1",
 
   # mapping for group, monthday, month is for month border
   # group = 1 disable grouping see ?ggplot2::aes_group_order
-  ggplot(data, aes(x = x, y = weekday, fill = !!z)) +
+  ggplot(data, aes(x = x, y = .data$weekday, fill = !!z)) +
     layer("tile", "identity", NULL, NULL, "identity", params = list(size = size, color = color, ...)) +
     theme_minimal() +
     ggExtra::removeGridX() +
@@ -148,7 +148,7 @@ cal_month_border <- function(size = 0.5, lineend = "square", linejoin = "bevel",
   # the Stat AddmonthBorder takes care of the calculations of x, y, xend, yend
   # it works, but is this the correct way?
   layer(
-    stat = CalMonthBorder, data = NULL, mapping = aes(month = month, monthday = monthday),
+    stat = CalMonthBorder, data = NULL, mapping = aes(month = .data$month, monthday = .data$monthday),
     geom = "segment", position = "identity",  show.legend = FALSE, inherit.aes = TRUE,
     params = list(size = size, lineend = lineend, linejoin = linejoin, color = color, ...)
   )
