@@ -31,29 +31,31 @@
 #'   dplyr::mutate(wday = lubridate::wday(date, label = TRUE, week_start = 1))
 #'
 #' # wind direction radar chart with mean values of y as summary statistics
-#' ggradar(df, wd = wd, y = NOx)
+#' ggradar(df, mapping = aes(x = wd, y = NOx))
 #'
-#' # same as above but with fixed fill and definde alpha and no color (must be set via _scale argument)
-#' ggradar(df, wd = wd, y = NOx, color_scale = NA, fill_scale = scale_fill_manual(values = alpha("gray60", 0.5)))
+#' # same as above but with fixed fill, defined alpha and no color
+#' ggradar(df, mapping = aes(x = wd, y = NOx), fill = "gray30", alpha = 0.5)
+#'
+#' # same as above but with no fill, defined color
+#' ggradar(df, mapping = aes(x = wd, y = NOx), fill = NA, color = "gray30")
 #'
 #' # apply different statistic function
 #' q95 <- function(x, ...) quantile(x, 0.95, ...)
-#' ggradar(df, wd = wd, y = NOx, fun = "q95")
+#' ggradar(df, mapping = aes(x = wd, y = NOx), fun = "q95", alpha = 0.5)
 #'
 #' # group by multiple statistic functions and omit polygon filling
-#' ggradar(df, wd = wd, y = NOx, fun = list("mean", "median", "perc95" = q95), fill_scale = NA)
+#' ggradar(df, mapping = aes(x = wd, y = NOx, color = stat, group = stat), fun = list("mean", "median", "perc95" = q95), fill = NA)
 #'
 #' # ... same as above but with one-colored fill and stats as facets
-#' ggradar(df, wd = wd, y = NOx, fun = list("mean", "median", "perc95" = q95),
-#'   color_scale = NA, fill_scale = scale_fill_manual(values = alpha(rep("gray40",3), 0.5))) +
+#' ggradar(df, mapping = aes(x = wd, y = NOx, group = stat), fun = list("mean", "median", "perc95" = q95)) +
 #'   facet_wrap(stat~.)
 #'
 #' # multiple y-parameters and facetting (facetting variable has to be separately specified in facet_groups!)
 #' df %>%
 #'   dplyr::select(wd, NO, NOx, wday) %>%
 #'   tidyr::gather(par, val, -wd, -wday) %>%
-#'   ggradar(wd = wd, y = val, group = par, facet_groups = wday)) +
-#'   facet_wrap(wday~.)
+#'   ggradar(mapping = aes(x = wd, y = val, group = wday, color = wday), facet_groups = groups(par), fill = NA) +
+#'   facet_wrap(par~.)
 #'
 #' # with background map
 #' bbox <- tibble::tibble(x = c(2683141 - 500, 2683141 + 500), y = c(1249040 - 500, 1249040 + 500))
@@ -63,52 +65,33 @@
 #' raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
 #'                                    source = "stamen", color = "bw")
 #'
-#' ggradar(df, wd = wd, y = NOx, bg = raster_map) +
+#' ggradar(df, mapping = aes(x = wd, y = NOx), bg = raster_map, color = "blue", fill = NA) +
 #'   theme(panel.grid.major = ggplot2::element_line(linetype = 1, color = "white"))
 #'
-ggradar <- function(data, wd, y,
-                    group = NULL,
-                    facet_groups = NULL,
+ggradar <- function(data,
+                    mapping,
+                    facet_groups = groups(),
                     wd_binwidth = 45,
                     fun = "mean",
                     fun.args = list(),
                     nmin = 3,
                     reverse = TRUE,
-                    color_scale = scale_color_viridis_d(),
-                    fill_scale = scale_fill_viridis_d(alpha = 0.25),
                     bg = NULL,
                     ...
 ) {
 
-  wd <- rlang::ensym(wd)
+  wd <- rlang::sym(rlang::as_name(mapping$x))
   wd_cutfun <- cut_wd.fun(binwidth = wd_binwidth)
-  y <- rlang::ensym(y)
-  groupings <- groups(group, facet_groups)
+  y <- rlang::sym(rlang::as_name(mapping$y))
+  polygon_layer <- rlang::exec(geom_polygon, ...)
+  if (is.null(mapping$group)) {grp <- groups()} else if (rlang::as_name(mapping$group) == "stat")
+    {grp <- groups()} else {grp <- groups(!!rlang::as_name(mapping$group))}
+  grp <- modify_list(grp, facet_groups)
 
-  data_summarized <- summary_wind(data, NULL, !!wd, !!y, groupings = groupings,
+  data_summarized <- summary_wind(data, NULL, !!wd, !!y, groupings = grp,
                                   wd_cutfun = wd_cutfun, fun = fun, fun.args = fun.args)
 
-  if (is.null(group)) {
-    group <- rlang::ensym("stat")
-    theme_lgnd_gr <- "none"
-  } else {
-    group <- rlang::ensym(group)
-    theme_lgnd_gr <- "right"
-  }
-  color <- group
-  fill <- group
-
-  if (is.na(fill_scale)) {
-    polygon_layer <- rlang::exec(geom_polygon, !!!rlang::dots_list(...), fill =  NA)
-    fill_scale <- NULL
-  } else if (is.na(color_scale)) {
-    polygon_layer <- rlang::exec(geom_polygon, !!!rlang::dots_list(...), color =  NA)
-    color_scale <- NULL
-  } else {
-    polygon_layer <- rlang::exec(geom_polygon, !!!rlang::dots_list(...))
-  }
-
-  mapping <- modify_list(aes(x = !!wd, y = !!y, group = !!group), aes(color = !!color, fill = !!fill))
+  if (!("group" %in% names(mapping))) mapping <- modify_list(mapping, aes(group = NA))
 
   plot <-
     ggplot(data_summarized, mapping) +
@@ -116,11 +99,8 @@ ggradar <- function(data, wd, y,
     coord_radar(start = -2 * pi / 360 * wd_binwidth / 2, bg = bg) +
     scale_x_discrete() +
     scale_y_continuous(limits = c(0, NA), expand = c(0,0)) +
-    color_scale +
-    fill_scale +
     ylab(y) +
-    theme_radar +
-    theme(legend.position = theme_lgnd_gr)
+    theme_radar
 
   return(plot)
 }
