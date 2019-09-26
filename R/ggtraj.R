@@ -91,7 +91,7 @@ ggtraj <- function(
   # should title be configurable?
   sites <- dplyr::distinct(data, .data$site)
   plot <- plot +
-    theme_rop_traj +
+    theme_rop_traj() +
     ggplot2::scale_y_continuous(expand = c(0.1,0.1)) +
     ggplot2::scale_x_continuous(expand = c(0.1,0.1)) +
     color_scale

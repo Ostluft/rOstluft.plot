@@ -124,7 +124,7 @@ ggpolarplot <- function(data, ws, wd, z,
     coord_cartpolar(limit = ws_max, bg = bg, grid = "foreground") +
     guides(fill = guide_colorbar(title = rlang::quo_text(z))) +
     fill_scale +
-    theme_rop_polarplot
+    theme_rop_polarplot()
 
   return(plot)
 }
