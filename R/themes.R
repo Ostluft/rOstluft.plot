@@ -73,10 +73,10 @@ theme_rop_radar <- function(base = ggplot2::theme_minimal()) {
   base +
   ggplot2::theme_minimal() +
   ggplot2::theme(
-    axis.ticks.y = ggplot2::element_line(),
+    axis.ticks = element_line(),
     panel.ontop = FALSE,
     panel.grid.minor = element_blank(),
-    panel.grid.major = ggplot2::element_line(linetype = 2, color = "gray80", size = 0.5),
+    panel.grid.major = element_line(linetype = 2, color = "gray80", size = 0.5),
     axis.title.x = element_blank()
   )
 }
@@ -86,10 +86,10 @@ theme_rop_radar <- function(base = ggplot2::theme_minimal()) {
 theme_rop_windrose <- function(base = ggplot2::theme_minimal()) {
   base +
   ggplot2::theme(
-    axis.ticks.y = ggplot2::element_line(),
+    axis.ticks = element_line(),
     panel.ontop = FALSE,
     panel.grid.minor.x = element_blank(),
-    panel.grid.major = ggplot2::element_line(linetype = 2, color = "gray80", size = 0.5),
+    panel.grid.major = element_line(linetype = 2, color = "gray80", size = 0.5),
     axis.title = element_blank()
   )
 }

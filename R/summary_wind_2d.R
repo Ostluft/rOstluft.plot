@@ -15,7 +15,7 @@
 #' @param fun function or list of functions for summary.
 #' @param fun.args a list of extra arguments to pass to fun.
 #' @param nmin numeric, minimum number of values for fun, if n < nmin: NA is returned
-#' @param ws_max numeric or NA, maximum wind velocity for binning: above ws_max, z is set NA
+#' @param ws_max numeric or Inf, maximum wind velocity for binning: above ws_max, z is set NA
 #' @param bins numeric, number of bins over the range of values if `!groups %in% c("u", "v")`
 #' @param smooth TRUE/FALSE, applies if groups = c("u", "v"); should smoothing of summary results should be performed
 #' using [fit_gam_surface()]?
@@ -103,7 +103,7 @@ summary_wind_2d <- function(data, ws, wd, z, groupings = grp(), fun = "mean", fu
   wd <- rlang::ensym(wd)
   z <- rlang::ensym(z)
 
-    # rename z if needed. we can't apply summarize functions on grouping columns!
+  # rename z if needed. we can't apply summarize functions on grouping columns!
   # for ws and wd we do auto renaming.
   if (ws == z) {
     z <- rlang::sym(stringr::str_c(rlang::as_string(ws), ".stat"))

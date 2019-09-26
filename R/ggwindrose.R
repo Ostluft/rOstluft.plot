@@ -6,7 +6,7 @@
 #' @param ws symbol giving the wind velocity column name (wind velocity preferably in m/s)
 #' @param wd symbol giving the wind direction column name  in degrees
 #' @param wd_binwidth numeric, binwidth for wind direction in °, wd_binwidth should fullfill:
-#'   `(360 / wd_binwidth) %in% c(4, 8, 12, 16)`
+#'   `(360 / wd_binwidth) %in% c(4, 8, 16, 32)`
 #' @param ws_binwidth numeric, binwidth for wind speed
 #' @param ws_max numeric, can be NA, wind speed is squished at this value
 #' @param groupings additional groupings. Use helper [grp()] to create. **Necessary** for some facets!
@@ -84,14 +84,15 @@
 #'     panel.spacing.y = unit(0, "pt")
 #'   )
 ggwindrose <- function(data, ws, wd,
-                       ...,
                        wd_binwidth = 45,
                        ws_binwidth = 1,
                        ws_max = NA,
                        groupings = grp(),
                        fill_scale = scale_fill_viridis_d(),
                        reverse = TRUE,
-                       bg = NULL
+                       bg = NULL,
+                       ...
+
 ) {
 
   ws <- rlang::ensym(ws)  # or enquo but summary_wind accept only strings or symbols

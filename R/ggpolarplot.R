@@ -22,6 +22,7 @@
 #'
 #' @examples
 #' library(ggplot2)
+#' library(dplyr)
 #'
 #' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 #'
@@ -95,18 +96,20 @@ ggpolarplot <- function(data, ws, wd, z,
                         groupings = grp(),
                         fun = "mean",
                         fun.args = list(na.rm = TRUE),
+                        nmin = 3,
                         ws_max = NA,
                         smooth = TRUE,
                         k = 200,
                         extrapolate = TRUE,
                         dist = 0.1,
                         pixels = 80^2,
-                        fill_scale = scale_fill_gradientn(colours = matlab::jet.colors(100), na.value = NA),
+                        fill_scale = scale_fill_gradientn(colours = matlab::jet.colors(20), na.value = NA),
                         ylabels = scales::unit_format(unit = "m/s"),
                         breaks = waiver(),
                         bg = NULL,
                         ...
 ) {
+
   ws <- rlang::ensym(ws)
   wd <- rlang::ensym(wd)
   z <- rlang::ensym(z)

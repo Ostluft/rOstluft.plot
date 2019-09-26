@@ -5,9 +5,9 @@
 #' NA values in z and in ws, wd (after cutting) will be silently removed before applying functions
 #'
 #' @param data a data.frame or tibble containing the data (wide format)
-#' @param ws symbol giving the wind velocity column name (wind velocity preferably in m/s)
-#' @param wd symbol giving the wind direction column name  in degrees
-#' @param z symbol giving the column name to be summarised
+#' @param ws NULL or symbol giving the wind velocity parameter name (wind velocity preferably in m/s)
+#' @param wd symbol giving the wind direction parameter name  in degrees
+#' @param z symbol giving the parameter name to be summarised
 #' @param groupings additional groupings. Use helper [grp()] to create
 #' @param fun function or list of functions for summary.
 #' @param fun.args a list of extra arguments passed on to fun.
@@ -21,7 +21,7 @@
 #'
 #' The names of the columns stay the same as in `data` (for the arguments "ws", "wd" and "z").
 #'
-#' * binned column `ws`
+#' * binned column `ws` if `is.null(ws) == FALSE`
 #' * binned column `wd`
 #' * factor column `stat` containing the name of the summarize function as level
 #' * column `z` with the result of the summarize function
@@ -70,17 +70,15 @@
 #'              wd_cutfun = cut_wd.fun(binwidth = 22.5),
 #'              ws_cutfun = cut_ws.fun(binwidth = 2, ws_max = 6))
 #'
-#' # only one ws class ()
-#' summary_wind(data, "ws", "wd", "NO",
-#'              ws_cutfun = cut_number.fun(1))
+#' # no ws class
+#' summary_wind(data, NULL, "wd", "NO")
 #'
 #' # additional grouping with strings, symbols or named expressions
 #' summary_wind(data, ws, wd, NO2, group = grp("site", year, wday = lubridate::wday(date)))
 #'
 #' # how often comes which concentration from one direction
-#' summary_wind(data, ws, wd, NO2,
-#'              group = grp(NO2_class = ggplot2::cut_number(NO2, 5)),
-#'              ws_cutfun = cut_number.fun(1))
+#' summary_wind(data, NULL, wd, NO2,
+#'              group = grp(NO2_class = ggplot2::cut_number(NO2, 5)))
 #'
 #' # the same but we use ws as pollutant
 #' summary_wind(data, NO2, wd, NO2, ws_cutfun = cut_number.fun(5))
@@ -141,12 +139,22 @@ summary_wind <- function(data, ws, wd, z, groupings = grp(), fun = "mean", fun.a
                           ws_cutfun = cut_ws.fun(binwidth = 1)) {
 
   wd <- rlang::ensym(wd)
-  ws <- rlang::ensym(ws)
   z <- rlang::ensym(z)
+  ws_is_null <- rlang::quo_is_null(rlang::enquo(ws))
+
+  if (ws_is_null) {
+    summary_groups <- c(wd = wd, groupings)
+    not_gather_groups <- c(rlang::as_string(wd), names(groupings), "n", "freq")
+  } else {
+    ws <- rlang::ensym(ws)
+    summary_groups <- c(wd = wd, ws = ws, groupings)
+    not_gather_groups <- c(rlang::as_string(wd), rlang::as_string(ws),
+                           names(groupings), "n", "freq")
+  }
 
   # rename z if needed. we can't apply summarize functions on grouping columns!
   # for ws and wd we do auto renaming.
-  if (ws == z) {
+  if (!ws_is_null && ws == z) {
     z <- rlang::sym(stringr::str_c(rlang::as_string(ws), ".stat"))
     data <- dplyr::mutate(data, !!z := !!ws)
   }
@@ -156,18 +164,20 @@ summary_wind <- function(data, ws, wd, z, groupings = grp(), fun = "mean", fun.a
     data <- dplyr::mutate(data, !!z := !!wd)
   }
 
-  fun <- auto_name(c(fun, "n" = function(x, ...) {sum(!is.na(x))}))
-  # names <- purrr::map2(fun, rlang::names2(fun), function(element, name) {if (name != "") name else element})
-  # fun <- rlang::set_names(fun, names)
+  fun <- auto_name(c(fun, "n" = function(...) dplyr::n()))
 
   # apply binning trough cut fuctions
-  data <- dplyr::mutate(data, !!wd := wd_cutfun(!!wd), !!ws := ws_cutfun(!!ws))
-
   # with stats::na.omit() every row containing a NA value will be filtered
-  data <- dplyr::filter(data, !(is.na(!!wd) | is.na(!!ws) | is.na(!!z)))
+  if (ws_is_null) {
+    data <- dplyr::mutate(data, !!wd := wd_cutfun(!!wd))
+    data <- dplyr::filter(data, !(is.na(!!wd) | is.na(!!z)))
+  } else {
+    data <- dplyr::mutate(data, !!wd := wd_cutfun(!!wd), !!ws := ws_cutfun(!!ws))
+    data <- dplyr::filter(data, !(is.na(!!wd) | is.na(!!ws) | is.na(!!z)))
+  }
 
  # apply the summarize function regarding the addiotional grouping columns
-  data <- dplyr::group_by(data, !!wd, !!ws, !!!groupings)
+  data <- dplyr::group_by(data, !!!summary_groups)
   data <- dplyr::summarise_at(data,
       .vars = dplyr::vars(!!z),
       .funs = fun,
@@ -175,16 +185,12 @@ summary_wind <- function(data, ws, wd, z, groupings = grp(), fun = "mean", fun.a
   )
   data <- dplyr::ungroup(data)
 
-  if (length(groupings) > 0) {
-    data <- dplyr::group_by(data, !!!rlang::syms(names(groupings)))
-    data <- dplyr::mutate(data, freq = .data$n / sum(.data$n, na.rm = TRUE))
-    data <- dplyr::ungroup(data)
-    data <- tidyr::gather(data, key = "stat", value = !!z, -!!wd, -!!ws, -n, -freq,
-                          -dplyr::one_of(names(groupings)))
-  } else {
-    data <- dplyr::mutate(data, freq = .data$n / sum(.data$n, na.rm = TRUE))
-    data <- tidyr::gather(data, key = "stat", value = !!z, -!!wd, -!!ws, -n, -freq)
-  }
+  # calculate frequencies for each groupings
+  data <- dplyr::group_by(data, !!!rlang::syms(names(groupings)))
+  data <- dplyr::mutate(data, freq = .data$n / sum(.data$n, na.rm = TRUE))
+  data <- dplyr::ungroup(data)
+
+  data <- tidyr::gather(data, key = "stat", value = !!z, -dplyr::one_of(not_gather_groups))
 
   # factorize stat column
   data <- dplyr::mutate(data, stat = factor(stat))
