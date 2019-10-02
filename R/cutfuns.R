@@ -14,10 +14,12 @@
 #'
 #' @export
 cut_wd <- function(wd, binwidth = 45,
-                   labels = c("N", "", "NNO", "", "NO", "", "NOO", "", "O", "", "SOO", "", "SO", "", "SSO",
-                              "", "S", "", "SSW", "", "SW", "", "SWW", "", "W", "", "NWW", "", "NW", "", "NNW", ""),
+                   labels = c("N", "[5.6,16.9)", "NNO", "[28.1,39.4)", "NO", "[50.6,61.2)", "NOO", "[73.1,84.4)", "O", "[95.6,106.9)",
+                              "SOO", "[118.1,129.4)", "SO", "[140.6,151.9)", "SSO", "[163.1,174.4)", "S", "[185.6,196.9)", "SSW",
+                              "[208.1,219.4)", "SW", "[230.6,241.9)", "SWW", "[253.1,264.)", "W", "[275.6,286.9)", "NWW",
+                              "[298.1,309.4)", "NW", "[320.6,331.9)", "NNW", "[343.1,354.4)"),
                    ...) {
-
+seq(11.25 / 2, 360-11.25/2, 11.25)
   nsectors <- 360 / binwidth
   stopifnot(nsectors %in% c(4, 8, 16, 32))
   stopifnot(length(labels) %in% c(4, 8, 16, 32) | is.null(labels))
@@ -25,7 +27,6 @@ cut_wd <- function(wd, binwidth = 45,
   if (!is.null(labels)) {
     labels <- labels[seq(1, length(labels), length(labels) / nsectors)]
   }
-  wd <- (wd + binwidth / 2) %% 360
 
   ggplot2::cut_width(wd, width = binwidth, closed = "left", boundary = 0, labels = labels, ...)
 }

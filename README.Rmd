@@ -47,7 +47,11 @@ library(dplyr)
 data <-
   rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv", package = "rOstluft.data", mustWork = TRUE)) %>%
   rOstluft::rolf_to_openair() %>%
-  openair::cutData(date, type = "daylight")
+  openair::cutData(date, type = "daylight") %>% 
+  dplyr::mutate(
+    wday = lubridate::wday(date, label = TRUE, week_start = 1),
+    year = lubridate::year(date)
+  )
 ```
 
 
@@ -63,11 +67,8 @@ ggwindrose(data, ws, wd, ws_max = 4, bg = bg) +
     panel.grid.major = element_line(linetype = 2, color = "black", size = 0.5)
    )
 
-groupings = rOstluft.plot::groups(daylight)
-
-# the facetting variable has to be in the groupings argument
-ggwindrose(data, ws, wd, ws_max = 4, groupings = groupings) +
-   facet_wrap(vars(daylight))
+plot
+plot + facet_wrap(daylight~.)
 ```
 
 
@@ -76,20 +77,32 @@ ggwindrose(data, ws, wd, ws_max = 4, groupings = groupings) +
 ## Radar-chart Windstatistik
 
 ```{r}
-# df <-
-#   rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv",package = "rOstluft.data", mustWork = TRUE)) %>%
-#   rOstluft::rolf_to_openair() %>%
-#   dplyr::mutate(wday = lubridate::wday(date, label = TRUE, week_start = 1))
-# 
-# ggradar(df, aes(wd = wd, ws = ws, z = NOx), 
-#         param_args = list(fill = "blue", color = "blue", alpha = 0.5)) + ylab("NOx")
-# 
-# df <- openair::cutData(df, date, type = "daylight") %>% 
-#   dplyr::select(wd, ws, NO, NOx, daylight) %>% 
-#   tidyr::gather(par, val, -wd, -ws, -daylight)
-#  
-# ggradar(df, aes(wd = wd, ws = ws, z = val, group = par, fill = par, color = par)) + ylab("mean") +
-#   facet_wrap(daylight~.)
+
+# simple radar plot
+ggradar(data, mapping = aes(x = wd, y = NOx), fill = "gray30", alpha = 0.5)
+
+
+# apply multiple statistic functions
+q05 <- function(x, ...) quantile(x, 0.05, ...)
+q95 <- function(x, ...) quantile(x, 0.95, ...)
+stat_reorder <- function(stat) factor(stat, levels = rev(c("perc05", "median", "mean", "perc95")))
+
+ggradar(data, mapping = aes(x = wd, y = NOx, fill = stat, group = stat), fun = list("perc05" = q05, "median", "mean", "perc95" = q95), fun_reorder = stat_reorder, color = NA, alpha = 0.9) +
+  scale_y_continuous(limits = c(0,120)) +
+  scale_fill_viridis_d(begin = 0.2)
+
+# with background map and multiple parameters
+bbox <- tibble::tibble(x = c(2683141 - 500, 2683141 + 500), y = c(1249040 - 500, 1249040 + 500))
+bbox <- rOstluft::transform_LV95_to_WSG84(bbox)
+bbox <- c(left = bbox$lon[1], right = bbox$lon[2], bottom = bbox$lat[1], top = bbox$lat[2])
+raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
+                                   source = "stamen", color = "bw")
+
+ggradar(df, mapping = aes(x = wd, y = NOx), fill = NA, color = "steelblue", bg = raster_map, lwd = 1) + 
+  theme(
+    panel.grid.major = ggplot2::element_line(linetype = 1, color = "white"),
+    axis.text.x = element_text(color = "gray10")
+    )
 ```
 
 
@@ -99,8 +112,8 @@ ggwindrose(data, ws, wd, ws_max = 4, groupings = groupings) +
 
 ```{r}
 fill_scale = scale_fill_gradientn(colours = alpha(matlab::jet.colors(100), 0.75), na.value = NA)
-ggpolarplot(data, wd = wd, ws = ws, z = NOx, bg = bg, 
-            fill_scale = fill_scale, breaks = seq(0,8,2))
+ggpolarplot(data, aes(wd = wd, ws = ws, z = NOx), bg = raster_map, 
+            fill_scale = fill_scale, breaks = seq(0,10,2))
 ```
 
 
@@ -136,10 +149,10 @@ data_d1 <-
   purrr::pluck("d1") %>% 
   rOstluft::rolf_to_openair()
 
-  
+
 ggcalendar(data_d1, z = "O3_max_h1") +
   scale_fill_viridis_c(direction = -1, option = "magma", na.value = NA) +
-  cal_month_border(color = "black") +
+  cal_month_border(color = "gray80", size = 1) +
   stat_filter(
     aes(filter = O3_max_h1 > 120), size = 1, 
     color = "white", fill = "white", shape = 21,
@@ -154,9 +167,22 @@ ggcalendar(data_d1, z = "O3_max_h1") +
 ```{r}
 fn <- system.file("extdata", "2017_ZH-Kaserne-hysplit.rds", package = "rOstluft.data")
 traj <- readRDS(fn)
-traj <- dplyr::filter(traj, date < lubridate::ymd("2017-01-08"))
+traj <- dplyr::filter(traj, lubridate::as_date(date) %in% lubridate::ymd("2017-03-08"):lubridate::ymd("2017-03-14"))
 
+# simple
 ggtraj(traj, color_scale = ggplot2::scale_color_viridis_c(name = "m agl."))
+
+# air pollutant instead of trajectory height 
+# (can be interesting e.g. with long-range transport of EC, but we don't have the data ready at hand, so we use PM2.5 here instead)
+data_2017 <-
+  rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_min30_2017.csv", package = "rOstluft.data", mustWork = TRUE)) %>%
+  rOstluft::rolf_to_openair() 
+
+data_traj <- 
+  traj %>% 
+  dplyr::left_join(dplyr::select(data_2017, -site), by = "date")
+  
+ggtraj(data_traj, mapping = aes(x = lon, y = lat, group = date, color = PM2.5), color_scale = ggplot2::scale_color_viridis_c(direction = -1))
 ```
 
 ## Squishing data
