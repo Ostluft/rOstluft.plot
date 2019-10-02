@@ -20,8 +20,8 @@
 #'
 #' @examples
 #' library(ggplot2)
-#' library(dplyr)
-#' library(tidyr)
+#' # library(dplyr)
+#' # library(tidyr)
 #'
 #' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 #'
@@ -44,28 +44,26 @@
 #' ggradar(df, mapping = aes(x = wd, y = NOx), fun = "q95", alpha = 0.5)
 #'
 #' # group by multiple statistic functions and omit polygon filling
-#' ggradar(df, mapping = aes(x = wd, y = NOx, color = stat, group = stat), fun = list("mean", "median", "perc95" = q95), fill = NA)
+#' ggradar(df, mapping = aes(x = wd, y = NOx, color = stat, group = stat),
+#'         fun = list("mean", "median", "perc95" = q95), fill = NA)
 #'
 #' # ... same as above but with one-colored fill and stats as facets
-#' ggradar(df, mapping = aes(x = wd, y = NOx, group = stat), fun = list("mean", "median", "perc95" = q95)) +
+#' ggradar(df, mapping = aes(x = wd, y = NOx, group = stat),
+#'         fun = list("mean", "median", "perc95" = q95)) +
 #'   facet_wrap(stat~.)
 #'
 #' # multiple y-parameters and facetting (facetting variable has to be separately specified in facet_groups!)
-#' df %>%
-#'   dplyr::select(wd, NO, NOx, wday) %>%
-#'   tidyr::gather(par, val, -wd, -wday) %>%
-#'   ggradar(mapping = aes(x = wd, y = val, group = wday, color = wday), facet_groups = grp(par), fill = NA) +
-#'   facet_wrap(par~.)
+#' df2 <- dplyr::select(df, wd, NO, NOx, wday) %>%
+#'   tidyr::gather(par, val, -wd, -wday)
+#'
+#' ggradar(df2, mapping = aes(x = wd, y = val, group = wday, color = wday),
+#'         facet_groups = grp(par), fill = NA) +
+#'   facet_wrap(vars(par))
 #'
 #' # with background map
-#' bbox <- tibble::tibble(x = c(2683141 - 500, 2683141 + 500), y = c(1249040 - 500, 1249040 + 500))
-#' bbox <- rOstluft::transform_LV95_to_WSG84(bbox)
-#' bbox <- c(left = bbox$lon[1], right = bbox$lon[2], bottom = bbox$lat[1], top = bbox$lat[2])
-#'
-#' raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
-#'                                    source = "stamen", color = "bw")
-#'
-#' ggradar(df, mapping = aes(x = wd, y = NOx), bg = raster_map, color = "blue", fill = NA) +
+#' bb <- bbox_lv95(2683141, 1249040, 500)
+#' bg <- get_stamen_map(bb)
+#' ggradar(df, mapping = aes(x = wd, y = NOx), bg = bg, color = "blue", fill = NA) +
 #'   theme(panel.grid.major = ggplot2::element_line(linetype = 1, color = "white"))
 #'
 ggradar <- function(data,
@@ -83,19 +81,26 @@ ggradar <- function(data,
   wd <- rlang::sym(rlang::as_name(mapping$x))
   wd_cutfun <- cut_wd.fun(binwidth = wd_binwidth)
   y <- rlang::sym(rlang::as_name(mapping$y))
-  polygon_layer <- rlang::exec(geom_polygon, ...)
-  if (is.null(mapping$group)) {grp <- groups()} else if (rlang::as_name(mapping$group) == "stat")
-    {grp <- groups()} else {grp <- groups(!!rlang::as_name(mapping$group))}
+
+  if (is.null(mapping$group)) {
+    grp <- grp()
+  } else if (rlang::as_name(mapping$group) == "stat") {
+    grp <- grp()
+  } else {
+    grp <- grp(!!rlang::as_name(mapping$group))
+  }
   grp <- modify_list(grp, facet_groups)
 
   data_summarized <- summary_wind(data, NULL, !!wd, !!y, groupings = grp,
                                   wd_cutfun = wd_cutfun, fun = fun, fun.args = fun.args)
 
-  if (!("group" %in% names(mapping))) mapping <- modify_list(mapping, aes(group = NA))
+  if (!("group" %in% names(mapping))) {
+    mapping <- modify_list(mapping, aes(group = NA))
+  }
 
   plot <-
     ggplot(data_summarized, mapping) +
-    polygon_layer +
+    geom_polygon(...) +
     coord_radar(start = -2 * pi / 360 * wd_binwidth / 2, bg = bg) +
     scale_x_discrete() +
     scale_y_continuous(limits = c(0, NA), expand = c(0,0)) +

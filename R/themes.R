@@ -44,7 +44,7 @@ NULL
 #' @rdname themes_rop
 #' @export
 theme_rop_traj <- function(base = ggplot2::theme_minimal()) {
-  base +ö
+  base +
   ggplot2::theme(
     panel.grid = ggplot2::element_blank(),
     axis.text = ggplot2::element_blank(),

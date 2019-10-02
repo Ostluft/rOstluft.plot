@@ -92,7 +92,6 @@
 #'   )
 #'
 ggpolarplot <- function(data, ws, wd, z,
-                        nmin = 3,
                         groupings = grp(),
                         fun = "mean",
                         fun.args = list(na.rm = TRUE),

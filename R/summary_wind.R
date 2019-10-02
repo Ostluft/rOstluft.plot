@@ -120,20 +120,24 @@
 #'   scale_fill_viridis_d()
 #'
 #'
-#' # a pollution rose
-#' data_summarized <- summary_wind(data, ws, wd, NOx,
-#'   groupings = grp(
-#'     fNOx = ggplot2::cut_number(NO2, 5),
-#'     year = lubridate::year(date)
-#'   ),
-#'   ws_cutfun = cut_number.fun(1)
+#' # a pollution rose, use the pollutant as ws
+#' data_summarized <- summary_wind(data, NOx, wd, NOx,
+#'   ws_cutfun = cut_number.fun(5)
 #' )
 #'
-#' ggplot(data_summarized, aes(x = wd, y = freq, fill = forcats::fct_rev(fNOx))) +
+#' # we can plot with the group as fill
+#' ggplot(data_summarized, aes(x = wd, y = freq, fill = forcats::fct_rev(NOx))) +
 #'   geom_bar(stat = "identity") +
 #'   coord_polar2(start = - 22.5 / 180 * pi ) +
 #'   scale_y_continuous(limits = c(0, NA), expand = c(0,0, 0, 0)) +
 #'   scale_fill_viridis_d(direction = -1, name = "NOx")
+#'
+#' # or the mean of the group as fill
+#' ggplot(data_summarized, aes(x = wd, y = freq, fill = NOx.stat)) +
+#'   geom_bar(stat = "identity") +
+#'   coord_polar2(start = - 22.5 / 180 * pi ) +
+#'   scale_y_continuous(limits = c(0, NA), expand = c(0,0, 0, 0)) +
+#'   scale_fill_viridis_c(name = "NOx")
 summary_wind <- function(data, ws, wd, z, groupings = grp(), fun = "mean", fun.args = list(), nmin = 3,
                           wd_cutfun = cut_wd.fun(binwidth = 45),
                           ws_cutfun = cut_ws.fun(binwidth = 1)) {
@@ -143,11 +147,11 @@ summary_wind <- function(data, ws, wd, z, groupings = grp(), fun = "mean", fun.a
   ws_is_null <- rlang::quo_is_null(rlang::enquo(ws))
 
   if (ws_is_null) {
-    summary_groups <- c(wd = wd, groupings)
+    summary_groups <- modify_list(grp(!!wd), groupings)
     not_gather_groups <- c(rlang::as_string(wd), names(groupings), "n", "freq")
   } else {
     ws <- rlang::ensym(ws)
-    summary_groups <- c(wd = wd, ws = ws, groupings)
+    summary_groups <- modify_list(grp(!!ws, !!wd), groupings)
     not_gather_groups <- c(rlang::as_string(wd), rlang::as_string(ws),
                            names(groupings), "n", "freq")
   }

@@ -11,11 +11,11 @@ summary_wind(data, ws, wd, z, groupings = grp(), fun = "mean",
 \arguments{
 \item{data}{a data.frame or tibble containing the data (wide format)}
 
-\item{ws}{symbol giving the wind velocity column name (wind velocity preferably in m/s)}
+\item{ws}{NULL or symbol giving the wind velocity parameter name (wind velocity preferably in m/s)}
 
-\item{wd}{symbol giving the wind direction column name  in degrees}
+\item{wd}{symbol giving the wind direction parameter name  in degrees}
 
-\item{z}{symbol giving the column name to be summarised}
+\item{z}{symbol giving the parameter name to be summarised}
 
 \item{groupings}{additional groupings. Use helper \code{\link[=grp]{grp()}} to create}
 
@@ -42,7 +42,7 @@ NA values in z and in ws, wd (after cutting) will be silently removed before app
 
 The names of the columns stay the same as in \code{data} (for the arguments "ws", "wd" and "z").
 \itemize{
-\item binned column \code{ws}
+\item binned column \code{ws} if \code{is.null(ws) == FALSE}
 \item binned column \code{wd}
 \item factor column \code{stat} containing the name of the summarize function as level
 \item column \code{z} with the result of the summarize function
@@ -91,17 +91,15 @@ summary_wind(data, "ws", "wd", "NO",
              wd_cutfun = cut_wd.fun(binwidth = 22.5),
              ws_cutfun = cut_ws.fun(binwidth = 2, ws_max = 6))
 
-# only one ws class ()
-summary_wind(data, "ws", "wd", "NO",
-             ws_cutfun = cut_number.fun(1))
+# no ws class
+summary_wind(data, NULL, "wd", "NO")
 
 # additional grouping with strings, symbols or named expressions
 summary_wind(data, ws, wd, NO2, group = grp("site", year, wday = lubridate::wday(date)))
 
 # how often comes which concentration from one direction
-summary_wind(data, ws, wd, NO2,
-             group = grp(NO2_class = ggplot2::cut_number(NO2, 5)),
-             ws_cutfun = cut_number.fun(1))
+summary_wind(data, NULL, wd, NO2,
+             group = grp(NO2_class = ggplot2::cut_number(NO2, 5)))
 
 # the same but we use ws as pollutant
 summary_wind(data, NO2, wd, NO2, ws_cutfun = cut_number.fun(5))

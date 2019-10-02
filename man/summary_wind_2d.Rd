@@ -31,7 +31,7 @@ requires input data including at least three columns carrying information regard
 
 \item{nmin}{numeric, minimum number of values for fun, if n < nmin: NA is returned}
 
-\item{ws_max}{numeric or NA, maximum wind velocity for binning: above ws_max, z is set NA}
+\item{ws_max}{numeric or Inf, maximum wind velocity for binning: above ws_max, z is set NA}
 
 \item{bins}{numeric, number of bins over the range of values if \code{!groups \%in\% c("u", "v")}}
 

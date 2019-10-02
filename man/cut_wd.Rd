@@ -4,12 +4,19 @@
 \alias{cut_wd}
 \title{Cut wind direction into factor classes}
 \usage{
-cut_wd(wd, binwidth = 45, add_labels = TRUE, ...)
+cut_wd(wd, binwidth = 45, labels = c("N", "", "NNO", "", "NO", "",
+  "NOO", "", "O", "", "SOO", "", "SO", "", "SSO", "", "S", "", "SSW", "",
+  "SW", "", "SWW", "", "W", "", "NWW", "", "NW", "", "NNW", ""), ...)
 }
 \arguments{
 \item{wd}{numeric vector of wind directions in °}
 
-\item{binwidth}{width for \code{\link[ggplot2:cut_width]{ggplot2::cut_width()}}}
+\item{binwidth}{width for \code{\link[ggplot2:cut_width]{ggplot2::cut_width()}} in degrees wind  direction
+(must fullfill binwidth %in% 360 / c(4, 8, 16, 32))}
+
+\item{labels}{character vector as labels for wind direction bins; can be NULL (no labels are returned),
+if !is.null(labels) then length(labels) == 32 must be fullfilled (actual labels are subsampled with
+indices of seq(1, length(labels), length(labels) / nsectors))}
 
 \item{...}{passed to \code{\link[ggplot2:cut_width]{ggplot2::cut_width()}}}
 }
