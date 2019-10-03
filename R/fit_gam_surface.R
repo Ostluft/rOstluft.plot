@@ -57,5 +57,5 @@ fit_gam_surface <- function(data, x, y, z, weights = NULL, k = 100, extrapolate 
       )
   }
 
-  return(dplyr::select(data, -id))
+  return(dplyr::select(data, -"id"))
 }

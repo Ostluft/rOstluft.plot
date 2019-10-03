@@ -62,7 +62,7 @@ fill_scale <- scale_fill_viridis_squished(
   option = "A"
 )
 ggyearday(df, time = "date", z = "PM10", fill_scale = fill_scale) +
-  facet_wrap(year~., scales = "free_x", ncol = 1)
+  facet_wrap(vars(year), scales = "free_x", ncol = 1)
 
 # add unit to scale (or any other label formating function)
 fill_scale <- scale_fill_viridis_squished(

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>wrapper to cut y data into factor classes — y_classes • rOstluft.plot</title>
+<title>Tidy eval helpers — tidyeval • rOstluft.plot</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -39,9 +39,41 @@
 
 
 
-<meta property="og:title" content="wrapper to cut y data into factor classes — y_classes" />
+<meta property="og:title" content="Tidy eval helpers — tidyeval" />
 
-<meta property="og:description" content="Wraps ggplot2::cut_width() function" />
+<meta property="og:description" content="
+
+sym() creates a symbol from a string and
+syms() creates a list of symbols from a
+character vector.
+enquo() and
+enquos() delay the execution of one or
+several function arguments. enquo() returns a single quoted
+expression, which is like a blueprint for the delayed computation.
+enquos() returns a list of such quoted expressions.
+expr() quotes a new expression locally. It
+is mostly useful to build new expressions around arguments
+captured with enquo() or enquos():
+expr(mean(!!enquo(arg), na.rm = TRUE)).
+as_name() transforms a quoted variable name
+into a string. Supplying something else than a quoted variable
+name is an error.
+That's unlike as_label() which also returns
+a single string but supports any kind of R object as input,
+including quoted function calls and vectors. Its purpose is to
+summarise that object into a single label. That label is often
+suitable as a default name.
+If you don't know what a quoted expression contains (for instance
+expressions captured with enquo() could be a variable
+name, a call to a function, or an unquoted constant), then use
+as_label(). If you know you have quoted a simple variable
+name, or would like to enforce this, use as_name().
+
+
+To learn more about tidy eval and how to use these tools, visit
+https://tidyeval.tidyverse.org and the
+Metaprogramming
+section of Advanced R." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -75,7 +107,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9008</span>
       </span>
     </div>
 
@@ -99,6 +131,9 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/articles/Kalender_Linie.html">Linien Kalender</a>
+    </li>
+    <li>
+      <a href="../articles/articles/Wind_Density.html">Diurnal Wind als Density und Boxplot</a>
     </li>
   </ul>
 </li>
@@ -124,50 +159,55 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>wrapper to cut y data into factor classes</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Ostluft/rOstluft.plot/blob/master/R/cutfuns.R'><code>R/cutfuns.R</code></a></small>
-    <div class="hidden name"><code>y_classes.Rd</code></div>
+    <h1>Tidy eval helpers</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Ostluft/rOstluft.plot/blob/master/R/utils-tidy-eval.R'><code>R/utils-tidy-eval.R</code></a></small>
+    <div class="hidden name"><code>tidyeval.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Wraps <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>ggplot2::cut_width()</a></code> function</p>
+    
+<ul>
+<li><p><code><a href='https://rlang.r-lib.org/reference/quotation.html'>sym</a>()</code> creates a symbol from a string and
+<code><a href='https://rlang.r-lib.org/reference/quotation.html'>syms</a>()</code> creates a list of symbols from a
+character vector.</p></li>
+<li><p><code><a href='https://rlang.r-lib.org/reference/quotation.html'>enquo</a>()</code> and
+<code><a href='https://rlang.r-lib.org/reference/quotation.html'>enquos</a>()</code> delay the execution of one or
+several function arguments. <code>enquo()</code> returns a single quoted
+expression, which is like a blueprint for the delayed computation.
+<code>enquos()</code> returns a list of such quoted expressions.</p></li>
+<li><p><code><a href='https://rlang.r-lib.org/reference/quotation.html'>expr</a>()</code> quotes a new expression <em>locally</em>. It
+is mostly useful to build new expressions around arguments
+captured with <code>enquo()</code> or <code>enquos()</code>:
+<code>expr(mean(!!enquo(arg), na.rm = TRUE))</code>.</p></li>
+<li><p><code><a href='https://rlang.r-lib.org/reference/as_name.html'>as_name</a>()</code> transforms a quoted variable name
+into a string. Supplying something else than a quoted variable
+name is an error.</p>
+<p>That's unlike <code><a href='https://rlang.r-lib.org/reference/as_label.html'>as_label</a>()</code> which also returns
+a single string but supports any kind of R object as input,
+including quoted function calls and vectors. Its purpose is to
+summarise that object into a single label. That label is often
+suitable as a default name.</p>
+<p>If you don't know what a quoted expression contains (for instance
+expressions captured with <code>enquo()</code> could be a variable
+name, a call to a function, or an unquoted constant), then use
+<code>as_label()</code>. If you know you have quoted a simple variable
+name, or would like to enforce this, use <code>as_name()</code>.</p></li>
+</ul>
+
+<p>To learn more about tidy eval and how to use these tools, visit
+<a href='https://tidyeval.tidyverse.org'>https://tidyeval.tidyverse.org</a> and the
+<a href='https://adv-r.hadley.nz/metaprogramming.html'>Metaprogramming
+section</a> of <a href='https://adv-r.hadley.nz'>Advanced R</a>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>y_classes</span>(<span class='no'>y</span>, <span class='no'>binwidth</span>, <span class='kw'>ymax</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>boundary</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='no'>...</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>y</th>
-      <td><p>a numeric vector</p></td>
-    </tr>
-    <tr>
-      <th>binwidth</th>
-      <td><p>for <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>ggplot2::cut_width()</a></code></p></td>
-    </tr>
-    <tr>
-      <th>ymax</th>
-      <td><p>cut off at this maximum</p></td>
-    </tr>
-    <tr>
-      <th>boundary</th>
-      <td><p>for <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>ggplot2::cut_width()</a></code></p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>passed to <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>ggplot2::cut_width()</a></code></p></td>
-    </tr>
-    </table>
-    
+        
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
                 </ul>
 
   </div>

@@ -9,7 +9,7 @@ cut_seasonyear.fun(label = c("yearseason", "year"), labels = NULL)
 \arguments{
 \item{label}{choice between \code{c("yearseason", "year")}. \code{"yearseason"} will combine
 the year and the output from \code{\link[=cut_season]{cut_season()}}, \code{"year"} will return only the
-adjustet year.}
+adjusted year.}
 
 \item{labels}{forwarded to \code{\link[=cut_season]{cut_season()}}}
 }
@@ -18,4 +18,7 @@ Partial function of \code{\link[=cut_seasonyear]{cut_seasonyear()}} with x as so
 }
 \description{
 Partial function constructor for cut_season
+}
+\seealso{
+\code{\link[=cut_seasonyear]{cut_seasonyear()}}
 }

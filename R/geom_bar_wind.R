@@ -17,6 +17,8 @@
 #'
 #' [ggwindrose()] and [ggradar()] can be used to create some standardized plots.
 #'
+#' @param na.rm If `FALSE`, the default, missing values are removed with
+#'   a warning. If `TRUE`, missing values are silently removed.
 #' @param ... Other arguments passed on to [layer()]. These are
 #'   often aesthetics, used to set an aesthetic to a fixed value, like
 #'   `colour = "red"` or `size = 3`. They may also be parameters
@@ -88,7 +90,7 @@
 #' # external.
 #' # For example: how often comes which concentration from a sector
 #' data_summarized <- summary_wind(data, ws, wd, NOx,
-#'   groupings = groups(
+#'   groupings = grp(
 #'     fNOx = ggplot2::cut_number(NO2, 5),
 #'     year = lubridate::year(date)
 #'   ),

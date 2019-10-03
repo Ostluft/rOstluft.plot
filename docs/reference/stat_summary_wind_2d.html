@@ -78,7 +78,7 @@ or 1-dimensional over wind direction or wind velocity bins, respectively." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9008</span>
       </span>
     </div>
 
@@ -102,6 +102,9 @@ or 1-dimensional over wind direction or wind velocity bins, respectively." />
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/articles/Kalender_Linie.html">Linien Kalender</a>
+    </li>
+    <li>
+      <a href="../articles/articles/Wind_Density.html">Diurnal Wind als Density und Boxplot</a>
     </li>
   </ul>
 </li>
@@ -167,6 +170,11 @@ columns carrying information regarding:
       <td><p>The geometric object to use display the data (in this case: raster).</p></td>
     </tr>
     <tr>
+      <th>position</th>
+      <td><p>Position adjustment, either as a string, or the result of
+a call to a position adjustment function.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>other arguments passed on to <code><a href='https://ggplot2.tidyverse.org/reference/layer.html'>ggplot2::layer()</a></code> as <code>params = list(...)</code>.</p></td>
     </tr>
@@ -211,8 +219,24 @@ those values are returned (to a certain degree depending on the value of dist)</
 coordinate-pair at which the result of fit_gam_surface(z) should be returned</p></td>
     </tr>
     <tr>
-      <th>groups</th>
-      <td><p>can be NULL, c("u", "v"), "wd_class", "ws_class", ...</p></td>
+      <th>na.rm</th>
+      <td><p>If <code>FALSE</code>, the default, missing values are removed with
+a warning. If <code>TRUE</code>, missing values are silently removed.</p></td>
+    </tr>
+    <tr>
+      <th>show.legend</th>
+      <td><p>logical. Should this layer be included in the legends?
+<code>NA</code>, the default, includes if any aesthetics are mapped.
+<code>FALSE</code> never includes, and <code>TRUE</code> always includes.
+It can also be a named logical vector to finely select the aesthetics to
+display.</p></td>
+    </tr>
+    <tr>
+      <th>inherit.aes</th>
+      <td><p>If <code>FALSE</code>, overrides the default aesthetics,
+rather than combining with them. This is most useful for helper functions
+that define both data and aesthetics and shouldn't inherit behaviour from
+the default plot specification, e.g. <code>borders()</code>.</p></td>
     </tr>
     </table>
     

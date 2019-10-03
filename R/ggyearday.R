@@ -59,7 +59,7 @@ ggyearday <- function(data, time, z, date_breaks = "1 month", date_labels = "%b"
     fill_scale +
     scale_x_date(date_breaks = date_breaks, date_labels = date_labels, expand = c(0,0)) +
     scale_y_continuous(expand = c(0,0), breaks = ybreaks, labels = ylabels,  position = "right") +
-    facet_wrap(vars(year), scales = "free_x", ncol = 1) +
+    facet_wrap(vars(.data$year), scales = "free_x", ncol = 1) +
     theme_bw() +
     theme(
       axis.title = element_blank(),

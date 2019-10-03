@@ -84,3 +84,10 @@ table(res$number)
 
 table(res$width)
 }
+\seealso{
+\itemize{
+\item \code{\link[ggplot2:cut_interval]{ggplot2::cut_interval()}}
+\item \code{\link[ggplot2:cut_number]{ggplot2::cut_number()}}
+\item \code{\link[ggplot2:cut_width]{ggplot2::cut_width()}}
+}
+}

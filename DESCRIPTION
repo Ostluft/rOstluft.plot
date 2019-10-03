@@ -1,7 +1,7 @@
 Package: rOstluft.plot
 Type: Package
 Title: Ploting air quality data
-Version: 0.0.0.9007
+Version: 0.0.0.9008
 Authors@R: c(
   person("Thomas", "von Allmen", email = "thomas.vonallmen@zuerich.ch", role = c("aut", "cre")),
   person("Jörg", "Sintermann", role = c("aut")),
@@ -14,21 +14,19 @@ Depends: R (>= 3.4.0)
 Imports:
     stats,
     utils,
-    rlang,
+    rlang (>= 0.4),
     dplyr (>= 0.8.0),
     tidyr,
     lubridate,
     ggplot2,
     ggrepel,
     ggmap,
-    cowplot,
-    magick,
     maps,
     tibble (>= 2.0.0),
     purrr,
     forcats,
     ggExtra,
-    sp, 
+    sp,
     stringr,
     rOstluft,
     rOstluft.data (>= 2.0),

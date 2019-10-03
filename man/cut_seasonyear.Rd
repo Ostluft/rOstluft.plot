@@ -11,7 +11,7 @@ cut_seasonyear(x, label = c("yearseason", "year"), labels = NULL)
 
 \item{label}{choice between \code{c("yearseason", "year")}. \code{"yearseason"} will combine
 the year and the output from \code{\link[=cut_season]{cut_season()}}, \code{"year"} will return only the
-adjustet year.}
+adjusted year.}
 
 \item{labels}{forwarded to \code{\link[=cut_season]{cut_season()}}}
 }

@@ -12,7 +12,7 @@ geom_bar_wind(mapping = NULL, data = NULL, stat = "summary_wind",
   show.legend = NA, inherit.aes = TRUE)
 
 stat_summary_wind(data = NULL, mapping = NULL, geom = "bar_wind",
-  position = "stack", ..., groupings = groups(), fun = "mean",
+  position = "stack", ..., groupings = grp(), fun = "mean",
   fun.args = list(), nmin = 3, wd_cutfun = cut_wd.fun(binwidth = 45),
   ws_cutfun = cut_ws.fun(binwidth = 1), na.rm = FALSE,
   show.legend = NA, inherit.aes = TRUE)
@@ -42,9 +42,12 @@ to the paired geom/stat.}
 
 \item{nmin}{numeric, minimum number of values for fun, if n < nmin: NA is returned}
 
-\item{wd_cutfun}{function, cut function for wind direction (to create bins). See \code{\link[=wd_cut.fun]{wd_cut.fun()}} for options.}
+\item{wd_cutfun}{function, cut function for wind direction (to create bins). See \code{\link[=cut_wd.fun]{cut_wd.fun()}} for options.}
 
-\item{ws_cutfun}{function, cut function for wind speed. See \code{\link[=ws_cut.fun]{ws_cut.fun()}} for examples}
+\item{ws_cutfun}{function, cut function for wind speed. See \code{\link[=cut_ws.fun]{cut_ws.fun()}} for examples}
+
+\item{na.rm}{If \code{FALSE}, the default, missing values are removed with
+a warning. If \code{TRUE}, missing values are silently removed.}
 
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
@@ -59,7 +62,7 @@ the default plot specification, e.g. \code{\link[=borders]{borders()}}.}
 
 \item{geom}{The geometric object to use display the data}
 
-\item{groupings}{additional groupings. Use helper \code{\link[=groups]{groups()}} to create}
+\item{groupings}{additional groupings. Use helper \code{\link[=grp]{grp()}} to create}
 }
 \value{
 \code{\link[ggplot2:layer]{ggplot2::layer()}}
@@ -144,7 +147,7 @@ ggplot(data_summarized, aes(x = wd, y = NOx, color = stat, group = stat)) +
 # external.
 # For example: how often comes which concentration from a sector
 data_summarized <- summary_wind(data, ws, wd, NOx,
-  groupings = groups(
+  groupings = grp(
     fNOx = ggplot2::cut_number(NO2, 5),
     year = lubridate::year(date)
   ),

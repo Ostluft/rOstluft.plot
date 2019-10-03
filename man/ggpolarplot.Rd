@@ -4,11 +4,11 @@
 \alias{ggpolarplot}
 \title{ggplot2 wrapper to create a wind-based polar plot}
 \usage{
-ggpolarplot(data, ws, wd, z, nmin = 3, groupings = groups(),
-  fun = "mean", fun.args = list(na.rm = TRUE), ws_max = NA,
+ggpolarplot(data, ws, wd, z, groupings = grp(), fun = "mean",
+  fun.args = list(na.rm = TRUE), nmin = 3, ws_max = NA,
   smooth = TRUE, k = 200, extrapolate = TRUE, dist = 0.1,
   pixels = 80^2, fill_scale = scale_fill_gradientn(colours =
-  matlab::jet.colors(100), na.value = NA),
+  matlab::jet.colors(20), na.value = NA),
   ylabels = scales::unit_format(unit = "m/s"), breaks = waiver(),
   bg = NULL, ...)
 }
@@ -21,15 +21,15 @@ ggpolarplot(data, ws, wd, z, nmin = 3, groupings = groups(),
 
 \item{z}{symbol giving the parameter name to be summarised}
 
-\item{nmin}{numeric, minimum number of values for fun, if n < nmin: NA is returned}
-
-\item{groupings}{additional groupings. Use helper \code{\link[=groups]{groups()}} to create}
+\item{groupings}{additional groupings. Use helper \code{\link[=grp]{grp()}} to create}
 
 \item{fun}{function or list of functions for summary.}
 
 \item{fun.args}{a list of extra arguments to pass to fun.}
 
-\item{ws_max}{numeric or NA, maximum wind velocity for binning: above ws_max, z is set NA}
+\item{nmin}{numeric, minimum number of values for fun, if n < nmin: NA is returned}
+
+\item{ws_max}{numeric or Inf, maximum wind velocity for binning: above ws_max, z is set NA}
 
 \item{smooth}{TRUE/FALSE, applies if groups = c("u", "v"); should smoothing of summary results should be performed
 using \code{\link[=fit_gam_surface]{fit_gam_surface()}}?}
@@ -53,6 +53,9 @@ will be printed.}
 \item{breaks}{waiver() or numeric vector, provides y-axis breaks}
 
 \item{bg}{raster map, e.g. ggmap object as plot background}
+
+\item{...}{Other arguments passed on to \code{\link[ggplot2:geom_raster]{ggplot2::geom_raster()}}. Used
+to set an aesthetic to a fixed value}
 }
 \value{
 \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object
@@ -64,6 +67,7 @@ setting, flexible stat functions, data extrapolation and plotting over a raster 
 }
 \examples{
 library(ggplot2)
+library(dplyr)
 
 fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 
@@ -101,8 +105,8 @@ ggpolarplot(df, wd = wd, ws = ws, z = NOx, ws_max = 4, smooth = TRUE, breaks = 0
 ggpolarplot(df, wd = wd, ws = ws, z = NOx, smooth = FALSE, pixels = 50^2,
             nmin = 10, breaks = seq(0,6,2))
 
-# facetting variable must be included in groups
-ggpolarplot(df, wd = wd, ws = ws, z = NOx, groupings = groups(wday),
+# facetting variable must be included in grp
+ggpolarplot(df, wd = wd, ws = ws, z = NOx, groupings = grp(wday),
             ws_max = 4, pixels = 50^2, k = 25, breaks = c(0, 2, 4)) +
   facet_wrap(vars(wday))
 

@@ -79,7 +79,7 @@ handling of the factorized x aesthetic. To map the computed Variables use ggplot
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9008</span>
       </span>
     </div>
 
@@ -103,6 +103,9 @@ handling of the factorized x aesthetic. To map the computed Variables use ggplot
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/articles/Kalender_Linie.html">Linien Kalender</a>
+    </li>
+    <li>
+      <a href="../articles/articles/Wind_Density.html">Diurnal Wind als Density und Boxplot</a>
     </li>
   </ul>
 </li>
@@ -150,7 +153,7 @@ handling of the factorized <code>x</code> aesthetic. To map the computed Variabl
   <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='fu'>stat_summary_wind</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"bar_wind"</span>,
-  <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"stack"</span>, <span class='no'>...</span>, <span class='kw'>groupings</span> <span class='kw'>=</span> <span class='fu'><a href='groups.html'>groups</a></span>(), <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
+  <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"stack"</span>, <span class='no'>...</span>, <span class='kw'>groupings</span> <span class='kw'>=</span> <span class='fu'><a href='grp.html'>grp</a></span>(), <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
   <span class='kw'>fun.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>wd_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_wd.fun.html'>cut_wd.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>45</span>),
   <span class='kw'>ws_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_ws.fun.html'>cut_ws.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>1</span>), <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
@@ -200,11 +203,16 @@ to the paired geom/stat.</p></td>
     </tr>
     <tr>
       <th>wd_cutfun</th>
-      <td><p>function, cut function for wind direction (to create bins). See <code>wd_cut.fun()</code> for options.</p></td>
+      <td><p>function, cut function for wind direction (to create bins). See <code><a href='cut_wd.fun.html'>cut_wd.fun()</a></code> for options.</p></td>
     </tr>
     <tr>
       <th>ws_cutfun</th>
-      <td><p>function, cut function for wind speed. See <code>ws_cut.fun()</code> for examples</p></td>
+      <td><p>function, cut function for wind speed. See <code><a href='cut_ws.fun.html'>cut_ws.fun()</a></code> for examples</p></td>
+    </tr>
+    <tr>
+      <th>na.rm</th>
+      <td><p>If <code>FALSE</code>, the default, missing values are removed with
+a warning. If <code>TRUE</code>, missing values are silently removed.</p></td>
     </tr>
     <tr>
       <th>show.legend</th>
@@ -227,7 +235,7 @@ the default plot specification, e.g. <code>borders()</code>.</p></td>
     </tr>
     <tr>
       <th>groupings</th>
-      <td><p>additional groupings. Use helper <code><a href='groups.html'>groups()</a></code> to create</p></td>
+      <td><p>additional groupings. Use helper <code><a href='grp.html'>grp()</a></code> to create</p></td>
     </tr>
     </table>
     
@@ -305,7 +313,7 @@ from the summarized data.</p>
 <span class='co'># external.</span>
 <span class='co'># For example: how often comes which concentration from a sector</span>
 <span class='no'>data_summarized</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='summary_wind.html'>summary_wind</a></span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='no'>NOx</span>,
-  <span class='kw'>groupings</span> <span class='kw'>=</span> <span class='fu'><a href='groups.html'>groups</a></span>(
+  <span class='kw'>groupings</span> <span class='kw'>=</span> <span class='fu'><a href='grp.html'>grp</a></span>(
     <span class='kw'>fNOx</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>cut_number</a></span>(<span class='no'>NO2</span>, <span class='fl'>5</span>),
     <span class='kw'>year</span> <span class='kw'>=</span> <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/year.html'>year</a></span>(<span class='no'>date</span>)
   ),
