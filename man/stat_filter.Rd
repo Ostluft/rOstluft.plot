@@ -59,7 +59,7 @@ ggplot2 layer
 Only keeps values where the aesthetic filter evaluates to \code{TRUE}.
 Useful for showing only a subset of the data or to highlight some values, without filtering the data outside.
 
-Inspired by \code{\link[metR:stat_subset]{metR::stat_subset()}}.
+Inspired by \href{https://eliocamp.github.io/metR/reference/stat_subset.html}{metR::stat_subset()}.
 }
 \section{Aesthetics}{
 

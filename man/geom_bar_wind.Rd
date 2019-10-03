@@ -42,9 +42,9 @@ to the paired geom/stat.}
 
 \item{nmin}{numeric, minimum number of values for fun, if n < nmin: NA is returned}
 
-\item{wd_cutfun}{function, cut function for wind direction (to create bins). See \code{\link[=wd_cut.fun]{wd_cut.fun()}} for options.}
+\item{wd_cutfun}{function, cut function for wind direction (to create bins). See \code{\link[=cut_wd.fun]{cut_wd.fun()}} for options.}
 
-\item{ws_cutfun}{function, cut function for wind speed. See \code{\link[=ws_cut.fun]{ws_cut.fun()}} for examples}
+\item{ws_cutfun}{function, cut function for wind speed. See \code{\link[=cut_ws.fun]{cut_ws.fun()}} for examples}
 
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}

@@ -26,6 +26,14 @@ The functions \code{\link[=get_googlemap]{get_googlemap()}} and \code{\link[=get
 to get interchangeable functions with sensible defaults. For example automatic calculation of the zoom. The function
 \code{\link[=bbox_lv95]{bbox_lv95()}} generates a bbox object compatible with both functions.
 }
+\section{Attribution}{
+
+\itemize{
+\item Toner and Terrain: Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
+\item Watercolor: Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under CC BY SA.
+}
+}
+
 \examples{
 bb <- bbox_lv95(2683141, 1249040, 500) # site Zch_Stamfenbachstrasse
 get_stamen_map(bb) \%>\% ggmap::ggmap()

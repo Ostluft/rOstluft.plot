@@ -76,7 +76,7 @@ the ggplot2 cut functions" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9008</span>
       </span>
     </div>
 
@@ -100,6 +100,9 @@ the ggplot2 cut functions" />
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/articles/Kalender_Linie.html">Linien Kalender</a>
+    </li>
+    <li>
+      <a href="../articles/articles/Wind_Density.html">Diurnal Wind als Density und Boxplot</a>
     </li>
   </ul>
 </li>
@@ -208,6 +211,16 @@ or left edges of bins are included in the bin.</p></td>
 
     <p>function</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'>
+<ul>
+<li><p><code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>ggplot2::cut_interval()</a></code></p></li>
+<li><p><code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>ggplot2::cut_number()</a></code></p></li>
+<li><p><code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>ggplot2::cut_width()</a></code></p></li>
+</ul>
+</div>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -221,29 +234,29 @@ or left edges of bins are included in the bin.</p></td>
 
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_all</a></span>(<span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>100</span>, <span class='fl'>0</span>, <span class='fl'>10</span>)), <span class='no'>funs</span>)
 
-<span class='no'>res</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 100 x 4</span><span>
-#&gt;        x interval     number       width 
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'> 1</span><span> 2.19  (2.08,4.01]  (1.74,4.02]  (2,4] 
-#&gt; </span><span style='color: #555555;'> 2</span><span> 6.65  (5.93,7.86]  (6.43,7.92]  (6,8] 
-#&gt; </span><span style='color: #555555;'> 3</span><span> 3.90  (2.08,4.01]  (1.74,4.02]  (2,4] 
-#&gt; </span><span style='color: #555555;'> 4</span><span> 0.461 [0.148,2.08] [0.148,1.74] [0,2] 
-#&gt; </span><span style='color: #555555;'> 5</span><span> 6.17  (5.93,7.86]  (4.02,6.43]  (6,8] 
-#&gt; </span><span style='color: #555555;'> 6</span><span> 5.98  (5.93,7.86]  (4.02,6.43]  (4,6] 
-#&gt; </span><span style='color: #555555;'> 7</span><span> 4.07  (4.01,5.93]  (4.02,6.43]  (4,6] 
-#&gt; </span><span style='color: #555555;'> 8</span><span> 8.58  (7.86,9.79]  (7.92,9.79]  (8,10]
-#&gt; </span><span style='color: #555555;'> 9</span><span> 5.18  (4.01,5.93]  (4.02,6.43]  (4,6] 
-#&gt; </span><span style='color: #555555;'>10</span><span> 9.79  (7.86,9.79]  (7.92,9.79]  (8,10]
-#&gt; </span><span style='color: #555555;'># ... with 90 more rows</span><span></div><div class='input'>
+<span class='no'>res</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 100 x 4</span><span>
+#&gt;        x interval    number       width 
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>  8.06 (8.01,10]   (7.03,8.6]   (8,10]
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>  8.14 (8.01,10]   (7.03,8.6]   (8,10]
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>  4.04 (4.03,6.02] (2.43,4.94]  (4,6] 
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>  2.18 (2.04,4.03] [0.045,2.43] (2,4] 
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>  4.18 (4.03,6.02] (2.43,4.94]  (4,6] 
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>  6.69 (6.02,8.01] (4.94,7.03]  (6,8] 
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>  5.08 (4.03,6.02] (4.94,7.03]  (4,6] 
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>  6.60 (6.02,8.01] (4.94,7.03]  (6,8] 
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>  5.12 (4.03,6.02] (4.94,7.03]  (4,6] 
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>  8.36 (8.01,10]   (7.03,8.6]   (8,10]
+#&gt; </span><span style='color: #949494;'># ... with 90 more rows</span><span></div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>res</span>$<span class='no'>interval</span>)</div><div class='output co'>#&gt; 
-#&gt; [0.148,2.08]  (2.08,4.01]  (4.01,5.93]  (5.93,7.86]  (7.86,9.79] 
-#&gt;           25           15           15           24           21 </div><div class='input'>
+#&gt; [0.045,2.04]  (2.04,4.03]  (4.03,6.02]  (6.02,8.01]    (8.01,10] 
+#&gt;           14           18           18           20           30 </div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>res</span>$<span class='no'>number</span>)</div><div class='output co'>#&gt; 
-#&gt; [0.148,1.74]  (1.74,4.02]  (4.02,6.43]  (6.43,7.92]  (7.92,9.79] 
+#&gt; [0.045,2.43]  (2.43,4.94]  (4.94,7.03]   (7.03,8.6]     (8.6,10] 
 #&gt;           20           20           20           20           20 </div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>res</span>$<span class='no'>width</span>)</div><div class='output co'>#&gt; 
 #&gt;  [0,2]  (2,4]  (4,6]  (6,8] (8,10] 
-#&gt;     23     17     16     24     20 </div></span></pre>
+#&gt;     14     18     18     20     30 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -251,6 +264,8 @@ or left edges of bins are included in the bin.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

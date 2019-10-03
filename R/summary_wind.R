@@ -12,8 +12,8 @@
 #' @param fun function or list of functions for summary.
 #' @param fun.args a list of extra arguments passed on to fun.
 #' @param nmin numeric, minimum number of values for fun, if n < nmin: NA is returned
-#' @param wd_cutfun function, cut function for wind direction (to create bins). See [wd_cut.fun()] for options.
-#' @param ws_cutfun function, cut function for wind speed. See [ws_cut.fun()] for examples
+#' @param wd_cutfun function, cut function for wind direction (to create bins). See [cut_wd.fun()] for options.
+#' @param ws_cutfun function, cut function for wind speed. See [cut_ws.fun()] for examples
 #'
 #' @return a tibble with summarised data
 #'
@@ -31,6 +31,7 @@
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
 #' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 #' data <- rOstluft::read_airmo_csv(fn)
 #' data <- rOstluft::rolf_to_openair(data)
@@ -197,8 +198,8 @@ summary_wind <- function(data, ws, wd, z, groupings = grp(), fun = "mean", fun.a
   data <- tidyr::gather(data, key = "stat", value = !!z, -dplyr::one_of(not_gather_groups))
 
   # factorize stat column
-  data <- dplyr::mutate(data, stat = factor(stat))
-  data <- dplyr::filter(data, n >= nmin)
+  data <- dplyr::mutate(data, stat = factor(.data$stat))
+  data <- dplyr::filter(data, .data$n >= nmin)
 
   return(data)
 }

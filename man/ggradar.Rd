@@ -5,14 +5,18 @@
 \title{ggplot2-wrapper to summarise and plot data by wind direction bins as radar plot}
 \usage{
 ggradar(data, mapping, facet_groups = grp(), wd_binwidth = 45,
-  fun = "mean", fun.args = list(), nmin = 3, reverse = TRUE,
-  bg = NULL, ...)
+  fun = "mean", fun.args = list(), nmin = 3,
+  fun_reorder = identity, bg = NULL, ...)
 }
 \arguments{
 \item{data}{tibble containing wind speed, wind direction and air pollutant concentration data}
 
-\item{facet_groups}{symbol or string specifying the variable(s) for facetting
-(facet_groups and groups are passed to \code{\link[=summary_wind]{summary_wind()}} groupings argument); default = NULL}
+\item{mapping}{parameter mapping for \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} using \code{\link[ggplot2:aes]{ggplot2::aes()}}; required mapping: x, y
+(x has to be wind direction and y the parameter of interest); for more details, check out the examples}
+
+\item{facet_groups}{symbol or string specifying the variable(s) for facetting; passed to \code{\link[=summary_wind]{summary_wind()}}
+by using the \code{\link[=grp]{grp()}} function
+(facet_groups and groups are passed to \code{\link[=summary_wind]{summary_wind()}} groupings argument); default = groups()}
 
 \item{wd_binwidth}{numeric, binwidth for wind direction in °, wd_binwidth should fullfill:
 \code{(360 / wd_binwidth) \%in\% c(4, 8, 16, 32)}}
@@ -23,14 +27,12 @@ ggradar(data, mapping, facet_groups = grp(), wd_binwidth = 45,
 
 \item{nmin}{numeric, minimum number of data points to be averaged in one wind direction bin}
 
+\item{fun_reorder}{a function (default is \code{\link[=identity]{identity()}}) used to reorder the factor levels of the mapping's group variable
+(can be useful to change the fill order, see examples)}
+
 \item{bg}{raster map, e.g. ggmap object as plot background}
 
-\item{group}{symbol or string specifying the group argument for (internal) mapping;
-default = NULL (=> internally set to "stat" to match the outcome of \code{\link[=summary_wind]{summary_wind()}})}
-
-\item{color_scale}{ggplot2 discrete color scale, e.g. \code{\link[ggplot2:scale_color_gradientn]{ggplot2::scale_color_gradientn()}}; can be NA (then, no color is plotted)}
-
-\item{fill_scale}{ggplot2 discrete fill scale, e.g. \code{\link[ggplot2:scale_fill_gradientn]{ggplot2::scale_fill_gradientn()}}; can be NA (then, no fill is plotted)}
+\item{...}{other parameters passed on to \code{\link[ggplot2:geom_polygon]{ggplot2::geom_polygon()}}}
 }
 \value{
 \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object
@@ -44,48 +46,73 @@ library(dplyr)
 library(tidyr)
 
 fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
-
-df <-
+data <-
   rOstluft::read_airmo_csv(fn) \%>\%
   rOstluft::rolf_to_openair() \%>\%
   dplyr::mutate(wday = lubridate::wday(date, label = TRUE, week_start = 1))
 
 # wind direction radar chart with mean values of y as summary statistics
-ggradar(df, mapping = aes(x = wd, y = NOx))
+ggradar(data, mapping = aes(x = wd, y = NOx))
 
-# same as above but with fixed fill, defined alpha and no color
-ggradar(df, mapping = aes(x = wd, y = NOx), fill = "gray30", alpha = 0.5)
+# wind direction radar chart with pre-calculated summary stats
+# (same as above)
+df <- data \%>\%
+   filter(!is.na(.data$wd)) \%>\%
+   mutate(wd = cut_wd(.data$wd, binwidth = 45)) \%>\%
+   group_by(.data$wd) \%>\%
+   summarise(NOx = mean(.data$NOx, na.rm = TRUE)) \%>\%
+   ungroup()
 
-# same as above but with no fill, defined color
-ggradar(df, mapping = aes(x = wd, y = NOx), fill = NA, color = "gray30")
+ggradar(df, aes(x = wd, y = NOx), fun = "identity")
+
+# same as above but with defined fill and alpha, no color
+ggradar(data, aes(x = wd, y = NOx), fill = "gray30", alpha = 0.5)
+
+# same as above but with no fill, defined color etc
+ggradar(data, aes(x = wd, y = NOx), fill = NA, color = "steelblue", lwd = 1)
+
+# higher wind direction resolution (actually: highest with predefined labels)
+ggradar(data, aes(x = wd, y = NOx), wd_binwidth = 11.25,
+        fill = "gray30", alpha = 0.5)
 
 # apply different statistic function
 q95 <- function(x, ...) quantile(x, 0.95, ...)
-ggradar(df, mapping = aes(x = wd, y = NOx), fun = "q95", alpha = 0.5)
+ggradar(data, aes(x = wd, y = NOx), fun = list(q95 = q95), alpha = 0.5)
 
 # group by multiple statistic functions and omit polygon filling
-ggradar(df, mapping = aes(x = wd, y = NOx, color = stat, group = stat), fun = list("mean", "median", "perc95" = q95), fill = NA)
+ggradar(data, aes(x = wd, y = NOx, color = stat, group = stat),
+        fun = list("mean", "median", "perc95" = q95), fill = NA)
+
+# ... adjust x and color and fill scales and reorder stat levels for appropriate fill order
+q05 <- function(x, ...) quantile(x, 0.05, ...)
+q95 <- function(x, ...) quantile(x, 0.95, ...)
+stat_reorder <- function(stat) {
+  factor(stat, levels = rev(c("perc05", "median", "mean", "perc95")))
+}
+ggradar(data, aes(x = wd, y = NOx, fill = stat, group = stat),
+     fun = list("perc05" = q05, "median", "mean", "perc95" = q95),
+     fun_reorder = stat_reorder, color = NA, alpha = 0.9) +
+   scale_y_continuous(limits = c(0,120)) +
+   scale_fill_viridis_d(begin = 0.2)
 
 # ... same as above but with one-colored fill and stats as facets
-ggradar(df, mapping = aes(x = wd, y = NOx, group = stat), fun = list("mean", "median", "perc95" = q95)) +
-  facet_wrap(stat~.)
+ggradar(data, aes(x = wd, y = NOx, group = stat),
+        fun = list("mean", "median", "perc95" = q95)) +
+  facet_wrap(vars(stat), ncol = 2)
 
-# multiple y-parameters and facetting (facetting variable has to be separately specified in facet_groups!)
-df \%>\%
-  dplyr::select(wd, NO, NOx, wday) \%>\%
-  tidyr::gather(par, val, -wd, -wday) \%>\%
-  ggradar(mapping = aes(x = wd, y = val, group = wday, color = wday), facet_groups = grp(par), fill = NA) +
-  facet_wrap(par~.)
+# multiple y-parameters and facetting (facetting variable has to be separately
+# specified in facet_groups!)
+df2 <- dplyr::select(data, wd, NO, NOx, wday) \%>\%
+  tidyr::gather(par, val, -wd, -wday)
+
+ggradar(df2, aes(x = wd, y = val, group = wday, color = wday),
+        facet_groups = grp(par), fill = NA) +
+  facet_wrap(vars(par))
 
 # with background map
-bbox <- tibble::tibble(x = c(2683141 - 500, 2683141 + 500), y = c(1249040 - 500, 1249040 + 500))
-bbox <- rOstluft::transform_LV95_to_WSG84(bbox)
-bbox <- c(left = bbox$lon[1], right = bbox$lon[2], bottom = bbox$lat[1], top = bbox$lat[2])
-
-raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
-                                   source = "stamen", color = "bw")
-
-ggradar(df, mapping = aes(x = wd, y = NOx), bg = raster_map, color = "blue", fill = NA) +
+bb <- bbox_lv95(2683141, 1249040, 500)
+bg <- get_stamen_map(bb)
+ggradar(data, aes(x = wd, y = NOx), bg = bg, color = "blue", fill = "blue", alpha = 0.5) +
   theme(panel.grid.major = ggplot2::element_line(linetype = 1, color = "white"))
 
 }

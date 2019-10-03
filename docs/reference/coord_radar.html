@@ -76,7 +76,7 @@ of coord_polar2() for more Information and examples" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9008</span>
       </span>
     </div>
 
@@ -100,6 +100,9 @@ of coord_polar2() for more Information and examples" />
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/articles/Kalender_Linie.html">Linien Kalender</a>
+    </li>
+    <li>
+      <a href="../articles/articles/Wind_Density.html">Diurnal Wind als Density und Boxplot</a>
     </li>
   </ul>
 </li>
@@ -162,7 +165,8 @@ of <code><a href='coord_polar2.html'>coord_polar2()</a></code> for more Informat
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft.data</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft.data/man/f.html'>f</a></span>(<span class='st'>"Zch_Stampfenbachstrasse_2010-2014.csv"</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft.data</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft.data/man/f.html'>f</a></span>(<span class='st'>"Zch_Stampfenbachstrasse_2010-2014.csv"</span>)
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/read_airmo_csv.html'>read_airmo_csv</a></span>(<span class='no'>fn</span>)
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/rolf_to_openair.html'>rolf_to_openair</a></span>(<span class='no'>data</span>)
 
@@ -180,16 +184,16 @@ of <code><a href='coord_polar2.html'>coord_polar2()</a></code> for more Informat
 <span class='no'>bbox</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='bbox_lv95.html'>bbox_lv95</a></span>(<span class='fl'>2683141</span>, <span class='fl'>1249040</span>, <span class='fl'>500</span>)
 <span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_stamen_map.html'>get_stamen_map</a></span>(<span class='no'>bbox</span>)
 
-<span class='no'>radar</span> <span class='kw'>&lt;-</span> <span class='fu'>ggplot</span>(<span class='no'>data_summarized</span>, <span class='fu'>aes</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>wd</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>NOx</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='no'>stat</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>stat</span>)) +
-  <span class='fu'>geom_polygon</span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fl'>NA</span>) +
-  <span class='fu'>scale_color_viridis_d</span>(<span class='kw'>end</span> <span class='kw'>=</span> <span class='fl'>0.6</span>) +
-  <span class='fu'>scale_y_continuous</span>(<span class='kw'>limits</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>NA</span>), <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>))
+<span class='no'>radar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>data_summarized</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>wd</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>NOx</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='no'>stat</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>stat</span>)) +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_polygon.html'>geom_polygon</a></span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fl'>NA</span>) +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_viridis.html'>scale_color_viridis_d</a></span>(<span class='kw'>end</span> <span class='kw'>=</span> <span class='fl'>0.6</span>) +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span>(<span class='kw'>limits</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>NA</span>), <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>))
 
 <span class='no'>radar</span> + <span class='fu'>coord_radar</span>(<span class='kw'>start</span> <span class='kw'>=</span> - <span class='fl'>22.5</span> / <span class='fl'>180</span> * <span class='no'>pi</span>)</div><div class='img'><img src='coord_radar-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># add background map</span>
 <span class='no'>radar</span> + <span class='fu'>coord_radar</span>(<span class='kw'>start</span> <span class='kw'>=</span> - <span class='fl'>22.5</span> / <span class='fl'>180</span> * <span class='no'>pi</span>, <span class='kw'>bg</span> <span class='kw'>=</span> <span class='no'>bg</span>)</div><div class='img'><img src='coord_radar-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># facets</span>
-<span class='no'>radar</span> + <span class='fu'>facet_wrap</span>(<span class='fu'>vars</span>(<span class='no'>stat</span>)) +
+<span class='no'>radar</span> + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/vars.html'>vars</a></span>(<span class='no'>stat</span>)) +
   <span class='fu'>coord_radar</span>(<span class='kw'>start</span> <span class='kw'>=</span> - <span class='fl'>22.5</span> / <span class='fl'>180</span> * <span class='no'>pi</span>)</div><div class='img'><img src='coord_radar-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -4,7 +4,7 @@
 #' @param mapping parameter mapping for [ggplot2::ggplot()] using [ggplot2::aes()]; required mapping: x, y
 #' (x has to be wind direction and y the parameter of interest); for more details, check out the examples
 #' @param facet_groups symbol or string specifying the variable(s) for facetting; passed to [summary_wind()]
-#' by using the [groups()] function
+#' by using the [grp()] function
 #' (facet_groups and groups are passed to [summary_wind()] groupings argument); default = groups()
 #' @param fun character string or vector of character strings, stat function(s) to be applied at wind direction bins
 #' @param fun.args list, arguments to fun
@@ -21,8 +21,8 @@
 #'
 #' @examples
 #' library(ggplot2)
-#' # library(dplyr)
-#' # library(tidyr)
+#' library(dplyr)
+#' library(tidyr)
 #'
 #' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 #' data <-
@@ -34,57 +34,64 @@
 #' ggradar(data, mapping = aes(x = wd, y = NOx))
 #'
 #' # wind direction radar chart with pre-calculated summary stats
-#' data %>%
-#'    filter(!is.na(wd)) %>%
-#'    mutate(wd = cut_wd(wd, binwidth = 45)) %>%
-#'    group_by(wd) %>%
-#'    summarise(NOx = mean(NOx, na.rm = TRUE)) %>%
-#'    ungroup() %>%
-#'    ggradar(mapping = aes(x = wd, y = NOx), fun = "identity")
+#' # (same as above)
+#' df <- data %>%
+#'    filter(!is.na(.data$wd)) %>%
+#'    mutate(wd = cut_wd(.data$wd, binwidth = 45)) %>%
+#'    group_by(.data$wd) %>%
+#'    summarise(NOx = mean(.data$NOx, na.rm = TRUE)) %>%
+#'    ungroup()
+#'
+#' ggradar(df, aes(x = wd, y = NOx), fun = "identity")
 #'
 #' # same as above but with defined fill and alpha, no color
-#' ggradar(data, mapping = aes(x = wd, y = NOx), fill = "gray30", alpha = 0.5)
+#' ggradar(data, aes(x = wd, y = NOx), fill = "gray30", alpha = 0.5)
 #'
 #' # same as above but with no fill, defined color etc
-#' ggradar(data, mapping = aes(x = wd, y = NOx), fill = NA, color = "steelblue", lwd = 1)
+#' ggradar(data, aes(x = wd, y = NOx), fill = NA, color = "steelblue", lwd = 1)
 #'
-#' # higher (actually: highest, then no axis labelling anymore) wind direction resolution
-#' ggradar(data, mapping = aes(x = wd, y = NOx), wd_binwidth = 11.25, fun.args = list(na.rm = TRUE), nmin = 3, fill = "gray30", alpha = 0.5)
+#' # higher wind direction resolution (actually: highest with predefined labels)
+#' ggradar(data, aes(x = wd, y = NOx), wd_binwidth = 11.25,
+#'         fill = "gray30", alpha = 0.5)
 #'
 #' # apply different statistic function
 #' q95 <- function(x, ...) quantile(x, 0.95, ...)
-#' ggradar(data, mapping = aes(x = wd, y = NOx), fun = "q95", alpha = 0.5)
+#' ggradar(data, aes(x = wd, y = NOx), fun = list(q95 = q95), alpha = 0.5)
 #'
 #' # group by multiple statistic functions and omit polygon filling
-#' ggradar(df, mapping = aes(x = wd, y = NOx, color = stat, group = stat),
+#' ggradar(data, aes(x = wd, y = NOx, color = stat, group = stat),
 #'         fun = list("mean", "median", "perc95" = q95), fill = NA)
 #'
 #' # ... adjust x and color and fill scales and reorder stat levels for appropriate fill order
 #' q05 <- function(x, ...) quantile(x, 0.05, ...)
 #' q95 <- function(x, ...) quantile(x, 0.95, ...)
-#' stat_reorder <- function(stat) factor(stat, levels = rev(c("perc05", "median", "mean", "perc95")))
-#' ggradar(data, mapping = aes(x = wd, y = NOx, fill = stat, group = stat), fun = list("perc05" = q05, "median", "mean", "perc95" = q95),
-#'    fun_reorder = stat_reorder, color = NA, alpha = 0.9) +
+#' stat_reorder <- function(stat) {
+#'   factor(stat, levels = rev(c("perc05", "median", "mean", "perc95")))
+#' }
+#' ggradar(data, aes(x = wd, y = NOx, fill = stat, group = stat),
+#'      fun = list("perc05" = q05, "median", "mean", "perc95" = q95),
+#'      fun_reorder = stat_reorder, color = NA, alpha = 0.9) +
 #'    scale_y_continuous(limits = c(0,120)) +
 #'    scale_fill_viridis_d(begin = 0.2)
 #'
 #' # ... same as above but with one-colored fill and stats as facets
-#' ggradar(df, mapping = aes(x = wd, y = NOx, group = stat),
+#' ggradar(data, aes(x = wd, y = NOx, group = stat),
 #'         fun = list("mean", "median", "perc95" = q95)) +
-#'   facet_wrap(stat~.)
+#'   facet_wrap(vars(stat), ncol = 2)
 #'
-#' # multiple y-parameters and facetting (facetting variable has to be separately specified in facet_groups!)
-#' df2 <- dplyr::select(df, wd, NO, NOx, wday) %>%
+#' # multiple y-parameters and facetting (facetting variable has to be separately
+#' # specified in facet_groups!)
+#' df2 <- dplyr::select(data, wd, NO, NOx, wday) %>%
 #'   tidyr::gather(par, val, -wd, -wday)
 #'
-#' ggradar(df2, mapping = aes(x = wd, y = val, group = wday, color = wday),
+#' ggradar(df2, aes(x = wd, y = val, group = wday, color = wday),
 #'         facet_groups = grp(par), fill = NA) +
 #'   facet_wrap(vars(par))
 #'
 #' # with background map
 #' bb <- bbox_lv95(2683141, 1249040, 500)
 #' bg <- get_stamen_map(bb)
-#' ggradar(df, mapping = aes(x = wd, y = NOx), bg = bg, color = "blue", fill = NA) +
+#' ggradar(data, aes(x = wd, y = NOx), bg = bg, color = "blue", fill = "blue", alpha = 0.5) +
 #'   theme(panel.grid.major = ggplot2::element_line(linetype = 1, color = "white"))
 #'
 ggradar <- function(data,
@@ -99,18 +106,20 @@ ggradar <- function(data,
                     ...
 ) {
 
+  wd <- rlang::sym(rlang::as_name(mapping$x))
+  y <- rlang::sym(rlang::as_name(mapping$y))
   if ("identity" %in% fun) {
     data_summarized <- data
   } else {
-    wd <- rlang::sym(rlang::as_name(mapping$x))
+
     wd_cutfun <- cut_wd.fun(binwidth = wd_binwidth)
-    y <- rlang::sym(rlang::as_name(mapping$y))
+
     if (is.null(mapping$group)) {
-      grp <- groups()
-    } else if ("stat" %in% as.character(mapping$group)) {
-      grp <- groups()
+      grp <- grp()
+    } else if ("stat" %in% rlang::as_name(mapping$group)) {
+      grp <- grp()
     } else {
-      grp <- groups(!!as.character(mapping$group)[2])
+      grp <- grp(!!as.character(mapping$group)[2])
     }
     grp_var <- rlang::sym(ifelse(length(as.character(grp)) == 0, "stat", as.character(grp)))
     data_summarized <- summary_wind(data, NULL, !!wd, !!y, groupings = modify_list(grp, facet_groups),
@@ -118,10 +127,9 @@ ggradar <- function(data,
     data_summarized <- dplyr::mutate(data_summarized, !!grp_var := fun_reorder(!!grp_var))
   }
 
-  data_summarized <- summary_wind(data, NULL, !!wd, !!y, groupings = grp,
-                                  wd_cutfun = wd_cutfun, fun = fun, fun.args = fun.args)
-
-  if (!("group" %in% names(mapping))) mapping <- modify_list(mapping, aes(group = NA))
+  if (!("group" %in% names(mapping))) {
+    mapping <- modify_list(mapping, aes(group = NA))
+  }
 
   plot <-
     ggplot(data_summarized, mapping) +
@@ -129,7 +137,7 @@ ggradar <- function(data,
     coord_radar(start = -2 * pi / 360 * wd_binwidth / 2, bg = bg) +
     scale_x_discrete() +
     scale_y_continuous(limits = c(0, NA), expand = c(0,0)) +
-    ylab(y) +
+    ylab(rlang::as_label(y)) +
     theme_rop_radar()
 
   return(plot)

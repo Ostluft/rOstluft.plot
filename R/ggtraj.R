@@ -10,26 +10,38 @@
 #'
 #' @return ggplot2 object
 #'
+#' @export
+#'
 #' @examples
 #' library(ggplot2)
 #' fn <- rOstluft.data::f("2017_ZH-Kaserne-hysplit.rds")
 #' traj <- readRDS(fn)
-#' traj <- dplyr::filter(traj, date < lubridate::ymd("2017-01-08"))
+#' traj <- dplyr::filter(traj,
+#'   dplyr::between(lubridate::as_date(date), lubridate::ymd("2017-03-08"), lubridate::ymd("2017-03-14"))
+#' )
 #' ggtraj(traj)
 #'
-#' # not really meaningful: overwrite the mapping for aesthetic
-#' # color and change the color_scale
-#' cs <- scale_color_viridis_c(name = "pressure")
-#' ggtraj(traj, aes(color = pressure), color_scale = cs)
+#' # air pollutant instead of trajectory height
+#' # can be interesting e.g. with long-range transport of EC,
+#' # but we don't have EC data ready at hand, so we use PM2.5 here instead
+#' data_2017 <-
+#'   rOstluft.data::f("Zch_Stampfenbachstrasse_min30_2017.csv") %>%
+#'   rOstluft::read_airmo_csv() %>%
+#'   rOstluft::rolf_to_openair()
 #'
-#' @export
+#' data_traj <-
+#'   dplyr::select(data_2017, -site) %>%
+#'   dplyr::right_join(traj, by = "date")
+#'
+#' cs <- scale_color_viridis_c(name = "PM2.5", direction = -1)
+#' ggtraj(data_traj, aes(color = PM2.5), color_scale = cs)
 ggtraj <- function(
   data,
   mapping = NULL,
   incr = -seq(24,96,24),
   lims = NULL,
   add_traj_labels = TRUE,
-  color_scale = ggplot2::scale_color_gradient(name = "m agl.")
+  color_scale = ggplot2::scale_color_viridis_c(name = "m agl.")
 ) {
 
   mapping_default <- aes(x = .data$lon, y = .data$lat, group = .data$date, color = .data$height)
@@ -89,7 +101,6 @@ ggtraj <- function(
 
   # add some theming, this should probably solved globally
   # should title be configurable?
-  sites <- dplyr::distinct(data, .data$site)
   plot <- plot +
     theme_rop_traj() +
     ggplot2::scale_y_continuous(expand = c(0.1,0.1)) +

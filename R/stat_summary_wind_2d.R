@@ -25,8 +25,10 @@
 #'   those values are returned (to a certain degree depending on the value of dist)
 #' @param dist numeric, fraction of 1, applies if smooth = TRUE and extrapolate = TRUE; maximum distance to next
 #'   coordinate-pair at which the result of fit_gam_surface(z) should be returned
-#' @param groups can be NULL, c("u", "v"), "wd_class", "ws_class", ...
 #' @param geom The geometric object to use display the data (in this case: raster).
+#' @param na.rm If `FALSE`, the default, missing values are removed with
+#'   a warning. If `TRUE`, missing values are silently removed.
+#' @inheritParams ggplot2::layer
 #'
 #' @return ggplot2 layer
 #'

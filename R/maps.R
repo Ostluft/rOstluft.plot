@@ -4,6 +4,10 @@
 #' to get interchangeable functions with sensible defaults. For example automatic calculation of the zoom. The function
 #' [bbox_lv95()] generates a bbox object compatible with both functions.
 #'
+#' @section Attribution:
+#' * Toner and Terrain: Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
+#' * Watercolor: Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under CC BY SA.
+#'
 #' @param bbox list with items `left`, `bottom`, `right` and `top` as WSG84 coordinates. Additional `width`
 #'   in meters if `zoom = "auto"`. Use [bbox_lv95()] to create a compatible bounding box list
 #' @param width of resulting map in pixels.

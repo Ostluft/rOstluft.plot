@@ -1,18 +1,49 @@
 #' Cut wind direction into factor classes
 #'
-#' Wraps [ggplot2::cut_width()] function with `width = binwidth. closed = "left", boundary = 0` as fixed
-#' arguments
+#' @description Wraps [ggplot2::cut_width()] function with `width = binwidth. closed = "left", boundary = 0`
+#' as fixed arguments
 #'
 #' @param wd numeric vector of wind directions in °
 #' @param binwidth width for [ggplot2::cut_width()] in degrees wind  direction
-#' (must fullfill binwidth %in% 360 / c(4, 8, 16, 32))
+#' (must fullfill binwidth \%in\% 360 / c(4, 8, 16, 32))
 #' @param labels character vector as labels for wind direction bins; can be NULL (no labels are returned),
 #' if !is.null(labels) then length(labels) == 32 must be fullfilled (actual labels are subsampled with
 #' indices of seq(1, length(labels), length(labels) / nsectors))
-#'
 #' @param ... passed to [ggplot2::cut_width()]
 #'
 #' @export
+#'
+#' @examples
+#' library(ggplot2)
+#' wd <- seq(0, 359)
+#' ws <- runif(length(wd))
+#'
+#' # helper function to visualise cuts
+#' plot_cut <- function(wd, ws) {
+#'   nSectors <- length(levels(wd))
+#'   data <- tibble::tibble(wd = wd, ws = ws) %>%
+#'     dplyr::group_by(wd) %>%
+#'     dplyr::summarise(ws = mean(ws))
+#'
+#'   ggplot(data, aes(x = wd, y = ws)) +
+#'     geom_bar(stat = "identity", width = 1, color = "blue", size = 1, alpha = 0.5) +
+#'     coord_polar2(start = - pi / nSectors) +
+#'     scale_x_discrete(expand = c(0, 0))
+#' }
+#'
+#'
+#' # defaults
+#' plot_cut(cut_wd(wd), ws)
+#'
+#' # maximum number of cuts
+#' plot_cut(cut_wd(wd, binwidth = 11.25), ws)
+#'
+#' # maximum number of cuts with text labels
+#' plot_cut(cut_wd(wd, binwidth = 22.5), ws)
+#'
+#' # change label text
+#' labels <- c("North", "East", "South", "West")
+#' plot_cut(cut_wd(wd, binwidth = 90, labels = labels), ws)
 cut_wd <- function(wd, binwidth = 45,
                    labels = c("N", "[5.6,16.9)", "NNO", "[28.1,39.4)", "NO", "[50.6,61.2)", "NOO", "[73.1,84.4)", "O", "[95.6,106.9)",
                               "SOO", "[118.1,129.4)", "SO", "[140.6,151.9)", "SSO", "[163.1,174.4)", "S", "[185.6,196.9)", "SSW",
@@ -37,10 +68,10 @@ seq(11.25 / 2, 360-11.25/2, 11.25)
 #' Creates a partial function of [ggplot2::cut_width()] with `width = binwidth. closed = "left", boundary = 0` as fixed
 #' arguments
 #'
-#' @param binwidth width for [ggplot2::cut_width()]
-#' @param ... passed to [ggplot2::cut_width()]
+#' @inheritParams cut_wd
+#' @seealso [cut_wd()]
 #'
-#' @return a partial [ggplot2::cut_width()] function with wd as sole argument
+#' @return a partial [cut_wd()] function with wd as sole argument
 #'
 #' @export
 cut_wd.fun <- function(binwidth = 45, ...) {
@@ -120,6 +151,7 @@ cut_ws <- function(ws, binwidth = 1, ws_max = NA, squish = TRUE, right = TRUE, r
 #' Partial function constructor to cut wind velocity (or others) into factor classes
 #'
 #' @inheritParams cut_ws
+#' @seealso [cut_ws()]
 #'
 #' @return a partial [cut_ws()] function with ws as sole argument
 #'
@@ -140,6 +172,10 @@ cut_ws.fun <- function(binwidth = 1, ws_max = NA, squish = TRUE, right = TRUE, r
 #'
 #'
 #' @inheritParams ggplot2::cut_interval
+#' @seealso
+#'   * [ggplot2::cut_interval()]
+#'   * [ggplot2::cut_number()]
+#'   * [ggplot2::cut_width()]
 #'
 #' @return function
 #'
@@ -224,11 +260,11 @@ cut_season <- function(x, labels = NULL) {
 #' Partial function constructor for cut_season
 #'
 #' @inheritParams cut_season
+#' @seealso [cut_season()]
 #'
 #' @return Partial function of [cut_season()] with x as sole argument
 #' @export
 cut_season.fun <- function(labels = NULL) {
-  x <- 2
   function(x) {
     cut_season(x, labels = labels)
   }
@@ -245,7 +281,7 @@ cut_season.fun <- function(labels = NULL) {
 #' @param x a date-time vector
 #' @param label choice between `c("yearseason", "year")`. `"yearseason"` will combine
 #'   the year and the output from [cut_season()], `"year"` will return only the
-#'   adjustet year.
+#'   adjusted year.
 #' @param labels forwarded to [cut_season()]
 #'
 #' @return factor of yearseasons
@@ -284,6 +320,7 @@ cut_seasonyear <- function(x, label = c("yearseason", "year"), labels = NULL) {
 #' Partial function constructor for cut_season
 #'
 #' @inheritParams cut_seasonyear
+#' @seealso [cut_seasonyear()]
 #'
 #' @return Partial function of [cut_seasonyear()] with x as sole argument
 #' @export

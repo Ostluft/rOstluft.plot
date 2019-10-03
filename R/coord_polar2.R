@@ -1,8 +1,8 @@
 #' Customized coord_polar
 #'
-#' The differences between [ggplot2::cord_polar()] and [coord_polar2()] are:
+#' The differences between [ggplot2::coord_polar()] and [coord_polar2()] are:
 #' * Add a raster (image) as background. As example a map created with [get_stamen_map()]
-#' * [ggplot2::cord_polar()] always adds an outer circle with r = 0.45 to the plot. This circle is removed.
+#' * [ggplot2::coord_polar()] always adds an outer circle with r = 0.45 to the plot. This circle is removed.
 #'
 #' @param bg raster for background image
 #' @inheritParams ggplot2::coord_polar

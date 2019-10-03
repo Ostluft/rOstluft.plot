@@ -25,9 +25,9 @@ summary_wind(data, ws, wd, z, groupings = grp(), fun = "mean",
 
 \item{nmin}{numeric, minimum number of values for fun, if n < nmin: NA is returned}
 
-\item{wd_cutfun}{function, cut function for wind direction (to create bins). See \code{\link[=wd_cut.fun]{wd_cut.fun()}} for options.}
+\item{wd_cutfun}{function, cut function for wind direction (to create bins). See \code{\link[=cut_wd.fun]{cut_wd.fun()}} for options.}
 
-\item{ws_cutfun}{function, cut function for wind speed. See \code{\link[=ws_cut.fun]{ws_cut.fun()}} for examples}
+\item{ws_cutfun}{function, cut function for wind speed. See \code{\link[=cut_ws.fun]{cut_ws.fun()}} for examples}
 }
 \value{
 a tibble with summarised data
@@ -52,6 +52,7 @@ The names of the columns stay the same as in \code{data} (for the arguments "ws"
 }
 
 \examples{
+library(ggplot2)
 fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 data <- rOstluft::read_airmo_csv(fn)
 data <- rOstluft::rolf_to_openair(data)
@@ -141,18 +142,22 @@ ggplot(data_summarized, aes(x = wd, y = freq, fill = ws)) +
   scale_fill_viridis_d()
 
 
-# a pollution rose
-data_summarized <- summary_wind(data, ws, wd, NOx,
-  groupings = grp(
-    fNOx = ggplot2::cut_number(NO2, 5),
-    year = lubridate::year(date)
-  ),
-  ws_cutfun = cut_number.fun(1)
+# a pollution rose, use the pollutant as ws
+data_summarized <- summary_wind(data, NOx, wd, NOx,
+  ws_cutfun = cut_number.fun(5)
 )
 
-ggplot(data_summarized, aes(x = wd, y = freq, fill = forcats::fct_rev(fNOx))) +
+# we can plot with the group as fill
+ggplot(data_summarized, aes(x = wd, y = freq, fill = forcats::fct_rev(NOx))) +
   geom_bar(stat = "identity") +
   coord_polar2(start = - 22.5 / 180 * pi ) +
   scale_y_continuous(limits = c(0, NA), expand = c(0,0, 0, 0)) +
   scale_fill_viridis_d(direction = -1, name = "NOx")
+
+# or the mean of the group as fill
+ggplot(data_summarized, aes(x = wd, y = freq, fill = NOx.stat)) +
+  geom_bar(stat = "identity") +
+  coord_polar2(start = - 22.5 / 180 * pi ) +
+  scale_y_continuous(limits = c(0, NA), expand = c(0,0, 0, 0)) +
+  scale_fill_viridis_c(name = "NOx")
 }

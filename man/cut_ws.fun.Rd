@@ -24,3 +24,6 @@ a partial \code{\link[=cut_ws]{cut_ws()}} function with ws as sole argument
 \description{
 Partial function constructor to cut wind velocity (or others) into factor classes
 }
+\seealso{
+\code{\link[=cut_ws]{cut_ws()}}
+}

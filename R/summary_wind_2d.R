@@ -129,12 +129,12 @@ summary_wind_2d <- function(data, ws, wd, z, groupings = grp(), fun = "mean", fu
   uv_breaks <- seq(-uv_max, by = binwidth, length.out = nbins + 1)
 
   data <- dplyr::mutate(data,
-    u = cut(u, breaks = uv_breaks, include.lowest = TRUE),
-    v = cut(v, breaks = uv_breaks, include.lowest = TRUE)
+    u = cut(.data$u, breaks = uv_breaks, include.lowest = TRUE),
+    v = cut(.data$v, breaks = uv_breaks, include.lowest = TRUE)
   )
 
   # filter NAs, ith stats::na.omit() every row containing a NA value will be removed
-  data <- dplyr::filter(data, !(is.na(u) | is.na(v) | is.na(!!z)))
+  data <- dplyr::filter(data, !(is.na(.data$u) | is.na(.data$v) | is.na(!!z)))
 
    # apply the summarize function regarding the addiotional grouping columns
   data <- dplyr::group_by(data, .data$u, .data$v, !!!groupings)
@@ -151,8 +151,8 @@ summary_wind_2d <- function(data, ws, wd, z, groupings = grp(), fun = "mean", fu
   data <- dplyr::mutate(data, freq = .data$n / sum(.data$n, na.rm = TRUE))
   data <- dplyr::ungroup(data)
 
-  data <- dplyr::filter(data, n >= nmin)
-  data <- tidyr::gather(data, "stat", !!z, -u, -v, -n, -freq,
+  data <- dplyr::filter(data, .data$n >= nmin)
+  data <- tidyr::gather(data, "stat", !!z, -"u", -"v", -"n", -"freq",
                         -dplyr::one_of(names(groupings)))
 
   # ensure that for every combination of u, v, stat and groupings a value is present

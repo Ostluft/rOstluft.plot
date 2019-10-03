@@ -15,3 +15,6 @@ Partial function of \code{\link[=cut_season]{cut_season()}} with x as sole argum
 \description{
 Partial function constructor for cut_season
 }
+\seealso{
+\code{\link[=cut_season]{cut_season()}}
+}
