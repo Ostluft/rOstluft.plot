@@ -1,6 +1,4 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
 <img src="man/figures/logo.png" align="right" />
 
 # rOstluft.plot
@@ -26,14 +24,27 @@ devtools::install_github("Ostluft/rOstluft.plot")
 # Beispiele
 
 ``` r
-library(ggplot2)
 library(rOstluft.plot)
+library(rOstluft)
+library(rOstluft.data)
+library(ggplot2)
 library(dplyr)
+library(lubridate)
+library(tibble)
+library(purrr)
+library(scales)
+library(openair)
 
 data <-
-  rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv", package = "rOstluft.data", mustWork = TRUE)) %>%
+  rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv") %>% 
+  rOstluft::read_airmo_csv() %>%
   rOstluft::rolf_to_openair() %>%
-  openair::cutData(date, type = "daylight")
+  openair::cutData(date, type = "daylight") %>% 
+  tibble::as_tibble() %>% 
+  dplyr::mutate(
+    wday = lubridate::wday(date, label = TRUE, week_start = 1),
+    year = lubridate::year(date)
+  )
 ```
 
 ## Windrose auf Karte
@@ -42,52 +53,95 @@ data <-
 bb <- bbox_lv95(2683141, 1249040, 500)
 bg <- get_stamen_map(bb)
 
-ggwindrose(data, ws, wd, ws_max = 4, bg = bg) +
+ggwindrose(data, ws, wd, ws_max = 4, bg = bg, ) +
   theme(
     panel.grid.major = element_line(linetype = 2, color = "black", size = 0.5)
    )
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="man/figures/README-ggwindrose-1.png" width="100%" />
 
 ``` r
-groupings = rOstluft.plot::groups(daylight)
-
-# the facetting variable has to be in the groupings argument
-ggwindrose(data, ws, wd, ws_max = 4, groupings = groupings) +
-   facet_wrap(vars(daylight))
+# Für Facetten müssen die facet Variablen in groupings enthalten sein:
+ggwindrose(data, ws, wd, ws_max = 4, groupings = grp(daylight)) +
+  facet_wrap(vars(daylight))
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-2.png" width="100%" />
+<img src="man/figures/README-ggwindrose-2.png" width="100%" />
+
+``` r
+# y Achse kann wie gewohnt mit einer scale_y_continuous angepasst werden
+# das untere Limit sollte auf 0 gesetzt werden
+ggwindrose(data, ws, wd, ws_max = 4, groupings = grp(daylight)) +
+  facet_wrap(vars(daylight)) +
+  scale_y_continuous(
+    limits = c(0, NA), 
+    expand = expand_scale(), 
+    labels = scales::percent_format(1),
+    breaks = seq(0, 0.3, 0.05)
+  )
+```
+
+<img src="man/figures/README-ggwindrose-3.png" width="100%" />
 
 ## Radar-chart Windstatistik
 
 ``` r
-# df <-
-#   rOstluft::read_airmo_csv(system.file("extdata", "Zch_Stampfenbachstrasse_2010-2014.csv",package = "rOstluft.data", mustWork = TRUE)) %>%
-#   rOstluft::rolf_to_openair() %>%
-#   dplyr::mutate(wday = lubridate::wday(date, label = TRUE, week_start = 1))
-# 
-# ggradar(df, aes(wd = wd, ws = ws, z = NOx), 
-#         param_args = list(fill = "blue", color = "blue", alpha = 0.5)) + ylab("NOx")
-# 
-# df <- openair::cutData(df, date, type = "daylight") %>% 
-#   dplyr::select(wd, ws, NO, NOx, daylight) %>% 
-#   tidyr::gather(par, val, -wd, -ws, -daylight)
-#  
-# ggradar(df, aes(wd = wd, ws = ws, z = val, group = par, fill = par, color = par)) + ylab("mean") +
-#   facet_wrap(daylight~.)
+# Simpler Radarplot
+ggradar(data, mapping = aes(x = wd, y = NOx), fill = "gray30", alpha = 0.5)
 ```
+
+<img src="man/figures/README-ggradar-1.png" width="100%" />
+
+``` r
+# mehrere Statistik Funktionen
+q05 <- function(x, ...) quantile(x, 0.05, ...)
+q95 <- function(x, ...) quantile(x, 0.95, ...)
+stat_reorder <- function(stat) {
+  factor(stat, levels = rev(c("perc05", "median", "mean", "perc95")))
+}
+ggradar(data, aes(x = wd, y = NOx, fill = stat, group = stat),
+    fun = list("perc05" = q05, "median", "mean", "perc95" = q95),
+    fun_reorder = stat_reorder, color = NA, alpha = 0.9) +
+  scale_y_continuous(limits = c(0,120)) +
+  scale_fill_viridis_d(begin = 0.2)
+```
+
+<img src="man/figures/README-ggradar-2.png" width="100%" />
+
+``` r
+# Karte als Hintergrund
+bb <- bbox_lv95(2683141, 1249040, 500)
+bg <- get_stamen_map(bb)
+
+ggradar(data, aes(x = wd, y = NOx), bg = bg, lwd = 1, 
+         color = "steelblue", fill = "steelblue", alpha = 0.5) + 
+  theme(
+    panel.grid.major = element_line(linetype = 1, color = "white"),
+    axis.text.x = element_text(color = "gray10")
+    )
+```
+
+<img src="man/figures/README-ggradar-3.png" width="100%" />
 
 ## polarplot openair-style
 
 ``` r
-fill_scale = scale_fill_gradientn(colours = alpha(matlab::jet.colors(100), 0.75), na.value = NA)
-ggpolarplot(data, wd = wd, ws = ws, z = NOx, bg = bg, 
-            fill_scale = fill_scale, breaks = seq(0,8,2))
+fs <- scale_fill_gradientn_squished(
+  limits = c(0,50), breaks = seq(0,50,10),
+  na.value = NA, colors = matlab::jet.colors(20)
+)
+
+ggpolarplot(data, wd = wd, ws = ws, z = NOx, ws_max = 4,
+    bg = bg, alpha = 0.6,
+    fill_scale = fs, smooth = TRUE, breaks = c(0,2,4)
+  ) +
+  theme(
+    panel.grid.major = element_line(linetype = 2, color = "black", size = 0.5)
+  )
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+<img src="man/figures/README-ggpolarplot-1.png" width="100%" />
 
 ## Tagesgang-Jahresgang heatmap
 
@@ -95,7 +149,7 @@ ggpolarplot(data, wd = wd, ws = ws, z = NOx, bg = bg,
 ggyearday(data, time = "date", z = "O3")
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+<img src="man/figures/README-ggyearday-1.png" width="100%" />
 
 ## Kalender + stat\_filter
 
@@ -116,10 +170,10 @@ data_d1 <-
   purrr::pluck("d1") %>% 
   rOstluft::rolf_to_openair()
 
-  
+
 ggcalendar(data_d1, z = "O3_max_h1") +
   scale_fill_viridis_c(direction = -1, option = "magma", na.value = NA) +
-  cal_month_border(color = "black") +
+  cal_month_border(size = 1) +
   stat_filter(
     aes(filter = O3_max_h1 > 120), size = 1, 
     color = "white", fill = "white", shape = 21,
@@ -128,19 +182,41 @@ ggcalendar(data_d1, z = "O3_max_h1") +
   cal_label(aes(label = round(O3_max_h1,0)), fontface = "bold")
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+<img src="man/figures/README-ggcalendar-1.png" width="100%" />
 
 ## Hysplit Trajektorien (openair data format)
 
 ``` r
 fn <- system.file("extdata", "2017_ZH-Kaserne-hysplit.rds", package = "rOstluft.data")
 traj <- readRDS(fn)
-traj <- dplyr::filter(traj, date < lubridate::ymd("2017-01-08"))
+traj <- dplyr::filter(traj, 
+  dplyr::between(lubridate::as_date(date), lubridate::ymd("2017-03-08"), lubridate::ymd("2017-03-14"))
+)
 
-ggtraj(traj, color_scale = ggplot2::scale_color_viridis_c(name = "m agl."))
+# simple
+ggtraj(traj)
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+<img src="man/figures/README-ggtraj-1.png" width="100%" />
+
+``` r
+# Schadstoff statt Trajektorienhöhe
+# Interessant für den Transport von Schadstoffen wie EC. In diesem Beispiel wird PM2.5
+# verwendet weil keine EC Daten in den Beispieldaten enthalten sind.
+data_2017 <-
+  rOstluft.data::f("Zch_Stampfenbachstrasse_min30_2017.csv") %>% 
+  rOstluft::read_airmo_csv() %>%
+  rOstluft::rolf_to_openair() 
+
+data_traj <- 
+  dplyr::select(data_2017, -site) %>% 
+  dplyr::right_join(traj, by = "date")
+  
+ggtraj(data_traj, aes(color = PM2.5), 
+       color_scale = ggplot2::scale_color_viridis_c(direction = -1))
+```
+
+<img src="man/figures/README-ggtraj-2.png" width="100%" />
 
 ## Squishing data
 
@@ -152,13 +228,12 @@ Daten:
 ggyearday(data, time = date, z = PM10)
 ```
 
-<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
+<img src="man/figures/README-unsquished_ggyearday-1.png" width="100%" />
 
 In einem ggplot2 Diagramm kann bei continuous scales mit Hilfe dem
 Argument `oob` eine Funktion übergeben werden, was mit Werten ausserhalb
-des Limits geschieht. Mit Hilfe der Funktion
-[`scales::squish()`](https://scales.r-lib.org/reference/squish.html)
-werden diese Werte auf das Minima, bzw. Maxima der Limits gesetzt. In
+des Limits geschieht. Mit Hilfe der Funktion `scales::squish()` werden
+diese Werte auf das Minima, bzw. Maxima der Limits gesetzt. In
 rOstluft.plot sind die Hilfsfunktionen `scale_fill_viridis_squished()`,
 `scale_color_viridis_squished()`, `scale_fill_gradientn_squished()` und
 `scale_color_gradientn_squished()` enthalten:
@@ -175,7 +250,7 @@ fill_scale <- scale_fill_viridis_squished(
 ggyearday(data, time = date, z = PM10, fill_scale = fill_scale)
 ```
 
-<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
+<img src="man/figures/README-squished_ggyearday-1.png" width="100%" />
 
 Teilweise ist es für Klassierungen praktisch alle Werte über einem
 Maximum in einer zusätzlichen Klasse zusammen zu fassen. Die Funktion
@@ -299,7 +374,6 @@ pad_to_year_fill(january, starttime, "30 min") %>%
 ``` r
 # enthalten die Daten jedoch eine Klassifizierungs Spalte
 # muss man die zu füllenden Spalten explixit angeben
-
 january_oa <- openair::cutData(january_oa, "month") %>% 
   dplyr::select(date, month, dplyr::everything())
 
@@ -338,3 +412,9 @@ pad_to_year_fill(january_oa, date, "30 min", site) %>%
     #> 6 2013-12-31 23:30:00 <NA>  Zch_~    NA    NA    NA    NA    NA    NA    NA
     #> # ... with 7 more variables: PM10 <dbl>, RainDur <dbl>, SO2 <dbl>,
     #> #   StrGlo <dbl>, T <dbl>, wd <dbl>, ws <dbl>
+
+Karten Attribution: Map tiles by <a href="http://stamen.com">Stamen
+Design</a>, under
+<a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data
+by <a href="http://openstreetmap.org">OpenStreetMap</a>, under
+<a href="http://www.openstreetmap.org/copyright">ODbL</a>.

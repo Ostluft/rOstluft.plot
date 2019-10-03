@@ -22,6 +22,8 @@ navbar:
       menu:
       - text: 'Linien Kalender'
         href: articles/articles/Kalender_Linie.html
+      - text: 'Diurnal Wind als Density und Boxplot'
+        href: articles/articles/Wind_Density.html
     github:
       icon: fa-github fa-lg
       href: https://github.com/Ostluft/rOstluft.plot
@@ -78,7 +80,6 @@ reference:
   desc: wrappers and partial functions to cut data
   contents:
   - starts_with("cut")
-  - y_classes
 
 - title: utility functions
   desc: Some functions to make the life of a programmer easier
@@ -91,4 +92,5 @@ reference:
   - pad_to_year_fill
   - grp
   - auto_name
+  - themes_rop
 

@@ -12,6 +12,9 @@
 #' @param ylabels function to format ylabels. Default adds unit " m/s"
 #' @param breaks waiver() or numeric vector, provides y-axis breaks
 #' @param bg raster map, e.g. ggmap object as plot background
+#' @param ... Other arguments passed on to [ggplot2::geom_raster()]. Used
+#'   to set an aesthetic to a fixed value
+#'
 #' @inheritParams summary_wind_2d
 #'
 #' @return [ggplot2::ggplot()] object
@@ -19,6 +22,7 @@
 #'
 #' @examples
 #' library(ggplot2)
+#' library(dplyr)
 #'
 #' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 #'
@@ -88,22 +92,23 @@
 #'   )
 #'
 ggpolarplot <- function(data, ws, wd, z,
-                        nmin = 3,
                         groupings = grp(),
                         fun = "mean",
                         fun.args = list(na.rm = TRUE),
+                        nmin = 3,
                         ws_max = NA,
                         smooth = TRUE,
                         k = 200,
                         extrapolate = TRUE,
                         dist = 0.1,
                         pixels = 80^2,
-                        fill_scale = scale_fill_gradientn(colours = matlab::jet.colors(100), na.value = NA),
+                        fill_scale = scale_fill_gradientn(colours = matlab::jet.colors(20), na.value = NA),
                         ylabels = scales::unit_format(unit = "m/s"),
                         breaks = waiver(),
                         bg = NULL,
                         ...
 ) {
+
   ws <- rlang::ensym(ws)
   wd <- rlang::ensym(wd)
   z <- rlang::ensym(z)
@@ -115,13 +120,13 @@ ggpolarplot <- function(data, ws, wd, z,
 
 
   plot <-
-    ggplot(data_summarized, aes(x = u, y = v, fill = !!z)) +
+    ggplot(data_summarized, aes(x = .data$u, y = .data$v, fill = !!z)) +
     geom_raster(...) +
     scale_y_continuous(breaks = breaks, labels = ylabels, expand = ggplot2::expand_scale(add = 0.5)) +
     coord_cartpolar(limit = ws_max, bg = bg, grid = "foreground") +
     guides(fill = guide_colorbar(title = rlang::quo_text(z))) +
     fill_scale +
-    theme_polarplot
+    theme_rop_polarplot()
 
   return(plot)
 }

@@ -14,7 +14,7 @@ StatFilter <- ggproto("StatFilter", Stat,
 #' Only keeps values where the aesthetic filter evaluates to `TRUE`.
 #' Useful for showing only a subset of the data or to highlight some values, without filtering the data outside.
 #'
-#' Inspired by [metR::stat_subset()].
+#' Inspired by [`metR::stat_subset()`](https://eliocamp.github.io/metR/reference/stat_subset.html).
 #'
 #' @section Aesthetics:
 #'

@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9008</span>
       </span>
     </div>
 
@@ -99,6 +99,9 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/articles/Kalender_Linie.html">Linien Kalender</a>
+    </li>
+    <li>
+      <a href="../articles/articles/Wind_Density.html">Diurnal Wind als Density und Boxplot</a>
     </li>
   </ul>
 </li>
@@ -135,10 +138,9 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>ggtraj</span>(<span class='no'>data</span>, <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='fu'>aes</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>lon</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>lat</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>date</span>, <span class='kw'>color</span> <span class='kw'>=</span>
-  <span class='no'>height</span>), <span class='kw'>incr</span> <span class='kw'>=</span> -<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>24</span>, <span class='fl'>96</span>, <span class='fl'>24</span>), <span class='kw'>lims</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>ggtraj</span>(<span class='no'>data</span>, <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>incr</span> <span class='kw'>=</span> -<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>24</span>, <span class='fl'>96</span>, <span class='fl'>24</span>), <span class='kw'>lims</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>add_traj_labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>color_scale</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_gradient.html'>scale_color_gradient</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"m agl."</span>))</pre>
+  <span class='kw'>color_scale</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_viridis.html'>scale_color_viridis_c</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"m agl."</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -149,7 +151,7 @@
     </tr>
     <tr>
       <th>mapping</th>
-      <td><p>ggplot mapping, typically: aes(x = lon, y = lat, group = date, color = height)</p></td>
+      <td><p>add or overwrite mapping. default is aes(x = lon, y = lat, group = date, color = height)</p></td>
     </tr>
     <tr>
       <th>incr</th>
@@ -176,11 +178,27 @@ markers are plotted</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft.data</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft.data/man/f.html'>f</a></span>(<span class='st'>"2017_ZH-Kaserne-hysplit.rds"</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft.data</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft.data/man/f.html'>f</a></span>(<span class='st'>"2017_ZH-Kaserne-hysplit.rds"</span>)
 <span class='no'>traj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span>(<span class='no'>fn</span>)
-<span class='no'>traj</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>traj</span>, <span class='no'>date</span> <span class='kw'>&lt;</span> <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/ymd.html'>ymd</a></span>(<span class='st'>"2017-01-08"</span>))
+<span class='no'>traj</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>traj</span>,
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/between.html'>between</a></span>(<span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/as_date.html'>as_date</a></span>(<span class='no'>date</span>), <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/ymd.html'>ymd</a></span>(<span class='st'>"2017-03-08"</span>), <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/ymd.html'>ymd</a></span>(<span class='st'>"2017-03-14"</span>))
+)
 <span class='fu'>ggtraj</span>(<span class='no'>traj</span>)</div><div class='img'><img src='ggtraj-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+<span class='co'># air pollutant instead of trajectory height</span>
+<span class='co'># can be interesting e.g. with long-range transport of EC,</span>
+<span class='co'># but we don't have EC data ready at hand, so we use PM2.5 here instead</span>
+<span class='no'>data_2017</span> <span class='kw'>&lt;-</span>
+  <span class='kw pkg'>rOstluft.data</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft.data/man/f.html'>f</a></span>(<span class='st'>"Zch_Stampfenbachstrasse_min30_2017.csv"</span>) <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/read_airmo_csv.html'>read_airmo_csv</a></span>() <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/rolf_to_openair.html'>rolf_to_openair</a></span>()
+
+<span class='no'>data_traj</span> <span class='kw'>&lt;-</span>
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>data_2017</span>, -<span class='no'>site</span>) <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/join.html'>right_join</a></span>(<span class='no'>traj</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"date"</span>)
+
+<span class='no'>cs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_viridis.html'>scale_color_viridis_c</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"PM2.5"</span>, <span class='kw'>direction</span> <span class='kw'>=</span> -<span class='fl'>1</span>)
+<span class='fu'>ggtraj</span>(<span class='no'>data_traj</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='no'>PM2.5</span>), <span class='kw'>color_scale</span> <span class='kw'>=</span> <span class='no'>cs</span>)</div><div class='img'><img src='ggtraj-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

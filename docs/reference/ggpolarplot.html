@@ -77,7 +77,7 @@ setting, flexible stat functions, data extrapolation and plotting over a raster 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9008</span>
       </span>
     </div>
 
@@ -101,6 +101,9 @@ setting, flexible stat functions, data extrapolation and plotting over a raster 
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/articles/Kalender_Linie.html">Linien Kalender</a>
+    </li>
+    <li>
+      <a href="../articles/articles/Wind_Density.html">Diurnal Wind als Density und Boxplot</a>
     </li>
   </ul>
 </li>
@@ -139,11 +142,11 @@ setting, flexible stat functions, data extrapolation and plotting over a raster 
     
     </div>
 
-    <pre class="usage"><span class='fu'>ggpolarplot</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='no'>z</span>, <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>groupings</span> <span class='kw'>=</span> <span class='fu'><a href='groups.html'>groups</a></span>(),
-  <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>fun.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+    <pre class="usage"><span class='fu'>ggpolarplot</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='no'>z</span>, <span class='kw'>groupings</span> <span class='kw'>=</span> <span class='fu'><a href='grp.html'>grp</a></span>(), <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
+  <span class='kw'>fun.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
   <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>extrapolate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>dist</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
   <span class='kw'>pixels</span> <span class='kw'>=</span> <span class='fl'>80</span>^<span class='fl'>2</span>, <span class='kw'>fill_scale</span> <span class='kw'>=</span> <span class='fu'>scale_fill_gradientn</span>(<span class='kw'>colours</span> <span class='kw'>=</span>
-  <span class='kw pkg'>matlab</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/matlab/man/jet.colors.html'>jet.colors</a></span>(<span class='fl'>100</span>), <span class='kw'>na.value</span> <span class='kw'>=</span> <span class='fl'>NA</span>),
+  <span class='kw pkg'>matlab</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/matlab/man/jet.colors.html'>jet.colors</a></span>(<span class='fl'>20</span>), <span class='kw'>na.value</span> <span class='kw'>=</span> <span class='fl'>NA</span>),
   <span class='kw'>ylabels</span> <span class='kw'>=</span> <span class='kw pkg'>scales</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/scales/man/number_format.html'>unit_format</a></span>(<span class='kw'>unit</span> <span class='kw'>=</span> <span class='st'>"m/s"</span>), <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'>waiver</span>(),
   <span class='kw'>bg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
@@ -167,12 +170,8 @@ setting, flexible stat functions, data extrapolation and plotting over a raster 
       <td><p>symbol giving the parameter name to be summarised</p></td>
     </tr>
     <tr>
-      <th>nmin</th>
-      <td><p>numeric, minimum number of values for fun, if n &lt; nmin: NA is returned</p></td>
-    </tr>
-    <tr>
       <th>groupings</th>
-      <td><p>additional groupings. Use helper <code><a href='groups.html'>groups()</a></code> to create</p></td>
+      <td><p>additional groupings. Use helper <code><a href='grp.html'>grp()</a></code> to create</p></td>
     </tr>
     <tr>
       <th>fun</th>
@@ -183,8 +182,12 @@ setting, flexible stat functions, data extrapolation and plotting over a raster 
       <td><p>a list of extra arguments to pass to fun.</p></td>
     </tr>
     <tr>
+      <th>nmin</th>
+      <td><p>numeric, minimum number of values for fun, if n &lt; nmin: NA is returned</p></td>
+    </tr>
+    <tr>
       <th>ws_max</th>
-      <td><p>numeric or NA, maximum wind velocity for binning: above ws_max, z is set NA</p></td>
+      <td><p>numeric or Inf, maximum wind velocity for binning: above ws_max, z is set NA</p></td>
     </tr>
     <tr>
       <th>smooth</th>
@@ -227,6 +230,11 @@ will be printed.</p></td>
       <th>bg</th>
       <td><p>raster map, e.g. ggmap object as plot background</p></td>
     </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Other arguments passed on to <code><a href='https://ggplot2.tidyverse.org/reference/geom_tile.html'>ggplot2::geom_raster()</a></code>. Used
+to set an aesthetic to a fixed value</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -236,7 +244,12 @@ will be printed.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
-
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attache Paket: 'dplyr'</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:stats':</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:base':</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'>
 <span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft.data</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft.data/man/f.html'>f</a></span>(<span class='st'>"Zch_Stampfenbachstrasse_2010-2014.csv"</span>)
 
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/read_airmo_csv.html'>read_airmo_csv</a></span>(<span class='no'>fn</span>) <span class='kw'>%&gt;%</span>
@@ -267,8 +280,8 @@ will be printed.</p></td>
 <span class='co'># change binning parameters</span>
 <span class='fu'>ggpolarplot</span>(<span class='no'>df</span>, <span class='kw'>wd</span> <span class='kw'>=</span> <span class='no'>wd</span>, <span class='kw'>ws</span> <span class='kw'>=</span> <span class='no'>ws</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>NOx</span>, <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pixels</span> <span class='kw'>=</span> <span class='fl'>50</span>^<span class='fl'>2</span>,
             <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>,<span class='fl'>6</span>,<span class='fl'>2</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 2140 rows containing missing values (geom_raster).</span></div><div class='img'><img src='ggpolarplot-7.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># facetting variable must be included in groups</span>
-<span class='fu'>ggpolarplot</span>(<span class='no'>df</span>, <span class='kw'>wd</span> <span class='kw'>=</span> <span class='no'>wd</span>, <span class='kw'>ws</span> <span class='kw'>=</span> <span class='no'>ws</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>NOx</span>, <span class='kw'>groupings</span> <span class='kw'>=</span> <span class='fu'><a href='groups.html'>groups</a></span>(<span class='no'>wday</span>),
+<span class='co'># facetting variable must be included in grp</span>
+<span class='fu'>ggpolarplot</span>(<span class='no'>df</span>, <span class='kw'>wd</span> <span class='kw'>=</span> <span class='no'>wd</span>, <span class='kw'>ws</span> <span class='kw'>=</span> <span class='no'>ws</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>NOx</span>, <span class='kw'>groupings</span> <span class='kw'>=</span> <span class='fu'><a href='grp.html'>grp</a></span>(<span class='no'>wday</span>),
             <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>pixels</span> <span class='kw'>=</span> <span class='fl'>50</span>^<span class='fl'>2</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>2</span>, <span class='fl'>4</span>)) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/vars.html'>vars</a></span>(<span class='no'>wday</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 6006 rows containing missing values (geom_raster).</span></div><div class='img'><img src='ggpolarplot-8.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># different stat fun</span>

@@ -21,6 +21,9 @@ columns carrying information regarding:
 
 \item{geom}{The geometric object to use display the data (in this case: raster).}
 
+\item{position}{Position adjustment, either as a string, or the result of
+a call to a position adjustment function.}
+
 \item{...}{other arguments passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}} as \code{params = list(...)}.}
 
 \item{fun}{function or list of functions for summary.}
@@ -45,7 +48,19 @@ those values are returned (to a certain degree depending on the value of dist)}
 \item{dist}{numeric, fraction of 1, applies if smooth = TRUE and extrapolate = TRUE; maximum distance to next
 coordinate-pair at which the result of fit_gam_surface(z) should be returned}
 
-\item{groups}{can be NULL, c("u", "v"), "wd_class", "ws_class", ...}
+\item{na.rm}{If \code{FALSE}, the default, missing values are removed with
+a warning. If \code{TRUE}, missing values are silently removed.}
+
+\item{show.legend}{logical. Should this layer be included in the legends?
+\code{NA}, the default, includes if any aesthetics are mapped.
+\code{FALSE} never includes, and \code{TRUE} always includes.
+It can also be a named logical vector to finely select the aesthetics to
+display.}
+
+\item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
+rather than combining with them. This is most useful for helper functions
+that define both data and aesthetics and shouldn't inherit behaviour from
+the default plot specification, e.g. \code{\link[=borders]{borders()}}.}
 }
 \value{
 ggplot2 layer

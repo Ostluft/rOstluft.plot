@@ -36,10 +36,11 @@ a ggmap object (a classed raster object with a bounding box attribute)
 The functions \code{\link[=get_googlemap]{get_googlemap()}} and \code{\link[=get_stamen_map]{get_stamen_map()}} tries to harmonize the calls to \code{\link[=ggmap]{ggmap()}}. The objective is
 to get interchangeable functions with sensible defaults. For example automatic calculation of the zoom. The function
 \code{\link[=bbox_lv95]{bbox_lv95()}} generates a bbox object compatible with both functions. Before using this function you need to register
-your google API key with \link[ggmap:register_google(key)]{ggmap::register_google(key)}. For details consult the documentation of the
+your google API key with \code{\link[ggmap:register_google]{ggmap::register_google()}}. For details consult the documentation of the
 \href{https://developers.google.com/maps/documentation/maps-static/intro}{Maps Static API} and \code{\link[ggmap:get_googlemap]{ggmap::get_googlemap()}}.
 }
 \examples{
+library(ggmap)
 ggmap::register_google(Sys.getenv("GGMAP_GOOGLE_API_KEY"))
 bb <- bbox_lv95(2683141, 1249040, 500) # site Zch_Stamfenbachstrasse
 get_google_map(bb) \%>\%  ggmap::ggmap()

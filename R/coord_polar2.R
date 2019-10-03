@@ -1,13 +1,13 @@
 #' Customized coord_polar
 #'
-#' The differences between [ggplot2::cord_polar()] and [coord_polar2()] are:
-#' * Add a raster (image) as background. As example a map created with [get_stampen_map()]
-#' * [ggplot2::cord_polar()] always adds an outer circle with r = 0.45 to the plot. This circle is removed.
+#' The differences between [ggplot2::coord_polar()] and [coord_polar2()] are:
+#' * Add a raster (image) as background. As example a map created with [get_stamen_map()]
+#' * [ggplot2::coord_polar()] always adds an outer circle with r = 0.45 to the plot. This circle is removed.
 #'
 #' @param bg raster for background image
 #' @inheritParams ggplot2::coord_polar
 #'
-#' @seealso `ggplot2::cord_polar()`
+#' @seealso `ggplot2::coord_polar()`
 #'
 #' @return ggplot2 coord system
 #' @export
@@ -144,11 +144,6 @@ rename_data <- function(coord, data) {
   } else {
     rename(data, c("y" = "r", "x" = "theta"))
   }
-}
-
-theta_rescale_no_clip <- function(coord, x, panel_params) {
-  rotate <- function(x) (x + coord$start) * coord$direction
-  rotate(rescale(x, c(0, 2 * pi), panel_params$theta.range))
 }
 
 theta_rescale <- function(coord, x, panel_params) {

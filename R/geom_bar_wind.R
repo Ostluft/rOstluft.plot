@@ -17,6 +17,8 @@
 #'
 #' [ggwindrose()] and [ggradar()] can be used to create some standardized plots.
 #'
+#' @param na.rm If `FALSE`, the default, missing values are removed with
+#'   a warning. If `TRUE`, missing values are silently removed.
 #' @param ... Other arguments passed on to [layer()]. These are
 #'   often aesthetics, used to set an aesthetic to a fixed value, like
 #'   `colour = "red"` or `size = 3`. They may also be parameters

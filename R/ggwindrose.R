@@ -3,8 +3,10 @@
 #' @return ggplot object
 #'
 #' @param data tibble containing wind speed, wind direction and/or air pollutant concentration data
+#' @param ws symbol giving the wind velocity column name (wind velocity preferably in m/s)
+#' @param wd symbol giving the wind direction column name  in degrees
 #' @param wd_binwidth numeric, binwidth for wind direction in °, wd_binwidth should fullfill:
-#'   `(360 / wd_binwidth) %in% c(4, 8, 12, 16)`
+#'   `(360 / wd_binwidth) %in% c(4, 8, 16, 32)`
 #' @param ws_binwidth numeric, binwidth for wind speed
 #' @param ws_max numeric, can be NA, wind speed is squished at this value
 #' @param groupings additional groupings. Use helper [grp()] to create. **Necessary** for some facets!
@@ -13,7 +15,7 @@
 #'   or ascending (FALSE). Usually for wind roses a descending order (higher wind speed on
 #'   the outside) is used.
 #' @param bg raster map, e.g. ggmap object as plot background
-#' @param ... Other arguments passed on to [ggplot2::geom_bar()]. these are often aesthetics, used
+#' @param ... Other arguments passed on to [ggplot2::geom_bar()]. Used
 #'   to set an aesthetic to a fixed value. Defaults are `color = "white", width = 1, size = 0.25`
 #'
 #' @return [ggplot2::ggplot()] object
@@ -82,14 +84,15 @@
 #'     panel.spacing.y = unit(0, "pt")
 #'   )
 ggwindrose <- function(data, ws, wd,
-                       ...,
                        wd_binwidth = 45,
                        ws_binwidth = 1,
                        ws_max = NA,
                        groupings = grp(),
                        fill_scale = scale_fill_viridis_d(),
                        reverse = TRUE,
-                       bg = NULL
+                       bg = NULL,
+                       ...
+
 ) {
 
   ws <- rlang::ensym(ws)  # or enquo but summary_wind accept only strings or symbols
@@ -107,14 +110,14 @@ ggwindrose <- function(data, ws, wd,
   breaks <- c(0, 90, 180, 270) / wd_binwidth + 1
   xexpand <- expand_scale(add = (1 - bar_args$width) / 2)
 
-  plot <- ggplot(data_summarized, aes(x = as.numeric(!!wd), y = freq, fill = !!ws)) +
+  plot <- ggplot(data_summarized, aes(x = as.numeric(!!wd), y = .data$freq, fill = !!ws)) +
     bar_layer +
     coord_polar2(start = -2 * pi / 360 * wd_binwidth / 2, bg = bg) +
     scale_x_continuous(breaks = breaks, labels = c("N", "O", "S", "W"), expand = xexpand) +
-    scale_y_continuous( limits = c(0, NA), expand = expand_scale(), labels = scales::percent) +
+    scale_y_continuous(limits = c(0, NA), expand = expand_scale(), labels = scales::percent) +
     fill_scale +
     guides(fill = guide_legend(title = rlang::quo_text(ws), reverse = !reverse)) +
-    theme_windrose
+    theme_rop_windrose()
 
   return(plot)
 }

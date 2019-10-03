@@ -3,4 +3,5 @@ pkgdown: 1.4.0
 pkgdown_sha: ~
 articles:
   Kalender_Linie: articles/Kalender_Linie.html
+  Wind_Density: articles/Wind_Density.html
 

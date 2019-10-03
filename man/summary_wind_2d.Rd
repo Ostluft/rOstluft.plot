@@ -31,7 +31,7 @@ requires input data including at least three columns carrying information regard
 
 \item{nmin}{numeric, minimum number of values for fun, if n < nmin: NA is returned}
 
-\item{ws_max}{numeric or NA, maximum wind velocity for binning: above ws_max, z is set NA}
+\item{ws_max}{numeric or Inf, maximum wind velocity for binning: above ws_max, z is set NA}
 
 \item{bins}{numeric, number of bins over the range of values if \code{!groups \%in\% c("u", "v")}}
 
@@ -68,12 +68,13 @@ binning is done 2-dimensional over cartesian u and v wind vectors
 }
 
 \examples{
+library(ggplot2)
 fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 data <- rOstluft::read_airmo_csv(fn)
 data <- rOstluft::rolf_to_openair(data)
 
 # summary NO2
-summary_wind_2d(data, ws, wd, NO2, smooth = FALSE)
+summary_wind_2d(data, ws, wd, NOx, smooth = FALSE)
 
 # multiple stats: Pass function, by name, reference, as function or one sided formula
 funs <- list(
@@ -82,7 +83,7 @@ funs <- list(
   "q95" = ~ stats::quantile(., probs = 0.95)
 )
 
-summary_wind_2d(data, ws, wd, NO2, fun = funs, smooth = FALSE)
+summary_wind_2d(data, ws, wd, NOx, fun = funs, smooth = FALSE)
 
 # is for some reason fun.args used with multiple functions, use ... to catch
 # superfluous arguments:
@@ -91,28 +92,36 @@ funs <- list(
   "mean"
 )
 
-summary_wind_2d(data, ws, wd, NO2, fun = funs, fun.args = list(na.rm = TRUE),
+summary_wind_2d(data, ws, wd, NOx, fun = funs, fun.args = list(na.rm = TRUE),
                 smooth = FALSE)
 
 # additional groupings
-summary_wind_2d(data, ws, wd, NO2, groupings = grp(site), smooth = FALSE)
+summary_wind_2d(data, ws, wd, NOx, groupings = grp(site), smooth = FALSE)
 
 # we can use expressions in grp For better readability groupings is
 # defined outside of the function call
 groupings = grp("site", year = lubridate::year(date))
 
-summary_wind_2d(data, ws, wd, NO2, groupings = groupings, smooth = FALSE)
+summary_wind_2d(data, ws, wd, NOx, groupings = groupings, smooth = FALSE)
 
 # smoothing
-df1 <- summary_wind_2d(data, ws, wd, NO2, bins = 100^2, smooth = TRUE, k = 100)
-df2 <- summary_wind_2d(data, ws, wd, NO2, bins = 100^2, smooth = FALSE)
+df1 <- summary_wind_2d(data, ws, wd, NOx, bins = 100^2, smooth = FALSE)
+df2 <- summary_wind_2d(data, ws, wd, NOx, bins = 100^2, extrapolate = FALSE)
+df3 <- summary_wind_2d(data, ws, wd, NOx, bins = 100^2, smooth = TRUE)
 
-df <- dplyr::bind_rows(smoothed = df1, raw = df2, .id = "smoothing")
+df <- dplyr::bind_rows(
+  "smooth = F" = df1,
+  "smooth = T, extrapolate = F" = df2,
+  "smooth = T, extrapolate = T" = df3,
+  .id = "smoothing"
+)
 
-ggplot(df, aes(x = u, y=v, fill=NO2)) +
+ggplot(df, aes(x = u, y = v, fill = NOx)) +
+  coord_fixed(expand = FALSE) +
+  lims(x = c(-7.5, 7.5), y = c(-7.5, 7.5)) +
   geom_raster() +
   scale_fill_viridis_c(na.value = NA) +
-  facet_wrap(vars(smoothing))
+  facet_wrap(vars(smoothing), ncol = 2)
 
 # for a small number of bins reduce k
 summary_wind_2d(data, ws, wd, NO2, bins = 5^2, smooth = TRUE, k = 5)

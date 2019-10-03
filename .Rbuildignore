@@ -3,6 +3,8 @@
 ^README\.Rmd$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^pkgdown$
+^vignettes/articles$
 .lintr
 .renviron
 prepare_release.R

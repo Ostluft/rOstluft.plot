@@ -20,6 +20,7 @@ based on \code{\link[=coord_polar2]{coord_polar2()}}, but paths are connected li
 of \code{\link[=coord_polar2]{coord_polar2()}} for more Information and examples
 }
 \examples{
+library(ggplot2)
 fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 data <- rOstluft::read_airmo_csv(fn)
 data <- rOstluft::rolf_to_openair(data)

@@ -9,6 +9,7 @@
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
 #' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 #' data <- rOstluft::read_airmo_csv(fn)
 #' data <- rOstluft::rolf_to_openair(data)
