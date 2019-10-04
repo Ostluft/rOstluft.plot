@@ -31,35 +31,40 @@
 #'   dplyr::mutate(wday = lubridate::wday(date, label = TRUE, week_start = 1))
 #'
 #' # wind direction radar chart with mean values of y as summary statistics
-#' ggradar(data, mapping = aes(x = wd, y = NOx))
+#' ggradar(data, wd, NOx)
+#'
+#' # don't like the legend?
+#' ggradar(data, wd, NOx, show.legend = FALSE)
 #'
 #' # wind direction radar chart with pre-calculated summary stats
 #' # (same as above)
 #' df <- data %>%
-#'    filter(!is.na(.data$wd)) %>%
-#'    mutate(wd = cut_wd(.data$wd, binwidth = 45)) %>%
-#'    group_by(.data$wd) %>%
-#'    summarise(NOx = mean(.data$NOx, na.rm = TRUE)) %>%
-#'    ungroup()
+#'    dplyr::filter(!is.na(.data$wd)) %>%
+#'    dplyr::mutate(wd = cut_wd(.data$wd, binwidth = 45)) %>%
+#'    dplyr::group_by(.data$wd) %>%
+#'    dplyr::summarise(NOx = mean(.data$NOx, na.rm = TRUE)) %>%
+#'    dplyr::ungroup()
 #'
-#' ggradar(df, aes(x = wd, y = NOx), fun = "identity")
+#' # we can provide a string as group, in the case no variable
+#' # for group exists in the data
+#' ggradar(df, wd, NOx, "mean", fun = "identity", show.legend = FALSE)
 #'
 #' # same as above but with defined fill and alpha, no color
-#' ggradar(data, aes(x = wd, y = NOx), fill = "gray30", alpha = 0.5)
+#' ggradar(data, wd, NOx, fill = "gray30", alpha = 0.5, color = NA)
 #'
 #' # same as above but with no fill, defined color etc
-#' ggradar(data, aes(x = wd, y = NOx), fill = NA, color = "steelblue", lwd = 1)
+#' ggradar(data, wd, NOx, fill = NA, color = "steelblue", lwd = 1)
 #'
 #' # higher wind direction resolution (actually: highest with predefined labels)
-#' ggradar(data, aes(x = wd, y = NOx), wd_binwidth = 11.25,
+#' ggradar(data, wd, NOx, wd_binwidth = 11.25,
 #'         fill = "gray30", alpha = 0.5)
 #'
 #' # apply different statistic function
 #' q95 <- function(x, ...) quantile(x, 0.95, ...)
-#' ggradar(data, aes(x = wd, y = NOx), fun = list(q95 = q95), alpha = 0.5)
+#' ggradar(data, wd, NOx, fun = list(q95 = q95), alpha = 0.5)
 #'
 #' # group by multiple statistic functions and omit polygon filling
-#' ggradar(data, aes(x = wd, y = NOx, color = stat, group = stat),
+#' ggradar(data, wd, NOx,
 #'         fun = list("mean", "median", "perc95" = q95), fill = NA)
 #'
 #' # ... adjust x and color and fill scales and reorder stat levels for appropriate fill order
@@ -68,15 +73,17 @@
 #' stat_reorder <- function(stat) {
 #'   factor(stat, levels = rev(c("perc05", "median", "mean", "perc95")))
 #' }
-#' ggradar(data, aes(x = wd, y = NOx, fill = stat, group = stat),
+#' ggradar(data, wd, NOx,
 #'      fun = list("perc05" = q05, "median", "mean", "perc95" = q95),
 #'      fun_reorder = stat_reorder, color = NA, alpha = 0.9) +
 #'    scale_y_continuous(limits = c(0,120)) +
 #'    scale_fill_viridis_d(begin = 0.2)
 #'
 #' # ... same as above but with one-colored fill and stats as facets
-#' ggradar(data, aes(x = wd, y = NOx, group = stat),
-#'         fun = list("mean", "median", "perc95" = q95)) +
+#' ggradar(data, wd, NOx,
+#'         fun = list("mean", "median", "perc95" = q95),
+#'         fill = "steelblue",
+#'         show.legend = FALSE) +
 #'   facet_wrap(vars(stat), ncol = 2)
 #'
 #' # multiple y-parameters and facetting (facetting variable has to be separately
@@ -84,18 +91,19 @@
 #' df2 <- dplyr::select(data, wd, NO, NOx, wday) %>%
 #'   tidyr::gather(par, val, -wd, -wday)
 #'
-#' ggradar(df2, aes(x = wd, y = val, group = wday, color = wday),
+#' ggradar(df2, wd, val, wday,
 #'         facet_groups = grp(par), fill = NA) +
 #'   facet_wrap(vars(par))
 #'
 #' # with background map
 #' bb <- bbox_lv95(2683141, 1249040, 500)
 #' bg <- get_stamen_map(bb)
-#' ggradar(data, aes(x = wd, y = NOx), bg = bg, color = "blue", fill = "blue", alpha = 0.5) +
+#' ggradar(data, wd, NOx, bg = bg, color = "blue", fill = "blue", alpha = 0.5) +
 #'   theme(panel.grid.major = ggplot2::element_line(linetype = 1, color = "white"))
 #'
 ggradar <- function(data,
-                    mapping,
+                    wd, y, group = stat,
+                    mapping = NULL,
                     facet_groups = grp(),
                     wd_binwidth = 45,
                     fun = "mean",
@@ -106,33 +114,35 @@ ggradar <- function(data,
                     ...
 ) {
 
-  wd <- rlang::sym(rlang::as_name(mapping$x))
-  y <- rlang::sym(rlang::as_name(mapping$y))
+  wd <- rlang::ensym(wd)
+  y <- rlang::ensym(y)
+  group <- rlang::enquo(group)
+
   if ("identity" %in% fun) {
     data_summarized <- data
   } else {
-
     wd_cutfun <- cut_wd.fun(binwidth = wd_binwidth)
 
-    if (is.null(mapping$group)) {
-      grp <- grp()
-    } else if ("stat" %in% rlang::as_name(mapping$group)) {
-      grp <- grp()
-    } else {
-      grp <- grp(!!as.character(mapping$group)[2])
+    if (!(rlang::is_symbolic(group) && rlang::as_name(group) == "stat")) {
+      group_name <- rlang::as_name(group)
+      facet_groups <- modify_list(grp(!!group), facet_groups)
+      group <- rlang::sym(group_name)
     }
-    grp_var <- rlang::sym(ifelse(length(as.character(grp)) == 0, "stat", as.character(grp)))
-    data_summarized <- summary_wind(data, NULL, !!wd, !!y, groupings = modify_list(grp, facet_groups),
+
+    data_summarized <- summary_wind(data, NULL, !!wd, !!y, groupings = facet_groups,
                                     wd_cutfun = wd_cutfun, fun = fun, fun.args = fun.args)
-    data_summarized <- dplyr::mutate(data_summarized, !!grp_var := fun_reorder(!!grp_var))
+    # reorder summarized data
+    data_summarized <- dplyr::mutate(data_summarized, !!group := fun_reorder(!!group))
   }
 
-  if (!("group" %in% names(mapping))) {
-    mapping <- modify_list(mapping, aes(group = NA))
+  defaul_mapping <- aes(x = !!wd, y = !!y, group = !!group, color = !!group, fill = !!group)
+
+  if (!is.null(mapping)) {
+    defaul_mapping <- modify_list(defaul_mapping, mapping)
   }
 
   plot <-
-    ggplot(data_summarized, mapping) +
+    ggplot(data_summarized, defaul_mapping) +
     geom_polygon(...) +
     coord_radar(start = -2 * pi / 360 * wd_binwidth / 2, bg = bg) +
     scale_x_discrete() +

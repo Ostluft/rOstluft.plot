@@ -94,14 +94,14 @@ quo_is_character <- function(quo) {
 grp <- function(...) {
   quos <- as.list(rlang::quos(...))
   quos <- purrr::modify_if(quos, quo_is_character, quo_as_symbol)
-  rlang::exprs_auto_name(quos)
+  auto_name(quos)
 }
 
 
 
 #' Ensure that all elements of a list of expressions are named
 #'
-#' Nearly identical to [rlang::exprs_auto_name()], but [rlang::quo_name()]
+#' Nearly identical to [rlang::exprs_auto_name()], but [rlang::as_name()]
 #' is used instead of [rlang::as_label()]. For String items the string will
 #' returned without wrapping in double quotes. The naming of functions and
 #' formulas is not optimal, it is better to manually name theme.
@@ -126,7 +126,7 @@ grp <- function(...) {
 auto_name <- function(exprs) {
   have_name <- rlang::have_name(exprs)
   if (any(!have_name)) {
-    nms <- purrr::map_chr(exprs[!have_name], rlang::quo_name)
+    nms <- purrr::map_chr(exprs[!have_name], rlang::as_name)
     names(exprs)[!have_name] <- nms
   }
   exprs
