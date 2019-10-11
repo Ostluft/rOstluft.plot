@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -39,13 +41,13 @@
 
 
 
-<meta property="og:title" content="cartesian coordinate system with polar grid lines — coord_cartpolar" />
 
+<meta property="og:title" content="cartesian coordinate system with polar grid lines — coord_cartpolar" />
 <meta property="og:description" content="A cartesian coordinate system overlayed with a polar grid.
 It is used together with summary_wind_2d() in ggpolarplot()." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -76,7 +78,7 @@ It is used together with summary_wind_2d() in ggpolarplot()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9008</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9009</span>
       </span>
     </div>
 
@@ -107,7 +109,6 @@ It is used together with summary_wind_2d() in ggpolarplot()." />
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/Ostluft/rOstluft.plot">
@@ -134,15 +135,13 @@ It is used together with summary_wind_2d() in ggpolarplot()." />
     </div>
 
     <div class="ref-description">
-    
     <p>A cartesian coordinate system overlayed with a polar grid.
 It is used together with <code><a href='summary_wind_2d.html'>summary_wind_2d()</a></code> in <code><a href='ggpolarplot.html'>ggpolarplot()</a></code>.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>coord_cartpolar</span>(<span class='kw'>limit</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>clip</span> <span class='kw'>=</span> <span class='st'>"on"</span>, <span class='kw'>bg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>grid</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"background"</span>, <span class='st'>"foreground"</span>))</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -168,7 +167,7 @@ It is used together with <code><a href='summary_wind_2d.html'>summary_wind_2d()<
 background</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="warning"><a class="anchor" href="#warning"></a>Warning</h2>
 
     
@@ -179,7 +178,6 @@ break. Things that breaks this coord:</p><ul>
 <li><p>setting limits in x scale</p></li>
 </ul>
 
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
@@ -236,7 +234,7 @@ break. Things that breaks this coord:</p><ul>
 
 <span class='co'># background map</span>
 <span class='no'>bb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='bbox_lv95.html'>bbox_lv95</a></span>(<span class='fl'>2683141</span>, <span class='fl'>1249040</span>, <span class='fl'>500</span>)
-<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_stamen_map.html'>get_stamen_map</a></span>(<span class='no'>bb</span>)</div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34321/22945.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34322/22945.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34323/22945.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34321/22946.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34322/22946.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34323/22946.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34321/22947.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34322/22947.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34323/22947.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34321/22948.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34322/22948.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34323/22948.png</span></div><div class='input'>
+<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_stamen_map.html'>get_stamen_map</a></span>(<span class='no'>bb</span>)</div><div class='output co'>#&gt; <span class='message'>Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.</span></div><div class='input'>
 <span class='no'>p</span> + <span class='fu'>coord_cartpolar</span>(<span class='kw'>bg</span> <span class='kw'>=</span> <span class='no'>bg</span>)</div><div class='img'><img src='coord_cartpolar-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># faceting</span>
 <span class='no'>p</span> + <span class='fu'>coord_cartpolar</span>(<span class='kw'>bg</span> <span class='kw'>=</span> <span class='no'>bg</span>) +
@@ -262,9 +260,7 @@ break. Things that breaks this coord:</p><ul>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#warning">Warning</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -278,7 +274,7 @@ break. Things that breaks this coord:</p><ul>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

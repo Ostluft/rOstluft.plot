@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -39,16 +41,16 @@
 
 
 
-<meta property="og:title" content="Wrapper around ggmap::get_googlemap — get_google_map" />
 
+<meta property="og:title" content="Wrapper around ggmap::get_googlemap — get_google_map" />
 <meta property="og:description" content="The functions get_googlemap() and get_stamen_map() tries to harmonize the calls to ggmap(). The objective is
 to get interchangeable functions with sensible defaults. For example automatic calculation of the zoom. The function
 bbox_lv95() generates a bbox object compatible with both functions. Before using this function you need to register
 your google API key with ggmap::register_google(). For details consult the documentation of the
 Maps Static API and ggmap::get_googlemap()." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -79,7 +81,7 @@ Maps Static API and ggmap::get_googlemap()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9008</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9009</span>
       </span>
     </div>
 
@@ -110,7 +112,6 @@ Maps Static API and ggmap::get_googlemap()." />
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/Ostluft/rOstluft.plot">
@@ -137,19 +138,17 @@ Maps Static API and ggmap::get_googlemap()." />
     </div>
 
     <div class="ref-description">
-    
     <p>The functions <code>get_googlemap()</code> and <code><a href='get_stamen_map.html'>get_stamen_map()</a></code> tries to harmonize the calls to <code>ggmap()</code>. The objective is
 to get interchangeable functions with sensible defaults. For example automatic calculation of the zoom. The function
 <code><a href='bbox_lv95.html'>bbox_lv95()</a></code> generates a bbox object compatible with both functions. Before using this function you need to register
 your google API key with <code><a href='https://rdrr.io/pkg/ggmap/man/register_google.html'>ggmap::register_google()</a></code>. For details consult the documentation of the
 <a href='https://developers.google.com/maps/documentation/maps-static/intro'>Maps Static API</a> and <code><a href='https://rdrr.io/pkg/ggmap/man/get_googlemap.html'>ggmap::get_googlemap()</a></code>.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>get_google_map</span>(<span class='no'>bbox</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>640</span>, <span class='kw'>zoom</span> <span class='kw'>=</span> <span class='st'>"auto"</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='kw'>language</span> <span class='kw'>=</span> <span class='st'>"de-CH"</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"bw"</span>, <span class='kw'>style</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>feature</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
   <span class='kw'>element</span> <span class='kw'>=</span> <span class='st'>"labels"</span>, <span class='kw'>visibility</span> <span class='kw'>=</span> <span class='st'>"off"</span>), <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -190,11 +189,10 @@ the google maps platform</p></td>
       <td><p>forwarded to <code><a href='https://rdrr.io/pkg/ggmap/man/get_googlemap.html'>ggmap::get_googlemap()</a></code></p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a ggmap object (a classed raster object with a bounding box attribute)</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggmap</span>)</div><div class='output co'>#&gt; <span class='message'>Google's Terms of Service: https://cloud.google.com/maps-platform/terms/.</span></div><div class='output co'>#&gt; <span class='message'>Please cite ggmap if you use it! See citation("ggmap") for details.</span></div><div class='input'><span class='kw pkg'>ggmap</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ggmap/man/register_google.html'>register_google</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span>(<span class='st'>"GGMAP_GOOGLE_API_KEY"</span>))
@@ -205,9 +203,7 @@ the google maps platform</p></td>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -221,7 +217,7 @@ the google maps platform</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

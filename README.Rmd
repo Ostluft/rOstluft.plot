@@ -96,7 +96,7 @@ ggwindrose(data, ws, wd, ws_max = 4, groupings = grp(daylight)) +
 ```{r ggradar}
 
 # Simpler Radarplot
-ggradar(data, mapping = aes(x = wd, y = NOx), fill = "gray30", alpha = 0.5)
+ggradar(data, wd, NOx, fill = "gray30", alpha = 0.5, show.legend = FALSE)
 
 # mehrere Statistik Funktionen
 q05 <- function(x, ...) quantile(x, 0.05, ...)
@@ -104,7 +104,8 @@ q95 <- function(x, ...) quantile(x, 0.95, ...)
 stat_reorder <- function(stat) {
   factor(stat, levels = rev(c("perc05", "median", "mean", "perc95")))
 }
-ggradar(data, aes(x = wd, y = NOx, fill = stat, group = stat),
+
+ggradar(data, wd, NOx,
     fun = list("perc05" = q05, "median", "mean", "perc95" = q95),
     fun_reorder = stat_reorder, color = NA, alpha = 0.9) +
   scale_y_continuous(limits = c(0,120)) +
@@ -115,12 +116,12 @@ ggradar(data, aes(x = wd, y = NOx, fill = stat, group = stat),
 bb <- bbox_lv95(2683141, 1249040, 500)
 bg <- get_stamen_map(bb)
 
-ggradar(data, aes(x = wd, y = NOx), bg = bg, lwd = 1, 
+ggradar(data, wd, NOx, bg = bg, lwd = 1, 
          color = "steelblue", fill = "steelblue", alpha = 0.5) + 
   theme(
     panel.grid.major = element_line(linetype = 1, color = "white"),
     axis.text.x = element_text(color = "gray10")
-    )
+  )
 ```
 
 

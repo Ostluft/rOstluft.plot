@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -39,13 +41,13 @@
 
 
 
-<meta property="og:title" content="Summarise y values over binned wind data, split into u and v components. — summary_wind_2d" />
 
+<meta property="og:title" content="Summarise y values over binned wind data, split into u and v components. — summary_wind_2d" />
 <meta property="og:description" content="Input data should be original unbinned data including wind direction and wind velocity;
 binning is done 2-dimensional over cartesian u and v wind vectors" />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -76,7 +78,7 @@ binning is done 2-dimensional over cartesian u and v wind vectors" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9008</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9009</span>
       </span>
     </div>
 
@@ -107,7 +109,6 @@ binning is done 2-dimensional over cartesian u and v wind vectors" />
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/Ostluft/rOstluft.plot">
@@ -134,16 +135,14 @@ binning is done 2-dimensional over cartesian u and v wind vectors" />
     </div>
 
     <div class="ref-description">
-    
     <p>Input data should be original unbinned data including wind direction and wind velocity;
 binning is done 2-dimensional over cartesian u and v wind vectors</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>summary_wind_2d</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='no'>z</span>, <span class='kw'>groupings</span> <span class='kw'>=</span> <span class='fu'><a href='grp.html'>grp</a></span>(), <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
   <span class='kw'>fun.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>bins</span> <span class='kw'>=</span> <span class='fl'>10</span>^<span class='fl'>2</span>,
   <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>extrapolate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>dist</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -212,11 +211,10 @@ if extrapolate = TRUE, those values are returned (to a certain degree depending 
 fit_gam_surface(z) should be returned</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a tibble with summarised data along u and v wind vectors</p>
-    
     <h2 class="hasAnchor" id="computed-variables"><a class="anchor" href="#computed-variables"></a>Computed variables</h2>
 
     
@@ -232,7 +230,6 @@ fit_gam_surface(z) should be returned</p></td>
 <li><p>z: result from fun(z, ...)</p></li>
 </ul>
 
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
@@ -369,11 +366,8 @@ fit_gam_surface(z) should be returned</p></td>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#computed-variables">Computed variables</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -387,7 +381,7 @@ fit_gam_surface(z) should be returned</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

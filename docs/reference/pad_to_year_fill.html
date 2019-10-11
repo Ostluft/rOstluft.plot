@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -39,8 +41,8 @@
 
 
 
-<meta property="og:title" content="Pads data to complete year and fill up specific columns — pad_to_year_fill" />
 
+<meta property="og:title" content="Pads data to complete year and fill up specific columns — pad_to_year_fill" />
 <meta property="og:description" content="This function pad data to complete years. The fill mechanism is:
 find min- and max time
 group data by columns provided by ... or all factor/character columns
@@ -49,9 +51,9 @@ pass the nested data for each group to pad_to_year() with the min- and max time
 tidyr::unnest()
 
 " />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -82,7 +84,7 @@ tidyr::unnest()
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9008</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9009</span>
       </span>
     </div>
 
@@ -113,7 +115,6 @@ tidyr::unnest()
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/Ostluft/rOstluft.plot">
@@ -140,20 +141,18 @@ tidyr::unnest()
     </div>
 
     <div class="ref-description">
-    
     <p>This function pad data to complete years. The fill mechanism is:</p><ul>
 <li><p>find min- and max time</p></li>
 <li><p>group data by columns provided by <code>...</code> or all factor/character columns</p></li>
 <li><p><code><a href='https://dplyr.tidyverse.org/reference/group_nest.html'>dplyr::group_nest()</a></code></p></li>
 <li><p>pass the nested data for each group to <code><a href='pad_to_year.html'>pad_to_year()</a></code> with the min- and max time</p></li>
-<li><p><code><a href='https://tidyr.tidyverse.org/reference/unnest.html'>tidyr::unnest()</a></code></p></li>
+<li><p><code><a href='https://tidyr.tidyverse.org/reference/nest.html'>tidyr::unnest()</a></code></p></li>
 </ul>
 
-    
     </div>
 
     <pre class="usage"><span class='fu'>pad_to_year_fill</span>(<span class='no'>data</span>, <span class='no'>date_col</span>, <span class='no'>interval</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -174,11 +173,10 @@ tidyr::unnest()
       <td><p>columns to fill up</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>padded data</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft.data</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft.data/man/f.html'>f</a></span>(<span class='st'>"Zch_Stampfenbachstrasse_min30_2013_Jan.csv"</span>)
@@ -259,9 +257,7 @@ tidyr::unnest()
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -275,7 +271,7 @@ tidyr::unnest()
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>
