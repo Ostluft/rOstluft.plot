@@ -11,7 +11,7 @@ ggtraj(data, mapping = NULL, incr = -seq(24, 96, 24), lims = NULL,
 \arguments{
 \item{data}{tibble containing hysplit trajectories, format preferably similar to that of the 'openair' package}
 
-\item{mapping}{add or overwrite mapping. default is aes(x = lon, y = lat, group = date, color = height)}
+\item{mapping}{add or overwrite mappings. default is aes(x = lon, y = lat, group = date, color = height)}
 
 \item{incr}{sequence of hours to draw an marker on the trajetory. Default -seq(24,96,24); if NULL no increment
 markers are plotted}
@@ -32,8 +32,10 @@ Plotting hysplit trajectory
 library(ggplot2)
 fn <- rOstluft.data::f("2017_ZH-Kaserne-hysplit.rds")
 traj <- readRDS(fn)
+start <- lubridate::ymd("2017-03-08", tz = "UTC")
+end <- lubridate::ymd("2017-03-14", tz = "UTC")
 traj <- dplyr::filter(traj,
-  dplyr::between(lubridate::as_date(date), lubridate::ymd("2017-03-08"), lubridate::ymd("2017-03-14"))
+  dplyr::between(date, start, end)
 )
 ggtraj(traj)
 
