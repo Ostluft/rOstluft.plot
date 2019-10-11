@@ -12,10 +12,17 @@ ggradar(data, wd, y, group = stat, mapping = NULL,
 \arguments{
 \item{data}{tibble containing wind speed, wind direction and air pollutant concentration data}
 
-\item{mapping}{parameter mapping for \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} using \code{\link[ggplot2:aes]{ggplot2::aes()}}; required mapping: x, y
+\item{wd}{symbolic giving the wind direction column name}
+
+\item{y}{symbolic giving the wind direction column name}
+
+\item{group}{symbolic or expression defining the grouping for the \code{\link[ggplot2:geom_polygon]{ggplot2::geom_polygon()}}. Defaulting to
+\code{stat} column returned from \code{\link[=summary_wind]{summary_wind()}}}
+
+\item{mapping}{add or overwrite mappings. default is aes(x = lon, y = lat, group = date, color = height)
 (x has to be wind direction and y the parameter of interest); for more details, check out the examples}
 
-\item{facet_groups}{symbol or string specifying the variable(s) for facetting; passed to \code{\link[=summary_wind]{summary_wind()}}
+\item{facet_groups}{symbolic or expression specifying the variable(s) for facetting; passed to \code{\link[=summary_wind]{summary_wind()}}
 by using the \code{\link[=grp]{grp()}} function
 (facet_groups and groups are passed to \code{\link[=summary_wind]{summary_wind()}} groupings argument); default = groups()}
 
@@ -110,11 +117,17 @@ ggradar(data, wd, NOx,
 
 # multiple y-parameters and facetting (facetting variable has to be separately
 # specified in facet_groups!)
-df2 <- dplyr::select(data, wd, NO, NOx, wday) \%>\%
-  tidyr::gather(par, val, -wd, -wday)
+df2 <- dplyr::select(data, wd, NO, NOx, wday, date) \%>\%
+  tidyr::gather(par, val, -wd, -wday, -date)
 
 ggradar(df2, wd, val, wday,
         facet_groups = grp(par), fill = NA) +
+  facet_wrap(vars(par))
+
+# same as above, but calculate grouping on the fly with an expression
+ggradar(df2, wd, val, group = lubridate::wday(date, label = TRUE, week_start = 1),
+        facet_groups = grp(par), fill = NA) +
+  labs(color = "Week day") +
   facet_wrap(vars(par))
 
 # with background map
@@ -122,5 +135,4 @@ bb <- bbox_lv95(2683141, 1249040, 500)
 bg <- get_stamen_map(bb)
 ggradar(data, wd, NOx, bg = bg, color = "blue", fill = "blue", alpha = 0.5) +
   theme(panel.grid.major = ggplot2::element_line(linetype = 1, color = "white"))
-
 }

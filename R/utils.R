@@ -94,7 +94,7 @@ quo_is_character <- function(quo) {
 grp <- function(...) {
   quos <- as.list(rlang::quos(...))
   quos <- purrr::modify_if(quos, quo_is_character, quo_as_symbol)
-  auto_name(quos)
+  rlang::exprs_auto_name(quos)
 }
 
 
@@ -126,7 +126,7 @@ grp <- function(...) {
 auto_name <- function(exprs) {
   have_name <- rlang::have_name(exprs)
   if (any(!have_name)) {
-    nms <- purrr::map_chr(exprs[!have_name], rlang::as_name)
+    nms <- purrr::map_chr(exprs[!have_name], rlang::quo_name)
     names(exprs)[!have_name] <- nms
   }
   exprs

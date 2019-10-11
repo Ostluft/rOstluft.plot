@@ -1,9 +1,13 @@
 #' ggplot2-wrapper to summarise and plot data by wind direction bins as radar plot
 #'
 #' @param data tibble containing wind speed, wind direction and air pollutant concentration data
-#' @param mapping parameter mapping for [ggplot2::ggplot()] using [ggplot2::aes()]; required mapping: x, y
+#' @param wd symbolic giving the wind direction column name
+#' @param y symbolic giving the wind direction column name
+#' @param group symbolic or expression defining the grouping for the [ggplot2::geom_polygon()]. Defaulting to
+#'   `stat` column returned from [summary_wind()]
+#' @param mapping add or overwrite mappings. default is aes(x = lon, y = lat, group = date, color = height)
 #' (x has to be wind direction and y the parameter of interest); for more details, check out the examples
-#' @param facet_groups symbol or string specifying the variable(s) for facetting; passed to [summary_wind()]
+#' @param facet_groups symbolic or expression specifying the variable(s) for facetting; passed to [summary_wind()]
 #' by using the [grp()] function
 #' (facet_groups and groups are passed to [summary_wind()] groupings argument); default = groups()
 #' @param fun character string or vector of character strings, stat function(s) to be applied at wind direction bins
@@ -88,11 +92,17 @@
 #'
 #' # multiple y-parameters and facetting (facetting variable has to be separately
 #' # specified in facet_groups!)
-#' df2 <- dplyr::select(data, wd, NO, NOx, wday) %>%
-#'   tidyr::gather(par, val, -wd, -wday)
+#' df2 <- dplyr::select(data, wd, NO, NOx, wday, date) %>%
+#'   tidyr::gather(par, val, -wd, -wday, -date)
 #'
 #' ggradar(df2, wd, val, wday,
 #'         facet_groups = grp(par), fill = NA) +
+#'   facet_wrap(vars(par))
+#'
+#' # same as above, but calculate grouping on the fly with an expression
+#' ggradar(df2, wd, val, group = lubridate::wday(date, label = TRUE, week_start = 1),
+#'         facet_groups = grp(par), fill = NA) +
+#'   labs(color = "Week day") +
 #'   facet_wrap(vars(par))
 #'
 #' # with background map
@@ -100,7 +110,6 @@
 #' bg <- get_stamen_map(bb)
 #' ggradar(data, wd, NOx, bg = bg, color = "blue", fill = "blue", alpha = 0.5) +
 #'   theme(panel.grid.major = ggplot2::element_line(linetype = 1, color = "white"))
-#'
 ggradar <- function(data,
                     wd, y, group = stat,
                     mapping = NULL,
@@ -123,10 +132,12 @@ ggradar <- function(data,
   } else {
     wd_cutfun <- cut_wd.fun(binwidth = wd_binwidth)
 
-    if (!(rlang::is_symbolic(group) && rlang::as_name(group) == "stat")) {
-      group_name <- rlang::as_name(group)
+    if (!rlang::quo_is_symbol(group)) {
+      group_name <- rlang::sym(rlang::as_label(group))
+      facet_groups <- modify_list(grp(!!group_name := !!group), facet_groups)
+      group <- group_name
+    } else if (rlang::as_name(group) != "stat") {
       facet_groups <- modify_list(grp(!!group), facet_groups)
-      group <- rlang::sym(group_name)
     }
 
     data_summarized <- summary_wind(data, NULL, !!wd, !!y, groupings = facet_groups,
