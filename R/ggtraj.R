@@ -1,7 +1,7 @@
 #' Plotting hysplit trajectory
 #'
 #' @param data tibble containing hysplit trajectories, format preferably similar to that of the 'openair' package
-#' @param mapping add or overwrite mapping. default is aes(x = lon, y = lat, group = date, color = height)
+#' @param mapping add or overwrite mappings. default is aes(x = lon, y = lat, group = date, color = height)
 #' @param incr sequence of hours to draw an marker on the trajetory. Default -seq(24,96,24); if NULL no increment
 #'   markers are plotted
 #' @param lims list with xlim and ylim items defining the map section. See [ggplot2::coord_quickmap()]
@@ -16,8 +16,10 @@
 #' library(ggplot2)
 #' fn <- rOstluft.data::f("2017_ZH-Kaserne-hysplit.rds")
 #' traj <- readRDS(fn)
+#' start <- lubridate::ymd("2017-03-08", tz = "UTC")
+#' end <- lubridate::ymd("2017-03-14", tz = "UTC")
 #' traj <- dplyr::filter(traj,
-#'   dplyr::between(lubridate::as_date(date), lubridate::ymd("2017-03-08"), lubridate::ymd("2017-03-14"))
+#'   dplyr::between(date, start, end)
 #' )
 #' ggtraj(traj)
 #'

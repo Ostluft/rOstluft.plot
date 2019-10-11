@@ -101,7 +101,7 @@ grp <- function(...) {
 
 #' Ensure that all elements of a list of expressions are named
 #'
-#' Nearly identical to [rlang::exprs_auto_name()], but [rlang::quo_name()]
+#' Nearly identical to [rlang::exprs_auto_name()], but [rlang::as_name()]
 #' is used instead of [rlang::as_label()]. For String items the string will
 #' returned without wrapping in double quotes. The naming of functions and
 #' formulas is not optimal, it is better to manually name theme.

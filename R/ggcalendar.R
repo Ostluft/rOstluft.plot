@@ -77,7 +77,7 @@ ggcalendar <- function(data, x = "date", z = "O3_max_h1",
       panel.spacing.x = unit(0.1, "lines"),
       strip.text = element_text(hjust = 0)
     ) +
-    facet_wrap(vars(year), ncol = 1, scales = "free_x") +
+    facet_wrap(vars(.data$year), ncol = 1, scales = "free_x") +
     scale_x_continuous(
       expand = c(0.001,0),
       breaks = breaks$x,

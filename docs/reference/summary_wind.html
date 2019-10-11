@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -39,14 +41,14 @@
 
 
 
-<meta property="og:title" content="Summarise z values over binned wind data. — summary_wind" />
 
+<meta property="og:title" content="Summarise z values over binned wind data. — summary_wind" />
 <meta property="og:description" content="Input data should be original unbinned data.
 1-dimensional binning and calculating summary statistics over wind direction and/or wind velocity bins, respectively.
 NA values in z and in ws, wd (after cutting) will be silently removed before applying functions" />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -77,7 +79,7 @@ NA values in z and in ws, wd (after cutting) will be silently removed before app
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9008</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9009</span>
       </span>
     </div>
 
@@ -108,7 +110,6 @@ NA values in z and in ws, wd (after cutting) will be silently removed before app
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/Ostluft/rOstluft.plot">
@@ -135,17 +136,15 @@ NA values in z and in ws, wd (after cutting) will be silently removed before app
     </div>
 
     <div class="ref-description">
-    
     <p>Input data should be original unbinned data.
 1-dimensional binning and calculating summary statistics over wind direction and/or wind velocity bins, respectively.
 NA values in z and in ws, wd (after cutting) will be silently removed before applying functions</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='no'>z</span>, <span class='kw'>groupings</span> <span class='kw'>=</span> <span class='fu'><a href='grp.html'>grp</a></span>(), <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
   <span class='kw'>fun.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>wd_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_wd.fun.html'>cut_wd.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>45</span>),
   <span class='kw'>ws_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_ws.fun.html'>cut_ws.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>1</span>))</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -190,11 +189,10 @@ NA values in z and in ws, wd (after cutting) will be silently removed before app
       <td><p>function, cut function for wind speed. See <code><a href='cut_ws.fun.html'>cut_ws.fun()</a></code> for examples</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a tibble with summarised data</p>
-    
     <h2 class="hasAnchor" id="computed-variables"><a class="anchor" href="#computed-variables"></a>Computed variables</h2>
 
     
@@ -209,7 +207,6 @@ NA values in z and in ws, wd (after cutting) will be silently removed before app
 <li><p><code>freq</code> frequency of the corresponding bin</p></li>
 </ul>
 
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
@@ -218,20 +215,20 @@ NA values in z and in ws, wd (after cutting) will be silently removed before app
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/rolf_to_openair.html'>rolf_to_openair</a></span>(<span class='no'>data</span>)
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='no'>data</span>, <span class='kw'>year</span> <span class='kw'>=</span> <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/year.html'>year</a></span>(<span class='no'>date</span>))
 
-<span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='st'>"ws"</span>, <span class='st'>"wd"</span>, <span class='st'>"NO2"</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 55 x 6</span><span>
+<span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='st'>"ws"</span>, <span class='st'>"wd"</span>, <span class='st'>"NO2"</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 57 x 6</span><span>
 #&gt;    ws    wd        n   freq stat    NO2
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> [0,1] N      </span><span style='text-decoration: underline;'>4</span><span>187 0.048</span><span style='text-decoration: underline;'>2</span><span> mean   45.3
-#&gt; </span><span style='color: #555555;'> 2</span><span> [0,1] NO     </span><span style='text-decoration: underline;'>2</span><span>383 0.027</span><span style='text-decoration: underline;'>4</span><span> mean   43.7
-#&gt; </span><span style='color: #555555;'> 3</span><span> [0,1] O      </span><span style='text-decoration: underline;'>1</span><span>093 0.012</span><span style='text-decoration: underline;'>6</span><span> mean   44.4
-#&gt; </span><span style='color: #555555;'> 4</span><span> [0,1] SO     </span><span style='text-decoration: underline;'>2</span><span>070 0.023</span><span style='text-decoration: underline;'>8</span><span> mean   45.7
-#&gt; </span><span style='color: #555555;'> 5</span><span> [0,1] S      </span><span style='text-decoration: underline;'>3</span><span>311 0.038</span><span style='text-decoration: underline;'>1</span><span> mean   46.4
-#&gt; </span><span style='color: #555555;'> 6</span><span> [0,1] SW     </span><span style='text-decoration: underline;'>3</span><span>888 0.044</span><span style='text-decoration: underline;'>8</span><span> mean   44.7
-#&gt; </span><span style='color: #555555;'> 7</span><span> [0,1] W      </span><span style='text-decoration: underline;'>4</span><span>478 0.051</span><span style='text-decoration: underline;'>6</span><span> mean   41.3
-#&gt; </span><span style='color: #555555;'> 8</span><span> [0,1] NW     </span><span style='text-decoration: underline;'>2</span><span>787 0.032</span><span style='text-decoration: underline;'>1</span><span> mean   40.8
-#&gt; </span><span style='color: #555555;'> 9</span><span> (1,2] N     </span><span style='text-decoration: underline;'>11</span><span>320 0.130  mean   42.2
-#&gt; </span><span style='color: #555555;'>10</span><span> (1,2] NO     </span><span style='text-decoration: underline;'>3</span><span>742 0.043</span><span style='text-decoration: underline;'>1</span><span> mean   37.2
-#&gt; </span><span style='color: #555555;'># ... with 45 more rows</span><span></div><div class='input'>
+#&gt; </span><span style='color: #555555;'> 1</span><span> [0,1] N      </span><span style='text-decoration: underline;'>3</span><span>230 0.037</span><span style='text-decoration: underline;'>2</span><span> mean   43.6
+#&gt; </span><span style='color: #555555;'> 2</span><span> [0,1] NO     </span><span style='text-decoration: underline;'>3</span><span>894 0.044</span><span style='text-decoration: underline;'>8</span><span> mean   44.6
+#&gt; </span><span style='color: #555555;'> 3</span><span> [0,1] O      </span><span style='text-decoration: underline;'>1</span><span>394 0.016</span><span style='text-decoration: underline;'>0</span><span> mean   44.0
+#&gt; </span><span style='color: #555555;'> 4</span><span> [0,1] SO     </span><span style='text-decoration: underline;'>1</span><span>342 0.015</span><span style='text-decoration: underline;'>5</span><span> mean   43.9
+#&gt; </span><span style='color: #555555;'> 5</span><span> [0,1] S      </span><span style='text-decoration: underline;'>2</span><span>965 0.034</span><span style='text-decoration: underline;'>1</span><span> mean   47.6
+#&gt; </span><span style='color: #555555;'> 6</span><span> [0,1] SW     </span><span style='text-decoration: underline;'>3</span><span>357 0.038</span><span style='text-decoration: underline;'>6</span><span> mean   45.0
+#&gt; </span><span style='color: #555555;'> 7</span><span> [0,1] W      </span><span style='text-decoration: underline;'>4</span><span>518 0.052</span><span style='text-decoration: underline;'>0</span><span> mean   43.7
+#&gt; </span><span style='color: #555555;'> 8</span><span> [0,1] NW     </span><span style='text-decoration: underline;'>3</span><span>497 0.040</span><span style='text-decoration: underline;'>3</span><span> mean   39.8
+#&gt; </span><span style='color: #555555;'> 9</span><span> (1,2] N      </span><span style='text-decoration: underline;'>5</span><span>764 0.066</span><span style='text-decoration: underline;'>4</span><span> mean   39.4
+#&gt; </span><span style='color: #555555;'>10</span><span> (1,2] NO    </span><span style='text-decoration: underline;'>10</span><span>172 0.117  mean   41.3
+#&gt; </span><span style='color: #555555;'># ... with 47 more rows</span><span></div><div class='input'>
 <span class='co'># multiple stats: Pass function, by name, reference, as function or one sided formula</span>
 <span class='no'>q95</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='no'>x</span>, <span class='kw'>probs</span> <span class='kw'>=</span> <span class='fl'>0.95</span>)
 
@@ -244,131 +241,131 @@ NA values in z and in ws, wd (after cutting) will be silently removed before app
 )
 
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='st'>"ws"</span>, <span class='st'>"wd"</span>, <span class='st'>"NO2"</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>funs</span>)
-<span class='no'>res</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 275 x 6</span><span>
+<span class='no'>res</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 285 x 6</span><span>
 #&gt;    ws    wd        n   freq stat    NO2
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> [0,1] N      </span><span style='text-decoration: underline;'>4</span><span>187 0.048</span><span style='text-decoration: underline;'>2</span><span> mean   45.3
-#&gt; </span><span style='color: #555555;'> 2</span><span> [0,1] NO     </span><span style='text-decoration: underline;'>2</span><span>383 0.027</span><span style='text-decoration: underline;'>4</span><span> mean   43.7
-#&gt; </span><span style='color: #555555;'> 3</span><span> [0,1] O      </span><span style='text-decoration: underline;'>1</span><span>093 0.012</span><span style='text-decoration: underline;'>6</span><span> mean   44.4
-#&gt; </span><span style='color: #555555;'> 4</span><span> [0,1] SO     </span><span style='text-decoration: underline;'>2</span><span>070 0.023</span><span style='text-decoration: underline;'>8</span><span> mean   45.7
-#&gt; </span><span style='color: #555555;'> 5</span><span> [0,1] S      </span><span style='text-decoration: underline;'>3</span><span>311 0.038</span><span style='text-decoration: underline;'>1</span><span> mean   46.4
-#&gt; </span><span style='color: #555555;'> 6</span><span> [0,1] SW     </span><span style='text-decoration: underline;'>3</span><span>888 0.044</span><span style='text-decoration: underline;'>8</span><span> mean   44.7
-#&gt; </span><span style='color: #555555;'> 7</span><span> [0,1] W      </span><span style='text-decoration: underline;'>4</span><span>478 0.051</span><span style='text-decoration: underline;'>6</span><span> mean   41.3
-#&gt; </span><span style='color: #555555;'> 8</span><span> [0,1] NW     </span><span style='text-decoration: underline;'>2</span><span>787 0.032</span><span style='text-decoration: underline;'>1</span><span> mean   40.8
-#&gt; </span><span style='color: #555555;'> 9</span><span> (1,2] N     </span><span style='text-decoration: underline;'>11</span><span>320 0.130  mean   42.2
-#&gt; </span><span style='color: #555555;'>10</span><span> (1,2] NO     </span><span style='text-decoration: underline;'>3</span><span>742 0.043</span><span style='text-decoration: underline;'>1</span><span> mean   37.2
-#&gt; </span><span style='color: #555555;'># ... with 265 more rows</span><span></div><div class='input'>
+#&gt; </span><span style='color: #555555;'> 1</span><span> [0,1] N      </span><span style='text-decoration: underline;'>3</span><span>230 0.037</span><span style='text-decoration: underline;'>2</span><span> mean   43.6
+#&gt; </span><span style='color: #555555;'> 2</span><span> [0,1] NO     </span><span style='text-decoration: underline;'>3</span><span>894 0.044</span><span style='text-decoration: underline;'>8</span><span> mean   44.6
+#&gt; </span><span style='color: #555555;'> 3</span><span> [0,1] O      </span><span style='text-decoration: underline;'>1</span><span>394 0.016</span><span style='text-decoration: underline;'>0</span><span> mean   44.0
+#&gt; </span><span style='color: #555555;'> 4</span><span> [0,1] SO     </span><span style='text-decoration: underline;'>1</span><span>342 0.015</span><span style='text-decoration: underline;'>5</span><span> mean   43.9
+#&gt; </span><span style='color: #555555;'> 5</span><span> [0,1] S      </span><span style='text-decoration: underline;'>2</span><span>965 0.034</span><span style='text-decoration: underline;'>1</span><span> mean   47.6
+#&gt; </span><span style='color: #555555;'> 6</span><span> [0,1] SW     </span><span style='text-decoration: underline;'>3</span><span>357 0.038</span><span style='text-decoration: underline;'>6</span><span> mean   45.0
+#&gt; </span><span style='color: #555555;'> 7</span><span> [0,1] W      </span><span style='text-decoration: underline;'>4</span><span>518 0.052</span><span style='text-decoration: underline;'>0</span><span> mean   43.7
+#&gt; </span><span style='color: #555555;'> 8</span><span> [0,1] NW     </span><span style='text-decoration: underline;'>3</span><span>497 0.040</span><span style='text-decoration: underline;'>3</span><span> mean   39.8
+#&gt; </span><span style='color: #555555;'> 9</span><span> (1,2] N      </span><span style='text-decoration: underline;'>5</span><span>764 0.066</span><span style='text-decoration: underline;'>4</span><span> mean   39.4
+#&gt; </span><span style='color: #555555;'>10</span><span> (1,2] NO    </span><span style='text-decoration: underline;'>10</span><span>172 0.117  mean   41.3
+#&gt; </span><span style='color: #555555;'># ... with 275 more rows</span><span></div><div class='input'>
 <span class='co'># and q95, q95_1, q95_2, q95_3 alle have the same value</span>
 <span class='kw pkg'>tidyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://tidyr.tidyverse.org/reference/spread.html'>spread</a></span>(<span class='no'>res</span>, <span class='st'>"stat"</span>, <span class='st'>"NO2"</span>) <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>q95_1</span>, <span class='no'>q95_2</span>, <span class='no'>q95_3</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 55 x 3</span><span>
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>q95_1</span>, <span class='no'>q95_2</span>, <span class='no'>q95_3</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 57 x 3</span><span>
 #&gt;    q95_1 q95_2 q95_3
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>  83.2  83.2  83.2
-#&gt; </span><span style='color: #555555;'> 2</span><span>  78.7  78.7  78.7
-#&gt; </span><span style='color: #555555;'> 3</span><span>  83.3  83.3  83.3
-#&gt; </span><span style='color: #555555;'> 4</span><span>  88.7  88.7  88.7
-#&gt; </span><span style='color: #555555;'> 5</span><span>  88.0  88.0  88.0
-#&gt; </span><span style='color: #555555;'> 6</span><span>  80.4  80.4  80.4
-#&gt; </span><span style='color: #555555;'> 7</span><span>  76.2  76.2  76.2
-#&gt; </span><span style='color: #555555;'> 8</span><span>  77.6  77.6  77.6
-#&gt; </span><span style='color: #555555;'> 9</span><span>  79.1  79.1  79.1
-#&gt; </span><span style='color: #555555;'>10</span><span>  68.8  68.8  68.8
-#&gt; </span><span style='color: #555555;'># ... with 45 more rows</span><span></div><div class='input'>
+#&gt; </span><span style='color: #555555;'> 1</span><span>  79.8  79.8  79.8
+#&gt; </span><span style='color: #555555;'> 2</span><span>  81.6  81.6  81.6
+#&gt; </span><span style='color: #555555;'> 3</span><span>  80.5  80.5  80.5
+#&gt; </span><span style='color: #555555;'> 4</span><span>  84.0  84.0  84.0
+#&gt; </span><span style='color: #555555;'> 5</span><span>  91.3  91.3  91.3
+#&gt; </span><span style='color: #555555;'> 6</span><span>  83.0  83.0  83.0
+#&gt; </span><span style='color: #555555;'> 7</span><span>  78.7  78.7  78.7
+#&gt; </span><span style='color: #555555;'> 8</span><span>  76.2  76.2  76.2
+#&gt; </span><span style='color: #555555;'> 9</span><span>  74.2  74.2  74.2
+#&gt; </span><span style='color: #555555;'>10</span><span>  77.1  77.1  77.1
+#&gt; </span><span style='color: #555555;'># ... with 47 more rows</span><span></div><div class='input'>
 <span class='co'># is for some reason fun.args used with multiple functions, use ... to catch</span>
 <span class='co'># superfluous arguments:</span>
 <span class='no'>funs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
   <span class='st'>"q95"</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>, <span class='no'>...</span>) <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='no'>x</span>, <span class='kw'>probs</span> <span class='kw'>=</span> <span class='fl'>0.95</span>),
   <span class='st'>"mean"</span>
 )
-<span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='st'>"ws"</span>, <span class='st'>"wd"</span>, <span class='st'>"NO2"</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>funs</span>, <span class='kw'>fun.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 110 x 6</span><span>
+<span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='st'>"ws"</span>, <span class='st'>"wd"</span>, <span class='st'>"NO2"</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>funs</span>, <span class='kw'>fun.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 114 x 6</span><span>
 #&gt;    ws    wd        n   freq stat    NO2
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> [0,1] N      </span><span style='text-decoration: underline;'>4</span><span>187 0.048</span><span style='text-decoration: underline;'>2</span><span> q95    83.2
-#&gt; </span><span style='color: #555555;'> 2</span><span> [0,1] NO     </span><span style='text-decoration: underline;'>2</span><span>383 0.027</span><span style='text-decoration: underline;'>4</span><span> q95    78.7
-#&gt; </span><span style='color: #555555;'> 3</span><span> [0,1] O      </span><span style='text-decoration: underline;'>1</span><span>093 0.012</span><span style='text-decoration: underline;'>6</span><span> q95    83.3
-#&gt; </span><span style='color: #555555;'> 4</span><span> [0,1] SO     </span><span style='text-decoration: underline;'>2</span><span>070 0.023</span><span style='text-decoration: underline;'>8</span><span> q95    88.7
-#&gt; </span><span style='color: #555555;'> 5</span><span> [0,1] S      </span><span style='text-decoration: underline;'>3</span><span>311 0.038</span><span style='text-decoration: underline;'>1</span><span> q95    88.0
-#&gt; </span><span style='color: #555555;'> 6</span><span> [0,1] SW     </span><span style='text-decoration: underline;'>3</span><span>888 0.044</span><span style='text-decoration: underline;'>8</span><span> q95    80.4
-#&gt; </span><span style='color: #555555;'> 7</span><span> [0,1] W      </span><span style='text-decoration: underline;'>4</span><span>478 0.051</span><span style='text-decoration: underline;'>6</span><span> q95    76.2
-#&gt; </span><span style='color: #555555;'> 8</span><span> [0,1] NW     </span><span style='text-decoration: underline;'>2</span><span>787 0.032</span><span style='text-decoration: underline;'>1</span><span> q95    77.6
-#&gt; </span><span style='color: #555555;'> 9</span><span> (1,2] N     </span><span style='text-decoration: underline;'>11</span><span>320 0.130  q95    79.1
-#&gt; </span><span style='color: #555555;'>10</span><span> (1,2] NO     </span><span style='text-decoration: underline;'>3</span><span>742 0.043</span><span style='text-decoration: underline;'>1</span><span> q95    68.8
-#&gt; </span><span style='color: #555555;'># ... with 100 more rows</span><span></div><div class='input'>
+#&gt; </span><span style='color: #555555;'> 1</span><span> [0,1] N      </span><span style='text-decoration: underline;'>3</span><span>230 0.037</span><span style='text-decoration: underline;'>2</span><span> q95    79.8
+#&gt; </span><span style='color: #555555;'> 2</span><span> [0,1] NO     </span><span style='text-decoration: underline;'>3</span><span>894 0.044</span><span style='text-decoration: underline;'>8</span><span> q95    81.6
+#&gt; </span><span style='color: #555555;'> 3</span><span> [0,1] O      </span><span style='text-decoration: underline;'>1</span><span>394 0.016</span><span style='text-decoration: underline;'>0</span><span> q95    80.5
+#&gt; </span><span style='color: #555555;'> 4</span><span> [0,1] SO     </span><span style='text-decoration: underline;'>1</span><span>342 0.015</span><span style='text-decoration: underline;'>5</span><span> q95    84.0
+#&gt; </span><span style='color: #555555;'> 5</span><span> [0,1] S      </span><span style='text-decoration: underline;'>2</span><span>965 0.034</span><span style='text-decoration: underline;'>1</span><span> q95    91.3
+#&gt; </span><span style='color: #555555;'> 6</span><span> [0,1] SW     </span><span style='text-decoration: underline;'>3</span><span>357 0.038</span><span style='text-decoration: underline;'>6</span><span> q95    83.0
+#&gt; </span><span style='color: #555555;'> 7</span><span> [0,1] W      </span><span style='text-decoration: underline;'>4</span><span>518 0.052</span><span style='text-decoration: underline;'>0</span><span> q95    78.7
+#&gt; </span><span style='color: #555555;'> 8</span><span> [0,1] NW     </span><span style='text-decoration: underline;'>3</span><span>497 0.040</span><span style='text-decoration: underline;'>3</span><span> q95    76.2
+#&gt; </span><span style='color: #555555;'> 9</span><span> (1,2] N      </span><span style='text-decoration: underline;'>5</span><span>764 0.066</span><span style='text-decoration: underline;'>4</span><span> q95    74.2
+#&gt; </span><span style='color: #555555;'>10</span><span> (1,2] NO    </span><span style='text-decoration: underline;'>10</span><span>172 0.117  q95    77.1
+#&gt; </span><span style='color: #555555;'># ... with 104 more rows</span><span></div><div class='input'>
 
 <span class='co'># more wd classes, less ws classes and squish ws</span>
 <span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='st'>"ws"</span>, <span class='st'>"wd"</span>, <span class='st'>"NO"</span>,
              <span class='kw'>wd_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_wd.fun.html'>cut_wd.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>22.5</span>),
-             <span class='kw'>ws_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_ws.fun.html'>cut_ws.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>6</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 53 x 6</span><span>
+             <span class='kw'>ws_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_ws.fun.html'>cut_ws.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>ws_max</span> <span class='kw'>=</span> <span class='fl'>6</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 54 x 6</span><span>
 #&gt;    ws    wd        n    freq stat     NO
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> [0,2] N      </span><span style='text-decoration: underline;'>6</span><span>000 0.069</span><span style='text-decoration: underline;'>1</span><span>  mean   31.7
-#&gt; </span><span style='color: #555555;'> 2</span><span> [0,2] NNO    </span><span style='text-decoration: underline;'>9</span><span>507 0.109   mean   32.9
-#&gt; </span><span style='color: #555555;'> 3</span><span> [0,2] NO     </span><span style='text-decoration: underline;'>4</span><span>559 0.052</span><span style='text-decoration: underline;'>5</span><span>  mean   24.2
-#&gt; </span><span style='color: #555555;'> 4</span><span> [0,2] NOO    </span><span style='text-decoration: underline;'>1</span><span>566 0.018</span><span style='text-decoration: underline;'>0</span><span>  mean   22.3
-#&gt; </span><span style='color: #555555;'> 5</span><span> [0,2] O       831 0.009</span><span style='text-decoration: underline;'>57</span><span> mean   21.1
-#&gt; </span><span style='color: #555555;'> 6</span><span> [0,2] SOO     827 0.009</span><span style='text-decoration: underline;'>52</span><span> mean   22.4
-#&gt; </span><span style='color: #555555;'> 7</span><span> [0,2] SO     </span><span style='text-decoration: underline;'>1</span><span>978 0.022</span><span style='text-decoration: underline;'>8</span><span>  mean   17.1
-#&gt; </span><span style='color: #555555;'> 8</span><span> [0,2] SSO    </span><span style='text-decoration: underline;'>4</span><span>900 0.056</span><span style='text-decoration: underline;'>4</span><span>  mean   20.5
-#&gt; </span><span style='color: #555555;'> 9</span><span> [0,2] S      </span><span style='text-decoration: underline;'>3</span><span>991 0.045</span><span style='text-decoration: underline;'>9</span><span>  mean   23.5
-#&gt; </span><span style='color: #555555;'>10</span><span> [0,2] SSW    </span><span style='text-decoration: underline;'>2</span><span>888 0.033</span><span style='text-decoration: underline;'>2</span><span>  mean   22.4
-#&gt; </span><span style='color: #555555;'># ... with 43 more rows</span><span></div><div class='input'>
+#&gt; </span><span style='color: #555555;'> 1</span><span> [0,2] N      </span><span style='text-decoration: underline;'>4</span><span>225 0.048</span><span style='text-decoration: underline;'>6</span><span>  mean   27.0
+#&gt; </span><span style='color: #555555;'> 2</span><span> [0,2] NNO    </span><span style='text-decoration: underline;'>8</span><span>338 0.096</span><span style='text-decoration: underline;'>0</span><span>  mean   34.5
+#&gt; </span><span style='color: #555555;'> 3</span><span> [0,2] NO     </span><span style='text-decoration: underline;'>7</span><span>623 0.087</span><span style='text-decoration: underline;'>8</span><span>  mean   28.4
+#&gt; </span><span style='color: #555555;'> 4</span><span> [0,2] NOO    </span><span style='text-decoration: underline;'>2</span><span>525 0.029</span><span style='text-decoration: underline;'>1</span><span>  mean   22.8
+#&gt; </span><span style='color: #555555;'> 5</span><span> [0,2] O      </span><span style='text-decoration: underline;'>1</span><span>087 0.012</span><span style='text-decoration: underline;'>5</span><span>  mean   21.6
+#&gt; </span><span style='color: #555555;'> 6</span><span> [0,2] SOO     743 0.008</span><span style='text-decoration: underline;'>55</span><span> mean   23.0
+#&gt; </span><span style='color: #555555;'> 7</span><span> [0,2] SO     </span><span style='text-decoration: underline;'>1</span><span>205 0.013</span><span style='text-decoration: underline;'>9</span><span>  mean   19.1
+#&gt; </span><span style='color: #555555;'> 8</span><span> [0,2] SSO    </span><span style='text-decoration: underline;'>3</span><span>498 0.040</span><span style='text-decoration: underline;'>3</span><span>  mean   18.5
+#&gt; </span><span style='color: #555555;'> 9</span><span> [0,2] S      </span><span style='text-decoration: underline;'>4</span><span>916 0.056</span><span style='text-decoration: underline;'>6</span><span>  mean   22.5
+#&gt; </span><span style='color: #555555;'>10</span><span> [0,2] SSW    </span><span style='text-decoration: underline;'>3</span><span>223 0.037</span><span style='text-decoration: underline;'>1</span><span>  mean   23.2
+#&gt; </span><span style='color: #555555;'># ... with 44 more rows</span><span></div><div class='input'>
 <span class='co'># no ws class</span>
 <span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='kw'>NULL</span>, <span class='st'>"wd"</span>, <span class='st'>"NO"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 8 x 5</span><span>
 #&gt;   wd        n   freq stat     NO
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> N     </span><span style='text-decoration: underline;'>22</span><span>378 0.258  mean   29.8
-#&gt; </span><span style='color: #555555;'>2</span><span> NO     </span><span style='text-decoration: underline;'>9</span><span>691 0.112  mean   19.9
-#&gt; </span><span style='color: #555555;'>3</span><span> O      </span><span style='text-decoration: underline;'>1</span><span>750 0.020</span><span style='text-decoration: underline;'>1</span><span> mean   21.0
-#&gt; </span><span style='color: #555555;'>4</span><span> SO    </span><span style='text-decoration: underline;'>10</span><span>298 0.119  mean   16.6
-#&gt; </span><span style='color: #555555;'>5</span><span> S      </span><span style='text-decoration: underline;'>9</span><span>051 0.104  mean   19.3
-#&gt; </span><span style='color: #555555;'>6</span><span> SW    </span><span style='text-decoration: underline;'>16</span><span>117 0.186  mean   12.1
-#&gt; </span><span style='color: #555555;'>7</span><span> W     </span><span style='text-decoration: underline;'>11</span><span>637 0.134  mean   15.3
-#&gt; </span><span style='color: #555555;'>8</span><span> NW     </span><span style='text-decoration: underline;'>5</span><span>937 0.068</span><span style='text-decoration: underline;'>4</span><span> mean   20.5</div><div class='input'>
+#&gt; </span><span style='color: #555555;'>1</span><span> N     </span><span style='text-decoration: underline;'>11</span><span>292 0.130  mean   27.8
+#&gt; </span><span style='color: #555555;'>2</span><span> NO    </span><span style='text-decoration: underline;'>22</span><span>480 0.259  mean   25.9
+#&gt; </span><span style='color: #555555;'>3</span><span> O      </span><span style='text-decoration: underline;'>2</span><span>564 0.029</span><span style='text-decoration: underline;'>5</span><span> mean   21.1
+#&gt; </span><span style='color: #555555;'>4</span><span> SO     </span><span style='text-decoration: underline;'>3</span><span>422 0.039</span><span style='text-decoration: underline;'>4</span><span> mean   16.7
+#&gt; </span><span style='color: #555555;'>5</span><span> S     </span><span style='text-decoration: underline;'>13</span><span>007 0.150  mean   18.3
+#&gt; </span><span style='color: #555555;'>6</span><span> SW    </span><span style='text-decoration: underline;'>12</span><span>088 0.139  mean   13.5
+#&gt; </span><span style='color: #555555;'>7</span><span> W     </span><span style='text-decoration: underline;'>13</span><span>197 0.152  mean   14.8
+#&gt; </span><span style='color: #555555;'>8</span><span> NW     </span><span style='text-decoration: underline;'>8</span><span>809 0.101  mean   15.0</div><div class='input'>
 <span class='co'># additional grouping with strings, symbols or named expressions</span>
-<span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='no'>NO2</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='fu'><a href='grp.html'>grp</a></span>(<span class='st'>"site"</span>, <span class='no'>year</span>, <span class='kw'>wday</span> <span class='kw'>=</span> <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/day.html'>wday</a></span>(<span class='no'>date</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1,247 x 9</span><span>
+<span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='no'>NO2</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='fu'><a href='grp.html'>grp</a></span>(<span class='st'>"site"</span>, <span class='no'>year</span>, <span class='kw'>wday</span> <span class='kw'>=</span> <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/day.html'>wday</a></span>(<span class='no'>date</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1,284 x 9</span><span>
 #&gt;    ws    wd    site                     year  wday     n   freq stat    NO2
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>                   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> [0,1] N     Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>010     1    98 0.039</span><span style='text-decoration: underline;'>3</span><span> mean   38.1
-#&gt; </span><span style='color: #555555;'> 2</span><span> [0,1] N     Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>010     2   116 0.047</span><span style='text-decoration: underline;'>2</span><span> mean   50.4
-#&gt; </span><span style='color: #555555;'> 3</span><span> [0,1] N     Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>010     3   131 0.053</span><span style='text-decoration: underline;'>2</span><span> mean   48.6
-#&gt; </span><span style='color: #555555;'> 4</span><span> [0,1] N     Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>010     4   129 0.052</span><span style='text-decoration: underline;'>4</span><span> mean   51.0
-#&gt; </span><span style='color: #555555;'> 5</span><span> [0,1] N     Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>010     5   104 0.042</span><span style='text-decoration: underline;'>2</span><span> mean   47.3
-#&gt; </span><span style='color: #555555;'> 6</span><span> [0,1] N     Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>010     6   114 0.046</span><span style='text-decoration: underline;'>0</span><span> mean   50.0
-#&gt; </span><span style='color: #555555;'> 7</span><span> [0,1] N     Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>010     7    99 0.039</span><span style='text-decoration: underline;'>7</span><span> mean   43.4
-#&gt; </span><span style='color: #555555;'> 8</span><span> [0,1] N     Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>011     1   147 0.060</span><span style='text-decoration: underline;'>0</span><span> mean   35.7
-#&gt; </span><span style='color: #555555;'> 9</span><span> [0,1] N     Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>011     2   123 0.049</span><span style='text-decoration: underline;'>9</span><span> mean   47.1
-#&gt; </span><span style='color: #555555;'>10</span><span> [0,1] N     Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>011     3   115 0.046</span><span style='text-decoration: underline;'>6</span><span> mean   48.4
-#&gt; </span><span style='color: #555555;'># ... with 1,237 more rows</span><span></div><div class='input'>
+#&gt; </span><span style='color: #555555;'> 1</span><span> [0,1] N     Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>010     1    76 0.030</span><span style='text-decoration: underline;'>4</span><span> mean   37.1
+#&gt; </span><span style='color: #555555;'> 2</span><span> [0,1] N     Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>010     2    86 0.035</span><span style='text-decoration: underline;'>0</span><span> mean   47.2
+#&gt; </span><span style='color: #555555;'> 3</span><span> [0,1] N     Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>010     3    98 0.039</span><span style='text-decoration: underline;'>8</span><span> mean   48.4
+#&gt; </span><span style='color: #555555;'> 4</span><span> [0,1] N     Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>010     4   102 0.041</span><span style='text-decoration: underline;'>4</span><span> mean   49.5
+#&gt; </span><span style='color: #555555;'> 5</span><span> [0,1] N     Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>010     5    82 0.033</span><span style='text-decoration: underline;'>2</span><span> mean   46.3
+#&gt; </span><span style='color: #555555;'> 6</span><span> [0,1] N     Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>010     6    85 0.034</span><span style='text-decoration: underline;'>3</span><span> mean   49.9
+#&gt; </span><span style='color: #555555;'> 7</span><span> [0,1] N     Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>010     7    89 0.035</span><span style='text-decoration: underline;'>7</span><span> mean   40.8
+#&gt; </span><span style='color: #555555;'> 8</span><span> [0,1] N     Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>011     1    97 0.039</span><span style='text-decoration: underline;'>6</span><span> mean   30.9
+#&gt; </span><span style='color: #555555;'> 9</span><span> [0,1] N     Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>011     2    88 0.035</span><span style='text-decoration: underline;'>7</span><span> mean   44.6
+#&gt; </span><span style='color: #555555;'>10</span><span> [0,1] N     Zch_Stampfenbachstrasse  </span><span style='text-decoration: underline;'>2</span><span>011     3    88 0.035</span><span style='text-decoration: underline;'>6</span><span> mean   46.9
+#&gt; </span><span style='color: #555555;'># ... with 1,274 more rows</span><span></div><div class='input'>
 <span class='co'># how often comes which concentration from one direction</span>
 <span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='kw'>NULL</span>, <span class='no'>wd</span>, <span class='no'>NO2</span>,
              <span class='kw'>group</span> <span class='kw'>=</span> <span class='fu'><a href='grp.html'>grp</a></span>(<span class='kw'>NO2_class</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>cut_number</a></span>(<span class='no'>NO2</span>, <span class='fl'>5</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 40 x 6</span><span>
 #&gt;    wd    NO2_class        n   freq stat    NO2
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> N     [0.066,15.9]  </span><span style='text-decoration: underline;'>1</span><span>770 0.102  mean   12.3
-#&gt; </span><span style='color: #555555;'> 2</span><span> N     (15.9,25.6]   </span><span style='text-decoration: underline;'>3</span><span>659 0.211  mean   21.0
-#&gt; </span><span style='color: #555555;'> 3</span><span> N     (25.6,36.5]   </span><span style='text-decoration: underline;'>5</span><span>193 0.299  mean   31.0
-#&gt; </span><span style='color: #555555;'> 4</span><span> N     (36.5,51.2]   </span><span style='text-decoration: underline;'>5</span><span>597 0.322  mean   43.4
-#&gt; </span><span style='color: #555555;'> 5</span><span> N     (51.2,148]    </span><span style='text-decoration: underline;'>6</span><span>159 0.355  mean   66.8
-#&gt; </span><span style='color: #555555;'> 6</span><span> NO    [0.066,15.9]  </span><span style='text-decoration: underline;'>1</span><span>146 0.066</span><span style='text-decoration: underline;'>0</span><span> mean   12.1
-#&gt; </span><span style='color: #555555;'> 7</span><span> NO    (15.9,25.6]   </span><span style='text-decoration: underline;'>2</span><span>039 0.117  mean   20.9
-#&gt; </span><span style='color: #555555;'> 8</span><span> NO    (25.6,36.5]   </span><span style='text-decoration: underline;'>2</span><span>525 0.145  mean   30.9
-#&gt; </span><span style='color: #555555;'> 9</span><span> NO    (36.5,51.2]   </span><span style='text-decoration: underline;'>2</span><span>276 0.131  mean   43.2
-#&gt; </span><span style='color: #555555;'>10</span><span> NO    (51.2,148]    </span><span style='text-decoration: underline;'>1</span><span>705 0.098</span><span style='text-decoration: underline;'>2</span><span> mean   64.7
+#&gt; </span><span style='color: #555555;'> 1</span><span> N     [0.066,15.9]   990 0.057</span><span style='text-decoration: underline;'>0</span><span> mean   12.3
+#&gt; </span><span style='color: #555555;'> 2</span><span> N     (15.9,25.6]   </span><span style='text-decoration: underline;'>1</span><span>992 0.115  mean   20.9
+#&gt; </span><span style='color: #555555;'> 3</span><span> N     (25.6,36.5]   </span><span style='text-decoration: underline;'>2</span><span>551 0.147  mean   31.1
+#&gt; </span><span style='color: #555555;'> 4</span><span> N     (36.5,51.2]   </span><span style='text-decoration: underline;'>2</span><span>751 0.158  mean   43.4
+#&gt; </span><span style='color: #555555;'> 5</span><span> N     (51.2,148]    </span><span style='text-decoration: underline;'>3</span><span>008 0.173  mean   65.8
+#&gt; </span><span style='color: #555555;'> 6</span><span> NO    [0.066,15.9]  </span><span style='text-decoration: underline;'>2</span><span>177 0.125  mean   12.2
+#&gt; </span><span style='color: #555555;'> 7</span><span> NO    (15.9,25.6]   </span><span style='text-decoration: underline;'>4</span><span>142 0.238  mean   21.0
+#&gt; </span><span style='color: #555555;'> 8</span><span> NO    (25.6,36.5]   </span><span style='text-decoration: underline;'>5</span><span>510 0.317  mean   31.0
+#&gt; </span><span style='color: #555555;'> 9</span><span> NO    (36.5,51.2]   </span><span style='text-decoration: underline;'>5</span><span>451 0.314  mean   43.3
+#&gt; </span><span style='color: #555555;'>10</span><span> NO    (51.2,148]    </span><span style='text-decoration: underline;'>5</span><span>200 0.299  mean   66.4
 #&gt; </span><span style='color: #555555;'># ... with 30 more rows</span><span></div><div class='input'>
 <span class='co'># the same but we use ws as pollutant</span>
 <span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='no'>NO2</span>, <span class='no'>wd</span>, <span class='no'>NO2</span>, <span class='kw'>ws_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_interval.fun.html'>cut_number.fun</a></span>(<span class='fl'>5</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 40 x 6</span><span>
 #&gt;    NO2          wd        n    freq stat  NO2.stat
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> [0.066,15.9] N      </span><span style='text-decoration: underline;'>1</span><span>771 0.020</span><span style='text-decoration: underline;'>4</span><span>  mean     12.3 
-#&gt; </span><span style='color: #555555;'> 2</span><span> [0.066,15.9] NO     </span><span style='text-decoration: underline;'>1</span><span>146 0.013</span><span style='text-decoration: underline;'>2</span><span>  mean     12.1 
-#&gt; </span><span style='color: #555555;'> 3</span><span> [0.066,15.9] O       198 0.002</span><span style='text-decoration: underline;'>28</span><span> mean     11.4 
-#&gt; </span><span style='color: #555555;'> 4</span><span> [0.066,15.9] SO     </span><span style='text-decoration: underline;'>1</span><span>913 0.022</span><span style='text-decoration: underline;'>0</span><span>  mean     11.0 
-#&gt; </span><span style='color: #555555;'> 5</span><span> [0.066,15.9] S      </span><span style='text-decoration: underline;'>1</span><span>622 0.018</span><span style='text-decoration: underline;'>7</span><span>  mean     10.7 
-#&gt; </span><span style='color: #555555;'> 6</span><span> [0.066,15.9] SW     </span><span style='text-decoration: underline;'>6</span><span>446 0.074</span><span style='text-decoration: underline;'>2</span><span>  mean      9.79
-#&gt; </span><span style='color: #555555;'> 7</span><span> [0.066,15.9] W      </span><span style='text-decoration: underline;'>3</span><span>423 0.039</span><span style='text-decoration: underline;'>4</span><span>  mean     10.7 
-#&gt; </span><span style='color: #555555;'> 8</span><span> [0.066,15.9] NW      858 0.009</span><span style='text-decoration: underline;'>88</span><span> mean     12.0 
-#&gt; </span><span style='color: #555555;'> 9</span><span> (15.9,25.6]  N      </span><span style='text-decoration: underline;'>3</span><span>659 0.042</span><span style='text-decoration: underline;'>1</span><span>  mean     21.0 
-#&gt; </span><span style='color: #555555;'>10</span><span> (15.9,25.6]  NO     </span><span style='text-decoration: underline;'>2</span><span>042 0.023</span><span style='text-decoration: underline;'>5</span><span>  mean     20.9 
+#&gt; </span><span style='color: #555555;'> 1</span><span> [0.066,15.9] N       991 0.011</span><span style='text-decoration: underline;'>4</span><span>  mean     12.3 
+#&gt; </span><span style='color: #555555;'> 2</span><span> [0.066,15.9] NO     </span><span style='text-decoration: underline;'>2</span><span>177 0.025</span><span style='text-decoration: underline;'>1</span><span>  mean     12.2 
+#&gt; </span><span style='color: #555555;'> 3</span><span> [0.066,15.9] O       226 0.002</span><span style='text-decoration: underline;'>60</span><span> mean     11.7 
+#&gt; </span><span style='color: #555555;'> 4</span><span> [0.066,15.9] SO      671 0.007</span><span style='text-decoration: underline;'>73</span><span> mean     11.1 
+#&gt; </span><span style='color: #555555;'> 5</span><span> [0.066,15.9] S      </span><span style='text-decoration: underline;'>2</span><span>171 0.025</span><span style='text-decoration: underline;'>0</span><span>  mean     11.1 
+#&gt; </span><span style='color: #555555;'> 6</span><span> [0.066,15.9] SW     </span><span style='text-decoration: underline;'>4</span><span>104 0.047</span><span style='text-decoration: underline;'>2</span><span>  mean      9.80
+#&gt; </span><span style='color: #555555;'> 7</span><span> [0.066,15.9] W      </span><span style='text-decoration: underline;'>4</span><span>670 0.053</span><span style='text-decoration: underline;'>8</span><span>  mean     10.1 
+#&gt; </span><span style='color: #555555;'> 8</span><span> [0.066,15.9] NW     </span><span style='text-decoration: underline;'>2</span><span>367 0.027</span><span style='text-decoration: underline;'>3</span><span>  mean     11.0 
+#&gt; </span><span style='color: #555555;'> 9</span><span> (15.9,25.6]  N      </span><span style='text-decoration: underline;'>1</span><span>991 0.022</span><span style='text-decoration: underline;'>9</span><span>  mean     20.9 
+#&gt; </span><span style='color: #555555;'>10</span><span> (15.9,25.6]  NO     </span><span style='text-decoration: underline;'>4</span><span>145 0.047</span><span style='text-decoration: underline;'>7</span><span>  mean     21.0 
 #&gt; </span><span style='color: #555555;'># ... with 30 more rows</span><span></div><div class='input'>
 <span class='co'># some plots using the summarized data</span>
 
@@ -427,11 +424,8 @@ NA values in z and in ws, wd (after cutting) will be silently removed before app
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#computed-variables">Computed variables</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -445,7 +439,7 @@ NA values in z and in ws, wd (after cutting) will be silently removed before app
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -39,12 +41,12 @@
 
 
 
+
 <meta property="og:title" content="Background Raster for polar plots — geom_polar_raster" />
-
 <meta property="og:description" content="quick and really dirty implementation of a raster rendered on the whole extend of the panel." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -75,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9008</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9009</span>
       </span>
     </div>
 
@@ -106,7 +108,6 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/Ostluft/rOstluft.plot">
@@ -133,13 +134,11 @@
     </div>
 
     <div class="ref-description">
-    
     <p>quick and really dirty implementation of a raster rendered on the whole extend of the panel.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>geom_polar_raster</span>(<span class='no'>raster</span>, <span class='kw'>interpolate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -156,11 +155,10 @@
       <td><p>unused at the moment</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>ggplot2 layer</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>ggplot2</span>)
@@ -172,8 +170,7 @@
 <span class='no'>bbox</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>left</span> <span class='kw'>=</span> <span class='no'>bbox</span>$<span class='no'>lon</span>[<span class='fl'>1</span>], <span class='kw'>right</span> <span class='kw'>=</span> <span class='no'>bbox</span>$<span class='no'>lon</span>[<span class='fl'>2</span>], <span class='kw'>bottom</span> <span class='kw'>=</span> <span class='no'>bbox</span>$<span class='no'>lat</span>[<span class='fl'>1</span>], <span class='kw'>top</span> <span class='kw'>=</span> <span class='no'>bbox</span>$<span class='no'>lat</span>[<span class='fl'>2</span>])
 
 <span class='no'>raster_map</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>ggmap</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ggmap/man/get_stamenmap.html'>get_stamenmap</a></span>(<span class='no'>bbox</span>, <span class='kw'>zoom</span> <span class='kw'>=</span> <span class='fl'>16</span>, <span class='kw'>maptype</span> <span class='kw'>=</span> <span class='st'>"terrain"</span>,
-                                   <span class='kw'>source</span> <span class='kw'>=</span> <span class='st'>"stamen"</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"bw"</span>)
-
+                                   <span class='kw'>source</span> <span class='kw'>=</span> <span class='st'>"stamen"</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"bw"</span>)</div><div class='output co'>#&gt; <span class='message'>Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.</span></div><div class='input'>
 
 <span class='co'># prepare data</span>
 <span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft.data</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft.data/man/f.html'>f</a></span>(<span class='st'>"Zch_Stampfenbachstrasse_2010-2014.csv"</span>)
@@ -204,9 +201,7 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -220,7 +215,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

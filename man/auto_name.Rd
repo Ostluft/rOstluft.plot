@@ -13,7 +13,7 @@ auto_name(exprs)
 A named list of expressions
 }
 \description{
-Nearly identical to \code{\link[rlang:exprs_auto_name]{rlang::exprs_auto_name()}}, but \code{\link[rlang:quo_name]{rlang::quo_name()}}
+Nearly identical to \code{\link[rlang:exprs_auto_name]{rlang::exprs_auto_name()}}, but \code{\link[rlang:as_name]{rlang::as_name()}}
 is used instead of \code{\link[rlang:as_label]{rlang::as_label()}}. For String items the string will
 returned without wrapping in double quotes. The naming of functions and
 formulas is not optimal, it is better to manually name theme.
