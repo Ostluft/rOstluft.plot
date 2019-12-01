@@ -34,7 +34,8 @@ Imports:
     mgcv,
     scales,
     matlab,
-    openair
+    openair,
+    suncalc
 Suggests:
     knitr,
     rmarkdown,

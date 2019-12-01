@@ -14,8 +14,8 @@
 #'
 #' @export
 cut_wd <- function(wd, binwidth = 45,
-                   labels = c("N", "", "NNO", "", "NO", "", "NOO", "", "O", "", "SOO", "", "SO", "", "SSO",
-                              "", "S", "", "SSW", "", "SW", "", "SWW", "", "W", "", "NWW", "", "NW", "", "NNW", ""),
+                   labels = c("N", "", "NNO", "", "NO", "", "ONO", "", "O", "", "OSO", "", "SO", "", "SSO",
+                              "", "S", "", "SSW", "", "SW", "", "WSW", "", "W", "", "WNW", "", "NW", "", "NNW", ""),
                    ...) {
 
   nsectors <- 360 / binwidth
@@ -290,6 +290,61 @@ cut_seasonyear.fun <- function(label = c("yearseason", "year"), labels = NULL) {
   function(x) {
     cut_seasonyear(label = label, labels = labels)
   }
+}
+
+
+
+
+
+
+#' Cut a [rOstluft::format_rolf()] dataset's starttime into periodic factor classes
+#'
+#' Appends new factor variables as columns to the dataset, for further use
+#' with e.g. [rOstluft.plot::summary_periodic()] in order to calculate summary stats for
+#' starttime of the day, date, weekday, weekend, week, month, season, daylight.
+#'
+#' @param data numeric vector of wind directions in °
+#' @param coord_sun named vector von lat / lon coordinates (WGS84) of the location for which
+#' to calculate sunrise / sunset times
+#'
+#' @examples
+#' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
+#' data <-
+#'   rOstluft::read_airmo_csv(fn) %>%
+#'   rOstluft::resample(new_interval = "h1")
+#'
+#' data <- cut_timeseries_periodic(data)
+#' str(data)
+#'
+#' @export
+cut_timeseries_periodic <- function(data, coord_sun = c(lat = 47.36667, lon = 8.55)) {
+
+  data <-
+    dplyr::mutate(data,
+                  starttime_of_day = format(starttime[1] + lubridate::hours(lubridate::hour(starttime)) +
+                                              lubridate::minutes(lubridate::minute(starttime)), "%H:%M"),
+                  date = lubridate::as_date(starttime),
+                  weekday = lubridate::wday(starttime, label = TRUE, week_start = 1),
+                  weekend = factor(ifelse(as.numeric(weekday) %in% 6:7, "weekend", "weekday"), levels = c("weekend", "weekday")),
+                  week = lubridate::week(starttime),
+                  month = lubridate::month(starttime, label = TRUE),
+                  season = cut_season(starttime)
+    )
+
+  suntime <- suncalc::getSunlightTimes(date = unique(lubridate::as_date(data$starttime)), lat = coord_sun["lat"], lon = coord_sun["lon"],
+                                       tz = lubridate::tz(data$starttime), keep = c("sunrise", "sunset"))
+
+  data <- dplyr::right_join(data, dplyr::select(suntime, date, sunrise, sunset), by = "date")
+  data <- dplyr::mutate(data,
+                        daylight = dplyr::case_when(
+                          starttime >= sunrise ~ "day",
+                          starttime <= sunset ~ "night"
+                        )
+  )
+  data <- dplyr::mutate_if(data, is.character, factor)
+
+
+  return(data)
 }
 
 
