@@ -303,9 +303,21 @@ cut_seasonyear.fun <- function(label = c("yearseason", "year"), labels = NULL) {
 #' with e.g. [rOstluft.plot::summary_periodic()] in order to calculate summary stats for
 #' starttime of the day, date, weekday, weekend, week, month, season, daylight.
 #'
-#' @param data numeric vector of wind directions in °
-#' @param coord_sun named vector von lat / lon coordinates (WGS84) of the location for which
-#' to calculate sunrise / sunset times
+#' @param data numeric vector of wind directions in °.
+#' @param coord_sun anamed vector von lat / lon coordinates (WGS84) of the location for which
+#' to calculate sunrise / sunset times (per default: c(lat = 47.36667, lon = 8.55) => Zürich, Switzerland)
+#' for daylight factoring using [suncalc::getSunlightTimes()].
+#'
+#' @return a tibble with cut data; cut-factors comrise various (time-)periodic newe columns:
+#'
+#' * starttime_of_day
+#' * date
+#' * weekday
+#' * weekend
+#' * week
+#' * month
+#' * season
+#' * daylight
 #'
 #' @examples
 #' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")

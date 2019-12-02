@@ -44,7 +44,7 @@ NULL
 #' @rdname themes_rop
 #' @export
 theme_rop_traj <- function(base = ggplot2::theme_minimal()) {
-  base +ö
+  base +
   ggplot2::theme(
     panel.grid = ggplot2::element_blank(),
     axis.text = ggplot2::element_blank(),
@@ -91,5 +91,20 @@ theme_rop_windrose <- function(base = ggplot2::theme_minimal()) {
     panel.grid.minor.x = element_blank(),
     panel.grid.major = element_line(linetype = 2, color = "gray80", size = 0.5),
     axis.title = element_blank()
+  )
+}
+
+#' @rdname themes_rop
+#' @export
+theme_rop_classic <- function(base = ggplot2::theme_classic()) {
+  base +
+  ggplot2::theme(
+    strip.text.x = element_text(hjust = 0),
+    strip.background = element_blank(),
+    strip.placement = "outside",
+    panel.grid.major.y = element_line(linetype = 2, size = 0.25, colour = "gray80"),
+    axis.title.x = element_blank(),
+    axis.ticks = element_line(color = "gray40"),
+    axis.line = element_line(color = "gray40")
   )
 }
