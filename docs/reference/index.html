@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -39,10 +41,11 @@
 
 
 
-<meta property="og:title" content="Function reference" />
 
+<meta property="og:title" content="Function reference" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -73,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9008</span>
       </span>
     </div>
 
@@ -101,7 +104,6 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/Ostluft/rOstluft.plot">
@@ -149,6 +151,26 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="ggdiurnal.html">ggdiurnal()</a></code> </p>
+        </td>
+        <td><p>ggplot2-wrapper to summarise and plot data (of <code><a href='https://rdrr.io/pkg/rOstluft/man/format_rolf.html'>rOstluft::format_rolf()</a></code> format) for diurnal time course-stats</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ggdiurnal_weekend.html">ggdiurnal_weekend()</a></code> </p>
+        </td>
+        <td><p>ggplot2-wrapper to summarise and plot data (of <code><a href='https://rdrr.io/pkg/rOstluft/man/format_rolf.html'>rOstluft::format_rolf()</a></code> format) for diurnal time course-stats
+including weekend-effect</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ggdiurnal_weekend_diff.html">ggdiurnal_weekend_diff()</a></code> </p>
+        </td>
+        <td><p>ggplot2-wrapper to summarise and plot data (of <code><a href='https://rdrr.io/pkg/rOstluft/man/format_rolf.html'>rOstluft::format_rolf()</a></code> format) for one diurnal time course-stat
+plotted as difference between weekdays - weekend</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="ggpolarplot.html">ggpolarplot()</a></code> </p>
         </td>
         <td><p>ggplot2 wrapper to create a wind-based polar plot</p></td>
@@ -164,6 +186,13 @@
           <p><code><a href="ggtraj.html">ggtraj()</a></code> </p>
         </td>
         <td><p>Plotting hysplit trajectory</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ggweekend.html">ggweekend()</a></code> </p>
+        </td>
+        <td><p>ggplot2-wrapper to summarise and plot data (of <code><a href='https://rdrr.io/pkg/rOstluft/man/format_rolf.html'>rOstluft::format_rolf()</a></code> format) as boxplots
+comparing weekdays to weekends</p></td>
       </tr><tr>
         
         <td>
@@ -335,6 +364,12 @@
       <tr>
         
         <td>
+          <p><code><a href="cut_daylight.html">cut_daylight()</a></code> </p>
+        </td>
+        <td><p>Cut a POSIXct Vector into daylight (day, night)</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="cut_interval.fun.html">cut_interval.fun()</a></code> <code><a href="cut_interval.fun.html">cut_number.fun()</a></code> <code><a href="cut_interval.fun.html">cut_width.fun()</a></code> </p>
         </td>
         <td><p>Partial function constructor for ggplot2 cut functions</p></td>
@@ -365,6 +400,18 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="cut_timeseries_periodic.html">cut_timeseries_periodic()</a></code> </p>
+        </td>
+        <td><p>Cut a tibble with a datetime column</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cut_time_of_day.html">cut_time_of_day()</a></code> </p>
+        </td>
+        <td><p>Cut a POSIXct Vector into time of day (HH:MM)</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="cut_wd.fun.html">cut_wd.fun()</a></code> </p>
         </td>
         <td><p>Partial function constructor to cut wind direction into factor classes</p></td>
@@ -377,6 +424,12 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="cut_weekend.html">cut_weekend()</a></code> </p>
+        </td>
+        <td><p>Cut a POSIXct Vector into weekday and weekend</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="cut_ws.fun.html">cut_ws.fun()</a></code> </p>
         </td>
         <td><p>Partial function constructor to cut wind velocity (or others) into factor classes</p></td>
@@ -386,12 +439,6 @@
           <p><code><a href="cut_ws.html">cut_ws()</a></code> </p>
         </td>
         <td><p>Cut wind velocity (or others) into factor classes</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="y_classes.html">y_classes()</a></code> </p>
-        </td>
-        <td><p>wrapper to cut y data into factor classes</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -451,7 +498,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="themes_rop.html">theme_rop_traj()</a></code> <code><a href="themes_rop.html">theme_rop_polarplot()</a></code> <code><a href="themes_rop.html">theme_rop_radar()</a></code> <code><a href="themes_rop.html">theme_rop_windrose()</a></code> </p>
+          <p><code><a href="themes_rop.html">theme_rop_traj()</a></code> <code><a href="themes_rop.html">theme_rop_polarplot()</a></code> <code><a href="themes_rop.html">theme_rop_radar()</a></code> <code><a href="themes_rop.html">theme_rop_windrose()</a></code> <code><a href="themes_rop.html">theme_rop_classic()</a></code> </p>
         </td>
         <td><p>themes for rOstluft plots</p></td>
       </tr>
@@ -481,7 +528,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>
