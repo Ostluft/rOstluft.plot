@@ -76,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9010</span>
       </span>
     </div>
 
@@ -154,6 +154,26 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="ggdiurnal.html">ggdiurnal()</a></code> </p>
+        </td>
+        <td><p>ggplot2-wrapper to summarise and plot data (of <code><a href='https://rdrr.io/pkg/rOstluft/man/format_rolf.html'>rOstluft::format_rolf()</a></code> format) for diurnal time course-stats</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ggdiurnal_weekend.html">ggdiurnal_weekend()</a></code> </p>
+        </td>
+        <td><p>ggplot2-wrapper to summarise and plot data (of <code><a href='https://rdrr.io/pkg/rOstluft/man/format_rolf.html'>rOstluft::format_rolf()</a></code> format) for diurnal time course-stats
+including weekend-effect</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ggdiurnal_weekend_diff.html">ggdiurnal_weekend_diff()</a></code> </p>
+        </td>
+        <td><p>ggplot2-wrapper to summarise and plot data (of <code><a href='https://rdrr.io/pkg/rOstluft/man/format_rolf.html'>rOstluft::format_rolf()</a></code> format) for one diurnal time course-stat
+plotted as difference between weekdays - weekend</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="ggpolarplot.html">ggpolarplot()</a></code> </p>
         </td>
         <td><p>ggplot2 wrapper to create a wind-based polar plot</p></td>
@@ -169,6 +189,13 @@
           <p><code><a href="ggtraj.html">ggtraj()</a></code> </p>
         </td>
         <td><p>Plotting hysplit trajectory</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ggweekend.html">ggweekend()</a></code> </p>
+        </td>
+        <td><p>ggplot2-wrapper to summarise and plot data (of <code><a href='https://rdrr.io/pkg/rOstluft/man/format_rolf.html'>rOstluft::format_rolf()</a></code> format) as boxplots
+comparing weekdays to weekends</p></td>
       </tr><tr>
         
         <td>
@@ -219,6 +246,13 @@
           <p><code><a href="summary_wind_2d.html">summary_wind_2d()</a></code> </p>
         </td>
         <td><p>Summarise y values over binned wind data, split into u and v components.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="summary_periodic.html">summary_periodic()</a></code> </p>
+        </td>
+        <td><p>Summarise a <code><a href='https://rdrr.io/pkg/rOstluft/man/format_rolf.html'>rOstluft::format_rolf()</a></code> dataset over periodic (diurnal, weekday, etc) factors
+implicitly created by <code>cut_timeseries_periodic()</code> using various stat functions.</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -340,6 +374,12 @@
       <tr>
         
         <td>
+          <p><code><a href="cut_daylight.html">cut_daylight()</a></code> </p>
+        </td>
+        <td><p>Cut a POSIXct Vector into daylight (day, night)</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="cut_interval.fun.html">cut_interval.fun()</a></code> <code><a href="cut_interval.fun.html">cut_number.fun()</a></code> <code><a href="cut_interval.fun.html">cut_width.fun()</a></code> </p>
         </td>
         <td><p>Partial function constructor for ggplot2 cut functions</p></td>
@@ -370,6 +410,18 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="cut_timeseries_periodic.html">cut_timeseries_periodic()</a></code> </p>
+        </td>
+        <td><p>Cut a tibble with a datetime column</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cut_time_of_day.html">cut_time_of_day()</a></code> </p>
+        </td>
+        <td><p>Cut a POSIXct Vector into time of day (HH:MM)</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="cut_wd.fun.html">cut_wd.fun()</a></code> </p>
         </td>
         <td><p>Partial function constructor to cut wind direction into factor classes</p></td>
@@ -379,6 +431,12 @@
           <p><code><a href="cut_wd.html">cut_wd()</a></code> </p>
         </td>
         <td><p>Cut wind direction into factor classes</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cut_weekend.html">cut_weekend()</a></code> </p>
+        </td>
+        <td><p>Cut a POSIXct Vector into weekday and weekend</p></td>
       </tr><tr>
         
         <td>
@@ -450,7 +508,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="themes_rop.html">theme_rop_traj()</a></code> <code><a href="themes_rop.html">theme_rop_polarplot()</a></code> <code><a href="themes_rop.html">theme_rop_radar()</a></code> <code><a href="themes_rop.html">theme_rop_windrose()</a></code> </p>
+          <p><code><a href="themes_rop.html">theme_rop_traj()</a></code> <code><a href="themes_rop.html">theme_rop_polarplot()</a></code> <code><a href="themes_rop.html">theme_rop_radar()</a></code> <code><a href="themes_rop.html">theme_rop_windrose()</a></code> <code><a href="themes_rop.html">theme_rop_diuarnal()</a></code> </p>
         </td>
         <td><p>themes for rOstluft plots</p></td>
       </tr>

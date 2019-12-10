@@ -42,6 +42,7 @@ reference:
   - starts_with("stat_")
   - summary_wind
   - summary_wind_2d
+  - summary_periodic
 
 - title: "Layer: geoms"
   desc: >
