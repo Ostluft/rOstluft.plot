@@ -15,7 +15,9 @@ ggdiurnal_weekend(data, y = "value", nmin = 3, fun = list(middle =
 \item{data}{a data.frame or tibble containing the data}
 
 \item{y}{a character string specifying the taget variable to be summarised, usually "value".
-outcomes of \code{\link[rOstluft:cut_timeseries_periodic]{rOstluft::cut_timeseries_periodic()}}.}
+outcomes of \code{\link[=cut_timeseries_periodic]{cut_timeseries_periodic()}}.}
+
+\item{nmin}{numeric, minimum number of values for fun, if n < nmin: NA is returned}
 
 \item{fun}{function or list of functions for summary, can be named (then the outut stat is named after the function's name);
 Strings matching the regular expression \code{/^percentile([0-9]){1,2}$/i} are converted into the respective function.
@@ -35,6 +37,7 @@ ggplot2-wrapper to summarise and plot data (of \code{\link[rOstluft:format_rolf]
 including weekend-effect
 }
 \examples{
+library(ggplot2)
 fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 
 data <-

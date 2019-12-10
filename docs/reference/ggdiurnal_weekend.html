@@ -80,7 +80,7 @@ including weekend-effect" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9008</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9010</span>
       </span>
     </div>
 
@@ -104,6 +104,9 @@ including weekend-effect" />
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/articles/Kalender_Linie.html">Linien Kalender</a>
+    </li>
+    <li>
+      <a href="../articles/articles/Wind_Density.html">Diurnal Wind als Density und Boxplot</a>
     </li>
   </ul>
 </li>
@@ -155,7 +158,11 @@ including weekend-effect</p>
     <tr>
       <th>y</th>
       <td><p>a character string specifying the taget variable to be summarised, usually "value".
-outcomes of <code>rOstluft::cut_timeseries_periodic()</code>.</p></td>
+outcomes of <code><a href='cut_timeseries_periodic.html'>cut_timeseries_periodic()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>nmin</th>
+      <td><p>numeric, minimum number of values for fun, if n &lt; nmin: NA is returned</p></td>
     </tr>
     <tr>
       <th>fun</th>
@@ -182,7 +189,8 @@ Strings matching the regular expression <code>/^percentile([0-9]){1,2}$/i</code>
     <p><code><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot2::ggplot()</a></code> object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft.data</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft.data/man/f.html'>f</a></span>(<span class='st'>"Zch_Stampfenbachstrasse_2010-2014.csv"</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft.data</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft.data/man/f.html'>f</a></span>(<span class='st'>"Zch_Stampfenbachstrasse_2010-2014.csv"</span>)
 
 <span class='no'>data</span> <span class='kw'>&lt;-</span>
   <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/read_airmo_csv.html'>read_airmo_csv</a></span>(<span class='no'>fn</span>) <span class='kw'>%&gt;%</span>
@@ -192,8 +200,8 @@ Strings matching the regular expression <code>/^percentile([0-9]){1,2}$/i</code>
 <span class='fu'>ggdiurnal_weekend</span>(<span class='no'>data</span>)</div><div class='img'><img src='ggdiurnal_weekend-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># y scale: no expand on zero</span>
 <span class='fu'>ggdiurnal_weekend</span>(<span class='no'>data</span>) +
-  <span class='fu'>scale_y_continuous</span>(<span class='kw'>limits</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>NA</span>), <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fu'>expand_scale</span>(<span class='kw'>mult</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0.05</span>))) +
-  <span class='fu'>theme</span>(<span class='kw'>panel.spacing.y</span> <span class='kw'>=</span> <span class='fu'>unit</span>(<span class='fl'>12</span>, <span class='st'>"pt"</span>))</div><div class='img'><img src='ggdiurnal_weekend-2.png' alt='' width='700' height='433' /></div></pre>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span>(<span class='kw'>limits</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>NA</span>), <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/expand_scale.html'>expand_scale</a></span>(<span class='kw'>mult</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0.05</span>))) +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span>(<span class='kw'>panel.spacing.y</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/reexports.html'>unit</a></span>(<span class='fl'>12</span>, <span class='st'>"pt"</span>))</div><div class='img'><img src='ggdiurnal_weekend-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

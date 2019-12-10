@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Partial function constructor to cut wind direction into factor classes — cut_wd.fun • rOstluft.plot</title>
+<title>Searches a list for strings percentileXX and returns function (x, ...) quantile(x, XX, ...) — create_percentile_functions • rOstluft.plot</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,9 +42,8 @@
 
 
 
-<meta property="og:title" content="Partial function constructor to cut wind direction into factor classes — cut_wd.fun" />
-<meta property="og:description" content="Creates a partial function of ggplot2::cut_width() with width = binwidth. closed = &quot;left&quot;, boundary = 0 as fixed
-arguments" />
+<meta property="og:title" content="Searches a list for strings percentileXX and returns function (x, ...) quantile(x, XX, ...) — create_percentile_functions" />
+<meta property="og:description" content="Searches a list for strings percentileXX and returns function (x, ...) quantile(x, XX, ...)" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -129,38 +128,29 @@ arguments" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Partial function constructor to cut wind direction into factor classes</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Ostluft/rOstluft.plot/blob/master/R/cutfuns.R'><code>R/cutfuns.R</code></a></small>
-    <div class="hidden name"><code>cut_wd.fun.Rd</code></div>
+    <h1>Searches a list for strings percentileXX and returns function (x, ...) quantile(x, XX, ...)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Ostluft/rOstluft.plot/blob/master/R/summary_periodic.R'><code>R/summary_periodic.R</code></a></small>
+    <div class="hidden name"><code>create_percentile_functions.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Creates a partial function of <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>ggplot2::cut_width()</a></code> with <code>width = binwidth. closed = "left", boundary = 0</code> as fixed
-arguments</p>
+    <p>Searches a list for strings percentileXX and returns function (x, ...) quantile(x, XX, ...)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cut_wd.fun</span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>45</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>create_percentile_functions</span>(<span class='no'>fun</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>binwidth</th>
-      <td><p>width for <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>ggplot2::cut_width()</a></code> in degrees wind  direction
-(must fullfill binwidth %in% 360 / c(4, 8, 16, 32))</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>passed to <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>ggplot2::cut_width()</a></code></p></td>
+      <th>fun</th>
+      <td><p>named list containing functions or strings</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a partial <code><a href='cut_wd.html'>cut_wd()</a></code> function with wd as sole argument</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='cut_wd.html'>cut_wd()</a></code></p></div>
+    <p>named list with strings matching percentileXX replaced with functions</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -168,7 +158,6 @@ arguments</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
     </ul>
 
   </div>

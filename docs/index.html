@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9010</span>
       </span>
     </div>
 
@@ -148,7 +148,7 @@
 <a class="sourceLine" id="cb5-5" title="5"><span class="st">  </span><span class="kw">scale_y_continuous</span>(</a>
 <a class="sourceLine" id="cb5-6" title="6">    <span class="dt">limits =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="ot">NA</span>), </a>
 <a class="sourceLine" id="cb5-7" title="7">    <span class="dt">expand =</span> <span class="kw">expand_scale</span>(), </a>
-<a class="sourceLine" id="cb5-8" title="8">    <span class="dt">labels =</span> scales<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/scales/man/number_format.html">percent_format</a></span>(<span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb5-8" title="8">    <span class="dt">labels =</span> scales<span class="op">::</span><span class="kw"><a href="https://scales.r-lib.org//reference/number_format.html">percent_format</a></span>(<span class="dv">1</span>),</a>
 <a class="sourceLine" id="cb5-9" title="9">    <span class="dt">breaks =</span> <span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>, <span class="fl">0.3</span>, <span class="fl">0.05</span>)</a>
 <a class="sourceLine" id="cb5-10" title="10">  )</a></code></pre></div>
 <p><img src="reference/figures/README-ggwindrose-3.png" width="100%"></p>
@@ -271,7 +271,7 @@
 <p>Messdaten enthalten oft Extremwerte von ausserordentlichen Episoden oder Ereignissen. Als Beispiel Feuwerwerke oder Inversionen in den PM10 Daten:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw"><a href="reference/ggyearday.html">ggyearday</a></span>(data, <span class="dt">time =</span> date, <span class="dt">z =</span> PM10)</a></code></pre></div>
 <p><img src="reference/figures/README-unsquished_ggyearday-1.png" width="100%"></p>
-<p>In einem ggplot2 Diagramm kann bei continuous scales mit Hilfe dem Argument <code>oob</code> eine Funktion übergeben werden, was mit Werten ausserhalb des Limits geschieht. Mit Hilfe der Funktion <code><a href="https://rdrr.io/pkg/scales/man/squish.html">scales::squish()</a></code> werden diese Werte auf das Minima, bzw. Maxima der Limits gesetzt. In rOstluft.plot sind die Hilfsfunktionen <code><a href="reference/scale_viridis_squished.html">scale_fill_viridis_squished()</a></code>, <code><a href="reference/scale_viridis_squished.html">scale_color_viridis_squished()</a></code>, <code><a href="reference/scale_viridis_squished.html">scale_fill_gradientn_squished()</a></code> und <code><a href="reference/scale_viridis_squished.html">scale_color_gradientn_squished()</a></code> enthalten:</p>
+<p>In einem ggplot2 Diagramm kann bei continuous scales mit Hilfe dem Argument <code>oob</code> eine Funktion übergeben werden, was mit Werten ausserhalb des Limits geschieht. Mit Hilfe der Funktion <code><a href="https://scales.r-lib.org//reference/squish.html">scales::squish()</a></code> werden diese Werte auf das Minima, bzw. Maxima der Limits gesetzt. In rOstluft.plot sind die Hilfsfunktionen <code><a href="reference/scale_viridis_squished.html">scale_fill_viridis_squished()</a></code>, <code><a href="reference/scale_viridis_squished.html">scale_color_viridis_squished()</a></code>, <code><a href="reference/scale_viridis_squished.html">scale_fill_gradientn_squished()</a></code> und <code><a href="reference/scale_viridis_squished.html">scale_color_gradientn_squished()</a></code> enthalten:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">fill_scale &lt;-<span class="st"> </span><span class="kw"><a href="reference/scale_viridis_squished.html">scale_fill_viridis_squished</a></span>(</a>
 <a class="sourceLine" id="cb15-2" title="2">  <span class="dt">breaks=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">60</span>, <span class="dv">80</span>), </a>
 <a class="sourceLine" id="cb15-3" title="3">  <span class="dt">limits =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">80</span>),</a>

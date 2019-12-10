@@ -92,12 +92,13 @@ summary_periodic <- function(
 #' @param fun named list containing functions or strings
 #'
 #' @return named list with strings matching percentileXX replaced with functions
+#' @keywords internal
 create_percentile_functions <- function(fun) {
   perc_regexp <- stringr::regex("^percentile([0-9]{1,2})$", ignore_case = TRUE)
 
   parse_percentiles <- function(x) {
     percentile <- stringr::str_match(x, perc_regexp)[2] # [1] is complete match, second is group
-    function(x, ...) quantile(x, as.numeric(percentile) / 100, ...)
+    function(x, ...) stats::quantile(x, as.numeric(percentile) / 100, ...)
   }
 
   fun_names <- rlang::names2(fun)

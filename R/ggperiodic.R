@@ -2,10 +2,11 @@
 #'
 #' @param data a data.frame or tibble containing the data
 #' @param y a character string specifying the taget variable to be summarised, usually "value".
-#' outcomes of [rOstluft::cut_timeseries_periodic()].
+#' outcomes of [cut_timeseries_periodic()].
 #' @param fun function or list of functions for summary, can be named (then the outut stat is named after the function's name);
 #'   Strings matching the regular expression `/^percentile([0-9]){1,2}$/i` are converted into the respective function.
 #'   "percentile95" => `function(x, ...) quantile(x, 95 / 100, ...)`
+#' @param nmin numeric, minimum number of values for fun, if n < nmin: NA is returned
 #' @param ribbon_color character string for specifying the ribbon color.
 #' @param middle_color character string for specifying the middle's color.
 #' @param expand_xscale multiplicative range expansion factor
@@ -14,6 +15,7 @@
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
 #' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 #'
 #' data_min30 <-
@@ -94,10 +96,11 @@ ggdiurnal <- function(
 #'
 #' @param data a data.frame or tibble containing the data
 #' @param y a character string specifying the taget variable to be summarised, usually "value".
-#' outcomes of [rOstluft::cut_timeseries_periodic()].
+#' outcomes of [cut_timeseries_periodic()].
 #' @param fun function or list of functions for summary, can be named (then the outut stat is named after the function's name);
 #'   Strings matching the regular expression `/^percentile([0-9]){1,2}$/i` are converted into the respective function.
 #'   "percentile95" => `function(x, ...) quantile(x, 95 / 100, ...)`
+#' @param nmin numeric, minimum number of values for fun, if n < nmin: NA is returned
 #' @param ribbon_color character string for specifying the ribbon color.
 #' @param middle_color character string for specifying the middle's color.
 #' @param expand_xscale multiplicative range expansion factor
@@ -106,6 +109,7 @@ ggdiurnal <- function(
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
 #' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 #'
 #' data <-
@@ -180,16 +184,18 @@ ggdiurnal_weekend <- function(
 #'
 #' @param data a data.frame or tibble containing the data
 #' @param y a character string specifying the taget variable to be summarised, usually "value".
-#' outcomes of [rOstluft::cut_timeseries_periodic()].
+#' outcomes of [cut_timeseries_periodic()].
 #' @param fun function or list of functions for summary, can be named (then the outut stat is named after the function's name);
 #'   Strings matching the regular expression `/^percentile([0-9]){1,2}$/i` are converted into the respective function.
 #'   "percentile95" => `function(x, ...) quantile(x, 95 / 100, ...)`
+#' @param nmin numeric, minimum number of values for fun, if n < nmin: NA is returned
 #' @param ... further arguments passed on to [ggplot2::geom_boxplot()].
 #'
 #' @return [ggplot2::ggplot()] object
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
 #' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 #'
 #' data <-
@@ -255,10 +261,11 @@ ggweekend <- function(
 #'
 #' @param data a data.frame or tibble containing the data
 #' @param y a character string specifying the taget variable to be summarised, usually "value".
-#' outcomes of [rOstluft::cut_timeseries_periodic()].
+#' outcomes of [cut_timeseries_periodic()].
 #' @param fun function or list of functions for summary, can be named (then the outut stat is named after the function's name);
 #'   Strings matching the regular expression `/^percentile([0-9]){1,2}$/i` are converted into the respective function.
 #'   "percentile95" => `function(x, ...) quantile(x, 95 / 100, ...)`
+#' @param nmin numeric, minimum number of values for fun, if n < nmin: NA is returned
 #' @param expand_xscale multiplicative range expansion factor
 #' @param ... further arguments passed on to [ggplot2::geom_line()].
 #'
@@ -266,6 +273,7 @@ ggweekend <- function(
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
 #' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_2010-2014.csv")
 #'
 #' data <-

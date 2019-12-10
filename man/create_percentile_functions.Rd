@@ -15,3 +15,4 @@ named list with strings matching percentileXX replaced with functions
 \description{
 Searches a list for strings percentileXX and returns function (x, ...) quantile(x, XX, ...)
 }
+\keyword{internal}
