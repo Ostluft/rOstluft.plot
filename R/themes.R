@@ -96,7 +96,7 @@ theme_rop_windrose <- function(base = ggplot2::theme_minimal()) {
 
 #' @rdname themes_rop
 #' @export
-theme_rop_classic <- function(base = ggplot2::theme_classic()) {
+theme_rop_diuarnal <- function(base = ggplot2::theme_classic()) {
   base +
   ggplot2::theme(
     strip.text.x = element_text(hjust = 0),
