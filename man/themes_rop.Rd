@@ -5,6 +5,7 @@
 \alias{theme_rop_polarplot}
 \alias{theme_rop_radar}
 \alias{theme_rop_windrose}
+\alias{theme_rop_diuarnal}
 \title{themes for rOstluft plots}
 \usage{
 theme_rop_traj(base = ggplot2::theme_minimal())
@@ -14,6 +15,8 @@ theme_rop_polarplot(base = ggplot2::theme_minimal())
 theme_rop_radar(base = ggplot2::theme_minimal())
 
 theme_rop_windrose(base = ggplot2::theme_minimal())
+
+theme_rop_diuarnal(base = ggplot2::theme_classic())
 }
 \arguments{
 \item{base}{a ggplot2 theme. see \link[ggplot2:ggtheme]{ggplot2::ggtheme}}

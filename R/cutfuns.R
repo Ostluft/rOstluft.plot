@@ -255,7 +255,7 @@ cut_season <- function(x, labels = NULL) {
   if (!is.null(labels)) {
     x <- dplyr::recode_factor(x, !!!labels, .ordered = TRUE)
   }
-  x
+  return(x)
 }
 
 
@@ -328,11 +328,178 @@ cut_seasonyear <- function(x, label = c("yearseason", "year"), labels = NULL) {
 #' @export
 cut_seasonyear.fun <- function(label = c("yearseason", "year"), labels = NULL) {
   function(x) {
-    cut_seasonyear(label = label, labels = labels)
+    cut_seasonyear(x, label = label, labels = labels)
   }
 }
 
 
+#' Cut a POSIXct Vector into daylight (day, night)
+#'
+#' @param x a POSIXct Vector with a timezone
+#' @param coords a named vector of the location in  WGS84 coordinates for the daylight factoring.
+#'   [suncalc::getSunlightTimes()] is used to calculate sunrise, sunset times.
+#'   Default: c(lat = 47.36667, lon = 8.55) => Zuerich, Switzerland
+#'
+#' @return factor vector with levels day, night
+#' @export
+#'
+#' @examples
+#' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_h1_2013_Jan.csv")
+#' data <- rOstluft::read_airmo_csv(fn)
+#'
+#' data <- dplyr::mutate(data,
+#'   daylight_zuerich = cut_daylight(.data$starttime),
+#'   daylight_sidney =  cut_daylight(.data$starttime, c(lat = -33.9, lon = 151.2))
+#' )
+#'
+#' tibble::glimpse(data)
+cut_daylight <- function(x, coords = c(lat = 47.36667, lon = 8.55)) {
+
+  data <- tibble::tibble(starttime = x, date = lubridate::as_date(x))
+
+  suntime <- suncalc::getSunlightTimes(
+    date = unique(data$date),
+    lat = coords["lat"],
+    lon = coords["lon"],
+    tz = lubridate::tz(x),
+    keep = c("sunrise", "sunset")
+  )
+
+  data <- dplyr::left_join(data, suntime, by = "date")
+
+  data <- dplyr::mutate(data,
+    daylight = dplyr::if_else(.data$sunrise <= .data$starttime & .data$starttime <= .data$sunset,  "Tag", "Nacht")
+  )
+
+  ordered(data$daylight, levels = c("Tag", "Nacht"))
+}
+
+
+
+
+#' Cut a POSIXct Vector into weekday and weekend
+#'
+#' @param x a datetime object.
+#' @param label Vector of label for weekday and weekend in order weekday, weekend
+#'
+#' @return ordered factor weekday > weekend
+#' @export
+#'
+#' @examples
+#' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_d1_2013_Jan.csv")
+#' data <- rOstluft::read_airmo_csv(fn)
+#'
+#' data <- dplyr::mutate(data,
+#'   weekend_ger = cut_weekend(.data$starttime),
+#'   weekend_eng =  cut_weekend(.data$starttime, c("weekday", "weekend"))
+#' )
+#'
+#' tibble::glimpse(data)
+cut_weekend <- function(x, label = c("Wochentag", "Wochenende")) {
+  mapping <- c(rep(label[[1]], 5), rep(label[[2]], 2))
+  x <- lubridate::wday(x, week_start = 1)
+  x <- mapping[x]
+  ordered(x, levels = label)
+}
+
+#' Cut a POSIXct Vector into time of day (HH:MM)
+#'
+#' @param x a datetime object.
+#'
+#' @return ordered factor with time of day
+#' @export
+#'
+#' @examples
+#' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_h1_2013_Jan.csv")
+#' data <- rOstluft::read_airmo_csv(fn)
+#'
+#' data <- dplyr::mutate(data,
+#'   "Etc/GMT-1" = cut_time_of_day(.data$starttime),
+#'   utc = cut_time_of_day(lubridate::force_tz(.data$starttime, "UTC")),
+#'   utc_converted = cut_time_of_day(lubridate::with_tz(.data$starttime, "UTC")),
+#'   berlin = cut_time_of_day(lubridate::force_tz(.data$starttime, "Europe/Berlin"))
+#' )
+#'
+#' tibble::glimpse(data)
+cut_time_of_day <- function(x) {
+  #TODO: delete this comment, if no problems arise or we know why it was done in this perculiar way
+  # original code, not sure why adding the first starrtime and double converts. Adding first starttime
+  # is dangerous. In most case it will be xxxx-01-01T00:00:00 but not everytime
+  # x <- format(x[1] + lubridate::hours(lubridate::hour(x)) +
+  #             lubridate::minutes(lubridate::minute(x)), "%H:%M")
+  # x <- format(x, "%H:%M") only works with posixct and is slower than sprintf
+  x <- sprintf("%02d:%02d", lubridate::hour(x), lubridate::minute(x))
+  ordered(x)
+}
+
+
+#' Cut a tibble with a datetime column
+#'
+#' Appends new factor variables as columns to the dataset, for further use
+#' with e.g. [rOstluft.plot::summary_periodic()] in order to calculate summary stats for
+#' starttime of the day, date, weekday, weekend, week, month, season, daylight.
+#'
+#' @param data tibble containing a column starttime of type POSIXct with a timezone
+#' @param x symbolic reference to date time column used for cutting
+#' @param include_daylight boolean indicating to calculate daylight for each starttime.
+#'   Disable to improve perfomance.
+#' @param coords a named vector of the location in  WGS84 coordinates for the daylight factoring.
+#'   [suncalc::getSunlightTimes()] is used to calculate sunrise, sunset times.
+#'   Default: c(lat = 47.36667, lon = 8.55) => Zuerich, Switzerland
+#'
+#' @return a tibble with cut data; cut-factors comprise various (time-)periodic new columns:
+#'
+#' * starttime_of_day: `cut_time_of_day(x)`
+#' * date: `lubridate::as_date(x)` to preserve time zone don't use [base::as.Date()]
+#' * weekday: `lubridate::wday(x, label = TRUE, week_start = 1)` locale Abbreviations
+#'   (Mon, Tue, Wed, Thu, Fri, Sat, Sun)
+#' * weekend: `cut_weekend(x)` => Wochentag, Wochenende (use [cut_weekend()] manually or
+#'   recode factor to change levels)
+#' * week: `lubridate::week(x)`
+#' * month: `lubridate::month(x, label = TRUE)` locale Abbreviations (Jan, Feb, Mar, ...)
+#' * season: `cut_season(x)` => DJF, MAM, JJA, SON (use [cut_season()] manually or recode
+#'   factor to change levels)
+#' * daylight: `cut_daylight(x, coords)` => Tag, Nacht (use [cut_daylight()] manually or
+#'   recode factor to change levels)
+#'
+#' @examples
+#' fn <- rOstluft.data::f("Zch_Stampfenbachstrasse_h1_2013_Jan.csv")
+#' data <- rOstluft::read_airmo_csv(fn)
+#'
+#' data <- cut_timeseries_periodic(data)
+#' tibble::glimpse(data)
+#'
+#' # recoding a factor
+#' data <- dplyr::mutate(data,
+#'   daylight = dplyr::recode(daylight, Nacht = "night", Tag = "day"),
+#' )
+#' tibble::glimpse(data)
+#'
+#' @export
+cut_timeseries_periodic <- function(data, x = "starttime", include_daylight = TRUE,
+                                    coords = c(lat = 47.36667, lon = 8.55)) {
+
+  x <- rlang::ensym(x)
+
+  data <- dplyr::mutate(data,
+      starttime_of_day = cut_time_of_day(!!x),
+      date = lubridate::as_date(!!x),
+      weekday = lubridate::wday(!!x, label = TRUE, week_start = 1),
+      weekend = cut_weekend(!!x),
+      week = lubridate::week(!!x),
+      month = lubridate::month(!!x, label = TRUE),
+      season = cut_season(!!x)
+    )
+
+  if (isTRUE(include_daylight)) {
+    data <- dplyr::mutate(data,
+      daylight = cut_daylight(!!x, coords),
+    )
+
+  }
+
+  return(data)
+}
 
 
 
