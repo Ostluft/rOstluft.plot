@@ -4,9 +4,18 @@
 \alias{summary_wind}
 \title{Summarise z values over binned wind data.}
 \usage{
-summary_wind(data, ws, wd, z, groupings = grp(), fun = "mean",
-  fun.args = list(), nmin = 3, wd_cutfun = cut_wd.fun(binwidth = 45),
-  ws_cutfun = cut_ws.fun(binwidth = 1))
+summary_wind(
+  data,
+  ws,
+  wd,
+  z,
+  groupings = grp(),
+  fun = "mean",
+  fun.args = list(),
+  nmin = 3,
+  wd_cutfun = cut_wd.fun(binwidth = 45),
+  ws_cutfun = cut_ws.fun(binwidth = 1)
+)
 }
 \arguments{
 \item{data}{a data.frame or tibble containing the data (wide format)}

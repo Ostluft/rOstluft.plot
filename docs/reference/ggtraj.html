@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9010</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9011</span>
       </span>
     </div>
 
@@ -137,9 +137,14 @@
     <p>Plotting hysplit trajectory</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ggtraj</span>(<span class='no'>data</span>, <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>incr</span> <span class='kw'>=</span> -<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>24</span>, <span class='fl'>96</span>, <span class='fl'>24</span>), <span class='kw'>lims</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>ggtraj</span>(
+  <span class='no'>data</span>,
+  <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>incr</span> <span class='kw'>=</span> -<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>24</span>, <span class='fl'>96</span>, <span class='fl'>24</span>),
+  <span class='kw'>lims</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>add_traj_labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>color_scale</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_viridis.html'>scale_color_viridis_c</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"m agl."</span>))</pre>
+  <span class='kw'>color_scale</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_viridis.html'>scale_color_viridis_c</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"m agl."</span>)
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

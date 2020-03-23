@@ -4,10 +4,21 @@
 \alias{ggradar}
 \title{ggplot2-wrapper to summarise and plot data by wind direction bins as radar plot}
 \usage{
-ggradar(data, wd, y, group = stat, mapping = NULL,
-  facet_groups = grp(), wd_binwidth = 45, fun = "mean",
-  fun.args = list(), nmin = 3, fun_reorder = identity, bg = NULL,
-  ...)
+ggradar(
+  data,
+  wd,
+  y,
+  group = stat,
+  mapping = NULL,
+  facet_groups = grp(),
+  wd_binwidth = 45,
+  fun = "mean",
+  fun.args = list(),
+  nmin = 3,
+  fun_reorder = identity,
+  bg = NULL,
+  ...
+)
 }
 \arguments{
 \item{data}{tibble containing wind speed, wind direction and air pollutant concentration data}

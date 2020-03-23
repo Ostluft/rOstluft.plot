@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9010</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9011</span>
       </span>
     </div>
 
@@ -100,7 +100,7 @@
 <a href="#installation" class="anchor"></a>Installation</h1>
 <p>Der Quellcode von <a href="https://github.com/Ostluft/rOstluft.plot">rOstluft.plot</a> ist auf github gehosted. Die einfachste Variante ist die Installation mit Hilfe des Packages devtools:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co">#install.packages("devtools")</span></a>
-<a class="sourceLine" id="cb1-2" title="2">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"Ostluft/rOstluft.plot"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb1-2" title="2">devtools<span class="op">::</span><span class="kw"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"Ostluft/rOstluft.plot"</span>)</a></code></pre></div>
 </div>
 <div id="beispiele" class="section level1">
 <h1 class="hasAnchor">
@@ -148,7 +148,7 @@
 <a class="sourceLine" id="cb5-5" title="5"><span class="st">  </span><span class="kw">scale_y_continuous</span>(</a>
 <a class="sourceLine" id="cb5-6" title="6">    <span class="dt">limits =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="ot">NA</span>), </a>
 <a class="sourceLine" id="cb5-7" title="7">    <span class="dt">expand =</span> <span class="kw">expand_scale</span>(), </a>
-<a class="sourceLine" id="cb5-8" title="8">    <span class="dt">labels =</span> scales<span class="op">::</span><span class="kw"><a href="https://scales.r-lib.org//reference/number_format.html">percent_format</a></span>(<span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb5-8" title="8">    <span class="dt">labels =</span> scales<span class="op">::</span><span class="kw"><a href="https://scales.r-lib.org//reference/label_percent.html">percent_format</a></span>(<span class="dv">1</span>),</a>
 <a class="sourceLine" id="cb5-9" title="9">    <span class="dt">breaks =</span> <span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>, <span class="fl">0.3</span>, <span class="fl">0.05</span>)</a>
 <a class="sourceLine" id="cb5-10" title="10">  )</a></code></pre></div>
 <p><img src="reference/figures/README-ggwindrose-3.png" width="100%"></p>
@@ -315,55 +315,52 @@
 <a class="sourceLine" id="cb22-4" title="4">                                        )</a>
 <a class="sourceLine" id="cb22-5" title="5"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>(january_oa)</a></code></pre></div>
 <div class="sourceCode" id="cb23"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="co">#&gt; # A tibble: 6 x 16</span></a>
-<a class="sourceLine" id="cb23-2" title="2"><span class="co">#&gt;   date                site     CO    Hr    NO   NO2   NOx    O3     p  PM10</span></a>
-<a class="sourceLine" id="cb23-3" title="3"><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb23-4" title="4"><span class="co">#&gt; 1 2013-01-31 21:00:00 Zch_~ 0.191  67.3 0.675  7.70  4.57  71.0  970.  7.21</span></a>
-<a class="sourceLine" id="cb23-5" title="5"><span class="co">#&gt; 2 2013-01-31 21:30:00 Zch_~ 0.195  64.9 0.359  7.72  4.33  69.7  970.  4.89</span></a>
-<a class="sourceLine" id="cb23-6" title="6"><span class="co">#&gt; 3 2013-01-31 22:00:00 Zch_~ 0.191  65.1 0.424  6.84  3.92  69.0  970.  6.71</span></a>
-<a class="sourceLine" id="cb23-7" title="7"><span class="co">#&gt; 4 2013-01-31 22:30:00 Zch_~ 0.184  67.3 0.353  5.38  3.09  70.5  970.  5.19</span></a>
-<a class="sourceLine" id="cb23-8" title="8"><span class="co">#&gt; 5 2013-01-31 23:00:00 Zch_~ 0.186  67.3 0.634  5.87  3.58  70.2  969.  5.79</span></a>
-<a class="sourceLine" id="cb23-9" title="9"><span class="co">#&gt; 6 2013-01-31 23:30:00 Zch_~ 0.189  68.7 0.435  6.76  3.88  67.6  969.  7.92</span></a>
-<a class="sourceLine" id="cb23-10" title="10"><span class="co">#&gt; # ... with 6 more variables: RainDur &lt;dbl&gt;, SO2 &lt;dbl&gt;, StrGlo &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb23-11" title="11"><span class="co">#&gt; #   T &lt;dbl&gt;, wd &lt;dbl&gt;, ws &lt;dbl&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb23-2" title="2"><span class="co">#&gt;   date                site     CO    Hr    NO   NO2   NOx    O3     p  PM10 RainDur   SO2  StrGlo     T</span></a>
+<a class="sourceLine" id="cb23-3" title="3"><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb23-4" title="4"><span class="co">#&gt; 1 2013-01-31 21:00:00 Zch_~ 0.191  67.3 0.675  7.70  4.57  71.0  970.  7.21   0.583 0.782 0.0138   9.25</span></a>
+<a class="sourceLine" id="cb23-5" title="5"><span class="co">#&gt; 2 2013-01-31 21:30:00 Zch_~ 0.195  64.9 0.359  7.72  4.33  69.7  970.  4.89   1.52  0.851 0.0116   9.49</span></a>
+<a class="sourceLine" id="cb23-6" title="6"><span class="co">#&gt; 3 2013-01-31 22:00:00 Zch_~ 0.191  65.1 0.424  6.84  3.92  69.0  970.  6.71   1.45  0.842 0.00673  9.33</span></a>
+<a class="sourceLine" id="cb23-7" title="7"><span class="co">#&gt; 4 2013-01-31 22:30:00 Zch_~ 0.184  67.3 0.353  5.38  3.09  70.5  970.  5.19   0     0.797 0.0120   9.17</span></a>
+<a class="sourceLine" id="cb23-8" title="8"><span class="co">#&gt; 5 2013-01-31 23:00:00 Zch_~ 0.186  67.3 0.634  5.87  3.58  70.2  969.  5.79   0     0.851 0.0118   9.10</span></a>
+<a class="sourceLine" id="cb23-9" title="9"><span class="co">#&gt; 6 2013-01-31 23:30:00 Zch_~ 0.189  68.7 0.435  6.76  3.88  67.6  969.  7.92   0     0.749 0.0105   9.1 </span></a>
+<a class="sourceLine" id="cb23-10" title="10"><span class="co">#&gt; # ... with 2 more variables: wd &lt;dbl&gt;, ws &lt;dbl&gt;</span></a></code></pre></div>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="co"># site mit "Zch_Stampfenbachstrasse" füllen</span></a>
 <a class="sourceLine" id="cb24-2" title="2"><span class="kw"><a href="reference/pad_to_year.html">pad_to_year</a></span>(january_oa, date, <span class="st">"30 min"</span>, <span class="dt">fill =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">site =</span> <span class="st">"Zch_Stampfenbachstrasse"</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb24-3" title="3"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>()</a></code></pre></div>
 <div class="sourceCode" id="cb25"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="co">#&gt; # A tibble: 6 x 16</span></a>
-<a class="sourceLine" id="cb25-2" title="2"><span class="co">#&gt;   date                site     CO    Hr    NO   NO2   NOx    O3     p  PM10</span></a>
-<a class="sourceLine" id="cb25-3" title="3"><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb25-4" title="4"><span class="co">#&gt; 1 2013-12-31 21:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb25-5" title="5"><span class="co">#&gt; 2 2013-12-31 21:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb25-6" title="6"><span class="co">#&gt; 3 2013-12-31 22:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb25-7" title="7"><span class="co">#&gt; 4 2013-12-31 22:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb25-8" title="8"><span class="co">#&gt; 5 2013-12-31 23:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb25-9" title="9"><span class="co">#&gt; 6 2013-12-31 23:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb25-10" title="10"><span class="co">#&gt; # ... with 6 more variables: RainDur &lt;dbl&gt;, SO2 &lt;dbl&gt;, StrGlo &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb25-11" title="11"><span class="co">#&gt; #   T &lt;dbl&gt;, wd &lt;dbl&gt;, ws &lt;dbl&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb25-2" title="2"><span class="co">#&gt;   date                site     CO    Hr    NO   NO2   NOx    O3     p  PM10 RainDur   SO2 StrGlo     T    wd</span></a>
+<a class="sourceLine" id="cb25-3" title="3"><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb25-4" title="4"><span class="co">#&gt; 1 2013-12-31 21:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></a>
+<a class="sourceLine" id="cb25-5" title="5"><span class="co">#&gt; 2 2013-12-31 21:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></a>
+<a class="sourceLine" id="cb25-6" title="6"><span class="co">#&gt; 3 2013-12-31 22:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></a>
+<a class="sourceLine" id="cb25-7" title="7"><span class="co">#&gt; 4 2013-12-31 22:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></a>
+<a class="sourceLine" id="cb25-8" title="8"><span class="co">#&gt; 5 2013-12-31 23:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></a>
+<a class="sourceLine" id="cb25-9" title="9"><span class="co">#&gt; 6 2013-12-31 23:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></a>
+<a class="sourceLine" id="cb25-10" title="10"><span class="co">#&gt; # ... with 1 more variable: ws &lt;dbl&gt;</span></a></code></pre></div>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="co"># automatisch alle factor/character columns füllen</span></a>
 <a class="sourceLine" id="cb26-2" title="2"><span class="kw"><a href="reference/pad_to_year_fill.html">pad_to_year_fill</a></span>(january_oa, date, <span class="st">"30 min"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb26-3" title="3"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>()</a></code></pre></div>
 <div class="sourceCode" id="cb27"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="co">#&gt; # A tibble: 6 x 16</span></a>
-<a class="sourceLine" id="cb27-2" title="2"><span class="co">#&gt;   date                site     CO    Hr    NO   NO2   NOx    O3     p  PM10</span></a>
-<a class="sourceLine" id="cb27-3" title="3"><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb27-4" title="4"><span class="co">#&gt; 1 2013-12-31 21:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb27-5" title="5"><span class="co">#&gt; 2 2013-12-31 21:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb27-6" title="6"><span class="co">#&gt; 3 2013-12-31 22:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb27-7" title="7"><span class="co">#&gt; 4 2013-12-31 22:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb27-8" title="8"><span class="co">#&gt; 5 2013-12-31 23:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb27-9" title="9"><span class="co">#&gt; 6 2013-12-31 23:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb27-10" title="10"><span class="co">#&gt; # ... with 6 more variables: RainDur &lt;dbl&gt;, SO2 &lt;dbl&gt;, StrGlo &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb27-11" title="11"><span class="co">#&gt; #   T &lt;dbl&gt;, wd &lt;dbl&gt;, ws &lt;dbl&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb27-2" title="2"><span class="co">#&gt;   date                site     CO    Hr    NO   NO2   NOx    O3     p  PM10 RainDur   SO2 StrGlo     T    wd</span></a>
+<a class="sourceLine" id="cb27-3" title="3"><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb27-4" title="4"><span class="co">#&gt; 1 2013-12-31 21:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></a>
+<a class="sourceLine" id="cb27-5" title="5"><span class="co">#&gt; 2 2013-12-31 21:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></a>
+<a class="sourceLine" id="cb27-6" title="6"><span class="co">#&gt; 3 2013-12-31 22:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></a>
+<a class="sourceLine" id="cb27-7" title="7"><span class="co">#&gt; 4 2013-12-31 22:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></a>
+<a class="sourceLine" id="cb27-8" title="8"><span class="co">#&gt; 5 2013-12-31 23:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></a>
+<a class="sourceLine" id="cb27-9" title="9"><span class="co">#&gt; 6 2013-12-31 23:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></a>
+<a class="sourceLine" id="cb27-10" title="10"><span class="co">#&gt; # ... with 1 more variable: ws &lt;dbl&gt;</span></a></code></pre></div>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="kw"><a href="reference/pad_to_year_fill.html">pad_to_year_fill</a></span>(january, starttime, <span class="st">"30 min"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb28-2" title="2"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>()</a></code></pre></div>
 <div class="sourceCode" id="cb29"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="co">#&gt; # A tibble: 6 x 6</span></a>
-<a class="sourceLine" id="cb29-2" title="2"><span class="co">#&gt;   starttime           site                   parameter interval unit  value</span></a>
-<a class="sourceLine" id="cb29-3" title="3"><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt;                  &lt;fct&gt;     &lt;fct&gt;    &lt;fct&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb29-4" title="4"><span class="co">#&gt; 1 2013-12-31 21:00:00 Zch_Stampfenbachstras~ WVv       min30    m/s      NA</span></a>
-<a class="sourceLine" id="cb29-5" title="5"><span class="co">#&gt; 2 2013-12-31 21:30:00 Zch_Stampfenbachstras~ WVv       min30    m/s      NA</span></a>
-<a class="sourceLine" id="cb29-6" title="6"><span class="co">#&gt; 3 2013-12-31 22:00:00 Zch_Stampfenbachstras~ WVv       min30    m/s      NA</span></a>
-<a class="sourceLine" id="cb29-7" title="7"><span class="co">#&gt; 4 2013-12-31 22:30:00 Zch_Stampfenbachstras~ WVv       min30    m/s      NA</span></a>
-<a class="sourceLine" id="cb29-8" title="8"><span class="co">#&gt; 5 2013-12-31 23:00:00 Zch_Stampfenbachstras~ WVv       min30    m/s      NA</span></a>
-<a class="sourceLine" id="cb29-9" title="9"><span class="co">#&gt; 6 2013-12-31 23:30:00 Zch_Stampfenbachstras~ WVv       min30    m/s      NA</span></a></code></pre></div>
+<a class="sourceLine" id="cb29-2" title="2"><span class="co">#&gt;   starttime           site                    parameter interval unit  value</span></a>
+<a class="sourceLine" id="cb29-3" title="3"><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt;                   &lt;fct&gt;     &lt;fct&gt;    &lt;fct&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb29-4" title="4"><span class="co">#&gt; 1 2013-12-31 21:00:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA</span></a>
+<a class="sourceLine" id="cb29-5" title="5"><span class="co">#&gt; 2 2013-12-31 21:30:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA</span></a>
+<a class="sourceLine" id="cb29-6" title="6"><span class="co">#&gt; 3 2013-12-31 22:00:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA</span></a>
+<a class="sourceLine" id="cb29-7" title="7"><span class="co">#&gt; 4 2013-12-31 22:30:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA</span></a>
+<a class="sourceLine" id="cb29-8" title="8"><span class="co">#&gt; 5 2013-12-31 23:00:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA</span></a>
+<a class="sourceLine" id="cb29-9" title="9"><span class="co">#&gt; 6 2013-12-31 23:30:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA</span></a></code></pre></div>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"><span class="co"># enthalten die Daten jedoch eine Klassifizierungs Spalte</span></a>
 <a class="sourceLine" id="cb30-2" title="2"><span class="co"># muss man die zu füllenden Spalten explixit angeben</span></a>
 <a class="sourceLine" id="cb30-3" title="3">january_oa &lt;-<span class="st"> </span>openair<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/openair/man/cutData.html">cutData</a></span>(january_oa, <span class="st">"month"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
@@ -374,30 +371,28 @@
 <a class="sourceLine" id="cb30-8" title="8"><span class="kw"><a href="reference/pad_to_year_fill.html">pad_to_year_fill</a></span>(january_oa, date, <span class="st">"30 min"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb30-9" title="9"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>()</a></code></pre></div>
 <div class="sourceCode" id="cb31"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1"><span class="co">#&gt; # A tibble: 6 x 17</span></a>
-<a class="sourceLine" id="cb31-2" title="2"><span class="co">#&gt;   date                month site     CO    Hr    NO   NO2   NOx    O3     p</span></a>
-<a class="sourceLine" id="cb31-3" title="3"><span class="co">#&gt;   &lt;dttm&gt;              &lt;ord&gt; &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb31-4" title="4"><span class="co">#&gt; 1 2013-12-31 21:00:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb31-5" title="5"><span class="co">#&gt; 2 2013-12-31 21:30:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb31-6" title="6"><span class="co">#&gt; 3 2013-12-31 22:00:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb31-7" title="7"><span class="co">#&gt; 4 2013-12-31 22:30:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb31-8" title="8"><span class="co">#&gt; 5 2013-12-31 23:00:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb31-9" title="9"><span class="co">#&gt; 6 2013-12-31 23:30:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb31-10" title="10"><span class="co">#&gt; # ... with 7 more variables: PM10 &lt;dbl&gt;, RainDur &lt;dbl&gt;, SO2 &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb31-11" title="11"><span class="co">#&gt; #   StrGlo &lt;dbl&gt;, T &lt;dbl&gt;, wd &lt;dbl&gt;, ws &lt;dbl&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb31-2" title="2"><span class="co">#&gt;   date                month site     CO    Hr    NO   NO2   NOx    O3     p  PM10 RainDur   SO2 StrGlo     T</span></a>
+<a class="sourceLine" id="cb31-3" title="3"><span class="co">#&gt;   &lt;dttm&gt;              &lt;ord&gt; &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb31-4" title="4"><span class="co">#&gt; 1 2013-12-31 21:00:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></a>
+<a class="sourceLine" id="cb31-5" title="5"><span class="co">#&gt; 2 2013-12-31 21:30:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></a>
+<a class="sourceLine" id="cb31-6" title="6"><span class="co">#&gt; 3 2013-12-31 22:00:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></a>
+<a class="sourceLine" id="cb31-7" title="7"><span class="co">#&gt; 4 2013-12-31 22:30:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></a>
+<a class="sourceLine" id="cb31-8" title="8"><span class="co">#&gt; 5 2013-12-31 23:00:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></a>
+<a class="sourceLine" id="cb31-9" title="9"><span class="co">#&gt; 6 2013-12-31 23:30:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></a>
+<a class="sourceLine" id="cb31-10" title="10"><span class="co">#&gt; # ... with 2 more variables: wd &lt;dbl&gt;, ws &lt;dbl&gt;</span></a></code></pre></div>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="co"># mit explixiter Defintion der zu füllenden Spalten klappt es</span></a>
 <a class="sourceLine" id="cb32-2" title="2"><span class="kw"><a href="reference/pad_to_year_fill.html">pad_to_year_fill</a></span>(january_oa, date, <span class="st">"30 min"</span>, site) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb32-3" title="3"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>()</a></code></pre></div>
 <div class="sourceCode" id="cb33"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="co">#&gt; # A tibble: 6 x 17</span></a>
-<a class="sourceLine" id="cb33-2" title="2"><span class="co">#&gt;   date                month site     CO    Hr    NO   NO2   NOx    O3     p</span></a>
-<a class="sourceLine" id="cb33-3" title="3"><span class="co">#&gt;   &lt;dttm&gt;              &lt;ord&gt; &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb33-4" title="4"><span class="co">#&gt; 1 2013-12-31 21:00:00 &lt;NA&gt;  Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb33-5" title="5"><span class="co">#&gt; 2 2013-12-31 21:30:00 &lt;NA&gt;  Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb33-6" title="6"><span class="co">#&gt; 3 2013-12-31 22:00:00 &lt;NA&gt;  Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb33-7" title="7"><span class="co">#&gt; 4 2013-12-31 22:30:00 &lt;NA&gt;  Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb33-8" title="8"><span class="co">#&gt; 5 2013-12-31 23:00:00 &lt;NA&gt;  Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb33-9" title="9"><span class="co">#&gt; 6 2013-12-31 23:30:00 &lt;NA&gt;  Zch_~    NA    NA    NA    NA    NA    NA    NA</span></a>
-<a class="sourceLine" id="cb33-10" title="10"><span class="co">#&gt; # ... with 7 more variables: PM10 &lt;dbl&gt;, RainDur &lt;dbl&gt;, SO2 &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb33-11" title="11"><span class="co">#&gt; #   StrGlo &lt;dbl&gt;, T &lt;dbl&gt;, wd &lt;dbl&gt;, ws &lt;dbl&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb33-2" title="2"><span class="co">#&gt;   date                month site     CO    Hr    NO   NO2   NOx    O3     p  PM10 RainDur   SO2 StrGlo     T</span></a>
+<a class="sourceLine" id="cb33-3" title="3"><span class="co">#&gt;   &lt;dttm&gt;              &lt;ord&gt; &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb33-4" title="4"><span class="co">#&gt; 1 2013-12-31 21:00:00 &lt;NA&gt;  Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></a>
+<a class="sourceLine" id="cb33-5" title="5"><span class="co">#&gt; 2 2013-12-31 21:30:00 &lt;NA&gt;  Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></a>
+<a class="sourceLine" id="cb33-6" title="6"><span class="co">#&gt; 3 2013-12-31 22:00:00 &lt;NA&gt;  Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></a>
+<a class="sourceLine" id="cb33-7" title="7"><span class="co">#&gt; 4 2013-12-31 22:30:00 &lt;NA&gt;  Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></a>
+<a class="sourceLine" id="cb33-8" title="8"><span class="co">#&gt; 5 2013-12-31 23:00:00 &lt;NA&gt;  Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></a>
+<a class="sourceLine" id="cb33-9" title="9"><span class="co">#&gt; 6 2013-12-31 23:30:00 &lt;NA&gt;  Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></a>
+<a class="sourceLine" id="cb33-10" title="10"><span class="co">#&gt; # ... with 2 more variables: wd &lt;dbl&gt;, ws &lt;dbl&gt;</span></a></code></pre></div>
 <p>Karten Attribution: Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.</p>
 </div>
 </div>

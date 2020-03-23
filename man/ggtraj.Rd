@@ -4,9 +4,14 @@
 \alias{ggtraj}
 \title{Plotting hysplit trajectory}
 \usage{
-ggtraj(data, mapping = NULL, incr = -seq(24, 96, 24), lims = NULL,
+ggtraj(
+  data,
+  mapping = NULL,
+  incr = -seq(24, 96, 24),
+  lims = NULL,
   add_traj_labels = TRUE,
-  color_scale = ggplot2::scale_color_viridis_c(name = "m agl."))
+  color_scale = ggplot2::scale_color_viridis_c(name = "m agl.")
+)
 }
 \arguments{
 \item{data}{tibble containing hysplit trajectories, format preferably similar to that of the 'openair' package}

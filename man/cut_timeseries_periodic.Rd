@@ -4,8 +4,12 @@
 \alias{cut_timeseries_periodic}
 \title{Cut a tibble with a datetime column}
 \usage{
-cut_timeseries_periodic(data, x = "starttime", include_daylight = TRUE,
-  coords = c(lat = 47.36667, lon = 8.55))
+cut_timeseries_periodic(
+  data,
+  x = "starttime",
+  include_daylight = TRUE,
+  coords = c(lat = 47.36667, lon = 8.55)
+)
 }
 \arguments{
 \item{data}{tibble containing a column starttime of type POSIXct with a timezone}

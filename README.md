@@ -310,16 +310,15 @@ tail(january_oa)
 ```
 
     #> # A tibble: 6 x 16
-    #>   date                site     CO    Hr    NO   NO2   NOx    O3     p  PM10
-    #>   <dttm>              <fct> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-    #> 1 2013-01-31 21:00:00 Zch_~ 0.191  67.3 0.675  7.70  4.57  71.0  970.  7.21
-    #> 2 2013-01-31 21:30:00 Zch_~ 0.195  64.9 0.359  7.72  4.33  69.7  970.  4.89
-    #> 3 2013-01-31 22:00:00 Zch_~ 0.191  65.1 0.424  6.84  3.92  69.0  970.  6.71
-    #> 4 2013-01-31 22:30:00 Zch_~ 0.184  67.3 0.353  5.38  3.09  70.5  970.  5.19
-    #> 5 2013-01-31 23:00:00 Zch_~ 0.186  67.3 0.634  5.87  3.58  70.2  969.  5.79
-    #> 6 2013-01-31 23:30:00 Zch_~ 0.189  68.7 0.435  6.76  3.88  67.6  969.  7.92
-    #> # ... with 6 more variables: RainDur <dbl>, SO2 <dbl>, StrGlo <dbl>,
-    #> #   T <dbl>, wd <dbl>, ws <dbl>
+    #>   date                site     CO    Hr    NO   NO2   NOx    O3     p  PM10 RainDur   SO2  StrGlo     T
+    #>   <dttm>              <fct> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>   <dbl> <dbl>   <dbl> <dbl>
+    #> 1 2013-01-31 21:00:00 Zch_~ 0.191  67.3 0.675  7.70  4.57  71.0  970.  7.21   0.583 0.782 0.0138   9.25
+    #> 2 2013-01-31 21:30:00 Zch_~ 0.195  64.9 0.359  7.72  4.33  69.7  970.  4.89   1.52  0.851 0.0116   9.49
+    #> 3 2013-01-31 22:00:00 Zch_~ 0.191  65.1 0.424  6.84  3.92  69.0  970.  6.71   1.45  0.842 0.00673  9.33
+    #> 4 2013-01-31 22:30:00 Zch_~ 0.184  67.3 0.353  5.38  3.09  70.5  970.  5.19   0     0.797 0.0120   9.17
+    #> 5 2013-01-31 23:00:00 Zch_~ 0.186  67.3 0.634  5.87  3.58  70.2  969.  5.79   0     0.851 0.0118   9.10
+    #> 6 2013-01-31 23:30:00 Zch_~ 0.189  68.7 0.435  6.76  3.88  67.6  969.  7.92   0     0.749 0.0105   9.1 
+    #> # ... with 2 more variables: wd <dbl>, ws <dbl>
 
 ``` r
 # site mit "Zch_Stampfenbachstrasse" füllen
@@ -328,16 +327,15 @@ pad_to_year(january_oa, date, "30 min", fill = list(site = "Zch_Stampfenbachstra
 ```
 
     #> # A tibble: 6 x 16
-    #>   date                site     CO    Hr    NO   NO2   NOx    O3     p  PM10
-    #>   <dttm>              <fct> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-    #> 1 2013-12-31 21:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA
-    #> 2 2013-12-31 21:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA
-    #> 3 2013-12-31 22:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA
-    #> 4 2013-12-31 22:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA
-    #> 5 2013-12-31 23:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA
-    #> 6 2013-12-31 23:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA
-    #> # ... with 6 more variables: RainDur <dbl>, SO2 <dbl>, StrGlo <dbl>,
-    #> #   T <dbl>, wd <dbl>, ws <dbl>
+    #>   date                site     CO    Hr    NO   NO2   NOx    O3     p  PM10 RainDur   SO2 StrGlo     T    wd
+    #>   <dttm>              <fct> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>   <dbl> <dbl>  <dbl> <dbl> <dbl>
+    #> 1 2013-12-31 21:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA
+    #> 2 2013-12-31 21:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA
+    #> 3 2013-12-31 22:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA
+    #> 4 2013-12-31 22:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA
+    #> 5 2013-12-31 23:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA
+    #> 6 2013-12-31 23:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA
+    #> # ... with 1 more variable: ws <dbl>
 
 ``` r
 # automatisch alle factor/character columns füllen
@@ -346,16 +344,15 @@ pad_to_year_fill(january_oa, date, "30 min") %>%
 ```
 
     #> # A tibble: 6 x 16
-    #>   date                site     CO    Hr    NO   NO2   NOx    O3     p  PM10
-    #>   <dttm>              <fct> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-    #> 1 2013-12-31 21:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA
-    #> 2 2013-12-31 21:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA
-    #> 3 2013-12-31 22:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA
-    #> 4 2013-12-31 22:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA
-    #> 5 2013-12-31 23:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA
-    #> 6 2013-12-31 23:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA
-    #> # ... with 6 more variables: RainDur <dbl>, SO2 <dbl>, StrGlo <dbl>,
-    #> #   T <dbl>, wd <dbl>, ws <dbl>
+    #>   date                site     CO    Hr    NO   NO2   NOx    O3     p  PM10 RainDur   SO2 StrGlo     T    wd
+    #>   <dttm>              <fct> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>   <dbl> <dbl>  <dbl> <dbl> <dbl>
+    #> 1 2013-12-31 21:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA
+    #> 2 2013-12-31 21:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA
+    #> 3 2013-12-31 22:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA
+    #> 4 2013-12-31 22:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA
+    #> 5 2013-12-31 23:00:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA
+    #> 6 2013-12-31 23:30:00 Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA
+    #> # ... with 1 more variable: ws <dbl>
 
 ``` r
 pad_to_year_fill(january, starttime, "30 min") %>% 
@@ -363,14 +360,14 @@ pad_to_year_fill(january, starttime, "30 min") %>%
 ```
 
     #> # A tibble: 6 x 6
-    #>   starttime           site                   parameter interval unit  value
-    #>   <dttm>              <fct>                  <fct>     <fct>    <fct> <dbl>
-    #> 1 2013-12-31 21:00:00 Zch_Stampfenbachstras~ WVv       min30    m/s      NA
-    #> 2 2013-12-31 21:30:00 Zch_Stampfenbachstras~ WVv       min30    m/s      NA
-    #> 3 2013-12-31 22:00:00 Zch_Stampfenbachstras~ WVv       min30    m/s      NA
-    #> 4 2013-12-31 22:30:00 Zch_Stampfenbachstras~ WVv       min30    m/s      NA
-    #> 5 2013-12-31 23:00:00 Zch_Stampfenbachstras~ WVv       min30    m/s      NA
-    #> 6 2013-12-31 23:30:00 Zch_Stampfenbachstras~ WVv       min30    m/s      NA
+    #>   starttime           site                    parameter interval unit  value
+    #>   <dttm>              <fct>                   <fct>     <fct>    <fct> <dbl>
+    #> 1 2013-12-31 21:00:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA
+    #> 2 2013-12-31 21:30:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA
+    #> 3 2013-12-31 22:00:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA
+    #> 4 2013-12-31 22:30:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA
+    #> 5 2013-12-31 23:00:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA
+    #> 6 2013-12-31 23:30:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA
 
 ``` r
 # enthalten die Daten jedoch eine Klassifizierungs Spalte
@@ -385,16 +382,15 @@ pad_to_year_fill(january_oa, date, "30 min") %>%
 ```
 
     #> # A tibble: 6 x 17
-    #>   date                month site     CO    Hr    NO   NO2   NOx    O3     p
-    #>   <dttm>              <ord> <fct> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-    #> 1 2013-12-31 21:00:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA
-    #> 2 2013-12-31 21:30:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA
-    #> 3 2013-12-31 22:00:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA
-    #> 4 2013-12-31 22:30:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA
-    #> 5 2013-12-31 23:00:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA
-    #> 6 2013-12-31 23:30:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA
-    #> # ... with 7 more variables: PM10 <dbl>, RainDur <dbl>, SO2 <dbl>,
-    #> #   StrGlo <dbl>, T <dbl>, wd <dbl>, ws <dbl>
+    #>   date                month site     CO    Hr    NO   NO2   NOx    O3     p  PM10 RainDur   SO2 StrGlo     T
+    #>   <dttm>              <ord> <fct> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>   <dbl> <dbl>  <dbl> <dbl>
+    #> 1 2013-12-31 21:00:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA
+    #> 2 2013-12-31 21:30:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA
+    #> 3 2013-12-31 22:00:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA
+    #> 4 2013-12-31 22:30:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA
+    #> 5 2013-12-31 23:00:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA
+    #> 6 2013-12-31 23:30:00 Janu~ Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA
+    #> # ... with 2 more variables: wd <dbl>, ws <dbl>
 
 ``` r
 # mit explixiter Defintion der zu füllenden Spalten klappt es
@@ -403,16 +399,15 @@ pad_to_year_fill(january_oa, date, "30 min", site) %>%
 ```
 
     #> # A tibble: 6 x 17
-    #>   date                month site     CO    Hr    NO   NO2   NOx    O3     p
-    #>   <dttm>              <ord> <fct> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-    #> 1 2013-12-31 21:00:00 <NA>  Zch_~    NA    NA    NA    NA    NA    NA    NA
-    #> 2 2013-12-31 21:30:00 <NA>  Zch_~    NA    NA    NA    NA    NA    NA    NA
-    #> 3 2013-12-31 22:00:00 <NA>  Zch_~    NA    NA    NA    NA    NA    NA    NA
-    #> 4 2013-12-31 22:30:00 <NA>  Zch_~    NA    NA    NA    NA    NA    NA    NA
-    #> 5 2013-12-31 23:00:00 <NA>  Zch_~    NA    NA    NA    NA    NA    NA    NA
-    #> 6 2013-12-31 23:30:00 <NA>  Zch_~    NA    NA    NA    NA    NA    NA    NA
-    #> # ... with 7 more variables: PM10 <dbl>, RainDur <dbl>, SO2 <dbl>,
-    #> #   StrGlo <dbl>, T <dbl>, wd <dbl>, ws <dbl>
+    #>   date                month site     CO    Hr    NO   NO2   NOx    O3     p  PM10 RainDur   SO2 StrGlo     T
+    #>   <dttm>              <ord> <fct> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>   <dbl> <dbl>  <dbl> <dbl>
+    #> 1 2013-12-31 21:00:00 <NA>  Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA
+    #> 2 2013-12-31 21:30:00 <NA>  Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA
+    #> 3 2013-12-31 22:00:00 <NA>  Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA
+    #> 4 2013-12-31 22:30:00 <NA>  Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA
+    #> 5 2013-12-31 23:00:00 <NA>  Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA
+    #> 6 2013-12-31 23:30:00 <NA>  Zch_~    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA
+    #> # ... with 2 more variables: wd <dbl>, ws <dbl>
 
 Karten Attribution: Map tiles by <a href="http://stamen.com">Stamen
 Design</a>, under

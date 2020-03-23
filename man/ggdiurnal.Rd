@@ -4,11 +4,16 @@
 \alias{ggdiurnal}
 \title{ggplot2-wrapper to summarise and plot data (of \code{\link[rOstluft:format_rolf]{rOstluft::format_rolf()}} format) for diurnal time course-stats}
 \usage{
-ggdiurnal(data, y = "value", fun = list(middle = "mean", middle2 =
-  "median", ymin = "percentile05", lower = "percentile25", upper =
-  "percentile75", ymax = "percentile95"), nmin = 3,
-  ribbon_color = "gray60", middle_color = "gray30",
-  expand_xscale = 0.025)
+ggdiurnal(
+  data,
+  y = "value",
+  fun = list(middle = "mean", middle2 = "median", ymin = "percentile05", lower =
+    "percentile25", upper = "percentile75", ymax = "percentile95"),
+  nmin = 3,
+  ribbon_color = "gray60",
+  middle_color = "gray30",
+  expand_xscale = 0.025
+)
 }
 \arguments{
 \item{data}{a data.frame or tibble containing the data}
@@ -17,7 +22,7 @@ ggdiurnal(data, y = "value", fun = list(middle = "mean", middle2 =
 outcomes of \code{\link[=cut_timeseries_periodic]{cut_timeseries_periodic()}}.}
 
 \item{fun}{function or list of functions for summary, can be named (then the outut stat is named after the function's name);
-Strings matching the regular expression \code{/^percentile([0-9]){1,2}$/i} are converted into the respective function.
+Strings matching the regular expression \verb{/^percentile([0-9])\{1,2\}$/i} are converted into the respective function.
 "percentile95" => \code{function(x, ...) quantile(x, 95 / 100, ...)}}
 
 \item{nmin}{numeric, minimum number of values for fun, if n < nmin: NA is returned}

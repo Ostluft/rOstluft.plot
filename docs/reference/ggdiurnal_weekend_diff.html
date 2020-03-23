@@ -80,7 +80,7 @@ plotted as difference between weekdays - weekend" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9010</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9011</span>
       </span>
     </div>
 
@@ -142,8 +142,14 @@ plotted as difference between weekdays - weekend</h1>
 plotted as difference between weekdays - weekend</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ggdiurnal_weekend_diff</span>(<span class='no'>data</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='st'>"value"</span>, <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>middle</span>
-  <span class='kw'>=</span> <span class='st'>"mean"</span>), <span class='kw'>expand_xscale</span> <span class='kw'>=</span> <span class='fl'>0.025</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>ggdiurnal_weekend_diff</span>(
+  <span class='no'>data</span>,
+  <span class='kw'>y</span> <span class='kw'>=</span> <span class='st'>"value"</span>,
+  <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>fun</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>middle</span> <span class='kw'>=</span> <span class='st'>"mean"</span>),
+  <span class='kw'>expand_xscale</span> <span class='kw'>=</span> <span class='fl'>0.025</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -190,7 +196,7 @@ Strings matching the regular expression <code>/^percentile([0-9]){1,2}$/i</code>
   <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>parameter</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"NOx"</span>, <span class='st'>"O3"</span>, <span class='st'>"PM10"</span>)) <span class='kw'>%&gt;%</span>
   <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/resample.html'>resample</a></span>(<span class='kw'>new_interval</span> <span class='kw'>=</span> <span class='st'>"h1"</span>)
 
-<span class='fu'>ggdiurnal_weekend_diff</span>(<span class='no'>data</span>)</div><div class='img'><img src='ggdiurnal_weekend_diff-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>ggdiurnal_weekend_diff</span>(<span class='no'>data</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='img'><img src='ggdiurnal_weekend_diff-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

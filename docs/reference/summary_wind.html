@@ -79,7 +79,7 @@ NA values in z and in ws, wd (after cutting) will be silently removed before app
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9010</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9011</span>
       </span>
     </div>
 
@@ -141,9 +141,18 @@ NA values in z and in ws, wd (after cutting) will be silently removed before app
 NA values in z and in ws, wd (after cutting) will be silently removed before applying functions</p>
     </div>
 
-    <pre class="usage"><span class='fu'>summary_wind</span>(<span class='no'>data</span>, <span class='no'>ws</span>, <span class='no'>wd</span>, <span class='no'>z</span>, <span class='kw'>groupings</span> <span class='kw'>=</span> <span class='fu'><a href='grp.html'>grp</a></span>(), <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
-  <span class='kw'>fun.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>wd_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_wd.fun.html'>cut_wd.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>45</span>),
-  <span class='kw'>ws_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_ws.fun.html'>cut_ws.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>1</span>))</pre>
+    <pre class="usage"><span class='fu'>summary_wind</span>(
+  <span class='no'>data</span>,
+  <span class='no'>ws</span>,
+  <span class='no'>wd</span>,
+  <span class='no'>z</span>,
+  <span class='kw'>groupings</span> <span class='kw'>=</span> <span class='fu'><a href='grp.html'>grp</a></span>(),
+  <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
+  <span class='kw'>fun.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
+  <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>wd_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_wd.fun.html'>cut_wd.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>45</span>),
+  <span class='kw'>ws_cutfun</span> <span class='kw'>=</span> <span class='fu'><a href='cut_ws.fun.html'>cut_ws.fun</a></span>(<span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -301,9 +310,9 @@ NA values in z and in ws, wd (after cutting) will be silently removed before app
 #&gt; </span><span style='color: #555555;'> 1</span><span> [0,2] N      </span><span style='text-decoration: underline;'>4</span><span>225 0.048</span><span style='text-decoration: underline;'>6</span><span>  mean   27.0
 #&gt; </span><span style='color: #555555;'> 2</span><span> [0,2] NNO    </span><span style='text-decoration: underline;'>8</span><span>338 0.096</span><span style='text-decoration: underline;'>0</span><span>  mean   34.5
 #&gt; </span><span style='color: #555555;'> 3</span><span> [0,2] NO     </span><span style='text-decoration: underline;'>7</span><span>623 0.087</span><span style='text-decoration: underline;'>8</span><span>  mean   28.4
-#&gt; </span><span style='color: #555555;'> 4</span><span> [0,2] NOO    </span><span style='text-decoration: underline;'>2</span><span>525 0.029</span><span style='text-decoration: underline;'>1</span><span>  mean   22.8
+#&gt; </span><span style='color: #555555;'> 4</span><span> [0,2] ONO    </span><span style='text-decoration: underline;'>2</span><span>525 0.029</span><span style='text-decoration: underline;'>1</span><span>  mean   22.8
 #&gt; </span><span style='color: #555555;'> 5</span><span> [0,2] O      </span><span style='text-decoration: underline;'>1</span><span>087 0.012</span><span style='text-decoration: underline;'>5</span><span>  mean   21.6
-#&gt; </span><span style='color: #555555;'> 6</span><span> [0,2] SOO     743 0.008</span><span style='text-decoration: underline;'>55</span><span> mean   23.0
+#&gt; </span><span style='color: #555555;'> 6</span><span> [0,2] OSO     743 0.008</span><span style='text-decoration: underline;'>55</span><span> mean   23.0
 #&gt; </span><span style='color: #555555;'> 7</span><span> [0,2] SO     </span><span style='text-decoration: underline;'>1</span><span>205 0.013</span><span style='text-decoration: underline;'>9</span><span>  mean   19.1
 #&gt; </span><span style='color: #555555;'> 8</span><span> [0,2] SSO    </span><span style='text-decoration: underline;'>3</span><span>498 0.040</span><span style='text-decoration: underline;'>3</span><span>  mean   18.5
 #&gt; </span><span style='color: #555555;'> 9</span><span> [0,2] S      </span><span style='text-decoration: underline;'>4</span><span>916 0.056</span><span style='text-decoration: underline;'>6</span><span>  mean   22.5
@@ -398,7 +407,7 @@ NA values in z and in ws, wd (after cutting) will be silently removed before app
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span>(
     <span class='kw'>limits</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>NA</span>),
     <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>),
-    <span class='kw'>labels</span> <span class='kw'>=</span> <span class='kw pkg'>scales</span><span class='kw ns'>::</span><span class='no'><a href='https://scales.r-lib.org//reference/number_format.html'>percent</a></span>
+    <span class='kw'>labels</span> <span class='kw'>=</span> <span class='kw pkg'>scales</span><span class='kw ns'>::</span><span class='no'><a href='https://scales.r-lib.org//reference/label_percent.html'>percent</a></span>
   ) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_viridis.html'>scale_fill_viridis_d</a></span>()</div><div class='img'><img src='summary_wind-2.png' alt='' width='700' height='433' /></div><div class='input'>
 

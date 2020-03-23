@@ -6,7 +6,7 @@
 \alias{rOstluft.plot-package}
 \title{rOstluft.plot: Ploting air quality data}
 \description{
-\if{html}{\figure{logo.png}{options: align='right'}}
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
 This package provides functions to quickly display data as diagrams.
 }

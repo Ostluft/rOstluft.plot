@@ -4,8 +4,17 @@
 \alias{fit_gam_surface}
 \title{Fits a smooth surface to x, y, z data using generalised additive models}
 \usage{
-fit_gam_surface(data, x, y, z, weights = NULL, k = 100,
-  extrapolate = FALSE, force_positive = TRUE, dist = 0.05)
+fit_gam_surface(
+  data,
+  x,
+  y,
+  z,
+  weights = NULL,
+  k = 100,
+  extrapolate = FALSE,
+  force_positive = TRUE,
+  dist = 0.05
+)
 }
 \arguments{
 \item{data}{a data.frame or tibble containing the data (wide format)}

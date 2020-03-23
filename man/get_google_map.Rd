@@ -4,12 +4,19 @@
 \alias{get_google_map}
 \title{Wrapper around ggmap::get_googlemap}
 \usage{
-get_google_map(bbox, width = 640, zoom = "auto", scale = 2,
-  language = "de-CH", color = "bw", style = c(feature = "all",
-  element = "labels", visibility = "off"), ...)
+get_google_map(
+  bbox,
+  width = 640,
+  zoom = "auto",
+  scale = 2,
+  language = "de-CH",
+  color = "bw",
+  style = c(feature = "all", element = "labels", visibility = "off"),
+  ...
+)
 }
 \arguments{
-\item{bbox}{list with item \code{center = (lon, lat)} as WSG84 coordinates. Additional \code{width} in meters if \code{zoom = "auto"}.
+\item{bbox}{list with item \verb{center = (lon, lat)} as WSG84 coordinates. Additional \code{width} in meters if \code{zoom = "auto"}.
 Use \code{\link[=bbox_lv95]{bbox_lv95()}} to create a compatible bounding box list}
 
 \item{width}{of resulting map in pixels. Is divided trough scale to calculate size.}

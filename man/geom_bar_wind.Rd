@@ -5,21 +5,42 @@
 \alias{stat_summary_wind}
 \title{Summarise z values over binned wind data.}
 \usage{
-geom_bar_wind(mapping = NULL, data = NULL, stat = "summary_wind",
-  position = "stack", ..., fun = "mean", fun.args = list(),
-  nmin = 3, wd_cutfun = cut_wd.fun(binwidth = 45),
-  ws_cutfun = cut_ws.fun(binwidth = 1), na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE)
+geom_bar_wind(
+  mapping = NULL,
+  data = NULL,
+  stat = "summary_wind",
+  position = "stack",
+  ...,
+  fun = "mean",
+  fun.args = list(),
+  nmin = 3,
+  wd_cutfun = cut_wd.fun(binwidth = 45),
+  ws_cutfun = cut_ws.fun(binwidth = 1),
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE
+)
 
-stat_summary_wind(data = NULL, mapping = NULL, geom = "bar_wind",
-  position = "stack", ..., groupings = grp(), fun = "mean",
-  fun.args = list(), nmin = 3, wd_cutfun = cut_wd.fun(binwidth = 45),
-  ws_cutfun = cut_ws.fun(binwidth = 1), na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE)
+stat_summary_wind(
+  data = NULL,
+  mapping = NULL,
+  geom = "bar_wind",
+  position = "stack",
+  ...,
+  groupings = grp(),
+  fun = "mean",
+  fun.args = list(),
+  nmin = 3,
+  wd_cutfun = cut_wd.fun(binwidth = 45),
+  ws_cutfun = cut_ws.fun(binwidth = 1),
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE
+)
 }
 \arguments{
-\item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
-\code{\link[=aes_]{aes_()}}. If specified and \code{inherit.aes = TRUE} (the
+\item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{aes()}} or
+\code{\link[ggplot2:aes_]{aes_()}}. If specified and \code{inherit.aes = TRUE} (the
 default), it is combined with the default mapping at the top level of the
 plot. You must supply \code{mapping} if there is no plot mapping.}
 
@@ -58,7 +79,7 @@ display.}
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
-the default plot specification, e.g. \code{\link[=borders]{borders()}}.}
+the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 
 \item{geom}{The geometric object to use display the data}
 

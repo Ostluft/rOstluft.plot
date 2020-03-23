@@ -4,9 +4,15 @@
 \alias{get_ggmap}
 \title{Wrapper to load a ggmap}
 \usage{
-get_ggmap(coord, googlekey = NA, zoom = 12, mapstyle = c(feature =
-  "all", element = "labels", visibility = "off"), maptype = "terrain",
-  mapcolor = "bw", ...)
+get_ggmap(
+  coord,
+  googlekey = NA,
+  zoom = 12,
+  mapstyle = c(feature = "all", element = "labels", visibility = "off"),
+  maptype = "terrain",
+  mapcolor = "bw",
+  ...
+)
 }
 \arguments{
 \item{coord}{a data.frame or tibble with coordinates (latlon) defining the map extensions in the form of coord = tibble(lon = ..., lat = ..., type = c("center", "lb", "rt", ...));

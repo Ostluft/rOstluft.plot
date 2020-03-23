@@ -5,11 +5,16 @@
 \title{Summarise a \code{\link[rOstluft:format_rolf]{rOstluft::format_rolf()}} dataset over periodic (diurnal, weekday, etc) factors
 implicitly created by \code{\link[=cut_timeseries_periodic]{cut_timeseries_periodic()}} using various stat functions.}
 \usage{
-summary_periodic(data, y = "value",
-  groupings = grp("starttime_of_day"), fun = list("mean", "sd",
-  "median", "mad", "percentile05", "percentile25", "percentile75",
-  "percentile95"), fun.args = list(na.rm = TRUE), nmin = 3,
-  coords = c(lat = 47.36667, lon = 8.55))
+summary_periodic(
+  data,
+  y = "value",
+  groupings = grp("starttime_of_day"),
+  fun = list("mean", "sd", "median", "mad", "percentile05", "percentile25",
+    "percentile75", "percentile95"),
+  fun.args = list(na.rm = TRUE),
+  nmin = 3,
+  coords = c(lat = 47.36667, lon = 8.55)
+)
 }
 \arguments{
 \item{data}{a data.frame or tibble containing the data}
@@ -20,7 +25,7 @@ summary_periodic(data, y = "value",
 outcomes of \code{\link[rOstluft:cut_timeseries_periodic]{rOstluft::cut_timeseries_periodic()}}.}
 
 \item{fun}{function or list of functions for summary, can be named (then the outut stat is named after the function's name);
-Strings matching the regular expression \code{/^percentile([0-9]){1,2}$/i} are converted into the respective function.
+Strings matching the regular expression \verb{/^percentile([0-9])\{1,2\}$/i} are converted into the respective function.
 "percentile95" => \code{function(x, ...) quantile(x, 95 / 100, ...)}}
 
 \item{fun.args}{a list of extra arguments passed on to fun.}

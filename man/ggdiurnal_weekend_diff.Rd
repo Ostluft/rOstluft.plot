@@ -5,8 +5,14 @@
 \title{ggplot2-wrapper to summarise and plot data (of \code{\link[rOstluft:format_rolf]{rOstluft::format_rolf()}} format) for one diurnal time course-stat
 plotted as difference between weekdays - weekend}
 \usage{
-ggdiurnal_weekend_diff(data, y = "value", nmin = 3, fun = list(middle
-  = "mean"), expand_xscale = 0.025, ...)
+ggdiurnal_weekend_diff(
+  data,
+  y = "value",
+  nmin = 3,
+  fun = list(middle = "mean"),
+  expand_xscale = 0.025,
+  ...
+)
 }
 \arguments{
 \item{data}{a data.frame or tibble containing the data}
@@ -17,7 +23,7 @@ outcomes of \code{\link[=cut_timeseries_periodic]{cut_timeseries_periodic()}}.}
 \item{nmin}{numeric, minimum number of values for fun, if n < nmin: NA is returned}
 
 \item{fun}{function or list of functions for summary, can be named (then the outut stat is named after the function's name);
-Strings matching the regular expression \code{/^percentile([0-9]){1,2}$/i} are converted into the respective function.
+Strings matching the regular expression \verb{/^percentile([0-9])\{1,2\}$/i} are converted into the respective function.
 "percentile95" => \code{function(x, ...) quantile(x, 95 / 100, ...)}}
 
 \item{expand_xscale}{multiplicative range expansion factor}

@@ -5,9 +5,14 @@
 \title{ggplot2-wrapper to summarise and plot data (of \code{\link[rOstluft:format_rolf]{rOstluft::format_rolf()}} format) as boxplots
 comparing weekdays to weekends}
 \usage{
-ggweekend(data, y = "value", nmin = 3, fun = list(middle = "mean",
-  middle2 = "median", ymin = "percentile05", lower = "percentile25", upper
-  = "percentile75", ymax = "percentile95"), ...)
+ggweekend(
+  data,
+  y = "value",
+  nmin = 3,
+  fun = list(middle = "mean", middle2 = "median", ymin = "percentile05", lower =
+    "percentile25", upper = "percentile75", ymax = "percentile95"),
+  ...
+)
 }
 \arguments{
 \item{data}{a data.frame or tibble containing the data}
@@ -18,7 +23,7 @@ outcomes of \code{\link[=cut_timeseries_periodic]{cut_timeseries_periodic()}}.}
 \item{nmin}{numeric, minimum number of values for fun, if n < nmin: NA is returned}
 
 \item{fun}{function or list of functions for summary, can be named (then the outut stat is named after the function's name);
-Strings matching the regular expression \code{/^percentile([0-9]){1,2}$/i} are converted into the respective function.
+Strings matching the regular expression \verb{/^percentile([0-9])\{1,2\}$/i} are converted into the respective function.
 "percentile95" => \code{function(x, ...) quantile(x, 95 / 100, ...)}}
 
 \item{...}{further arguments passed on to \code{\link[ggplot2:geom_boxplot]{ggplot2::geom_boxplot()}}.}

@@ -4,11 +4,25 @@
 \alias{stat_summary_wind_2d}
 \title{Summarise z values over binned wind data.}
 \usage{
-stat_summary_wind_2d(data = NULL, mapping = NULL, geom = "raster",
-  position = "identity", ..., fun = "mean", fun.args = list(),
-  nmin = 1, ws_max = NA, bins = 10^2, smooth = TRUE, k = 100,
-  extrapolate = TRUE, dist = 0.1, na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE)
+stat_summary_wind_2d(
+  data = NULL,
+  mapping = NULL,
+  geom = "raster",
+  position = "identity",
+  ...,
+  fun = "mean",
+  fun.args = list(),
+  nmin = 1,
+  ws_max = NA,
+  bins = 10^2,
+  smooth = TRUE,
+  k = 100,
+  extrapolate = TRUE,
+  dist = 0.1,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE
+)
 }
 \arguments{
 \item{data}{The data to be displayed in this layer. Requires input data including at least three
@@ -60,7 +74,7 @@ display.}
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
-the default plot specification, e.g. \code{\link[=borders]{borders()}}.}
+the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 }
 \value{
 ggplot2 layer

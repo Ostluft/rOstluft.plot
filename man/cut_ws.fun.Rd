@@ -4,8 +4,13 @@
 \alias{cut_ws.fun}
 \title{Partial function constructor to cut wind velocity (or others) into factor classes}
 \usage{
-cut_ws.fun(binwidth = 1, ws_max = NA, squish = TRUE, right = TRUE,
-  reverse = FALSE)
+cut_ws.fun(
+  binwidth = 1,
+  ws_max = NA,
+  squish = TRUE,
+  right = TRUE,
+  reverse = FALSE
+)
 }
 \arguments{
 \item{binwidth}{width of the bins}

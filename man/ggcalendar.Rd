@@ -6,15 +6,37 @@
 \alias{cal_label}
 \title{Calendar time series plot with tiles}
 \usage{
-ggcalendar(data, x = "date", z = "O3_max_h1", size = 0.1,
-  color = "white", ..., locale = Sys.getlocale("LC_TIME"))
+ggcalendar(
+  data,
+  x = "date",
+  z = "O3_max_h1",
+  size = 0.1,
+  color = "white",
+  ...,
+  locale = Sys.getlocale("LC_TIME")
+)
 
-cal_month_border(size = 0.5, lineend = "square", linejoin = "bevel",
-  color = "grey5", ...)
+cal_month_border(
+  size = 0.5,
+  lineend = "square",
+  linejoin = "bevel",
+  color = "grey5",
+  ...
+)
 
-cal_label(mapping = NULL, stat = "identity", data = NULL,
-  geom = "text", position = "identity", show.legend = FALSE,
-  inherit.aes = TRUE, na.rm = TRUE, size = 2, color = "white", ...)
+cal_label(
+  mapping = NULL,
+  stat = "identity",
+  data = NULL,
+  geom = "text",
+  position = "identity",
+  show.legend = FALSE,
+  inherit.aes = TRUE,
+  na.rm = TRUE,
+  size = 2,
+  color = "white",
+  ...
+)
 }
 \arguments{
 \item{data}{input data}
@@ -35,8 +57,8 @@ cal_label(mapping = NULL, stat = "identity", data = NULL,
 
 \item{linejoin}{Line join style (round, mitre, bevel).}
 
-\item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
-\code{\link[=aes_]{aes_()}}. If specified and \code{inherit.aes = TRUE} (the
+\item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{aes()}} or
+\code{\link[ggplot2:aes_]{aes_()}}. If specified and \code{inherit.aes = TRUE} (the
 default), it is combined with the default mapping at the top level of the
 plot. You must supply \code{mapping} if there is no plot mapping.}
 
@@ -57,7 +79,7 @@ display.}
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
-the default plot specification, e.g. \code{\link[=borders]{borders()}}.}
+the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}

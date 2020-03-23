@@ -4,10 +4,19 @@
 \alias{ggwindrose}
 \title{ggplot wrapper to create a windrose (polar wind-bin frequency plot)}
 \usage{
-ggwindrose(data, ws, wd, wd_binwidth = 45, ws_binwidth = 1,
-  ws_max = NA, groupings = grp(),
-  fill_scale = scale_fill_viridis_d(), reverse = TRUE, bg = NULL,
-  ...)
+ggwindrose(
+  data,
+  ws,
+  wd,
+  wd_binwidth = 45,
+  ws_binwidth = 1,
+  ws_max = NA,
+  groupings = grp(),
+  fill_scale = scale_fill_viridis_d(),
+  reverse = TRUE,
+  bg = NULL,
+  ...
+)
 }
 \arguments{
 \item{data}{tibble containing wind speed, wind direction and/or air pollutant concentration data}
@@ -34,7 +43,7 @@ the outside) is used.}
 \item{bg}{raster map, e.g. ggmap object as plot background}
 
 \item{...}{Other arguments passed on to \code{\link[ggplot2:geom_bar]{ggplot2::geom_bar()}}. Used
-to set an aesthetic to a fixed value. Defaults are \code{color = "white", width = 1, size = 0.25}}
+to set an aesthetic to a fixed value. Defaults are \verb{color = "white", width = 1, size = 0.25}}
 }
 \value{
 ggplot object

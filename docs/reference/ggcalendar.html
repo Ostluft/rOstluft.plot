@@ -80,7 +80,7 @@ cal_label is a wrapper around ggplot2::geom_text() (but ggplot2::geom_label() co
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9010</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9011</span>
       </span>
     </div>
 
@@ -143,15 +143,37 @@ mappings for the other cal_* components.</p>
 <p>cal_label is a wrapper around <code><a href='https://ggplot2.tidyverse.org/reference/geom_text.html'>ggplot2::geom_text()</a></code> (but <code><a href='https://ggplot2.tidyverse.org/reference/geom_text.html'>ggplot2::geom_label()</a></code> could be used).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ggcalendar</span>(<span class='no'>data</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"date"</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='st'>"O3_max_h1"</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"white"</span>, <span class='no'>...</span>, <span class='kw'>locale</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/locales.html'>Sys.getlocale</a></span>(<span class='st'>"LC_TIME"</span>))
+    <pre class="usage"><span class='fu'>ggcalendar</span>(
+  <span class='no'>data</span>,
+  <span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"date"</span>,
+  <span class='kw'>z</span> <span class='kw'>=</span> <span class='st'>"O3_max_h1"</span>,
+  <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+  <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"white"</span>,
+  <span class='no'>...</span>,
+  <span class='kw'>locale</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/locales.html'>Sys.getlocale</a></span>(<span class='st'>"LC_TIME"</span>)
+)
 
-<span class='fu'>cal_month_border</span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>lineend</span> <span class='kw'>=</span> <span class='st'>"square"</span>, <span class='kw'>linejoin</span> <span class='kw'>=</span> <span class='st'>"bevel"</span>,
-  <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"grey5"</span>, <span class='no'>...</span>)
+<span class='fu'>cal_month_border</span>(
+  <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
+  <span class='kw'>lineend</span> <span class='kw'>=</span> <span class='st'>"square"</span>,
+  <span class='kw'>linejoin</span> <span class='kw'>=</span> <span class='st'>"bevel"</span>,
+  <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"grey5"</span>,
+  <span class='no'>...</span>
+)
 
-<span class='fu'>cal_label</span>(<span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>stat</span> <span class='kw'>=</span> <span class='st'>"identity"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"text"</span>, <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"identity"</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"white"</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>cal_label</span>(
+  <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>stat</span> <span class='kw'>=</span> <span class='st'>"identity"</span>,
+  <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"text"</span>,
+  <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"identity"</span>,
+  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"white"</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -194,8 +216,8 @@ mappings for the other cal_* components.</p>
     </tr>
     <tr>
       <th>mapping</th>
-      <td><p>Set of aesthetic mappings created by <code>aes()</code> or
-<code>aes_()</code>. If specified and <code>inherit.aes = TRUE</code> (the
+      <td><p>Set of aesthetic mappings created by <code><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes()</a></code> or
+<code><a href='https://ggplot2.tidyverse.org/reference/aes_.html'>aes_()</a></code>. If specified and <code>inherit.aes = TRUE</code> (the
 default), it is combined with the default mapping at the top level of the
 plot. You must supply <code>mapping</code> if there is no plot mapping.</p></td>
     </tr>
@@ -226,7 +248,7 @@ display.</p></td>
       <td><p>If <code>FALSE</code>, overrides the default aesthetics,
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
-the default plot specification, e.g. <code>borders()</code>.</p></td>
+the default plot specification, e.g. <code><a href='https://ggplot2.tidyverse.org/reference/borders.html'>borders()</a></code>.</p></td>
     </tr>
     <tr>
       <th>na.rm</th>

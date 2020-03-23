@@ -4,13 +4,27 @@
 \alias{ggpolarplot}
 \title{ggplot2 wrapper to create a wind-based polar plot}
 \usage{
-ggpolarplot(data, ws, wd, z, groupings = grp(), fun = "mean",
-  fun.args = list(na.rm = TRUE), nmin = 3, ws_max = NA,
-  smooth = TRUE, k = 200, extrapolate = TRUE, dist = 0.1,
-  pixels = 80^2, fill_scale = scale_fill_gradientn(colours =
-  matlab::jet.colors(20), na.value = NA),
-  ylabels = scales::unit_format(unit = "m/s"), breaks = waiver(),
-  bg = NULL, ...)
+ggpolarplot(
+  data,
+  ws,
+  wd,
+  z,
+  groupings = grp(),
+  fun = "mean",
+  fun.args = list(na.rm = TRUE),
+  nmin = 3,
+  ws_max = NA,
+  smooth = TRUE,
+  k = 200,
+  extrapolate = TRUE,
+  dist = 0.1,
+  pixels = 80^2,
+  fill_scale = scale_fill_gradientn(colours = matlab::jet.colors(20), na.value = NA),
+  ylabels = scales::unit_format(unit = "m/s"),
+  breaks = waiver(),
+  bg = NULL,
+  ...
+)
 }
 \arguments{
 \item{data}{tibble containing wind speed, wind direction and air pollutant data}
