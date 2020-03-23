@@ -68,7 +68,7 @@ ggyearday(df, time = "date", z = "PM10", fill_scale = fill_scale) +
 fill_scale <- scale_fill_viridis_squished(
   limits = c(0, 75),
   breaks = c(0, 25, 50, 75),
-  labels = scales::unit_format(unit = "\\u00b5g/m3"),
+  labels = scales::unit_format(unit = "\u00b5g/m3"),
   direction = -1,
   na.value = NA,
   option = "A"

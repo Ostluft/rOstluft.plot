@@ -79,7 +79,7 @@ Under the hood the heavy lifting is done by tidyr::complete()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9010</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9011</span>
       </span>
     </div>
 
@@ -141,8 +141,14 @@ to <code>lubridate::ceil(end_date, "year")</code>. The last point is excluded if
 Under the hood the heavy lifting is done by <code><a href='https://tidyr.tidyverse.org/reference/complete.html'>tidyr::complete()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pad_to_year</span>(<span class='no'>data</span>, <span class='no'>date_col</span>, <span class='no'>interval</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>start_date</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>end_date</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>pad_to_year</span>(
+  <span class='no'>data</span>,
+  <span class='no'>date_col</span>,
+  <span class='no'>interval</span>,
+  <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
+  <span class='kw'>start_date</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>end_date</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

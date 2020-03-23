@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9010</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9011</span>
       </span>
     </div>
 
@@ -137,10 +137,17 @@
     <p>creates a heatmap with date on x-axis and time of day on y-axis; z values as fill scale.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ggyearday</span>(<span class='no'>data</span>, <span class='no'>time</span>, <span class='no'>z</span>, <span class='kw'>date_breaks</span> <span class='kw'>=</span> <span class='st'>"1 month"</span>, <span class='kw'>date_labels</span> <span class='kw'>=</span> <span class='st'>"%b"</span>,
-  <span class='kw'>ybreaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>6</span>, <span class='fl'>18</span>, <span class='fl'>6</span>), <span class='kw'>ylabels</span> <span class='kw'>=</span> <span class='fu'><a href='format_sprintf.html'>format_sprintf</a></span>(<span class='st'>"%02d:00"</span>),
-  <span class='kw'>fill_scale</span> <span class='kw'>=</span> <span class='fu'>scale_fill_viridis_c</span>(<span class='kw'>direction</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='kw'>na.value</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>option</span>
-  <span class='kw'>=</span> <span class='st'>"A"</span>), <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>ggyearday</span>(
+  <span class='no'>data</span>,
+  <span class='no'>time</span>,
+  <span class='no'>z</span>,
+  <span class='kw'>date_breaks</span> <span class='kw'>=</span> <span class='st'>"1 month"</span>,
+  <span class='kw'>date_labels</span> <span class='kw'>=</span> <span class='st'>"%b"</span>,
+  <span class='kw'>ybreaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>6</span>, <span class='fl'>18</span>, <span class='fl'>6</span>),
+  <span class='kw'>ylabels</span> <span class='kw'>=</span> <span class='fu'><a href='format_sprintf.html'>format_sprintf</a></span>(<span class='st'>"%02d:00"</span>),
+  <span class='kw'>fill_scale</span> <span class='kw'>=</span> <span class='fu'>scale_fill_viridis_c</span>(<span class='kw'>direction</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='kw'>na.value</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>option</span> <span class='kw'>=</span> <span class='st'>"A"</span>),
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

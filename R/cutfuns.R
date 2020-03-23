@@ -5,7 +5,7 @@
 #'
 #' @param wd numeric vector of wind directions in °
 #' @param binwidth width for [ggplot2::cut_width()] in degrees wind  direction
-#' (must fullfill binwidth \%in\% 360 / c(4, 8, 16, 32))
+#' (must fullfill `binwidth %in% 360 / c(4, 8, 16, 32)`)
 #' @param labels character vector as labels for wind direction bins; can be NULL (no labels are returned),
 #' if !is.null(labels) then length(labels) == 32 must be fullfilled (actual labels are subsampled with
 #' indices of seq(1, length(labels), length(labels) / nsectors))

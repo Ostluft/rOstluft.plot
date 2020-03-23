@@ -2,7 +2,7 @@
 % Please edit documentation in R/class_factor_funs.R
 \name{recode_last_class_label}
 \alias{recode_last_class_label}
-\title{recode highest \code{[x-y)}-style factor level to yield '>y'}
+\title{recode highest \verb{[x-y)}-style factor level to yield '>y'}
 \usage{
 recode_last_class_label(factor_var)
 }
@@ -10,5 +10,5 @@ recode_last_class_label(factor_var)
 \item{factor_var}{factor from cutting function to recode}
 }
 \description{
-recode highest \code{[x-y)}-style factor level to yield '>y'
+recode highest \verb{[x-y)}-style factor level to yield '>y'
 }

@@ -4,8 +4,7 @@
 \alias{element_render_circle}
 \title{renders a circle as element_line}
 \usage{
-element_render_circle(theme, element, x, y, r, ..., name = NULL,
-  nseg = 360)
+element_render_circle(theme, element, x, y, r, ..., name = NULL, nseg = 360)
 }
 \arguments{
 \item{theme}{A \code{theme} object}

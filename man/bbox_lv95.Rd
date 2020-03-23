@@ -4,8 +4,17 @@
 \alias{bbox_lv95}
 \title{bbox in WSG84 from LV95}
 \usage{
-bbox_lv95(x = NA, y = NA, r = NA, w = NA, h = NA, x1 = NA,
-  y1 = NA, x2 = NA, y2 = NA)
+bbox_lv95(
+  x = NA,
+  y = NA,
+  r = NA,
+  w = NA,
+  h = NA,
+  x1 = NA,
+  y1 = NA,
+  x2 = NA,
+  y2 = NA
+)
 }
 \arguments{
 \item{x}{LV95 x coordinate of center in m}

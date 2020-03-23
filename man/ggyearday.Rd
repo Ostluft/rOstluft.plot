@@ -4,10 +4,17 @@
 \alias{ggyearday}
 \title{ggplot2 heatmap for diurnal-yearly time series}
 \usage{
-ggyearday(data, time, z, date_breaks = "1 month", date_labels = "\%b",
-  ybreaks = seq(6, 18, 6), ylabels = format_sprintf("\%02d:00"),
-  fill_scale = scale_fill_viridis_c(direction = -1, na.value = NA, option
-  = "A"), ...)
+ggyearday(
+  data,
+  time,
+  z,
+  date_breaks = "1 month",
+  date_labels = "\%b",
+  ybreaks = seq(6, 18, 6),
+  ylabels = format_sprintf("\%02d:00"),
+  fill_scale = scale_fill_viridis_c(direction = -1, na.value = NA, option = "A"),
+  ...
+)
 }
 \arguments{
 \item{data}{a data.frame or tibble with input data (containing a POSIXct variable as time parameter).}

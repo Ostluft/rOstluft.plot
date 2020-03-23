@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9010</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9011</span>
       </span>
     </div>
 
@@ -137,8 +137,17 @@
     <p>This is based on <code><a href='https://rdrr.io/pkg/mgcv/man/gam.html'>mgcv::gam()</a></code> and derived from <code><a href='https://rdrr.io/pkg/openair/man/polarPlot.html'>openair::polarPlot()</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>fit_gam_surface</span>(<span class='no'>data</span>, <span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>z</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>extrapolate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>force_positive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>dist</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</pre>
+    <pre class="usage"><span class='fu'>fit_gam_surface</span>(
+  <span class='no'>data</span>,
+  <span class='no'>x</span>,
+  <span class='no'>y</span>,
+  <span class='no'>z</span>,
+  <span class='kw'>weights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>100</span>,
+  <span class='kw'>extrapolate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>force_positive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>dist</span> <span class='kw'>=</span> <span class='fl'>0.05</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

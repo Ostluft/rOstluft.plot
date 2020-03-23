@@ -4,8 +4,14 @@
 \alias{pad_to_year}
 \title{Pads data to complete year}
 \usage{
-pad_to_year(data, date_col, interval, fill = list(), start_date = NULL,
-  end_date = NULL)
+pad_to_year(
+  data,
+  date_col,
+  interval,
+  fill = list(),
+  start_date = NULL,
+  end_date = NULL
+)
 }
 \arguments{
 \item{data}{input data}

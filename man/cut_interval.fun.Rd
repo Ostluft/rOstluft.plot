@@ -10,29 +10,35 @@ cut_interval.fun(n = NULL, length = NULL, ...)
 
 cut_number.fun(n = NULL, ...)
 
-cut_width.fun(width, center = NULL, boundary = NULL,
-  closed = c("right", "left"), ...)
+cut_width.fun(
+  width,
+  center = NULL,
+  boundary = NULL,
+  closed = c("right", "left"),
+  ...
+)
 }
 \arguments{
 \item{n}{number of intervals to create, OR}
 
 \item{length}{length of each interval}
 
-\item{...}{Arguments passed on to \code{base::cut.default}
-\describe{
-  \item{breaks}{either a numeric vector of two or more unique cut points or a
+\item{...}{
+  Arguments passed on to \code{\link[base:cut.default]{base::cut.default}}
+  \describe{
+    \item{\code{breaks}}{either a numeric vector of two or more unique cut points or a
     single number (greater than or equal to 2) giving the number of
     intervals into which \code{x} is to be cut.}
-  \item{labels}{labels for the levels of the resulting category.  By default,
+    \item{\code{labels}}{labels for the levels of the resulting category.  By default,
     labels are constructed using \code{"(a,b]"} interval notation.  If
     \code{labels = FALSE}, simple integer codes are returned instead of
     a factor.}
-  \item{right}{logical, indicating if the intervals should be closed on
+    \item{\code{right}}{logical, indicating if the intervals should be closed on
     the right (and open on the left) or vice versa.}
-  \item{dig.lab}{integer which is used when labels are not given.  It
+    \item{\code{dig.lab}}{integer which is used when labels are not given.  It
     determines the number of digits used in formatting the break numbers.}
-  \item{ordered_result}{logical: should the result be an ordered factor?}
-}}
+    \item{\code{ordered_result}}{logical: should the result be an ordered factor?}
+  }}
 
 \item{width}{The bin width.}
 

@@ -4,8 +4,14 @@
 \alias{cut_ws}
 \title{Cut wind velocity (or others) into factor classes}
 \usage{
-cut_ws(ws, binwidth = 1, ws_max = NA, squish = TRUE, right = TRUE,
-  reverse = FALSE)
+cut_ws(
+  ws,
+  binwidth = 1,
+  ws_max = NA,
+  squish = TRUE,
+  right = TRUE,
+  reverse = FALSE
+)
 }
 \arguments{
 \item{ws}{numeric vector of wind velocity}

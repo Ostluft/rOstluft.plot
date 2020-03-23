@@ -4,9 +4,22 @@
 \alias{summary_wind_2d}
 \title{Summarise y values over binned wind data, split into u and v components.}
 \usage{
-summary_wind_2d(data, ws, wd, z, groupings = grp(), fun = "mean",
-  fun.args = list(), nmin = 3, ws_max = NA, bins = 10^2,
-  smooth = TRUE, k = 100, extrapolate = TRUE, dist = 0.1)
+summary_wind_2d(
+  data,
+  ws,
+  wd,
+  z,
+  groupings = grp(),
+  fun = "mean",
+  fun.args = list(),
+  nmin = 3,
+  ws_max = NA,
+  bins = 10^2,
+  smooth = TRUE,
+  k = 100,
+  extrapolate = TRUE,
+  dist = 0.1
+)
 }
 \arguments{
 \item{data}{a data.frame or tibble containing the data (wide format).

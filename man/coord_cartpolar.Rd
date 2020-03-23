@@ -4,8 +4,13 @@
 \alias{coord_cartpolar}
 \title{cartesian coordinate system with polar grid lines}
 \usage{
-coord_cartpolar(limit = NA, expand = TRUE, clip = "on", bg = NULL,
-  grid = c("background", "foreground"))
+coord_cartpolar(
+  limit = NA,
+  expand = TRUE,
+  clip = "on",
+  bg = NULL,
+  grid = c("background", "foreground")
+)
 }
 \arguments{
 \item{limit}{limit for coordsystem (xlim(-limit, limit), ylim(-limit, limit))}

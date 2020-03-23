@@ -79,7 +79,7 @@ implicitly created by <code><a href='cut_timeseries_periodic.html'>cut_timeserie
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9010</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9011</span>
       </span>
     </div>
 
@@ -140,11 +140,16 @@ implicitly created by <code><a href='cut_timeseries_periodic.html'>cut_timeserie
     <p>Input data should be <code><a href='https://rdrr.io/pkg/rOstluft/man/format_rolf.html'>rOstluft::format_rolf()</a></code> data.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>summary_periodic</span>(<span class='no'>data</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='st'>"value"</span>,
-  <span class='kw'>groupings</span> <span class='kw'>=</span> <span class='fu'><a href='grp.html'>grp</a></span>(<span class='st'>"starttime_of_day"</span>), <span class='kw'>fun</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='st'>"mean"</span>, <span class='st'>"sd"</span>,
-  <span class='st'>"median"</span>, <span class='st'>"mad"</span>, <span class='st'>"percentile05"</span>, <span class='st'>"percentile25"</span>, <span class='st'>"percentile75"</span>,
-  <span class='st'>"percentile95"</span>), <span class='kw'>fun.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>coords</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>lat</span> <span class='kw'>=</span> <span class='fl'>47.36667</span>, <span class='kw'>lon</span> <span class='kw'>=</span> <span class='fl'>8.55</span>))</pre>
+    <pre class="usage"><span class='fu'>summary_periodic</span>(
+  <span class='no'>data</span>,
+  <span class='kw'>y</span> <span class='kw'>=</span> <span class='st'>"value"</span>,
+  <span class='kw'>groupings</span> <span class='kw'>=</span> <span class='fu'><a href='grp.html'>grp</a></span>(<span class='st'>"starttime_of_day"</span>),
+  <span class='kw'>fun</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='st'>"mean"</span>, <span class='st'>"sd"</span>, <span class='st'>"median"</span>, <span class='st'>"mad"</span>, <span class='st'>"percentile05"</span>, <span class='st'>"percentile25"</span>,
+    <span class='st'>"percentile75"</span>, <span class='st'>"percentile95"</span>),
+  <span class='kw'>fun.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
+  <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>coords</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>lat</span> <span class='kw'>=</span> <span class='fl'>47.36667</span>, <span class='kw'>lon</span> <span class='kw'>=</span> <span class='fl'>8.55</span>)
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

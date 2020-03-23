@@ -78,7 +78,7 @@ It is used together with summary_wind_2d() in ggpolarplot()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9010</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9011</span>
       </span>
     </div>
 
@@ -139,8 +139,13 @@ It is used together with summary_wind_2d() in ggpolarplot()." />
 It is used together with <code><a href='summary_wind_2d.html'>summary_wind_2d()</a></code> in <code><a href='ggpolarplot.html'>ggpolarplot()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>coord_cartpolar</span>(<span class='kw'>limit</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>clip</span> <span class='kw'>=</span> <span class='st'>"on"</span>, <span class='kw'>bg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>grid</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"background"</span>, <span class='st'>"foreground"</span>))</pre>
+    <pre class="usage"><span class='fu'>coord_cartpolar</span>(
+  <span class='kw'>limit</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>clip</span> <span class='kw'>=</span> <span class='st'>"on"</span>,
+  <span class='kw'>bg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>grid</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"background"</span>, <span class='st'>"foreground"</span>)
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -234,7 +239,7 @@ break. Things that breaks this coord:</p><ul>
 
 <span class='co'># background map</span>
 <span class='no'>bb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='bbox_lv95.html'>bbox_lv95</a></span>(<span class='fl'>2683141</span>, <span class='fl'>1249040</span>, <span class='fl'>500</span>)
-<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_stamen_map.html'>get_stamen_map</a></span>(<span class='no'>bb</span>)</div><div class='output co'>#&gt; <span class='message'>Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.</span></div><div class='input'>
+<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_stamen_map.html'>get_stamen_map</a></span>(<span class='no'>bb</span>)</div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34321/22945.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34322/22945.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34323/22945.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34321/22946.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34322/22946.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34323/22946.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34321/22947.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34322/22947.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34323/22947.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34321/22948.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34322/22948.png</span></div><div class='output co'>#&gt; <span class='message'>Source : http://tile.stamen.com/terrain/16/34323/22948.png</span></div><div class='input'>
 <span class='no'>p</span> + <span class='fu'>coord_cartpolar</span>(<span class='kw'>bg</span> <span class='kw'>=</span> <span class='no'>bg</span>)</div><div class='img'><img src='coord_cartpolar-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># faceting</span>
 <span class='no'>p</span> + <span class='fu'>coord_cartpolar</span>(<span class='kw'>bg</span> <span class='kw'>=</span> <span class='no'>bg</span>) +

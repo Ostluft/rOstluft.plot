@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9010</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9011</span>
       </span>
     </div>
 
@@ -137,11 +137,16 @@
     <p>ggplot2-wrapper to summarise and plot data (of <code><a href='https://rdrr.io/pkg/rOstluft/man/format_rolf.html'>rOstluft::format_rolf()</a></code> format) for diurnal time course-stats</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ggdiurnal</span>(<span class='no'>data</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='st'>"value"</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>middle</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>middle2</span> <span class='kw'>=</span>
-  <span class='st'>"median"</span>, <span class='kw'>ymin</span> <span class='kw'>=</span> <span class='st'>"percentile05"</span>, <span class='kw'>lower</span> <span class='kw'>=</span> <span class='st'>"percentile25"</span>, <span class='kw'>upper</span> <span class='kw'>=</span>
-  <span class='st'>"percentile75"</span>, <span class='kw'>ymax</span> <span class='kw'>=</span> <span class='st'>"percentile95"</span>), <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>ribbon_color</span> <span class='kw'>=</span> <span class='st'>"gray60"</span>, <span class='kw'>middle_color</span> <span class='kw'>=</span> <span class='st'>"gray30"</span>,
-  <span class='kw'>expand_xscale</span> <span class='kw'>=</span> <span class='fl'>0.025</span>)</pre>
+    <pre class="usage"><span class='fu'>ggdiurnal</span>(
+  <span class='no'>data</span>,
+  <span class='kw'>y</span> <span class='kw'>=</span> <span class='st'>"value"</span>,
+  <span class='kw'>fun</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>middle</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>middle2</span> <span class='kw'>=</span> <span class='st'>"median"</span>, <span class='kw'>ymin</span> <span class='kw'>=</span> <span class='st'>"percentile05"</span>, <span class='kw'>lower</span> <span class='kw'>=</span>
+    <span class='st'>"percentile25"</span>, <span class='kw'>upper</span> <span class='kw'>=</span> <span class='st'>"percentile75"</span>, <span class='kw'>ymax</span> <span class='kw'>=</span> <span class='st'>"percentile95"</span>),
+  <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>ribbon_color</span> <span class='kw'>=</span> <span class='st'>"gray60"</span>,
+  <span class='kw'>middle_color</span> <span class='kw'>=</span> <span class='st'>"gray30"</span>,
+  <span class='kw'>expand_xscale</span> <span class='kw'>=</span> <span class='fl'>0.025</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,11 +198,11 @@ Strings matching the regular expression <code>/^percentile([0-9]){1,2}$/i</code>
 
 <span class='no'>data_h1</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/resample.html'>resample</a></span>(<span class='no'>data_min30</span>, <span class='kw'>new_interval</span> <span class='kw'>=</span> <span class='st'>"h1"</span>)
 
-<span class='fu'>ggdiurnal</span>(<span class='no'>data_h1</span>)</div><div class='img'><img src='ggdiurnal-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>ggdiurnal</span>(<span class='no'>data_h1</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='img'><img src='ggdiurnal-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># change scale_expands: less margin on x, no expand lower y and set to zero</span>
 <span class='fu'>ggdiurnal</span>(<span class='no'>data_h1</span>, <span class='kw'>expand_xscale</span> <span class='kw'>=</span> <span class='fl'>0.01</span>) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span>(<span class='kw'>limits</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>NA</span>), <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/expand_scale.html'>expand_scale</a></span>(<span class='kw'>mult</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0.05</span>))) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span>(<span class='kw'>panel.spacing.y</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/reexports.html'>unit</a></span>(<span class='fl'>12</span>, <span class='st'>"pt"</span>))</div><div class='img'><img src='ggdiurnal-2.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span>(<span class='kw'>limits</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>NA</span>), <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/expansion.html'>expand_scale</a></span>(<span class='kw'>mult</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0.05</span>))) +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span>(<span class='kw'>panel.spacing.y</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/reexports.html'>unit</a></span>(<span class='fl'>12</span>, <span class='st'>"pt"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='img'><img src='ggdiurnal-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># 30min resolution, add title, x/y label (must set theme elements)</span>
 <span class='fu'>ggdiurnal</span>(<span class='no'>data_min30</span>) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span>(<span class='st'>"Diurnal Zuerich Stampfenbachstrasse 2010-2014 "</span>) +
@@ -206,7 +211,7 @@ Strings matching the regular expression <code>/^percentile([0-9]){1,2}$/i</code>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span>(
     <span class='kw'>axis.title</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span>(),
     <span class='kw'>axis.title.x</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span>()
-  )</div><div class='img'><img src='ggdiurnal-3.png' alt='' width='700' height='433' /></div></pre>
+  )</div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='img'><img src='ggdiurnal-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

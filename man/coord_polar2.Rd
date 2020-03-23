@@ -4,8 +4,7 @@
 \alias{coord_polar2}
 \title{Customized coord_polar}
 \usage{
-coord_polar2(theta = "x", start = 0, direction = 1, clip = "on",
-  bg = NULL)
+coord_polar2(theta = "x", start = 0, direction = 1, clip = "on", bg = NULL)
 }
 \arguments{
 \item{theta}{variable to map angle to (\code{x} or \code{y})}
@@ -16,7 +15,7 @@ coord_polar2(theta = "x", start = 0, direction = 1, clip = "on",
 
 \item{clip}{Should drawing be clipped to the extent of the plot panel? A
 setting of \code{"on"} (the default) means yes, and a setting of \code{"off"}
-means no. For details, please see \code{\link[=coord_cartesian]{coord_cartesian()}}.}
+means no. For details, please see \code{\link[ggplot2:coord_cartesian]{coord_cartesian()}}.}
 
 \item{bg}{raster for background image}
 }

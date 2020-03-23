@@ -15,7 +15,23 @@
 \alias{StatSummaryWind}
 \alias{StatSummaryWind2d}
 \title{All ggproto Objects}
-\format{An object of class \code{CoordCartPolar} (inherits from \code{CoordCartesian}, \code{Coord}, \code{ggproto}, \code{gg}) of length 11.}
+\format{
+An object of class \code{CoordCartPolar} (inherits from \code{CoordCartesian}, \code{Coord}, \code{ggproto}, \code{gg}) of length 11.
+
+An object of class \code{CoordPolar2} (inherits from \code{CoordPolar}, \code{Coord}, \code{ggproto}, \code{gg}) of length 2.
+
+An object of class \code{GeomBarWind} (inherits from \code{GeomRect}, \code{Geom}, \code{ggproto}, \code{gg}) of length 5.
+
+An object of class \code{GeomPolarRaster} (inherits from \code{Geom}, \code{ggproto}, \code{gg}) of length 5.
+
+An object of class \code{CalMonthBorder} (inherits from \code{Stat}, \code{ggproto}, \code{gg}) of length 3.
+
+An object of class \code{StatFilter} (inherits from \code{Stat}, \code{ggproto}, \code{gg}) of length 3.
+
+An object of class \code{StatSummaryWind} (inherits from \code{Stat}, \code{ggproto}, \code{gg}) of length 3.
+
+An object of class \code{StatSummaryWind2d} (inherits from \code{Stat}, \code{ggproto}, \code{gg}) of length 3.
+}
 \usage{
 CoordCartPolar
 
