@@ -34,7 +34,7 @@ ggwindrose(
 
 \item{groupings}{additional groupings. Use helper \code{\link[=grp]{grp()}} to create. \strong{Necessary} for some facets!}
 
-\item{fill_scale}{ggplot2 discrete fill scale, e.g. \code{\link[ggplot2:scale_fill_gradientn]{ggplot2::scale_fill_gradientn()}}}
+\item{fill_scale}{ggplot2 discrete fill scale, e.g. \code{\link[ggplot2:scale_gradient]{ggplot2::scale_fill_gradientn()}}}
 
 \item{reverse}{TRUE/FALSE, should wind speed bin factors be sorted descending (TRUE)
 or ascending (FALSE). Usually for wind roses a descending order (higher wind speed on

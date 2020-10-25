@@ -17,7 +17,7 @@ get_ggmap(
 \arguments{
 \item{coord}{a data.frame or tibble with coordinates (latlon) defining the map extensions in the form of coord = tibble(lon = ..., lat = ..., type = c("center", "lb", "rt", ...));
 the reason for this structure is, that \code{\link[ggmap:get_googlemap]{ggmap::get_googlemap()}} requires a different way (center + zoom) to specify the map frame than \code{\link[ggmap:get_stamenmap]{ggmap::get_stamenmap()}} (bounding box). If needed, coord is
-converted to bounding box by \code{\link[rOstluft.plot:bbox]{rOstluft.plot::bbox()}} which takes type == "lb" as bottom & left coordinate, and "rt" as top & right, respectively.}
+converted to bounding box by \code{\link[=bbox]{bbox()}} which takes type == "lb" as bottom & left coordinate, and "rt" as top & right, respectively.}
 
 \item{googlekey}{your google api key as a character string (see ?\code{\link[ggmap:get_googlemap]{ggmap::get_googlemap()}}; then, a google map is downloaded) or, if NA, a map via  \code{\link[ggmap:get_stamenmap]{ggmap::get_stamenmap()}} is returned}
 

@@ -68,7 +68,7 @@ will be printed.}
 
 \item{bg}{raster map, e.g. ggmap object as plot background}
 
-\item{...}{Other arguments passed on to \code{\link[ggplot2:geom_raster]{ggplot2::geom_raster()}}. Used
+\item{...}{Other arguments passed on to \code{\link[ggplot2:geom_tile]{ggplot2::geom_raster()}}. Used
 to set an aesthetic to a fixed value}
 }
 \value{

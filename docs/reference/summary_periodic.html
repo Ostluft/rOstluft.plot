@@ -6,8 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Summarise a <code><a href='https://rdrr.io/pkg/rOstluft/man/format_rolf.html'>rOstluft::format_rolf()</a></code> dataset over periodic (diurnal, weekday, etc) factors
-implicitly created by <code><a href='cut_timeseries_periodic.html'>cut_timeseries_periodic()</a></code> using various stat functions. — summary_periodic • rOstluft.plot</title>
+<title>Summarise a rOstluft::format_rolf() dataset over periodic (diurnal, weekday, etc) factors
+implicitly created by cut_timeseries_periodic() using various stat functions. — summary_periodic • rOstluft.plot</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -18,23 +18,27 @@ implicitly created by <code><a href='cut_timeseries_periodic.html'>cut_timeserie
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -43,11 +47,10 @@ implicitly created by <code><a href='cut_timeseries_periodic.html'>cut_timeserie
 
 
 
-<meta property="og:title" content="Summarise a <code><a href='https://rdrr.io/pkg/rOstluft/man/format_rolf.html'>rOstluft::format_rolf()</a></code> dataset over periodic (diurnal, weekday, etc) factors
-implicitly created by <code><a href='cut_timeseries_periodic.html'>cut_timeseries_periodic()</a></code> using various stat functions. — summary_periodic" />
+<meta property="og:title" content="Summarise a rOstluft::format_rolf() dataset over periodic (diurnal, weekday, etc) factors
+implicitly created by cut_timeseries_periodic() using various stat functions. — summary_periodic" />
 <meta property="og:description" content="Input data should be rOstluft::format_rolf() data." />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -65,7 +68,7 @@ implicitly created by <code><a href='cut_timeseries_periodic.html'>cut_timeserie
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -79,7 +82,7 @@ implicitly created by <code><a href='cut_timeseries_periodic.html'>cut_timeserie
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9011</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9012</span>
       </span>
     </div>
 
@@ -140,16 +143,16 @@ implicitly created by <code><a href='cut_timeseries_periodic.html'>cut_timeserie
     <p>Input data should be <code><a href='https://rdrr.io/pkg/rOstluft/man/format_rolf.html'>rOstluft::format_rolf()</a></code> data.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>summary_periodic</span>(
-  <span class='no'>data</span>,
-  <span class='kw'>y</span> <span class='kw'>=</span> <span class='st'>"value"</span>,
-  <span class='kw'>groupings</span> <span class='kw'>=</span> <span class='fu'><a href='grp.html'>grp</a></span>(<span class='st'>"starttime_of_day"</span>),
-  <span class='kw'>fun</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='st'>"mean"</span>, <span class='st'>"sd"</span>, <span class='st'>"median"</span>, <span class='st'>"mad"</span>, <span class='st'>"percentile05"</span>, <span class='st'>"percentile25"</span>,
-    <span class='st'>"percentile75"</span>, <span class='st'>"percentile95"</span>),
-  <span class='kw'>fun.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
-  <span class='kw'>nmin</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>coords</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>lat</span> <span class='kw'>=</span> <span class='fl'>47.36667</span>, <span class='kw'>lon</span> <span class='kw'>=</span> <span class='fl'>8.55</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>summary_periodic</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  y <span class='op'>=</span> <span class='st'>"value"</span>,
+  groupings <span class='op'>=</span> <span class='fu'><a href='grp.html'>grp</a></span><span class='op'>(</span><span class='st'>"starttime_of_day"</span><span class='op'>)</span>,
+  fun <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"mean"</span>, <span class='st'>"sd"</span>, <span class='st'>"median"</span>, <span class='st'>"mad"</span>, <span class='st'>"percentile05"</span>, <span class='st'>"percentile25"</span>,
+    <span class='st'>"percentile75"</span>, <span class='st'>"percentile95"</span><span class='op'>)</span>,
+  fun.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
+  nmin <span class='op'>=</span> <span class='fl'>3</span>,
+  coords <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>lat <span class='op'>=</span> <span class='fl'>47.36667</span>, lon <span class='op'>=</span> <span class='fl'>8.55</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -205,18 +208,20 @@ Default: c(lat = 47.36667, lon = 8.55) =&gt; Zuerich, Switzerland</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft.data</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft.data/man/f.html'>f</a></span>(<span class='st'>"Zch_Stampfenbachstrasse_2010-2014.csv"</span>)
+    <pre class="examples"><div class='input'><span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='fu'>rOstluft.data</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft.data/man/f.html'>f</a></span><span class='op'>(</span><span class='st'>"Zch_Stampfenbachstrasse_2010-2014.csv"</span><span class='op'>)</span>
 
-<span class='no'>data</span> <span class='kw'>&lt;-</span>
-  <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/read_airmo_csv.html'>read_airmo_csv</a></span>(<span class='no'>fn</span>) <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/pluck.html'>pluck_parameter</a></span>(<span class='st'>"NOx"</span>, <span class='st'>"O3"</span>, <span class='st'>"PM10"</span>) <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/resample.html'>resample</a></span>(<span class='kw'>new_interval</span> <span class='kw'>=</span> <span class='st'>"h1"</span>)
+<span class='va'>data</span> <span class='op'>&lt;-</span>
+  <span class='fu'>rOstluft</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/read_airmo_csv.html'>read_airmo_csv</a></span><span class='op'>(</span><span class='va'>fn</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>rOstluft</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/pluck.html'>pluck_parameter</a></span><span class='op'>(</span><span class='st'>"NOx"</span>, <span class='st'>"O3"</span>, <span class='st'>"PM10"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>rOstluft</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/resample.html'>resample</a></span><span class='op'>(</span>new_interval <span class='op'>=</span> <span class='st'>"h1"</span><span class='op'>)</span>
 
-<span class='no'>fun</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>middle</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>middle2</span> <span class='kw'>=</span> <span class='st'>"median"</span>, <span class='kw'>ymin</span> <span class='kw'>=</span> <span class='st'>"percentile05"</span>,
-           <span class='kw'>lower</span> <span class='kw'>=</span> <span class='st'>"percentile25"</span>, <span class='kw'>upper</span> <span class='kw'>=</span> <span class='st'>"percentile75"</span>, <span class='kw'>ymax</span> <span class='kw'>=</span> <span class='st'>"percentile95"</span>)
+<span class='va'>fun</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>middle <span class='op'>=</span> <span class='st'>"mean"</span>, middle2 <span class='op'>=</span> <span class='st'>"median"</span>, ymin <span class='op'>=</span> <span class='st'>"percentile05"</span>,
+           lower <span class='op'>=</span> <span class='st'>"percentile25"</span>, upper <span class='op'>=</span> <span class='st'>"percentile75"</span>, ymax <span class='op'>=</span> <span class='st'>"percentile95"</span><span class='op'>)</span>
 
-<span class='no'>data_summarized</span> <span class='kw'>&lt;-</span> <span class='fu'>summary_periodic</span>(<span class='no'>data</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>fun</span>)
-<span class='no'>data_summarized</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 432 x 9</span><span>
+<span class='va'>data_summarized</span> <span class='op'>&lt;-</span> <span class='fu'>summary_periodic</span><span class='op'>(</span><span class='va'>data</span>, fun <span class='op'>=</span> <span class='va'>fun</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: attributes are not identical across measure variables;</span>
+#&gt; <span class='warning'>they will be dropped</span></div><div class='input'><span class='va'>data_summarized</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 432 x 9</span><span>
 #&gt;    starttime_of_day site        parameter interval unit      n  freq stat  value
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;ord&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> 00:00            Zch_Stampf~ NOx       h1       ppb    </span><span style='text-decoration: underline;'>1</span><span>826 0.333 midd~  24.0
@@ -231,15 +236,10 @@ Default: c(lat = 47.36667, lon = 8.55) =&gt; Zuerich, Switzerland</p></td>
 #&gt; </span><span style='color: #555555;'>10</span><span> 03:00            Zch_Stampf~ NOx       h1       ppb    </span><span style='text-decoration: underline;'>1</span><span>826 0.333 midd~  20.4
 #&gt; </span><span style='color: #555555;'># ... with 422 more rows</span><span></div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#computed-variables">Computed variables</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -250,7 +250,7 @@ Default: c(lat = 47.36667, lon = 8.55) =&gt; Zuerich, Switzerland</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -48,7 +52,6 @@ mappings for the other cal_* components.
 cal_month_border uses ggplot2::geom_segment() to draw a border around the months.
 cal_label is a wrapper around ggplot2::geom_text() (but ggplot2::geom_label() could be used)." />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -66,7 +69,7 @@ cal_label is a wrapper around ggplot2::geom_text() (but ggplot2::geom_label() co
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -80,7 +83,7 @@ cal_label is a wrapper around ggplot2::geom_text() (but ggplot2::geom_label() co
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9011</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9012</span>
       </span>
     </div>
 
@@ -143,37 +146,37 @@ mappings for the other cal_* components.</p>
 <p>cal_label is a wrapper around <code><a href='https://ggplot2.tidyverse.org/reference/geom_text.html'>ggplot2::geom_text()</a></code> (but <code><a href='https://ggplot2.tidyverse.org/reference/geom_text.html'>ggplot2::geom_label()</a></code> could be used).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ggcalendar</span>(
-  <span class='no'>data</span>,
-  <span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"date"</span>,
-  <span class='kw'>z</span> <span class='kw'>=</span> <span class='st'>"O3_max_h1"</span>,
-  <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"white"</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>locale</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/locales.html'>Sys.getlocale</a></span>(<span class='st'>"LC_TIME"</span>)
-)
+    <pre class="usage"><span class='fu'>ggcalendar</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  x <span class='op'>=</span> <span class='st'>"date"</span>,
+  z <span class='op'>=</span> <span class='st'>"O3_max_h1"</span>,
+  size <span class='op'>=</span> <span class='fl'>0.1</span>,
+  color <span class='op'>=</span> <span class='st'>"white"</span>,
+  <span class='va'>...</span>,
+  locale <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/locales.html'>Sys.getlocale</a></span><span class='op'>(</span><span class='st'>"LC_TIME"</span><span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='fu'>cal_month_border</span>(
-  <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>lineend</span> <span class='kw'>=</span> <span class='st'>"square"</span>,
-  <span class='kw'>linejoin</span> <span class='kw'>=</span> <span class='st'>"bevel"</span>,
-  <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"grey5"</span>,
-  <span class='no'>...</span>
-)
+<span class='fu'>cal_month_border</span><span class='op'>(</span>
+  size <span class='op'>=</span> <span class='fl'>0.5</span>,
+  lineend <span class='op'>=</span> <span class='st'>"square"</span>,
+  linejoin <span class='op'>=</span> <span class='st'>"bevel"</span>,
+  color <span class='op'>=</span> <span class='st'>"grey5"</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
-<span class='fu'>cal_label</span>(
-  <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>stat</span> <span class='kw'>=</span> <span class='st'>"identity"</span>,
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"text"</span>,
-  <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"identity"</span>,
-  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"white"</span>,
-  <span class='no'>...</span>
-)</pre>
+<span class='fu'>cal_label</span><span class='op'>(</span>
+  mapping <span class='op'>=</span> <span class='cn'>NULL</span>,
+  stat <span class='op'>=</span> <span class='st'>"identity"</span>,
+  data <span class='op'>=</span> <span class='cn'>NULL</span>,
+  geom <span class='op'>=</span> <span class='st'>"text"</span>,
+  position <span class='op'>=</span> <span class='st'>"identity"</span>,
+  show.legend <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  inherit.aes <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  na.rm <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  size <span class='op'>=</span> <span class='fl'>2</span>,
+  color <span class='op'>=</span> <span class='st'>"white"</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,11 +195,11 @@ mappings for the other cal_* components.</p>
     </tr>
     <tr>
       <th>size</th>
-      <td><p>parameter passed on to <code>geom_tile()</code> =&gt; space between tiles</p></td>
+      <td><p>parameter passed on to <code><a href='https://ggplot2.tidyverse.org/reference/geom_tile.html'>geom_tile()</a></code> =&gt; space between tiles</p></td>
     </tr>
     <tr>
       <th>color</th>
-      <td><p>parameter passed on to <code>geom_tile()</code> =&gt; color of space between tiles</p></td>
+      <td><p>parameter passed on to <code><a href='https://ggplot2.tidyverse.org/reference/geom_tile.html'>geom_tile()</a></code> =&gt; color of space between tiles</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -264,36 +267,36 @@ a warning. If <code>TRUE</code>, missing values are silently removed.</p></td>
 <p>ggplot2 layer</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
 
-<span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rOstluft.data</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft.data/man/f.html'>f</a></span>(<span class='st'>"Zch_Stampfenbachstrasse_2010-2014.csv"</span>)
+<span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='fu'>rOstluft.data</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft.data/man/f.html'>f</a></span><span class='op'>(</span><span class='st'>"Zch_Stampfenbachstrasse_2010-2014.csv"</span><span class='op'>)</span>
 
 <span class='co'># keep only 2 years for smaller plotsize</span>
-<span class='no'>df</span> <span class='kw'>&lt;-</span>
- <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/read_airmo_csv.html'>read_airmo_csv</a></span>(<span class='no'>fn</span>) <span class='kw'>%&gt;%</span>
- <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>starttime</span> <span class='kw'>&lt;</span> <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/ymd.html'>ymd</a></span>(<span class='fl'>20120101</span>)) <span class='kw'>%&gt;%</span>
- <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/resample.html'>resample</a></span>(<span class='kw'>new_interval</span> <span class='kw'>=</span> <span class='st'>"d1"</span>) <span class='kw'>%&gt;%</span>
- <span class='kw pkg'>rOstluft</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/rolf_to_openair.html'>rolf_to_openair</a></span>()
+<span class='va'>df</span> <span class='op'>&lt;-</span>
+ <span class='fu'>rOstluft</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/read_airmo_csv.html'>read_airmo_csv</a></span><span class='op'>(</span><span class='va'>fn</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+ <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>starttime</span> <span class='op'>&lt;</span> <span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/ymd.html'>ymd</a></span><span class='op'>(</span><span class='fl'>20120101</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+ <span class='fu'>rOstluft</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/resample.html'>resample</a></span><span class='op'>(</span>new_interval <span class='op'>=</span> <span class='st'>"d1"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+ <span class='fu'>rOstluft</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rOstluft/man/rolf_to_openair.html'>rolf_to_openair</a></span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>ggcalendar</span>(<span class='no'>df</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='st'>"PM10"</span>) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_viridis.html'>scale_fill_viridis_c</a></span>(<span class='kw'>direction</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='kw'>option</span> <span class='kw'>=</span> <span class='st'>"magma"</span>, <span class='kw'>na.value</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</div><div class='img'><img src='ggcalendar-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>ggcalendar</span><span class='op'>(</span><span class='va'>df</span>, z <span class='op'>=</span> <span class='st'>"PM10"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_viridis.html'>scale_fill_viridis_c</a></span><span class='op'>(</span>direction <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span>, option <span class='op'>=</span> <span class='st'>"magma"</span>, na.value <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span>
+</div><div class='img'><img src='ggcalendar-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># can be customised...</span>
-<span class='fu'>ggcalendar</span>(<span class='no'>df</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='st'>"PM10"</span>) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_viridis.html'>scale_fill_viridis_c</a></span>(<span class='kw'>direction</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='kw'>option</span> <span class='kw'>=</span> <span class='st'>"magma"</span>, <span class='kw'>na.value</span> <span class='kw'>=</span> <span class='fl'>NA</span>) +
-  <span class='fu'>cal_month_border</span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"black"</span>) +
-  <span class='fu'><a href='stat_filter.html'>stat_filter</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>filter</span> <span class='kw'>=</span> <span class='no'>PM10</span> <span class='kw'>&gt;</span> <span class='fl'>50</span>),  <span class='kw'>position</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/position_nudge.html'>position_nudge</a></span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>0.25</span>),
-              <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='fl'>21</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"white"</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='st'>"white"</span>) +
-  <span class='fu'>cal_label</span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>PM10</span>,<span class='fl'>0</span>)))</div><div class='img'><img src='ggcalendar-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>ggcalendar</span><span class='op'>(</span><span class='va'>df</span>, z <span class='op'>=</span> <span class='st'>"PM10"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_viridis.html'>scale_fill_viridis_c</a></span><span class='op'>(</span>direction <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span>, option <span class='op'>=</span> <span class='st'>"magma"</span>, na.value <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>cal_month_border</span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='stat_filter.html'>stat_filter</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>filter <span class='op'>=</span> <span class='va'>PM10</span> <span class='op'>&gt;</span> <span class='fl'>50</span><span class='op'>)</span>,  position <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/position_nudge.html'>position_nudge</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='fl'>0.25</span><span class='op'>)</span>,
+              size <span class='op'>=</span> <span class='fl'>1</span>, shape <span class='op'>=</span> <span class='fl'>21</span>, color <span class='op'>=</span> <span class='st'>"white"</span>, fill <span class='op'>=</span> <span class='st'>"white"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>cal_label</span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>label <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>PM10</span>,<span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Computation failed in `cal_month_border()`:</span>
+#&gt; <span class='warning'>Can't combine `..1` &lt;mapped_discrete&gt; and `..2` &lt;double&gt;.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Computation failed in `cal_month_border()`:</span>
+#&gt; <span class='warning'>Can't combine `..1` &lt;mapped_discrete&gt; and `..2` &lt;double&gt;.</span></div><div class='img'><img src='ggcalendar-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -304,7 +307,7 @@ a warning. If <code>TRUE</code>, missing values are silently removed.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -93,7 +93,7 @@ All calculation are done by \code{\link[=summary_wind]{summary_wind()}}, see the
 \code{\link[=stat_summary_wind]{stat_summary_wind()}} uses the aesthetics \code{ws}, \code{wd} and \code{z} to map the correspondent arguments
 for \code{\link[=summary_wind]{summary_wind()}}. The computed variables are named \code{ws}, \code{wd} and \code{z}. \code{\link[=geom_bar_wind]{geom_bar_wind()}}
 is an extension to \code{\link[ggplot2:geom_bar]{ggplot2::geom_bar()}} with \code{\link[=stat_summary_wind]{stat_summary_wind()}} as default stat and correct
-handling of the factorized \code{x} aesthetic. To map the computed Variables use \code{\link[ggplot2:stat]{ggplot2::stat()}}.
+handling of the factorized \code{x} aesthetic. To map the computed Variables use \code{\link[ggplot2:aes_eval]{ggplot2::stat()}}.
 }
 \section{Recommendation}{
 

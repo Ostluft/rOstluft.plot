@@ -21,7 +21,7 @@ ggtraj(
 \item{incr}{sequence of hours to draw an marker on the trajetory. Default -seq(24,96,24); if NULL no increment
 markers are plotted}
 
-\item{lims}{list with xlim and ylim items defining the map section. See \code{\link[ggplot2:coord_quickmap]{ggplot2::coord_quickmap()}}}
+\item{lims}{list with xlim and ylim items defining the map section. See \code{\link[ggplot2:coord_map]{ggplot2::coord_quickmap()}}}
 
 \item{add_traj_labels}{add text labels with date and time for every trajectory}
 

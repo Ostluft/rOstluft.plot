@@ -28,7 +28,7 @@ Strings matching the regular expression \verb{/^percentile([0-9])\{1,2\}$/i} are
 
 \item{expand_xscale}{multiplicative range expansion factor}
 
-\item{...}{further arguments passed on to \code{\link[ggplot2:geom_line]{ggplot2::geom_line()}}.}
+\item{...}{further arguments passed on to \code{\link[ggplot2:geom_path]{ggplot2::geom_line()}}.}
 }
 \value{
 \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object

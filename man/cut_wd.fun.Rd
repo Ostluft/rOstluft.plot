@@ -7,16 +7,16 @@
 cut_wd.fun(binwidth = 45, ...)
 }
 \arguments{
-\item{binwidth}{width for \code{\link[ggplot2:cut_width]{ggplot2::cut_width()}} in degrees wind  direction
+\item{binwidth}{width for \code{\link[ggplot2:cut_interval]{ggplot2::cut_width()}} in degrees wind  direction
 (must fullfill \code{binwidth \%in\% 360 / c(4, 8, 16, 32)})}
 
-\item{...}{passed to \code{\link[ggplot2:cut_width]{ggplot2::cut_width()}}}
+\item{...}{passed to \code{\link[ggplot2:cut_interval]{ggplot2::cut_width()}}}
 }
 \value{
 a partial \code{\link[=cut_wd]{cut_wd()}} function with wd as sole argument
 }
 \description{
-Creates a partial function of \code{\link[ggplot2:cut_width]{ggplot2::cut_width()}} with \verb{width = binwidth. closed = "left", boundary = 0} as fixed
+Creates a partial function of \code{\link[ggplot2:cut_interval]{ggplot2::cut_width()}} with \verb{width = binwidth. closed = "left", boundary = 0} as fixed
 arguments
 }
 \seealso{

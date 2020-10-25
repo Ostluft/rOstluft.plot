@@ -51,7 +51,7 @@ cal_label(
 
 \item{...}{more options for \code{\link[ggplot2:geom_tile]{ggplot2::geom_tile()}}}
 
-\item{locale}{locale string for \code{\link[lubridate:month]{lubridate::month()}} and \code{\link[lubridate:wday]{lubridate::wday()}}. See \code{\link[=Sys.getlocale]{Sys.getlocale()}}}
+\item{locale}{locale string for \code{\link[lubridate:month]{lubridate::month()}} and \code{\link[lubridate:day]{lubridate::wday()}}. See \code{\link[=Sys.getlocale]{Sys.getlocale()}}}
 
 \item{lineend}{Line end style (round, butt, square).}
 
@@ -97,7 +97,7 @@ mappings for the other cal_* components.
 
 cal_month_border uses \code{\link[ggplot2:geom_segment]{ggplot2::geom_segment()}} to draw a border around the months.
 
-cal_label is a wrapper around \code{\link[ggplot2:geom_text]{ggplot2::geom_text()}} (but \code{\link[ggplot2:geom_label]{ggplot2::geom_label()}} could be used).
+cal_label is a wrapper around \code{\link[ggplot2:geom_text]{ggplot2::geom_text()}} (but \code{\link[ggplot2:geom_text]{ggplot2::geom_label()}} could be used).
 }
 \examples{
 library(ggplot2)

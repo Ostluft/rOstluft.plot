@@ -161,11 +161,26 @@ CoordCartPolar <- ggproto("CoordCartPolar", CoordCartesian,
     }
 
     uv_range <- scale_y$dimension(expand)
+    scale_y$range$range <- uv_range
     uv_info <- scale_y$break_info(uv_range)
     uv_info$major <- uv_rescale(uv_info$major, c(0,1))
     uv_info$minor <- uv_rescale(uv_info$minor, c(0,1))
     uv_info$arrange <- scale_y$axis_order()
     uv_info <- rlang::set_names(uv_info, paste("uv.", names(uv_info), sep = ""))
+
+    # would be the proper way to fix
+    # test <-  ggproto(NULL, ggplot2:::ViewScale,
+    #   scale = scale_y,
+    #   guide = scale_y$guide,
+    #   position = scale_y$position,
+    #   aesthetics = scale_y$aesthetics,
+    #   name = scale_y$name,
+    #   scale_is_discrete = scale_y$is_discrete(),
+    #   limits = scale_y$limits,
+    #   continuous_range = uv_range,
+    #   breaks = uv_info$major,
+    #   minor_breaks = uv_info$minor
+    # )
 
     if (scale_x$is_discrete()) {
       stop("coord_cartpolar doesn't support discrete x scale")
@@ -229,7 +244,6 @@ CoordCartPolar <- ggproto("CoordCartPolar", CoordCartesian,
     major <- purrr::map_lgl(panel_params$uv.major_source, ~ . >= 0)
     minor <- purrr::map_lgl(panel_params$uv.minor_source, ~ . >= 0)
 
-
     # ggplot2::render_axis isn't exported but we can
     # rename the uv params to y and call the parent method
     panel_params <- list(
@@ -242,7 +256,13 @@ CoordCartPolar <- ggproto("CoordCartPolar", CoordCartesian,
       y.arrange = panel_params$uv.arrange
     )
 
-    ggproto_parent(CoordCartesian, self)$render_axis_v(panel_params, theme)
+
+    res <- list(
+      # quick hack
+      left = ggplot2:::draw_axis(panel_params$y.major, panel_params$y.labels, "left", theme),
+      right = zeroGrob()
+    )
+    res
   }
 )
 
@@ -297,5 +317,3 @@ render_polargrid <- function(self, panel_params, theme) {
 
   elements
 }
-
-
