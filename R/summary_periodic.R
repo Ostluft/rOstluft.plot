@@ -7,7 +7,7 @@
 #' @param data a data.frame or tibble containing the data
 #' @param y a character string specifying the taget variable to be summarised, usually "value".
 #' @param groupings additional groupings. Use helper [grp()] to create; groupings must be from  possible
-#' outcomes of [rOstluft::cut_timeseries_periodic()].
+#' outcomes of [cut_timeseries_periodic()].
 #' @param fun function or list of functions for summary, can be named (then the outut stat is named after the function's name);
 #'   Strings matching the regular expression `/^percentile([0-9]){1,2}$/i` are converted into the respective function.
 #'   "percentile95" => `function(x, ...) quantile(x, 95 / 100, ...)`
@@ -76,7 +76,8 @@ summary_periodic <- function(
   data <- dplyr::mutate(data, freq = .data$n / sum(.data$n, na.rm = TRUE))
   data <- dplyr::ungroup(data)
 
-  data <- tidyr::gather(data, key = "stat", value = !!y, -dplyr::one_of(names(not_gather_groups)))
+  #data <- tidyr::gather(data, key = "stat", value = !!y, -dplyr::one_of(names(not_gather_groups)))
+  data <- tidyr::pivot_longer(data, cols = -dplyr::any_of(names(not_gather_groups)),  names_to = "stat", values_to = rlang::as_name(y))
 
   # factorise stat column
   data <- dplyr::mutate(data, stat = factor(.data$stat))

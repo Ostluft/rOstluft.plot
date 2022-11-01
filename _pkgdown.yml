@@ -85,6 +85,7 @@ reference:
 - title: utility functions
   desc: Some functions to make the life of a programmer easier
   contents:
+  - squished_labels
   - uv2wd
   - fit_gam_surface
   - bbox

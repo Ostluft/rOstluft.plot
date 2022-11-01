@@ -28,7 +28,7 @@
 #'
 #' # change scale_expands: less margin on x, no expand lower y and set to zero
 #' ggdiurnal(data_h1, expand_xscale = 0.01) +
-#'   scale_y_continuous(limits = c(0, NA), expand = expand_scale(mult = c(0, 0.05))) +
+#'   scale_y_continuous(limits = c(0, NA), expand = expansion(mult = c(0, 0.05))) +
 #'   theme(panel.spacing.y = unit(12, "pt"))
 #'
 #' # 30min resolution, add title, x/y label (must set theme elements)
@@ -79,7 +79,7 @@ ggdiurnal <- function(
     scale_x_continuous(
       breaks = breaks,
       labels = labels,
-      expand = expand_scale(mult = expand_xscale)
+      expand = expansion(mult = expand_xscale)
     ) +
     theme_rop_diuarnal() +
     theme(
@@ -121,7 +121,7 @@ ggdiurnal <- function(
 #'
 #' # y scale: no expand on zero
 #' ggdiurnal_weekend(data) +
-#'   scale_y_continuous(limits = c(0, NA), expand = expand_scale(mult = c(0, 0.05))) +
+#'   scale_y_continuous(limits = c(0, NA), expand = expansion(mult = c(0, 0.05))) +
 #'   theme(panel.spacing.y = unit(12, "pt"))
 ggdiurnal_weekend <- function(
   data,
@@ -163,7 +163,7 @@ ggdiurnal_weekend <- function(
 #      limits = c(1, 24.5),
       breaks = breaks,
       labels = labels,
-      expand = expand_scale(mult = expand_xscale)
+      expand = expansion(mult = expand_xscale)
     ) +
     theme_rop_diuarnal() +
     theme(
@@ -327,7 +327,7 @@ ggdiurnal_weekend_diff <- function(
     scale_x_continuous(
       breaks = breaks,
       labels = labels,
-      expand = expand_scale(mult = expand_xscale)
+      expand = expansion(mult = expand_xscale)
     ) +
     theme_rop_diuarnal()
 

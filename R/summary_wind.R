@@ -139,10 +139,18 @@
 #'   coord_polar2(start = - 22.5 / 180 * pi ) +
 #'   scale_y_continuous(limits = c(0, NA), expand = c(0,0, 0, 0)) +
 #'   scale_fill_viridis_c(name = "NOx")
-summary_wind <- function(data, ws, wd, z, groupings = grp(), fun = "mean", fun.args = list(), nmin = 3,
-                          wd_cutfun = cut_wd.fun(binwidth = 45),
-                          ws_cutfun = cut_ws.fun(binwidth = 1)) {
-
+summary_wind <- function(
+    data,
+    ws,
+    wd,
+    z,
+    groupings = grp(),
+    fun = "mean",
+    fun.args = list(),
+    nmin = 3,
+    wd_cutfun = cut_wd.fun(binwidth = 45),
+    ws_cutfun = cut_ws.fun(binwidth = 1)
+) {
   wd <- rlang::ensym(wd)
   z <- rlang::ensym(z)
   ws_is_null <- rlang::quo_is_null(rlang::enquo(ws))
@@ -195,7 +203,9 @@ summary_wind <- function(data, ws, wd, z, groupings = grp(), fun = "mean", fun.a
   data <- dplyr::mutate(data, freq = .data$n / sum(.data$n, na.rm = TRUE))
   data <- dplyr::ungroup(data)
 
-  data <- tidyr::gather(data, key = "stat", value = !!z, -dplyr::one_of(not_gather_groups))
+  # data <- tidyr::gather(data, key = "stat", value = !!z, -dplyr::one_of(not_gather_groups))
+  data <- tidyr::pivot_longer(data, cols = -dplyr::one_of(not_gather_groups),  names_to = "stat", values_to = rlang::as_name(z))
+
 
   # factorize stat column
   data <- dplyr::mutate(data, stat = factor(.data$stat))

@@ -44,12 +44,14 @@
 #' # change label text
 #' labels <- c("North", "East", "South", "West")
 #' plot_cut(cut_wd(wd, binwidth = 90, labels = labels), ws)
-cut_wd <- function(wd, binwidth = 45,
-                   labels = c("N", "[5.6,16.9)", "NNO", "[28.1,39.4)", "NO", "[50.6,61.2)", "ONO", "[73.1,84.4)", "O", "[95.6,106.9)",
-                              "OSO", "[118.1,129.4)", "SO", "[140.6,151.9)", "SSO", "[163.1,174.4)", "S", "[185.6,196.9)", "SSW",
-                              "[208.1,219.4)", "SW", "[230.6,241.9)", "WSW", "[253.1,264.)", "W", "[275.6,286.9)", "WNW",
-                              "[298.1,309.4)", "NW", "[320.6,331.9)", "NNW", "[343.1,354.4)"),
-                   ...) {
+cut_wd <- function(
+  wd,
+  binwidth = 45,
+  labels = c("N", "[5.6,16.9)", "NNO", "[28.1,39.4)", "NO", "[50.6,61.2)", "ONO", "[73.1,84.4)", "O", "[95.6,106.9)",
+             "OSO", "[118.1,129.4)", "SO", "[140.6,151.9)", "SSO", "[163.1,174.4)", "S", "[185.6,196.9)", "SSW",
+             "[208.1,219.4)", "SW", "[230.6,241.9)", "WSW", "[253.1,264.)", "W", "[275.6,286.9)", "WNW",
+             "[298.1,309.4)", "NW", "[320.6,331.9)", "NNW", "[343.1,354.4)"),
+  ...) {
 
   nsectors <- 360 / binwidth
   stopifnot(nsectors %in% c(4, 8, 16, 32))
@@ -59,9 +61,10 @@ cut_wd <- function(wd, binwidth = 45,
     labels <- labels[seq(1, length(labels), length(labels) / nsectors)]
   }
 
+  breaks <- seq(0, 360, binwidth)
   wd <- (wd + binwidth / 2) %% 360
-
-  ggplot2::cut_width(wd, width = binwidth, closed = "left", boundary = 0, labels = labels, ...)
+  #labels = labels,
+  cut.default(wd, breaks = breaks,  include.lowest = TRUE, right = FALSE, ordered_result = TRUE)
 }
 
 
@@ -96,16 +99,21 @@ cut_wd.fun <- function(binwidth = 45, ...) {
 #' @param squish If TRUE wind velocities greater than will be include as additional level ">ws_max"
 #' @param right logical, indicating if the intervals should be closed on the right (and open on the left) or vice versa.
 #' @param reverse reverse order of result. This is sometimes useful when plotting a factor.
+#' @param calm threshold for calm wind situation. All windspeed below this limit will be assigned the
+#'   the factor level "calm".
 #'
 #' @export
 #'
 #' @examples
-#' ws <- c(0.5, 1.1, 2.2, 3.3, 4.4, 5, 8.8)
+#' ws <- c(0.3, 1.1, 2.2, 3.3, 4.4, 5, 8.8)
 #'
 #' cut_ws(ws, binwidth = 2)
 #'
 #' # if ws_max not a multiple of binwidth, the last level before squishing will be cut short
 #' cut_ws(ws, binwidth = 2, ws_max = 5)
+#'
+#' # calm support: all wind speed below threshold will be gathered in the class calm
+#' cut_ws(ws, ws_max = 5, calm = 0.5)
 #'
 #' cut_ws(ws, binwidth = 2, ws_max = 5, squish = FALSE)
 #'
@@ -117,27 +125,45 @@ cut_wd.fun <- function(binwidth = 45, ...) {
 #'
 #' # reverse the order of the factors, useful for legends while plotting
 #' cut_ws(ws, binwidth = 2, ws_max = 5, reverse = TRUE)
-cut_ws <- function(ws, binwidth = 1, ws_max = NA, squish = TRUE, right = TRUE, reverse = FALSE) {
+cut_ws <- function(ws, binwidth = 1, ws_max = NA, squish = TRUE, right = TRUE, reverse = FALSE, calm = NA) {
   last_label <- NULL
+  first_label <- NULL
 
-  # find the last cut point. Must be the first multiple of binwidth which is greater then
+  ws_max_data <- max(ws, na.rm = TRUE)
+
+    # find the last cut point. Must be the first multiple of binwidth which is greater then
   # maximum wind_speed
   if (is.na(ws_max)) {
-    ws_max_data <- max(ws, na.rm = TRUE)
     last_cut_point <- ceiling(ws_max_data / binwidth) * binwidth
-    breaks <- seq(0, last_cut_point, binwidth)
   } else {
     # ensure ws_max is included for the case, ws_max isn't a mulitple of binwidth
     breaks <- unique(c(seq(0, floor(ws_max / binwidth) * binwidth, binwidth), ws_max))
-
-    # do we need to squish the data?
-    if (isTRUE(squish)) {
-      last_label <- sprintf(ifelse(isTRUE(right), ">%s", "\U2265%s"), utils::tail(breaks, 1))
-      breaks <- c(breaks, Inf)
+    last_cut_point <- ws_max
+    if (!isTRUE(squish) && (breaks[length(breaks)] < ws_max_data)) {
+      rlang::inform("Maximum greater than cut off value. Squishing data")
+      squish <- TRUE
     }
   }
 
-  ws <- cut(ws, breaks = breaks, right = right, include.lowest = TRUE)
+  breaks <- seq(0, last_cut_point, binwidth)
+
+  if (!is.na(calm)) {
+    breaks <- breaks[breaks > calm]
+    breaks <- c(0, calm, breaks)
+    first_label = "calm"
+  }
+
+  if (isTRUE(squish) & !is.na(ws_max)) {
+    last_label <- sprintf(ifelse(isTRUE(right), ">%s", "\U2265%s"), utils::tail(breaks, 1))
+    breaks <- c(breaks, Inf)
+  }
+
+
+  ws <- cut(ws, breaks = breaks, right = right, include.lowest = TRUE, ordered_result = TRUE)
+
+  if (!is.null(first_label)) {
+    levels(ws)[1] <- first_label
+  }
 
   if (!is.null(last_label)) {
     levels(ws)[length(levels(ws))] <- last_label
@@ -158,9 +184,9 @@ cut_ws <- function(ws, binwidth = 1, ws_max = NA, squish = TRUE, right = TRUE, r
 #' @return a partial [cut_ws()] function with ws as sole argument
 #'
 #' @export
-cut_ws.fun <- function(binwidth = 1, ws_max = NA, squish = TRUE, right = TRUE, reverse = FALSE) {
+cut_ws.fun <- function(binwidth = 1, ws_max = NA, squish = TRUE, right = TRUE, reverse = FALSE, calm = NA) {
   function(ws) {
-    cut_ws(ws, binwidth, ws_max, squish, right, reverse)
+    cut_ws(ws, binwidth, ws_max, squish, right, reverse, calm)
   }
 }
 

@@ -1,4 +1,4 @@
-#' ggplot2 wrapper to create a wind-based polar plot
+#' ggplot2 wrapper to create a wind-based polar plot with cartesian coords
 #'
 #' @description Inspired and derived from [openair::polarPlot()], i.e. applying a stat function on data to yield a wind direction +
 #' wind velocity heatmap, (in cartesian u, v wind component space); includes options for smoothing, flexible grid
@@ -122,7 +122,7 @@ ggpolarplot <- function(data, ws, wd, z,
   plot <-
     ggplot(data_summarized, aes(x = .data$u, y = .data$v, fill = !!z)) +
     geom_raster(...) +
-    scale_y_continuous(breaks = breaks, labels = ylabels, expand = ggplot2::expand_scale(add = 0.5)) +
+    scale_y_continuous(breaks = breaks, labels = ylabels, expand = ggplot2::expansion(add = 0.5)) +
     coord_cartpolar(limit = ws_max, bg = bg, grid = "foreground") +
     guides(fill = guide_colorbar(title = rlang::quo_text(z))) +
     fill_scale +

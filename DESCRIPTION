@@ -1,7 +1,7 @@
 Package: rOstluft.plot
 Type: Package
 Title: Ploting air quality data
-Version: 0.0.0.9011
+Version: 0.1.0
 Authors@R: c(
   person("Thomas", "von Allmen", email = "thomas.vonallmen@zuerich.ch", role = c("aut", "cre")),
   person("Jörg", "Sintermann", role = c("aut")),
@@ -21,34 +21,38 @@ Imports:
     ggplot2,
     ggrepel,
     ggmap,
-    maps,
     tibble (>= 2.0.0),
     purrr,
     forcats,
     ggExtra,
-    sp,
     stringr,
     rOstluft,
-    rOstluft.data (>= 2.0),
     magrittr,
     mgcv,
     scales,
-    matlab,
-    openair,
     suncalc,
-    lemon
+    lemon, 
+    clock,
+    broom,
+    glue,
+    patchwork
 Suggests:
+    rOstluft.data (>= 2.0),
     knitr,
     rmarkdown,
     testthat,
     pkgdown,
     lintr,
-    roxygen2
+    roxygen2,
+    matlab,
+    openair,
+    maps,    
+    sp
 Remotes:
     Ostluft/rOstluft,
     Ostluft/rOstluft.data
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.2.0
 URL: https://github.com/Ostluft/rOstluft.plot
 BugReports: https://github.com/Ostluft/rOstluft.plot/issues
