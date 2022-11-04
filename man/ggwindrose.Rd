@@ -12,6 +12,7 @@ ggwindrose(
   ws_binwidth = 1,
   ws_max = NA,
   groupings = grp(),
+  nmin = 1,
   fill_scale = scale_fill_viridis_d(),
   reverse = TRUE,
   bg = NULL,
@@ -34,7 +35,9 @@ ggwindrose(
 
 \item{groupings}{additional groupings. Use helper \code{\link[=grp]{grp()}} to create. \strong{Necessary} for some facets!}
 
-\item{fill_scale}{ggplot2 discrete fill scale, e.g. \code{\link[ggplot2:scale_fill_gradientn]{ggplot2::scale_fill_gradientn()}}}
+\item{nmin}{numeric, minimum number of values for fun, if n < nmin: NA is returned}
+
+\item{fill_scale}{ggplot2 discrete fill scale, e.g. \code{\link[ggplot2:scale_gradient]{ggplot2::scale_fill_gradientn()}}}
 
 \item{reverse}{TRUE/FALSE, should wind speed bin factors be sorted descending (TRUE)
 or ascending (FALSE). Usually for wind roses a descending order (higher wind speed on
@@ -46,8 +49,6 @@ the outside) is used.}
 to set an aesthetic to a fixed value. Defaults are \verb{color = "white", width = 1, size = 0.25}}
 }
 \value{
-ggplot object
-
 \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object
 }
 \description{

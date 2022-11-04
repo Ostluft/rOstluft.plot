@@ -2,7 +2,7 @@
 % Please edit documentation in R/ggpolarplot.R
 \name{ggpolarplot}
 \alias{ggpolarplot}
-\title{ggplot2 wrapper to create a wind-based polar plot}
+\title{ggplot2 wrapper to create a wind-based polar plot with cartesian coords}
 \usage{
 ggpolarplot(
   data,
@@ -68,7 +68,7 @@ will be printed.}
 
 \item{bg}{raster map, e.g. ggmap object as plot background}
 
-\item{...}{Other arguments passed on to \code{\link[ggplot2:geom_raster]{ggplot2::geom_raster()}}. Used
+\item{...}{Other arguments passed on to \code{\link[ggplot2:geom_tile]{ggplot2::geom_raster()}}. Used
 to set an aesthetic to a fixed value}
 }
 \value{

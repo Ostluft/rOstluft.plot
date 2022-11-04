@@ -1,7 +1,8 @@
-pandoc: 2.7.2
-pkgdown: 1.4.1
+pandoc: '2.18'
+pkgdown: 2.0.3
 pkgdown_sha: ~
 articles:
-  Kalender_Linie: articles/Kalender_Linie.html
-  Wind_Density: articles/Wind_Density.html
+  Kalender_Linie: Kalender_Linie.html
+  Wind_Density: Wind_Density.html
+last_built: 2022-11-03T21:08Z
 

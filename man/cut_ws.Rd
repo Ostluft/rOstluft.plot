@@ -10,7 +10,8 @@ cut_ws(
   ws_max = NA,
   squish = TRUE,
   right = TRUE,
-  reverse = FALSE
+  reverse = FALSE,
+  calm = NA
 )
 }
 \arguments{
@@ -25,6 +26,9 @@ cut_ws(
 \item{right}{logical, indicating if the intervals should be closed on the right (and open on the left) or vice versa.}
 
 \item{reverse}{reverse order of result. This is sometimes useful when plotting a factor.}
+
+\item{calm}{threshold for calm wind situation. All windspeed below this limit will be assigned the
+the factor level "calm".}
 }
 \description{
 Based on \code{\link[base:cut]{base::cut()}}. Allows to specifiy maximum wind velocity. If \code{squish = TRUE} the values greater than \code{ws_max}
@@ -32,12 +36,15 @@ will be combined to one additional factor level ">ws_max". If \code{squish = FAL
 NA for this values. The correct handling of the NA values in the factor must be done by the user.
 }
 \examples{
-ws <- c(0.5, 1.1, 2.2, 3.3, 4.4, 5, 8.8)
+ws <- c(0.3, 1.1, 2.2, 3.3, 4.4, 5, 8.8)
 
 cut_ws(ws, binwidth = 2)
 
 # if ws_max not a multiple of binwidth, the last level before squishing will be cut short
 cut_ws(ws, binwidth = 2, ws_max = 5)
+
+# calm support: all wind speed below threshold will be gathered in the class calm
+cut_ws(ws, ws_max = 5, calm = 0.5)
 
 cut_ws(ws, binwidth = 2, ws_max = 5, squish = FALSE)
 

@@ -9,7 +9,8 @@ cut_ws.fun(
   ws_max = NA,
   squish = TRUE,
   right = TRUE,
-  reverse = FALSE
+  reverse = FALSE,
+  calm = NA
 )
 }
 \arguments{
@@ -22,6 +23,9 @@ cut_ws.fun(
 \item{right}{logical, indicating if the intervals should be closed on the right (and open on the left) or vice versa.}
 
 \item{reverse}{reverse order of result. This is sometimes useful when plotting a factor.}
+
+\item{calm}{threshold for calm wind situation. All windspeed below this limit will be assigned the
+the factor level "calm".}
 }
 \value{
 a partial \code{\link[=cut_ws]{cut_ws()}} function with ws as sole argument

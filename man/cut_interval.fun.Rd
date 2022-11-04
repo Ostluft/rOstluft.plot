@@ -24,7 +24,7 @@ cut_width.fun(
 \item{length}{length of each interval}
 
 \item{...}{
-  Arguments passed on to \code{\link[base:cut.default]{base::cut.default}}
+  Arguments passed on to \code{\link[base:cut]{base::cut.default}}
   \describe{
     \item{\code{breaks}}{either a numeric vector of two or more unique cut points or a
     single number (greater than or equal to 2) giving the number of
@@ -42,16 +42,7 @@ cut_width.fun(
 
 \item{width}{The bin width.}
 
-\item{center}{Specify either the position of edge or the center of
-a bin. Since all bins are aligned, specifying the position of a single bin
-(which doesn't need to be in the range of the data) affects the location of
-all bins. If not specified, uses the "tile layers algorithm", and sets
-the boundary to half of the binwidth.
-
-To center on integers, \code{width = 1} and \code{center = 0}.
-\code{boundary = 0.5}.}
-
-\item{boundary}{Specify either the position of edge or the center of
+\item{center, boundary}{Specify either the position of edge or the center of
 a bin. Since all bins are aligned, specifying the position of a single bin
 (which doesn't need to be in the range of the data) affects the location of
 all bins. If not specified, uses the "tile layers algorithm", and sets
@@ -93,7 +84,7 @@ table(res$width)
 \seealso{
 \itemize{
 \item \code{\link[ggplot2:cut_interval]{ggplot2::cut_interval()}}
-\item \code{\link[ggplot2:cut_number]{ggplot2::cut_number()}}
-\item \code{\link[ggplot2:cut_width]{ggplot2::cut_width()}}
+\item \code{\link[ggplot2:cut_interval]{ggplot2::cut_number()}}
+\item \code{\link[ggplot2:cut_interval]{ggplot2::cut_width()}}
 }
 }

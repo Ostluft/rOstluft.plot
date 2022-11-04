@@ -19,7 +19,7 @@ theme_rop_windrose(base = ggplot2::theme_minimal())
 theme_rop_diuarnal(base = ggplot2::theme_classic())
 }
 \arguments{
-\item{base}{a ggplot2 theme. see \link[ggplot2:ggtheme]{ggplot2::ggtheme}}
+\item{base}{a ggplot2 theme. see \code{\link[ggplot2:theme]{ggplot2::theme()}}}
 }
 \description{
 this themes are used in the respective gg wrapper to apply some

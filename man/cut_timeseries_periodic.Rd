@@ -42,7 +42,7 @@ recode factor to change levels)
 }
 \description{
 Appends new factor variables as columns to the dataset, for further use
-with e.g. \code{\link[rOstluft.plot:summary_periodic]{rOstluft.plot::summary_periodic()}} in order to calculate summary stats for
+with e.g. \code{\link[=summary_periodic]{summary_periodic()}} in order to calculate summary stats for
 starttime of the day, date, weekday, weekend, week, month, season, daylight.
 }
 \examples{
