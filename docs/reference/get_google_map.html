@@ -69,7 +69,7 @@ Maps Static API and ggmap::get_googlemap()."><meta property="og:image" content="
     </div>
 
     <div class="ref-description">
-    <p>The functions <code><a href="https://rdrr.io/pkg/ggmap/man/get_googlemap.html" class="external-link">get_googlemap()</a></code> and <code><a href="get_stamen_map.html">get_stamen_map()</a></code> tries to harmonize the calls to <code><a href="https://rdrr.io/pkg/ggmap/man/ggmap.html" class="external-link">ggmap()</a></code>. The objective is
+    <p>The functions <code>get_googlemap()</code> and <code><a href="get_stamen_map.html">get_stamen_map()</a></code> tries to harmonize the calls to <code>ggmap()</code>. The objective is
 to get interchangeable functions with sensible defaults. For example automatic calculation of the zoom. The function
 <code><a href="bbox_lv95.html">bbox_lv95()</a></code> generates a bbox object compatible with both functions. Before using this function you need to register
 your google API key with <code><a href="https://rdrr.io/pkg/ggmap/man/register_google.html" class="external-link">ggmap::register_google()</a></code>. For details consult the documentation of the
@@ -120,6 +120,8 @@ the google maps platform</p></dd>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dkahle/ggmap" class="external-link">ggmap</a></span><span class="op">)</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Google's Terms of Service: https://cloud.google.com/maps-platform/terms/.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Please cite ggmap if you use it! See citation("ggmap") for details.</span>
 <span class="r-in"><span class="fu">ggmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/register_google.html" class="external-link">register_google</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GGMAP_GOOGLE_API_KEY"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">bb</span> <span class="op">&lt;-</span> <span class="fu"><a href="bbox_lv95.html">bbox_lv95</a></span><span class="op">(</span><span class="fl">2683141</span>, <span class="fl">1249040</span>, <span class="fl">500</span><span class="op">)</span> <span class="co"># site Zch_Stamfenbachstrasse</span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Discarded datum CH1903+ in Proj4 definition</span>
