@@ -57,6 +57,10 @@
 #' ggwindrose(data, ws, wd, ws_max = 5,
 #'            fill_scale = scale_fill_manual(values = matlab::jet.colors(6)))
 #'
+#' # reverse the coloring of the fill
+#' ggwindrose(data, ws, wd, ws_max = 4,
+#'            fill_scale = scale_fill_viridis_d(direction = -1))
+#'
 #' # reverse the order of ws, but keep the coloring and legend order
 #' ggwindrose(data, ws, wd, ws_max = 4, reverse = FALSE,
 #'            fill_scale = scale_fill_viridis_d(direction = -1))
@@ -99,7 +103,7 @@ ggwindrose <- function(data, ws, wd,
   ws <- rlang::ensym(ws)  # or enquo but summary_wind accept only strings or symbols
   wd <- rlang::ensym(wd)
   wd_cutfun <- cut_wd.fun(binwidth = wd_binwidth)
-  ws_cutfun <- cut_ws.fun(binwidth = ws_binwidth, ws_max = ws_max)
+  ws_cutfun <- cut_ws.fun(binwidth = ws_binwidth, ws_max = ws_max, reverse = reverse)
 
   data_summarized <- summary_wind(data, !!ws, !!wd, !!ws, groupings = groupings,
                                   wd_cutfun = wd_cutfun, ws_cutfun = ws_cutfun, nmin = nmin)
@@ -167,6 +171,18 @@ ggwindrose <- function(data, ws, wd,
 #'   theme(
 #'     panel.grid.major = element_line(linetype = 2, color = "black", size = 0.5)
 #'    )
+#'
+#' # another fill scale
+#' ggwindrose2(data, ws, wd, ws_max = 5,
+#'            fill_scale = scale_fill_manual(values = matlab::jet.colors(6)))
+#'
+#' # reverse the coloring of the fill
+#' ggwindrose2(data, ws, wd, ws_max = 4,
+#'            fill_scale = scale_fill_viridis_d(direction = -1))
+#'
+#' # reverse the order of ws, but keep the coloring and legend order
+#' ggwindrose2(data, ws, wd, ws_max = 4, reverse = FALSE,
+#'            fill_scale = scale_fill_viridis_d(direction = -1))
 ggwindrose2 <- function(data, ws, wd,
                        wd_binwidth = 45,
                        ws_binwidth = 1,
@@ -219,6 +235,11 @@ ggwindrose2 <- function(data, ws, wd,
   wd_levels <- levels(dplyr::pull(data_summarized, !!wd))
   wd_breaks <- wd_levels[c(0, 90, 180, 270)/360*length(wd_levels)+1]
 
+  ws_breaks <- function(rng) {
+    labeling::extended(0, rng[2], 5, ...)
+  }
+
+
   xexpand <- expansion(add = 0.5)
   yexpand <- expansion(mult = c(yexpand, 0))
 
@@ -226,7 +247,14 @@ ggwindrose2 <- function(data, ws, wd,
     coord_polar2(start = -2 * pi / 360 * wd_binwidth / 2, bg = bg) +
     bar_layer +
     scale_x_discrete(breaks = wd_breaks, labels = c("N", "O", "S", "W"), expand = xexpand, drop = FALSE) +
-    scale_y_continuous(limits = c(0, NA), expand = yexpand, labels = scales::percent) +
+    scale_y_continuous(
+      limits = c(0, NA),
+      expand = yexpand,
+      labels = scales::percent,
+      breaks = function(rng) {
+        labeling::extended(0, rng[2], 5)
+      }
+    ) +
     fill_scale +
     guides(fill = guide_legend(title = rlang::quo_text(ws), reverse = !reverse)) +
     theme_rop_windrose()
@@ -234,7 +262,6 @@ ggwindrose2 <- function(data, ws, wd,
   if (!is.na(calm)) {
     plot <- plot + calm_layer
   }
-
 
   return(plot)
 }

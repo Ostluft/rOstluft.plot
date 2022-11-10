@@ -99,4 +99,16 @@ ggwindrose2(data, ws, wd, ws_max = 5, calm = 0.5, alpha = 0.8, bg = bg) +
   theme(
     panel.grid.major = element_line(linetype = 2, color = "black", size = 0.5)
    )
+
+# another fill scale
+ggwindrose2(data, ws, wd, ws_max = 5,
+           fill_scale = scale_fill_manual(values = matlab::jet.colors(6)))
+
+# reverse the coloring of the fill
+ggwindrose2(data, ws, wd, ws_max = 4,
+           fill_scale = scale_fill_viridis_d(direction = -1))
+
+# reverse the order of ws, but keep the coloring and legend order
+ggwindrose2(data, ws, wd, ws_max = 4, reverse = FALSE,
+           fill_scale = scale_fill_viridis_d(direction = -1))
 }

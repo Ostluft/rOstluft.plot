@@ -64,7 +64,7 @@ cut_wd <- function(
   breaks <- seq(0, 360, binwidth)
   wd <- (wd + binwidth / 2) %% 360
   #labels = labels,
-  cut.default(wd, breaks = breaks,  include.lowest = TRUE, right = FALSE, ordered_result = TRUE)
+  cut.default(wd, breaks = breaks, labels = labels, include.lowest = TRUE, right = FALSE, ordered_result = TRUE)
 }
 
 

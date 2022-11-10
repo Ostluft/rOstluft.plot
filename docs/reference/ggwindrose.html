@@ -166,15 +166,20 @@ to set an aesthetic to a fixed value. Defaults are <code>color = "white", width 
 <span class="r-in">           fill_scale <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu">matlab</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/matlab/man/jet.colors.html" class="external-link">jet.colors</a></span><span class="op">(</span><span class="fl">6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="ggwindrose-7.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
+<span class="r-in"><span class="co"># reverse the coloring of the fill</span></span>
+<span class="r-in"><span class="fu">ggwindrose</span><span class="op">(</span><span class="va">data</span>, <span class="va">ws</span>, <span class="va">wd</span>, ws_max <span class="op">=</span> <span class="fl">4</span>,</span>
+<span class="r-in">           fill_scale <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="ggwindrose-8.png" alt="" width="700" height="433"></span>
+<span class="r-in"></span>
 <span class="r-in"><span class="co"># reverse the order of ws, but keep the coloring and legend order</span></span>
 <span class="r-in"><span class="fu">ggwindrose</span><span class="op">(</span><span class="va">data</span>, <span class="va">ws</span>, <span class="va">wd</span>, ws_max <span class="op">=</span> <span class="fl">4</span>, reverse <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span class="r-in">           fill_scale <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="ggwindrose-8.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="ggwindrose-9.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># faceting: important the faceting variable, must also be in grouping!</span></span>
 <span class="r-in"><span class="fu">ggwindrose</span><span class="op">(</span><span class="va">data</span>, <span class="va">ws</span>, <span class="va">wd</span>, ws_max <span class="op">=</span> <span class="fl">5</span>, groupings <span class="op">=</span> <span class="fu"><a href="grp.html">grp</a></span><span class="op">(</span><span class="va">daylight</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span class="r-in">  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html" class="external-link">vars</a></span><span class="op">(</span><span class="va">daylight</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="ggwindrose-9.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="ggwindrose-10.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># you can use groupings to directly mutate the data for faceting.</span></span>
 <span class="r-in"><span class="co"># in this example we define the groupings external for better</span></span>
@@ -194,7 +199,7 @@ to set an aesthetic to a fixed value. Defaults are <code>color = "white", width 
 <span class="r-in">    axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span class="r-in">    panel.spacing.y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">0</span>, <span class="st">"pt"</span><span class="op">)</span></span>
 <span class="r-in">  <span class="op">)</span></span>
-<span class="r-plt img"><img src="ggwindrose-10.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="ggwindrose-11.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>
