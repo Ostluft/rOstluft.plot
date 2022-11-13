@@ -17,10 +17,13 @@ gg_timevariation(
   statistic = c("mean", "median"),
   draw_ci = TRUE,
   conf_interval = NULL,
+  B = 1000,
   ylab = ggplot2::waiver(),
   ylim = c(NA, NA),
   legend_title = NULL,
-  language_code = "de"
+  language_code = "de",
+  geom = ggplot2::geom_line(size = 1),
+  geom_ci = ggplot2::geom_ribbon(alpha = 0.2)
 )
 
 gg_timevariation_wday_hour(
@@ -33,9 +36,12 @@ gg_timevariation_wday_hour(
   draw_ci = TRUE,
   conf_interval = NULL,
   ylab = ggplot2::waiver(),
+  B = 1000,
   ylim = c(NA, NA),
   legend_title = NULL,
-  language_code = "de"
+  language_code = "de",
+  geom = ggplot2::geom_line(size = 1),
+  geom_ci = ggplot2::geom_ribbon(alpha = 0.2)
 )
 
 gg_timevariation_wday(
@@ -47,10 +53,13 @@ gg_timevariation_wday(
   statistic = c("mean", "median"),
   draw_ci = TRUE,
   conf_interval = NULL,
+  B = 1000,
   ylab = ggplot2::waiver(),
   ylim = c(NA, NA),
   legend_title = NULL,
-  language_code = "de"
+  language_code = "de",
+  geom = ggplot2::geom_line(size = 1),
+  geom_ci = ggplot2::geom_ribbon(alpha = 0.2)
 )
 
 gg_timevariation_month(
@@ -62,10 +71,13 @@ gg_timevariation_month(
   statistic = c("mean", "median"),
   draw_ci = TRUE,
   conf_interval = NULL,
+  B = 1000,
   ylab = ggplot2::waiver(),
   ylim = c(NA, NA),
   legend_title = NULL,
-  language_code = "de"
+  language_code = "de",
+  geom = ggplot2::geom_line(size = 1),
+  geom_ci = ggplot2::geom_ribbon(alpha = 0.2)
 )
 
 gg_timevariation_diurnal(
@@ -77,10 +89,13 @@ gg_timevariation_diurnal(
   statistic = c("mean", "median"),
   draw_ci = TRUE,
   conf_interval = NULL,
+  B = 1000,
   ylab = ggplot2::waiver(),
   ylim = c(NA, NA),
   legend_title = NULL,
-  language_code = "de"
+  language_code = "de",
+  geom = ggplot2::geom_line(size = 1),
+  geom_ci = ggplot2::geom_ribbon(alpha = 0.2)
 )
 }
 \arguments{
@@ -98,16 +113,21 @@ Use \code{rOstluft.plot::grp()} for quoting.
 default \code{rOstluft.plot::grp(site, parameter, interval, unit)}}
 
 \item{statistic}{Can be \verb{“mean”} (default) or \verb{“median”}. If the statistic is ‘mean’ then
-the mean line and the 95\% confidence interval in the mean are plotted by default.
+the mean line and the 95\% confidence interval in the mean are plotted by default. \code{\link[ggplot2:hmisc]{ggplot2::mean_cl_boot()}}
+is used to calculated the intervals trough bootstrap simulations without assuming normality.
 If the statistic is ‘median’ then the median line is plotted together with the
 25/75th quantiles are plotted. Users can control the confidence intervals with
 \code{draw_ci} and \code{conf_interval}}
 
-\item{draw_ci}{if \code{TRUE} draw confidence interval or quantiles}
+\item{draw_ci}{if \code{TRUE} draw confidence interval using \code{\link[ggplot2:hmisc]{ggplot2::mean_cl_boot()}} for \code{"mean"}
+and \code{\link[ggplot2:hmisc]{ggplot2::median_hilow()}} for \code{"median"}.}
 
-\item{conf_interval}{if \code{statistic = "mean"} value of confidence interval used as
-\code{conf.level} in \verb{[stats::t.test()]}. If \code{statistic = "median"} the quantiles of
-\code{conv_interval} and \code{1 - conv_interval} are drawn.}
+\item{conf_interval}{for \code{"mean"} (\code{\link[ggplot2:hmisc]{ggplot2::mean_cl_boot()}}) specifies the confidence level (0-1)
+for interval estimation of the population mean. For  \code{"median"} (\code{\link[ggplot2:hmisc]{ggplot2::median_hilow()}})
+conf_interval is the coverage probability the outer quantiles should target. When the default, 0.5,
+is used, the lower and upper quantiles computed are 0.25 and 0.75}
+
+\item{B}{number of bootstrap resamples for \code{\link[ggplot2:hmisc]{ggplot2::mean_cl_boot()}}}
 
 \item{ylab}{provide a custom y plot label}
 
@@ -117,6 +137,11 @@ If the statistic is ‘median’ then the median line is plotted together with t
 
 \item{language_code}{ISO country code for the language used as weekdays and months
 labels (default: "de")}
+
+\item{geom}{geom used for rendering default \code{\link[ggplot2:geom_path]{ggplot2::geom_line()}}}
+
+\item{geom_ci}{geom used for rendering confidence interval. Must support ymin/ymax mapping.
+default \code{\link[ggplot2:geom_ribbon]{ggplot2::geom_ribbon()}}}
 }
 \value{
 a \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object or in case of \code{gg_timevariaton()} a \link[patchwork:patchwork-package]{patchwork::patchwork}  object
@@ -140,6 +165,9 @@ data <-
 # monthly variation of data
 gg_timevariation_month(data, group = "parameter", ylab = "Konzentration [µg/m3]")
 
+# don't draw a confidence interval
+gg_timevariation_month(data, group = "parameter", draw_ci = FALSE, ylab = "Konzentration [µg/m3]")
+
 # for faceting the variable must be included in the id_cols
 gg_timevariation_wday(
   data,
@@ -149,10 +177,11 @@ gg_timevariation_wday(
 
 # utility function to compose all plots together using patchwork
 # for advanced use cases you should probably compose the plot yourself
-# you can use ylim to start all y axis by 0
+# you can use ylim to start all y axis by 0. Lowering B speed up the process.
 gg_timevariation(
   data,
   group = "parameter",
+  B = 10,
   ylab = "Konzentration [µg/m3]",
   ylim = c(0, NA)
 )
@@ -176,5 +205,17 @@ gg_timevariation_diurnal(
   y = NO2,
   group = "season",
   id_cols = grp(site, season = cut_season(date))
+)
+
+# use an alternative geom
+gg_timevariation_month(
+  data,
+  group = "parameter",
+  ylab = "Konzentration [µg/m3]",
+  B = 10,
+  geom_ci = geom_linerange(size = 2)
+) +
+scale_x_discrete(
+  expand = expansion(mult = 0.02)
 )
 }

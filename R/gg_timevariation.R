@@ -16,19 +16,26 @@
 #'   Use `rOstluft.plot::grp()` for quoting.
 #'   default `rOstluft.plot::grp(site, parameter, interval, unit)`
 #' @param statistic  Can be `“mean”` (default) or `“median”`. If the statistic is ‘mean’ then
-#'   the mean line and the 95% confidence interval in the mean are plotted by default.
+#'   the mean line and the 95% confidence interval in the mean are plotted by default. [ggplot2::mean_cl_boot()]
+#'   is used to calculated the intervals trough bootstrap simulations without assuming normality.
 #'   If the statistic is ‘median’ then the median line is plotted together with the
 #'   25/75th quantiles are plotted. Users can control the confidence intervals with
 #'   `draw_ci` and `conf_interval`
-#' @param draw_ci if `TRUE` draw confidence interval or quantiles
-#' @param conf_interval if `statistic = "mean"` value of confidence interval used as
-#'   `conf.level` in `[stats::t.test()]`. If `statistic = "median"` the quantiles of
-#'   `conv_interval` and `1 - conv_interval` are drawn.
+#' @param draw_ci if `TRUE` draw confidence interval using [ggplot2::mean_cl_boot()] for `"mean"`
+#'   and [ggplot2::median_hilow()] for `"median"`.
+#' @param conf_interval for `"mean"` ([ggplot2::mean_cl_boot()]) specifies the confidence level (0-1)
+#'  for interval estimation of the population mean. For  `"median"` ([ggplot2::median_hilow()])
+#'  conf_interval is the coverage probability the outer quantiles should target. When the default, 0.5,
+#'  is used, the lower and upper quantiles computed are 0.25 and 0.75
+#' @param B	number of bootstrap resamples for [ggplot2::mean_cl_boot()]
 #' @param ylab provide a custom y plot label
 #' @param ylim limits for y scale see [ggplot2::scale_y_continuous()] for more infos.
 #' @param legend_title provide a legend title
 #' @param language_code ISO country code for the language used as weekdays and months
 #'   labels (default: "de")
+#' @param geom geom used for rendering default [ggplot2::geom_line()]
+#' @param geom_ci geom used for rendering confidence interval. Must support ymin/ymax mapping.
+#'   default [ggplot2::geom_ribbon()]
 #'
 #' @return a [ggplot2::ggplot()] object or in case of `gg_timevariaton()` a [patchwork::patchwork]  object
 #' @export
@@ -46,6 +53,9 @@
 #' # monthly variation of data
 #' gg_timevariation_month(data, group = "parameter", ylab = "Konzentration [µg/m3]")
 #'
+#' # don't draw a confidence interval
+#' gg_timevariation_month(data, group = "parameter", draw_ci = FALSE, ylab = "Konzentration [µg/m3]")
+#'
 #' # for faceting the variable must be included in the id_cols
 #' gg_timevariation_wday(
 #'   data,
@@ -55,10 +65,11 @@
 #'
 #' # utility function to compose all plots together using patchwork
 #' # for advanced use cases you should probably compose the plot yourself
-#' # you can use ylim to start all y axis by 0
+#' # you can use ylim to start all y axis by 0. Lowering B speed up the process.
 #' gg_timevariation(
 #'   data,
 #'   group = "parameter",
+#'   B = 10,
 #'   ylab = "Konzentration [µg/m3]",
 #'   ylim = c(0, NA)
 #' )
@@ -83,7 +94,18 @@
 #'   group = "season",
 #'   id_cols = grp(site, season = cut_season(date))
 #' )
-
+#'
+#' # use an alternative geom
+#' gg_timevariation_month(
+#'   data,
+#'   group = "parameter",
+#'   ylab = "Konzentration [µg/m3]",
+#'   B = 10,
+#'   geom_ci = geom_linerange(size = 2)
+#' ) +
+#' scale_x_discrete(
+#'   expand = expansion(mult = 0.02)
+#' )
 gg_timevariation <- function(
   data,
   dt = "starttime",
@@ -93,10 +115,13 @@ gg_timevariation <- function(
   statistic = c("mean", "median"),
   draw_ci = TRUE,
   conf_interval = NULL,
+  B = 1000,
   ylab = ggplot2::waiver(),
   ylim = c(NA, NA),
   legend_title = NULL,
-  language_code = "de"
+  language_code = "de",
+  geom = ggplot2::geom_line(size = 1),
+  geom_ci = ggplot2::geom_ribbon(alpha=0.2)
 ) {
   p1 <- gg_timevariation_wday_hour(
     data = data,
@@ -107,10 +132,13 @@ gg_timevariation <- function(
     statistic = statistic,
     draw_ci = draw_ci,
     conf_interval = conf_interval,
+    B = B,
     ylab = ylab,
     ylim = ylim,
     legend_title = legend_title,
-    language_code = language_code
+    language_code = language_code,
+    geom = geom,
+    geom_ci = geom_ci
   )
 
   p2 <- gg_timevariation_diurnal(
@@ -123,9 +151,12 @@ gg_timevariation <- function(
     draw_ci = draw_ci,
     conf_interval = conf_interval,
     ylab = ylab,
+    B = B,
     ylim = ylim,
     legend_title = legend_title,
-    language_code = language_code
+    language_code = language_code,
+    geom = geom,
+    geom_ci = geom_ci
   ) + theme(legend.position = "none")
 
   p3 <- gg_timevariation_month(
@@ -137,10 +168,13 @@ gg_timevariation <- function(
     statistic = statistic,
     draw_ci = draw_ci,
     conf_interval = conf_interval,
+    B = B,
     ylab = ylab,
     ylim = ylim,
     legend_title = legend_title,
-    language_code = language_code
+    language_code = language_code,
+    geom = geom,
+    geom_ci = geom_ci
   ) +
     theme(legend.position = "none") +
     guides(x = guide_axis(check.overlap = TRUE))
@@ -154,10 +188,13 @@ gg_timevariation <- function(
     statistic = statistic,
     draw_ci = draw_ci,
     conf_interval = conf_interval,
+    B = B,
     ylab = ylab,
     ylim = ylim,
     legend_title = legend_title,
-    language_code = language_code
+    language_code = language_code,
+    geom = geom,
+    geom_ci = geom_ci
   ) + theme(legend.position = "none")
 
   design <- "111
@@ -185,9 +222,12 @@ gg_timevariation_wday_hour <- function(
   draw_ci = TRUE,
   conf_interval = NULL,
   ylab = ggplot2::waiver(),
+  B = 1000,
   ylim = c(NA, NA),
   legend_title = NULL,
-  language_code = "de"
+  language_code = "de",
+  geom = ggplot2::geom_line(size = 1),
+  geom_ci = ggplot2::geom_ribbon(alpha=0.2)
 ) {
   dt <- rlang::ensym(dt)
   y <- rlang::ensym(y)
@@ -214,22 +254,32 @@ gg_timevariation_wday_hour <- function(
     wday_hour = (.data$wday-1)*24 + .data$hour,
   )
 
+  data_summarized <- timevariation_prepare_data(
+    data = data,
+    y = !!y,
+    statistic = statistic,
+    id_cols = id_cols,
+    draw_ci = draw_ci,
+    conf_interval = conf_interval,
+    B = B,
+    wday_hour = .data$wday_hour
+  )
+
+
   data <- dplyr::group_by(data, !!!id_cols, .data$wday_hour)
 
   if (statistic == "mean") {
     data_summarized <- dplyr::summarise(data,
-      ci = broom::tidy(stats::t.test(!!y, conf.level = conf_interval)),
-      !!y := mean(!!y, na.rm = TRUE),
+      ci = ggplot2::mean_cl_boot(!!y, conf.int = conf_interval, B = B),
       .groups = "drop"
     )
-    data_summarized <- tidyr::unnest(data_summarized, .data$ci, names_sep = "#")
+    data_summarized <- tidyr::unnest(data_summarized, .data$ci)
   } else {
     data_summarized <- dplyr::summarise(data,
-      `ci#conf.low` = stats::quantile(!!y, probs = conf_interval, na.rm = TRUE),
-      `ci#conf.high` = stats::quantile(!!y, probs = 1 - conf_interval, na.rm = TRUE),
-      !!y := stats::median(!!y, na.rm = TRUE),
+      ci  = ggplot2::median_hilow(!!y, conf.int = conf_interval),
       .groups = "drop"
     )
+    data_summarized <- tidyr::unnest(data_summarized, .data$ci)
   }
 
   # helper function
@@ -245,19 +295,19 @@ gg_timevariation_wday_hour <- function(
 
   p <- ggplot(data_summarized, aes(
       x = .data$wday_hour,
-      y = !!y,
-      ymin = .data$`ci#conf.low`,
-      ymax = .data$`ci#conf.high`,
+      y = .data$y,
+      ymin = .data$ymin,
+      ymax = .data$ymax,
       color = !!group,
       fill = !!group,
       group = !!group
-    )) +
-    geom_line(size = 1)
+    )) + geom
+
 
 
   if (isTRUE(draw_ci)) {
     message(glue::glue("plotting with statistic {statistic} and confidence interval of {conf_interval}"))
-    p <- p + geom_ribbon(alpha=0.2)
+    p <- p + geom_ci
   }
 
   p <- p +
@@ -302,10 +352,13 @@ gg_timevariation_wday <- function(
   statistic = c("mean", "median"),
   draw_ci = TRUE,
   conf_interval = NULL,
+  B = 1000,
   ylab = ggplot2::waiver(),
   ylim = c(NA, NA),
   legend_title = NULL,
-  language_code = "de"
+  language_code = "de",
+  geom = ggplot2::geom_line(size = 1),
+  geom_ci = ggplot2::geom_ribbon(alpha=0.2)
 ) {
   dt <- rlang::ensym(dt)
   y <- rlang::ensym(y)
@@ -322,47 +375,37 @@ gg_timevariation_wday <- function(
     if (statistic == "mean") {
       conf_interval = 0.95
     } else {
-      conf_interval = 0.25
+      conf_interval = 0.5
     }
   }
 
-  data <- dplyr::mutate(data,
+
+  data_summarized <- timevariation_prepare_data(
+    data = data,
+    y = !!y,
+    statistic = statistic,
+    id_cols = id_cols,
+    draw_ci = draw_ci,
+    conf_interval = conf_interval,
+    B = B,
     wday = clock::date_weekday_factor(!!dt, labels = language_code, encoding = "iso")
   )
 
-  data <- dplyr::group_by(data, !!!id_cols, .data$wday)
-
-  if (statistic == "mean") {
-    data_summarized <- dplyr::summarise(data,
-      ci = broom::tidy(stats::t.test(!!y, conf.level = conf_interval)),
-      !!y := mean(!!y, na.rm = TRUE),
-      .groups = "drop"
-    )
-    data_summarized <- tidyr::unnest(data_summarized, .data$ci, names_sep = "#")
-  } else {
-    data_summarized <- dplyr::summarise(data,
-      `ci#conf.low` = stats::quantile(!!y, probs = conf_interval, na.rm = TRUE),
-      `ci#conf.high` = stats::quantile(!!y, probs = 1 - conf_interval, na.rm = TRUE),
-      !!y := stats::median(!!y, na.rm = TRUE),
-      .groups = "drop"
-    )
-  }
 
   p <- ggplot(data_summarized, aes(
       x = .data$wday,
-      y = !!y,
-      ymin = .data$`ci#conf.low`,
-      ymax = .data$`ci#conf.high`,
+      y = .data$y,
+      ymin = .data$ymin,
+      ymax = .data$ymax,
       color = !!group,
       fill = !!group,
       group = !!group
-    )) +
-    geom_line(size = 1)
+    )) + geom
 
 
   if (isTRUE(draw_ci)) {
     message(glue::glue("plotting with statistic {statistic} and confidence interval of {conf_interval}"))
-    p <- p + geom_ribbon(alpha=0.2)
+    p <- p + geom_ci
   }
 
   p <- p +
@@ -399,10 +442,13 @@ gg_timevariation_month <- function(
   statistic = c("mean", "median"),
   draw_ci = TRUE,
   conf_interval = NULL,
+  B = 1000,
   ylab = ggplot2::waiver(),
   ylim = c(NA, NA),
   legend_title = NULL,
-  language_code = "de"
+  language_code = "de",
+  geom = ggplot2::geom_line(size = 1),
+  geom_ci = ggplot2::geom_ribbon(alpha=0.2)
 ) {
   dt <- rlang::ensym(dt)
   y <- rlang::ensym(y)
@@ -423,43 +469,30 @@ gg_timevariation_month <- function(
     }
   }
 
-  data <- dplyr::mutate(data,
+  data_summarized <- timevariation_prepare_data(
+    data = data,
+    y = !!y,
+    statistic = statistic,
+    id_cols = id_cols,
+    draw_ci = draw_ci,
+    conf_interval = conf_interval,
+    B = B,
     month = clock::date_month_factor(!!dt, labels = language_code, abbreviate = TRUE)
   )
 
-  data <- dplyr::group_by(data, !!!id_cols, .data$month)
-
-  if (statistic == "mean") {
-    data_summarized <- dplyr::summarise(data,
-      ci = broom::tidy(stats::t.test(!!y, conf.level = conf_interval)),
-      !!y := mean(!!y, na.rm = TRUE),
-      .groups = "drop"
-    )
-    data_summarized <- tidyr::unnest(data_summarized, .data$ci, names_sep = "#")
-  } else {
-    data_summarized <- dplyr::summarise(data,
-      `ci#conf.low` = stats::quantile(!!y, probs = conf_interval, na.rm = TRUE),
-      `ci#conf.high` = stats::quantile(!!y, probs = 1 - conf_interval, na.rm = TRUE),
-      !!y := stats::median(!!y, na.rm = TRUE),
-      .groups = "drop"
-    )
-  }
-
   p <- ggplot(data_summarized, aes(
       x = .data$month,
-      y = !!y,
-      ymin = .data$`ci#conf.low`,
-      ymax = .data$`ci#conf.high`,
+      y = .data$y,
+      ymin = .data$ymin,
+      ymax = .data$ymax,
       color = !!group,
       fill = !!group,
       group = !!group
-    )) +
-    geom_line(size = 1)
-
+    )) + geom
 
   if (isTRUE(draw_ci)) {
     message(glue::glue("plotting with statistic {statistic} and confidence interval of {conf_interval}"))
-    p <- p + geom_ribbon(alpha=0.2)
+    p <- p + geom_ci
   }
 
   p <- p +
@@ -494,10 +527,13 @@ gg_timevariation_diurnal <- function(
   statistic = c("mean", "median"),
   draw_ci = TRUE,
   conf_interval = NULL,
+  B = 1000,
   ylab = ggplot2::waiver(),
   ylim = c(NA, NA),
   legend_title = NULL,
-  language_code = "de"
+  language_code = "de",
+  geom = ggplot2::geom_line(size = 1),
+  geom_ci = ggplot2::geom_ribbon(alpha=0.2)
 ) {
   dt <- rlang::ensym(dt)
   y <- rlang::ensym(y)
@@ -518,43 +554,32 @@ gg_timevariation_diurnal <- function(
     }
   }
 
-  data <- dplyr::mutate(data,
+  data_summarized <- timevariation_prepare_data(
+    data = data,
+    y = !!y,
+    statistic = statistic,
+    id_cols = id_cols,
+    conf_interval = conf_interval,
+    draw_ci = draw_ci,
+    B = B,
     hour = clock::get_hour(!!dt)
   )
 
-  data <- dplyr::group_by(data, !!!id_cols, .data$hour)
-
-  if (statistic == "mean") {
-    data_summarized <- dplyr::summarise(data,
-      ci = broom::tidy(stats::t.test(!!y, conf.level = conf_interval)),
-      !!y := mean(!!y, na.rm = TRUE),
-      .groups = "drop"
-    )
-    data_summarized <- tidyr::unnest(data_summarized, .data$ci, names_sep = "#")
-  } else {
-    data_summarized <- dplyr::summarise(data,
-      `ci#conf.low` = stats::quantile(!!y, probs = conf_interval, na.rm = TRUE),
-      `ci#conf.high` = stats::quantile(!!y, probs = 1 - conf_interval, na.rm = TRUE),
-      !!y := stats::median(!!y, na.rm = TRUE),
-      .groups = "drop"
-    )
-  }
-
   p <- ggplot(data_summarized, aes(
       x = .data$hour,
-      y = !!y,
-      ymin = .data$`ci#conf.low`,
-      ymax = .data$`ci#conf.high`,
+      y = .data$y,
+      ymin = .data$ymin,
+      ymax = .data$ymax,
       color = !!group,
       fill = !!group,
       group = !!group
-    )) +
-    geom_line(size = 1)
+    )) + geom
+
 
 
   if (isTRUE(draw_ci)) {
     message(glue::glue("plotting with statistic {statistic} and confidence interval of {conf_interval}"))
-    p <- p + geom_ribbon(alpha=0.2)
+    p <- p + geom_ci
   }
 
   p <- p +
@@ -577,3 +602,71 @@ gg_timevariation_diurnal <- function(
   p
 }
 
+timevariation_prepare_data <- function(
+  data,
+  y,
+  statistic,
+  id_cols,
+  draw_ci,
+  conf_interval,
+  B,
+  ...
+) {
+
+#   data <- dplyr::mutate(data,
+#     hour = clock::get_hour(!!dt)
+#   )
+#
+#   data <- dplyr::group_by(data, !!!id_cols, .data$hour)
+#
+#   if (statistic == "mean") {
+#     data_summarized <- dplyr::summarise(data,
+#       ci = ggplot2::mean_cl_boot(!!y, conf.int = conf_interval, B = B),
+#       .groups = "drop"
+#     )
+#     data_summarized <- tidyr::unnest(data_summarized, .data$ci)
+#   } else {
+#     data_summarized <- dplyr::summarise(data,
+#       ci  = ggplot2::median_hilow(!!y, conf.int = conf_interval),
+#       .groups = "drop"
+#     )
+#     data_summarized <- tidyr::unnest(data_summarized, .data$ci)
+#   }
+
+#  dots <- rlang::dots_list(..., .named = TRUE)
+  y <- rlang::ensym(y)
+
+  data <- dplyr::group_by(data, !!!id_cols, ...)
+
+
+  if (isTRUE(draw_ci)) {
+    if (statistic == "mean") {
+      data_summarized <- dplyr::summarise(data,
+        ci = ggplot2::mean_cl_boot(!!y, conf.int = conf_interval, B = B),
+        .groups = "drop"
+      )
+      data_summarized <- tidyr::unnest(data_summarized, .data$ci)
+    } else {
+      data_summarized <- dplyr::summarise(data,
+        ci  = ggplot2::median_hilow(!!y, conf.int = conf_interval),
+        .groups = "drop"
+      )
+      data_summarized <- tidyr::unnest(data_summarized, .data$ci)
+    }
+  } else {
+    if (statistic == "mean") {
+      data_summarized <- dplyr::summarise(data,
+        y = mean(!!y, na.rm = TRUE),
+        .groups = "drop"
+      )
+      data_summarized <- dplyr::mutate(data_summarized, ymin = y, ymax = y)
+    } else {
+      data_summarized <- dplyr::summarise(data,
+        y = stats::median(!!y, na.rm = TRUE),
+        .groups = "drop"
+      )
+      data_summarized <- dplyr::mutate(data_summarized, ymin = y, ymax = y)
+    }
+  }
+  data_summarized
+}

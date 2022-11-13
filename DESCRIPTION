@@ -1,7 +1,7 @@
 Package: rOstluft.plot
 Type: Package
 Title: Ploting air quality data
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(
   person("Thomas", "von Allmen", email = "thomas.vonallmen@zuerich.ch", role = c("aut", "cre")),
   person("Jörg", "Sintermann", role = c("aut")),
@@ -33,7 +33,7 @@ Imports:
     suncalc,
     lemon, 
     clock,
-    broom,
+    labeling,
     glue,
     patchwork
 Suggests:
