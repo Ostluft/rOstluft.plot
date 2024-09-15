@@ -69,7 +69,7 @@
 #' # theming: only major grid is draw
 #' p + coord_cartpolar() +
 #'   theme(
-#'     "panel.grid.major.x" = element_line(color = "red", size = 2, linetyp = "dashed"),
+#'     "panel.grid.major.x" = element_line(color = "red", linewidth = 2, linetyp = "dashed"),
 #'     "panel.grid.major.y" = element_line(color = "green", arrow = arrow()),
 #'     "axis.text.x" = element_text(color = "violet", size = 14, face = "bold"),
 #'     "axis.text.y" = element_text(color = "blue")
@@ -78,7 +78,7 @@
 #'
 #' # background map
 #' bb <- bbox_lv95(2683141, 1249040, 500)
-#' bg <- get_stamen_map(bb)
+#' bg <- get_stadia_map(bb)
 #'
 #' p + coord_cartpolar(bg = bg)
 #'
@@ -104,15 +104,15 @@
 #'   geom_raster(alpha = 0.5) +
 #'   scale_y_continuous(expand = c(0, 0.5, 0, 0.5))
 coord_cartpolar <- function(limit = NA, expand = TRUE, clip = "on",
-                             bg = NULL, grid = c("background", "foreground")) {
+                            bg = NULL, grid = c("background", "foreground")) {
   grid <- match.arg(grid)
 
   ggproto(NULL, CoordCartPolar,
-    limit = limit,
-    expand = expand,
-    clip = clip,
-    bg = bg,
-    grid = grid
+          limit = limit,
+          expand = expand,
+          clip = clip,
+          bg = bg,
+          grid = grid
   )
 }
 
@@ -142,7 +142,6 @@ CoordCartPolar <- ggproto("CoordCartPolar", CoordCartesian,
   },
 
   setup_panel_params = function(self, scale_x, scale_y, params) {
-
     if (is.na(self$limit)) {
       if (is.null(scale_y$limits) || all(is.na(scale_y$limits))) {
         uv_range <- c(scale_x$range$range, scale_y$range$range)
@@ -153,19 +152,6 @@ CoordCartPolar <- ggproto("CoordCartPolar", CoordCartesian,
     }
 
     scale_y$limits <- c(-self$limit, self$limit)
-
-    if (isTRUE(self$expand)) {
-      expand <- expand_default(scale_y)
-    } else {
-      expand <- c(0, 0)
-    }
-
-    uv_range <- scale_y$dimension(expand)
-    uv_info <- scale_y$break_info(uv_range)
-    uv_info$major <- uv_rescale(uv_info$major, c(0,1))
-    uv_info$minor <- uv_rescale(uv_info$minor, c(0,1))
-    uv_info$arrange <- scale_y$axis_order()
-    uv_info <- rlang::set_names(uv_info, paste("uv.", names(uv_info), sep = ""))
 
     if (scale_x$is_discrete()) {
       stop("coord_cartpolar doesn't support discrete x scale")
@@ -179,18 +165,48 @@ CoordCartPolar <- ggproto("CoordCartPolar", CoordCartesian,
       scale_x$labels <- c("N", "O", "S", "W")
     }
 
+    scale_y_as_x <- ggproto(NULL, scale_y)
+
+    scale_y_as_x$aesthetics <- scale_x$aesthetics
+
+
+    if (isTRUE(self$expand)) {
+      expand <- expand_default(scale_y)
+    } else {
+      expand <- c(0, 0)
+    }
+
+    uv_range <- scale_y$dimension(expand)
+    uv_info <- scale_y$break_info(uv_range)
+
+    scale_y$breaks <- purrr::keep(uv_info$major_source, ~ .x >= 0)
+    scale_y$minor_breaks <- purrr::keep(uv_info$minor_source, ~ .x >= 0)
+
+    uv_info$major <- uv_rescale(uv_info$major, c(0,1))
+    uv_info$minor <- uv_rescale(uv_info$minor, c(0,1))
+    uv_info$arrange <- scale_y$axis_order()
+    uv_info <- rlang::set_names(uv_info, paste("uv.", names(uv_info), sep = ""))
+
     wd_info <- scale_x$break_info(c(0, 360))
     wd_info$major <- wd_rescale(wd_info$major)
     wd_info$minor <- wd_rescale(wd_info$minor)
     wd_info$arrange <- scale_x$axis_order()
     wd_info <- rlang::set_names(wd_info, paste("wd.", names(wd_info), sep = ""))
 
+    panel_params <- ggproto_parent(CoordCartesian, self)$setup_panel_params(scale_y_as_x, scale_y, params)
+
     c(
+      y = panel_params[["y"]],
       uv_info,
       wd_info
     )
   },
 
+  # setup_panel_guides = function(self, panel_params, guides, params = list()) {
+  #   panel_guides <- ggproto_parent(CoordCartesian, self)$setup_panel_guides(panel_params, guides, params)
+  #   browser()
+  #   panel_guides
+  # },
 
   render_bg = function(self, panel_params, theme) {
     elements = list()
@@ -220,32 +236,16 @@ CoordCartPolar <- ggproto("CoordCartPolar", CoordCartesian,
     rlang::exec(grid::grobTree, !!!elements, name = "panel_foreground")
   },
 
-  # use the render_axis_h method of CoordPolar
-  # see https://stackoverflow.com/questions/55282193/call-setup-data-from-parent-class
-  render_axis_h = .subset2(ggplot2::CoordPolar, "render_axis_h"),
+  render_axis_h = function(self, panel_params, theme) {
+    # no horizontal axis will be draw => perhaps make this configurable?
+    list(top = ggplot2::zeroGrob(), bottom = ggplot2::zeroGrob())
+  },
 
   render_axis_v = function(self, panel_params, theme) {
     # only render the positiv side of the axis to emulate coord_polar
-    major <- purrr::map_lgl(panel_params$uv.major_source, ~ . >= 0)
-    minor <- purrr::map_lgl(panel_params$uv.minor_source, ~ . >= 0)
-
-
-    # ggplot2::render_axis isn't exported but we can
-    # rename the uv params to y and call the parent method
-    panel_params <- list(
-      y.range = panel_params$uv.range,
-      y.labels = panel_params$uv.labels[major],
-      y.major = panel_params$uv.major[major],
-      y.major_source = panel_params$uv.major_source[major],
-      y.minor = panel_params$uv.minor[minor],
-      y.minor_source = panel_params$uv.minor_source[minor],
-      y.arrange = panel_params$uv.arrange
-    )
-
     ggproto_parent(CoordCartesian, self)$render_axis_v(panel_params, theme)
   }
 )
-
 
 uv_rescale <- function(uv, range) {
   uv <- scales::rescale(uv, c(0.10, 0.90), range)
@@ -266,7 +266,7 @@ render_polargrid <- function(self, panel_params, theme) {
     uvmajor <- as.numeric(purrr::keep(panel_params$uv.major - 0.5, ~ . > 0))
     # ymajor <- r_rescale(self, ymajor, panel_params$x.range)
     elements$uvmajor <- element_render_circle(theme, "panel.grid.major.x", name = "uvmajor",
-      x = rep(0.5, length(uvmajor)), y = rep(0.5, length(uvmajor)), r = uvmajor
+                                              x = rep(0.5, length(uvmajor)), y = rep(0.5, length(uvmajor)), r = uvmajor
     )
   }
 
@@ -297,5 +297,3 @@ render_polargrid <- function(self, panel_params, theme) {
 
   elements
 }
-
-
