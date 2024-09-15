@@ -40,7 +40,7 @@ the google maps platform}
 a ggmap object (a classed raster object with a bounding box attribute)
 }
 \description{
-The functions \code{\link[=get_googlemap]{get_googlemap()}} and \code{\link[=get_stamen_map]{get_stamen_map()}} tries to harmonize the calls to \code{\link[=ggmap]{ggmap()}}. The objective is
+The functions \code{\link[=get_googlemap]{get_googlemap()}} and \code{\link[=get_stadia_map]{get_stadia_map()}} tries to harmonize the calls to \code{\link[=ggmap]{ggmap()}}. The objective is
 to get interchangeable functions with sensible defaults. For example automatic calculation of the zoom. The function
 \code{\link[=bbox_lv95]{bbox_lv95()}} generates a bbox object compatible with both functions. Before using this function you need to register
 your google API key with \code{\link[ggmap:register_google]{ggmap::register_google()}}. For details consult the documentation of the

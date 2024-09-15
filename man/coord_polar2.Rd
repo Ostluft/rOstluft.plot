@@ -26,7 +26,7 @@ ggplot2 coord system
 \description{
 The differences between \code{\link[ggplot2:coord_polar]{ggplot2::coord_polar()}} and \code{\link[=coord_polar2]{coord_polar2()}} are:
 \itemize{
-\item Add a raster (image) as background. As example a map created with \code{\link[=get_stamen_map]{get_stamen_map()}}
+\item Add a raster (image) as background. As example a map created with \code{\link[=get_stadia_map]{get_stadia_map()}}
 \item \code{\link[ggplot2:coord_polar]{ggplot2::coord_polar()}} always adds an outer circle with r = 0.45 to the plot. This circle is removed.
 }
 }
@@ -52,7 +52,7 @@ wind_rose <- ggplot(data_summarized, aes(x = wd, y = freq, fill = ws)) +
 
 # background map
 bbox <- bbox_lv95(2683141, 1249040, 500)
-bg <- get_stamen_map(bbox)
+bg <- get_stadia_map(bbox)
 
 wind_rose + coord_polar2(start = - 45 * pi / 360, bg = bg)
 

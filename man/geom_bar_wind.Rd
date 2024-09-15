@@ -39,18 +39,38 @@ stat_summary_wind(
 )
 }
 \arguments{
-\item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{aes()}} or
-\code{\link[ggplot2:aes_]{aes_()}}. If specified and \code{inherit.aes = TRUE} (the
-default), it is combined with the default mapping at the top level of the
-plot. You must supply \code{mapping} if there is no plot mapping.}
+\item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{aes()}}. If specified and
+\code{inherit.aes = TRUE} (the default), it is combined with the default mapping
+at the top level of the plot. You must supply \code{mapping} if there is no plot
+mapping.}
 
 \item{data}{a data.frame or tibble containing the data (wide format)}
 
-\item{stat}{The statistical transformation to use on the data for this
-layer, as a string.}
+\item{stat}{The statistical transformation to use on the data for this layer.
+When using a \verb{geom_*()} function to construct a layer, the \code{stat}
+argument can be used the override the default coupling between geoms and
+stats. The \code{stat} argument accepts the following:
+\itemize{
+\item A \code{Stat} ggproto subclass, for example \code{StatCount}.
+\item A string naming the stat. To give the stat as a string, strip the
+function name of the \code{stat_} prefix. For example, to use \code{stat_count()},
+give the stat as \code{"count"}.
+\item For more information and other ways to specify the stat, see the
+\link[ggplot2:layer_stats]{layer stat} documentation.
+}}
 
-\item{position}{Position adjustment, either as a string, or the result of
-a call to a position adjustment function.}
+\item{position}{A position adjustment to use on the data for this layer. This
+can be used in various ways, including to prevent overplotting and
+improving the display. The \code{position} argument accepts the following:
+\itemize{
+\item The result of calling a position function, such as \code{position_jitter()}.
+This method allows for passing extra arguments to the position.
+\item A string naming the position adjustment. To give the position as a
+string, strip the function name of the \code{position_} prefix. For example,
+to use \code{position_jitter()}, give the position as \code{"jitter"}.
+\item For more information and other ways to specify the position, see the
+\link[ggplot2:layer_positions]{layer position} documentation.
+}}
 
 \item{...}{Other arguments passed on to \code{\link[=layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
@@ -81,7 +101,18 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 
-\item{geom}{The geometric object to use display the data}
+\item{geom}{The geometric object to use to display the data for this layer.
+When using a \verb{stat_*()} function to construct a layer, the \code{geom} argument
+can be used to override the default coupling between stats and geoms. The
+\code{geom} argument accepts the following:
+\itemize{
+\item A \code{Geom} ggproto subclass, for example \code{GeomPoint}.
+\item A string naming the geom. To give the geom as a string, strip the
+function name of the \code{geom_} prefix. For example, to use \code{geom_point()},
+give the geom as \code{"point"}.
+\item For more information and other ways to specify the geom, see the
+\link[ggplot2:layer_geoms]{layer geom} documentation.
+}}
 
 \item{groupings}{additional groupings. Use helper \code{\link[=grp]{grp()}} to create}
 }
@@ -116,7 +147,7 @@ data <- rOstluft::read_airmo_csv(fn)
 data <- rOstluft::rolf_to_openair(data)
 
 # a simple wind rose
-ggplot(data, aes(x = stat(wd), y = stat(freq), fill = stat(ws))) +
+ggplot(data, aes(x = after_stat(wd), y = after_stat(freq), fill = after_stat(stat))) +
   geom_bar_wind(
     mapping = aes(wd = wd, ws = ws, z = ws),
     ws_cutfun = cut_ws.fun(ws_max = 4),
@@ -126,8 +157,6 @@ ggplot(data, aes(x = stat(wd), y = stat(freq), fill = stat(ws))) +
   coord_polar2(start = - 22.5 / 180 * pi ) +
   scale_fill_viridis_d(direction = -1)
 
-#
-
 # use stat_summary_wind to generate a radar plot using
 # the polygon geom, position "identity" and coord_radar()
 f <- list(
@@ -136,7 +165,7 @@ f <- list(
   "perc95" = ~ stats::quantile(., probs = 0.95)
 )
 
-ggplot(data, aes(x = stat(wd), y = stat(z), color = stat(stat), group = stat(stat))) +
+ggplot(data, aes(x = after_stat(wd), y = after_stat(z), color = after_stat(stat), group = after_stat(stat))) +
   stat_summary_wind(
     mapping = aes(wd = wd, ws = ws, z = NOx),
     geom = "polygon", position = "identity",

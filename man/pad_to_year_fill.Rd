@@ -25,7 +25,7 @@ This function pad data to complete years. The fill mechanism is:
 \item group data by columns provided by \code{...} or all factor/character columns
 \item \code{\link[dplyr:group_nest]{dplyr::group_nest()}}
 \item pass the nested data for each group to \code{\link[=pad_to_year]{pad_to_year()}} with the min- and max time
-\item \code{\link[tidyr:nest]{tidyr::unnest()}}
+\item \code{\link[tidyr:unnest]{tidyr::unnest()}}
 }
 }
 \examples{

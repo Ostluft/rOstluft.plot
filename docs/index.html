@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Ploting air quality data • rOstluft.plot</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -12,89 +12,57 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Ploting air quality data">
+<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Ploting air quality data">
+<meta name="description" content="This package provides functions to quickly display data as diagrams.">
 <meta property="og:description" content="This package provides functions to quickly display data as diagrams.">
 <meta property="og:image" content="/logo.png">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
 </head>
-<body data-spy="scroll" data-target="#toc">
-    
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
-    <div class="container template-home">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">rOstluft.plot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.1</span>
-      </span>
-    </div>
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
-  <a href="reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/articles/Kalender_Linie.html">Linien Kalender</a>
-    </li>
-    <li>
-      <a href="articles/articles/Wind_Density.html">Diurnal Wind als Density und Boxplot</a>
-    </li>
+    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
+
+    <a class="navbar-brand me-2" href="index.html">rOstluft.plot</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="active nav-item"><a class="nav-link" href="index.html"><span class="fa fa-home fa-lg"></span></a></li>
+<li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="articles/Kalender_Linie.html">Linien Kalender</a></li>
+    <li><a class="dropdown-item" href="articles/Wind_Density.html">Diurnal Wind als Density und Boxplot</a></li>
   </ul>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/Ostluft/rOstluft.plot" class="external-link">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/Ostluft/rOstluft.plot"><span class="fa fa-github fa-lg"></span></a></li>
       </ul>
 </div>
-<!--/.nav-collapse -->
+
+
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
-
-      
-
-      </header><div class="row">
-  <div class="contents col-md-9">
-
-<p><img src="reference/figures/logo.png" align="right"></p>
+</nav><div class="container template-home">
+<div class="row">
+  <main id="main" class="col-md-9"><p><img src="reference/figures/logo.png" align="right"></p>
 <div class="section level1">
-<div class="page-header"><h1 id="rostluftplot">rOstluft.plot<a class="anchor" aria-label="anchor" href="#rostluftplot"></a>
-</h1></div>
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="rostluftplot">rOstluft.plot<a class="anchor" aria-label="anchor" href="#rostluftplot"></a>
+</h1>
+</div>
 <p>Erstellen von Diagrammen für Ostluft Auswertungen und Berichte mit Bezug zu Luftschadstoffen und Meteorologie. Einige Funktionen sind aus dem package <a href="http://www.openair-project.org" class="external-link">openair</a> abgeleitet. Alle plot-Funktionen sind grundsätzlich auf das <a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a> package bezogen.</p>
 </div>
 <div class="section level1">
@@ -102,121 +70,121 @@
 </h1>
 <p>Der Quellcode von <a href="https://github.com/Ostluft/rOstluft.plot" class="external-link">rOstluft.plot</a> ist auf github gehosted. Die einfachste Variante ist die Installation mit Hilfe des Packages devtools:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"Ostluft/rOstluft.plot"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">#install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"Ostluft/rOstluft.plot"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level1">
 <h1 id="beispiele">Beispiele<a class="anchor" aria-label="anchor" href="#beispiele"></a>
 </h1>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Ostluft/rOstluft.plot" class="external-link">rOstluft.plot</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Ostluft/rOstluft" class="external-link">rOstluft</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Ostluft/rOstluft.data" class="external-link">rOstluft.data</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org" class="external-link">lubridate</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org" class="external-link">purrr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://scales.r-lib.org" class="external-link">scales</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://davidcarslaw.github.io/openair/" class="external-link">openair</a></span><span class="op">)</span>
-
-<span class="va">data</span> <span class="op">&lt;-</span>
-  <span class="fu">rOstluft.data</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft.data/man/f.html" class="external-link">f</a></span><span class="op">(</span><span class="st">"Zch_Stampfenbachstrasse_2010-2014.csv"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/read_airmo_csv.html" class="external-link">read_airmo_csv</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/rolf_to_openair.html" class="external-link">rolf_to_openair</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">openair</span><span class="fu">::</span><span class="fu"><a href="https://davidcarslaw.github.io/openair/reference/cutData.html" class="external-link">cutData</a></span><span class="op">(</span><span class="va">date</span>, type <span class="op">=</span> <span class="st">"daylight"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>
-    wday <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/day.html" class="external-link">wday</a></span><span class="op">(</span><span class="va">date</span>, label <span class="op">=</span> <span class="cn">TRUE</span>, week_start <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,
-    year <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html" class="external-link">year</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span>
-  <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Ostluft/rOstluft.plot" class="external-link">rOstluft.plot</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Ostluft/rOstluft" class="external-link">rOstluft</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Ostluft/rOstluft.data" class="external-link">rOstluft.data</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org" class="external-link">lubridate</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://scales.r-lib.org" class="external-link">scales</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://davidcarslaw.github.io/openair/" class="external-link">openair</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">rOstluft.data</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft.data/man/f.html" class="external-link">f</a></span><span class="op">(</span><span class="st">"Zch_Stampfenbachstrasse_2010-2014.csv"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/read_airmo_csv.html" class="external-link">read_airmo_csv</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/rolf_to_openair.html" class="external-link">rolf_to_openair</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">openair</span><span class="fu">::</span><span class="fu"><a href="https://davidcarslaw.github.io/openair/reference/cutData.html" class="external-link">cutData</a></span><span class="op">(</span><span class="va">date</span>, type <span class="op">=</span> <span class="st">"daylight"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    wday <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/day.html" class="external-link">wday</a></span><span class="op">(</span><span class="va">date</span>, label <span class="op">=</span> <span class="cn">TRUE</span>, week_start <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>    year <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html" class="external-link">year</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="windrose-auf-karte">Windrose auf Karte<a class="anchor" aria-label="anchor" href="#windrose-auf-karte"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">bb</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bbox_lv95.html">bbox_lv95</a></span><span class="op">(</span><span class="fl">2683141</span>, <span class="fl">1249040</span>, <span class="fl">500</span><span class="op">)</span>
-<span class="va">bg</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_stamen_map.html">get_stamen_map</a></span><span class="op">(</span><span class="va">bb</span><span class="op">)</span>
-
-<span class="fu"><a href="reference/ggwindrose.html">ggwindrose</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">ws</span>, <span class="va">wd</span>, ws_max <span class="op">=</span> <span class="fl">4</span>, bg <span class="op">=</span> <span class="va">bg</span>, <span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>
-    panel.grid.major <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>linetype <span class="op">=</span> <span class="fl">2</span>, color <span class="op">=</span> <span class="st">"black"</span>, size <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>
-   <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">bb</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bbox_lv95.html">bbox_lv95</a></span><span class="op">(</span><span class="fl">2683141</span>, <span class="fl">1249040</span>, <span class="fl">500</span><span class="op">)</span></span>
+<span><span class="va">bg</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_stadia_map.html">get_stadia_map</a></span><span class="op">(</span><span class="va">bb</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/ggwindrose.html">ggwindrose</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">ws</span>, <span class="va">wd</span>, ws_max <span class="op">=</span> <span class="fl">4</span>, bg <span class="op">=</span> <span class="va">bg</span>, <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
+<span>    panel.grid.major <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>linetype <span class="op">=</span> <span class="fl">2</span>, color <span class="op">=</span> <span class="st">"black"</span>, size <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<span>   <span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-ggwindrose-1.png" width="100%"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Für Facetten müssen die facet Variablen in groupings enthalten sein:</span>
-<span class="fu"><a href="reference/ggwindrose.html">ggwindrose</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">ws</span>, <span class="va">wd</span>, ws_max <span class="op">=</span> <span class="fl">4</span>, groupings <span class="op">=</span> <span class="fu"><a href="reference/grp.html">grp</a></span><span class="op">(</span><span class="va">daylight</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/vars.html" class="external-link">vars</a></span><span class="op">(</span><span class="va">daylight</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Für Facetten müssen die facet Variablen in groupings enthalten sein:</span></span>
+<span><span class="fu"><a href="reference/ggwindrose.html">ggwindrose</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">ws</span>, <span class="va">wd</span>, ws_max <span class="op">=</span> <span class="fl">4</span>, groupings <span class="op">=</span> <span class="fu"><a href="reference/grp.html">grp</a></span><span class="op">(</span><span class="va">daylight</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html" class="external-link">vars</a></span><span class="op">(</span><span class="va">daylight</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-ggwindrose-2.png" width="100%"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># y Achse kann wie gewohnt mit einer scale_y_continuous angepasst werden</span>
-<span class="co"># das untere Limit sollte auf 0 gesetzt werden</span>
-<span class="fu"><a href="reference/ggwindrose.html">ggwindrose</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">ws</span>, <span class="va">wd</span>, ws_max <span class="op">=</span> <span class="fl">4</span>, groupings <span class="op">=</span> <span class="fu"><a href="reference/grp.html">grp</a></span><span class="op">(</span><span class="va">daylight</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/vars.html" class="external-link">vars</a></span><span class="op">(</span><span class="va">daylight</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>
-    limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="cn">NA</span><span class="op">)</span>, 
-    expand <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/expansion.html" class="external-link">expand_scale</a></span><span class="op">(</span><span class="op">)</span>, 
-    labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/percent_format.html" class="external-link">percent_format</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,
-    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.3</span>, <span class="fl">0.05</span><span class="op">)</span>
-  <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># y Achse kann wie gewohnt mit einer scale_y_continuous angepasst werden</span></span>
+<span><span class="co"># das untere Limit sollte auf 0 gesetzt werden</span></span>
+<span><span class="fu"><a href="reference/ggwindrose.html">ggwindrose</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">ws</span>, <span class="va">wd</span>, ws_max <span class="op">=</span> <span class="fl">4</span>, groupings <span class="op">=</span> <span class="fu"><a href="reference/grp.html">grp</a></span><span class="op">(</span><span class="va">daylight</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html" class="external-link">vars</a></span><span class="op">(</span><span class="va">daylight</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span></span>
+<span>    limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="cn">NA</span><span class="op">)</span>, </span>
+<span>    expand <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/expansion.html" class="external-link">expand_scale</a></span><span class="op">(</span><span class="op">)</span>, </span>
+<span>    labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/percent_format.html" class="external-link">percent_format</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span>
+<span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.3</span>, <span class="fl">0.05</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-ggwindrose-3.png" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="radar-chart-windstatistik">Radar-chart Windstatistik<a class="anchor" aria-label="anchor" href="#radar-chart-windstatistik"></a>
 </h2>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Simpler Radarplot</span>
-<span class="fu"><a href="reference/ggradar.html">ggradar</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">wd</span>, <span class="va">NOx</span>, fill <span class="op">=</span> <span class="st">"gray30"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Simpler Radarplot</span></span>
+<span><span class="fu"><a href="reference/ggradar.html">ggradar</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">wd</span>, <span class="va">NOx</span>, fill <span class="op">=</span> <span class="st">"gray30"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-ggradar-1.png" width="100%"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># mehrere Statistik Funktionen</span>
-<span class="va">q05</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">0.05</span>, <span class="va">...</span><span class="op">)</span>
-<span class="va">q95</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">0.95</span>, <span class="va">...</span><span class="op">)</span>
-<span class="va">stat_reorder</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">stat</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">stat</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"perc05"</span>, <span class="st">"median"</span>, <span class="st">"mean"</span>, <span class="st">"perc95"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="fu"><a href="reference/ggradar.html">ggradar</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">wd</span>, <span class="va">NOx</span>,
-    fun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"perc05"</span> <span class="op">=</span> <span class="va">q05</span>, <span class="st">"median"</span>, <span class="st">"mean"</span>, <span class="st">"perc95"</span> <span class="op">=</span> <span class="va">q95</span><span class="op">)</span>,
-    fun_reorder <span class="op">=</span> <span class="va">stat_reorder</span>, color <span class="op">=</span> <span class="cn">NA</span>, alpha <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">120</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>begin <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># mehrere Statistik Funktionen</span></span>
+<span><span class="va">q05</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">0.05</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="va">q95</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">0.95</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="va">stat_reorder</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">stat</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">stat</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"perc05"</span>, <span class="st">"median"</span>, <span class="st">"mean"</span>, <span class="st">"perc95"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/ggradar.html">ggradar</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">wd</span>, <span class="va">NOx</span>,</span>
+<span>    fun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"perc05"</span> <span class="op">=</span> <span class="va">q05</span>, <span class="st">"median"</span>, <span class="st">"mean"</span>, <span class="st">"perc95"</span> <span class="op">=</span> <span class="va">q95</span><span class="op">)</span>,</span>
+<span>    fun_reorder <span class="op">=</span> <span class="va">stat_reorder</span>, color <span class="op">=</span> <span class="cn">NA</span>, alpha <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">120</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>begin <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-ggradar-2.png" width="100%"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Karte als Hintergrund</span>
-<span class="va">bb</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bbox_lv95.html">bbox_lv95</a></span><span class="op">(</span><span class="fl">2683141</span>, <span class="fl">1249040</span>, <span class="fl">500</span><span class="op">)</span>
-<span class="va">bg</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_stamen_map.html">get_stamen_map</a></span><span class="op">(</span><span class="va">bb</span><span class="op">)</span>
-
-<span class="fu"><a href="reference/ggradar.html">ggradar</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">wd</span>, <span class="va">NOx</span>, bg <span class="op">=</span> <span class="va">bg</span>, lwd <span class="op">=</span> <span class="fl">1</span>, 
-         color <span class="op">=</span> <span class="st">"steelblue"</span>, fill <span class="op">=</span> <span class="st">"steelblue"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>
-    panel.grid.major <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>linetype <span class="op">=</span> <span class="fl">1</span>, color <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span>,
-    axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"gray10"</span><span class="op">)</span>
-  <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Karte als Hintergrund</span></span>
+<span><span class="va">bb</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bbox_lv95.html">bbox_lv95</a></span><span class="op">(</span><span class="fl">2683141</span>, <span class="fl">1249040</span>, <span class="fl">500</span><span class="op">)</span></span>
+<span><span class="va">bg</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_stadia_map.html">get_stadia_map</a></span><span class="op">(</span><span class="va">bb</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/ggradar.html">ggradar</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">wd</span>, <span class="va">NOx</span>, bg <span class="op">=</span> <span class="va">bg</span>, lwd <span class="op">=</span> <span class="fl">1</span>, </span>
+<span>         color <span class="op">=</span> <span class="st">"steelblue"</span>, fill <span class="op">=</span> <span class="st">"steelblue"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
+<span>    panel.grid.major <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>linetype <span class="op">=</span> <span class="fl">1</span>, color <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span>,</span>
+<span>    axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"gray10"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-ggradar-3.png" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="polarplot-openair-style">polarplot openair-style<a class="anchor" aria-label="anchor" href="#polarplot-openair-style"></a>
 </h2>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">fs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/scale_viridis_squished.html">scale_fill_gradientn_squished</a></span><span class="op">(</span>
-  limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">50</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">50</span>,<span class="fl">10</span><span class="op">)</span>,
-  na.value <span class="op">=</span> <span class="cn">NA</span>, colors <span class="op">=</span> <span class="fu">matlab</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/matlab/man/jet.colors.html" class="external-link">jet.colors</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu"><a href="reference/ggpolarplot.html">ggpolarplot</a></span><span class="op">(</span><span class="va">data</span>, wd <span class="op">=</span> <span class="va">wd</span>, ws <span class="op">=</span> <span class="va">ws</span>, z <span class="op">=</span> <span class="va">NOx</span>, ws_max <span class="op">=</span> <span class="fl">4</span>,
-    bg <span class="op">=</span> <span class="va">bg</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>,
-    fill_scale <span class="op">=</span> <span class="va">fs</span>, smooth <span class="op">=</span> <span class="cn">TRUE</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">2</span>,<span class="fl">4</span><span class="op">)</span>
-  <span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>
-    panel.grid.major <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>linetype <span class="op">=</span> <span class="fl">2</span>, color <span class="op">=</span> <span class="st">"black"</span>, size <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>
-  <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">fs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/scale_viridis_squished.html">scale_fill_gradientn_squished</a></span><span class="op">(</span></span>
+<span>  limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">50</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">50</span>,<span class="fl">10</span><span class="op">)</span>,</span>
+<span>  na.value <span class="op">=</span> <span class="cn">NA</span>, colors <span class="op">=</span> <span class="fu">matlab</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/matlab/man/jet.colors.html" class="external-link">jet.colors</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/ggpolarplot.html">ggpolarplot</a></span><span class="op">(</span><span class="va">data</span>, wd <span class="op">=</span> <span class="va">wd</span>, ws <span class="op">=</span> <span class="va">ws</span>, z <span class="op">=</span> <span class="va">NOx</span>, ws_max <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>    bg <span class="op">=</span> <span class="va">bg</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>,</span>
+<span>    fill_scale <span class="op">=</span> <span class="va">fs</span>, smooth <span class="op">=</span> <span class="cn">TRUE</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">2</span>,<span class="fl">4</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
+<span>    panel.grid.major <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>linetype <span class="op">=</span> <span class="fl">2</span>, color <span class="op">=</span> <span class="st">"black"</span>, size <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-ggpolarplot-1.png" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="tagesgang-jahresgang-heatmap">Tagesgang-Jahresgang heatmap<a class="anchor" aria-label="anchor" href="#tagesgang-jahresgang-heatmap"></a>
 </h2>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/ggyearday.html">ggyearday</a></span><span class="op">(</span><span class="va">data</span>, time <span class="op">=</span> <span class="st">"date"</span>, z <span class="op">=</span> <span class="st">"O3"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/ggyearday.html">ggyearday</a></span><span class="op">(</span><span class="va">data</span>, time <span class="op">=</span> <span class="st">"date"</span>, z <span class="op">=</span> <span class="st">"O3"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-ggyearday-1.png" width="100%"></p>
 </div>
 <div class="section level2">
@@ -224,60 +192,60 @@
 </h2>
 <p>Kalender der max Stundenwerte des Tages von Ozon</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">statstable</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
-  <span class="op">~</span><span class="va">parameter</span>, <span class="op">~</span><span class="va">statistic</span>, <span class="op">~</span><span class="va">from</span>, <span class="op">~</span><span class="va">to</span>,
-  <span class="st">"O3"</span>, <span class="st">"mean"</span>, <span class="st">"input"</span>, <span class="st">"h1"</span>,
-  <span class="st">"O3"</span>, <span class="st">"max"</span>, <span class="st">"h1"</span>, <span class="st">"d1"</span>
-<span class="op">)</span>
-
-<span class="va">data_d1</span> <span class="op">&lt;-</span> 
-  <span class="fu">rOstluft.data</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft.data/man/f.html" class="external-link">f</a></span><span class="op">(</span><span class="st">"Zch_Stampfenbachstrasse_2010-2014.csv"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/read_airmo_csv.html" class="external-link">read_airmo_csv</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">starttime</span> <span class="op">&lt;</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="fl">20130101</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/calculate_statstable.html" class="external-link">calculate_statstable</a></span><span class="op">(</span><span class="va">statstable</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="st">"d1"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/rolf_to_openair.html" class="external-link">rolf_to_openair</a></span><span class="op">(</span><span class="op">)</span>
-
-
-<span class="fu"><a href="reference/ggcalendar.html">ggcalendar</a></span><span class="op">(</span><span class="va">data_d1</span>, z <span class="op">=</span> <span class="st">"O3_max_h1"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_c</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, option <span class="op">=</span> <span class="st">"magma"</span>, na.value <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="reference/ggcalendar.html">cal_month_border</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="reference/stat_filter.html">stat_filter</a></span><span class="op">(</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>filter <span class="op">=</span> <span class="va">O3_max_h1</span> <span class="op">&gt;</span> <span class="fl">120</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1</span>, 
-    color <span class="op">=</span> <span class="st">"white"</span>, fill <span class="op">=</span> <span class="st">"white"</span>, shape <span class="op">=</span> <span class="fl">21</span>,
-    position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_nudge.html" class="external-link">position_nudge</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span>
-  <span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="reference/ggcalendar.html">cal_label</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">O3_max_h1</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span>, fontface <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">statstable</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">parameter</span>, <span class="op">~</span><span class="va">statistic</span>, <span class="op">~</span><span class="va">from</span>, <span class="op">~</span><span class="va">to</span>,</span>
+<span>  <span class="st">"O3"</span>, <span class="st">"mean"</span>, <span class="st">"input"</span>, <span class="st">"h1"</span>,</span>
+<span>  <span class="st">"O3"</span>, <span class="st">"max"</span>, <span class="st">"h1"</span>, <span class="st">"d1"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">data_d1</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">rOstluft.data</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft.data/man/f.html" class="external-link">f</a></span><span class="op">(</span><span class="st">"Zch_Stampfenbachstrasse_2010-2014.csv"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/read_airmo_csv.html" class="external-link">read_airmo_csv</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">starttime</span> <span class="op">&lt;</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="fl">20130101</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/calculate_statstable.html" class="external-link">calculate_statstable</a></span><span class="op">(</span><span class="va">statstable</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="st">"d1"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/rolf_to_openair.html" class="external-link">rolf_to_openair</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="reference/ggcalendar.html">ggcalendar</a></span><span class="op">(</span><span class="va">data_d1</span>, z <span class="op">=</span> <span class="st">"O3_max_h1"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_c</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, option <span class="op">=</span> <span class="st">"magma"</span>, na.value <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/ggcalendar.html">cal_month_border</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/stat_filter.html">stat_filter</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>filter <span class="op">=</span> <span class="va">O3_max_h1</span> <span class="op">&gt;</span> <span class="fl">120</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1</span>, </span>
+<span>    color <span class="op">=</span> <span class="st">"white"</span>, fill <span class="op">=</span> <span class="st">"white"</span>, shape <span class="op">=</span> <span class="fl">21</span>,</span>
+<span>    position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_nudge.html" class="external-link">position_nudge</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/ggcalendar.html">cal_label</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">O3_max_h1</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span>, fontface <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-ggcalendar-1.png" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="hysplit-trajektorien-openair-data-format">Hysplit Trajektorien (openair data format)<a class="anchor" aria-label="anchor" href="#hysplit-trajektorien-openair-data-format"></a>
 </h2>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"2017_ZH-Kaserne-hysplit.rds"</span>, package <span class="op">=</span> <span class="st">"rOstluft.data"</span><span class="op">)</span>
-<span class="va">traj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="va">fn</span><span class="op">)</span>
-<span class="va">traj</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">traj</span>, 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/between.html" class="external-link">between</a></span><span class="op">(</span><span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">as_date</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span>, <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="st">"2017-03-08"</span><span class="op">)</span>, <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="st">"2017-03-14"</span><span class="op">)</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="co"># simple</span>
-<span class="fu"><a href="reference/ggtraj.html">ggtraj</a></span><span class="op">(</span><span class="va">traj</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"2017_ZH-Kaserne-hysplit.rds"</span>, package <span class="op">=</span> <span class="st">"rOstluft.data"</span><span class="op">)</span></span>
+<span><span class="va">traj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="va">fn</span><span class="op">)</span></span>
+<span><span class="va">traj</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">traj</span>, </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/between.html" class="external-link">between</a></span><span class="op">(</span><span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">as_date</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span>, <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="st">"2017-03-08"</span><span class="op">)</span>, <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="st">"2017-03-14"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># simple</span></span>
+<span><span class="fu"><a href="reference/ggtraj.html">ggtraj</a></span><span class="op">(</span><span class="va">traj</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-ggtraj-1.png" width="100%"></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Schadstoff statt Trajektorienhöhe</span>
-<span class="co"># Interessant für den Transport von Schadstoffen wie EC. In diesem Beispiel wird PM2.5</span>
-<span class="co"># verwendet weil keine EC Daten in den Beispieldaten enthalten sind.</span>
-<span class="va">data_2017</span> <span class="op">&lt;-</span>
-  <span class="fu">rOstluft.data</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft.data/man/f.html" class="external-link">f</a></span><span class="op">(</span><span class="st">"Zch_Stampfenbachstrasse_min30_2017.csv"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/read_airmo_csv.html" class="external-link">read_airmo_csv</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/rolf_to_openair.html" class="external-link">rolf_to_openair</a></span><span class="op">(</span><span class="op">)</span> 
-
-<span class="va">data_traj</span> <span class="op">&lt;-</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">data_2017</span>, <span class="op">-</span><span class="va">site</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">right_join</a></span><span class="op">(</span><span class="va">traj</span>, by <span class="op">=</span> <span class="st">"date"</span><span class="op">)</span>
-  
-<span class="fu"><a href="reference/ggtraj.html">ggtraj</a></span><span class="op">(</span><span class="va">data_traj</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">PM2.5</span><span class="op">)</span>, 
-       color_scale <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_color_viridis_c</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Schadstoff statt Trajektorienhöhe</span></span>
+<span><span class="co"># Interessant für den Transport von Schadstoffen wie EC. In diesem Beispiel wird PM2.5</span></span>
+<span><span class="co"># verwendet weil keine EC Daten in den Beispieldaten enthalten sind.</span></span>
+<span><span class="va">data_2017</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">rOstluft.data</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft.data/man/f.html" class="external-link">f</a></span><span class="op">(</span><span class="st">"Zch_Stampfenbachstrasse_min30_2017.csv"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/read_airmo_csv.html" class="external-link">read_airmo_csv</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/rolf_to_openair.html" class="external-link">rolf_to_openair</a></span><span class="op">(</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">data_traj</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">data_2017</span>, <span class="op">-</span><span class="va">site</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">right_join</a></span><span class="op">(</span><span class="va">traj</span>, by <span class="op">=</span> <span class="st">"date"</span><span class="op">)</span></span>
+<span>  </span>
+<span><span class="fu"><a href="reference/ggtraj.html">ggtraj</a></span><span class="op">(</span><span class="va">data_traj</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">PM2.5</span><span class="op">)</span>, </span>
+<span>       color_scale <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_color_viridis_c</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-ggtraj-2.png" width="100%"></p>
 </div>
 <div class="section level2">
@@ -285,145 +253,160 @@
 </h2>
 <p>Messdaten enthalten oft Extremwerte von ausserordentlichen Episoden oder Ereignissen. Als Beispiel Feuwerwerke oder Inversionen in den PM10 Daten:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/ggyearday.html">ggyearday</a></span><span class="op">(</span><span class="va">data</span>, time <span class="op">=</span> <span class="va">date</span>, z <span class="op">=</span> <span class="va">PM10</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/ggyearday.html">ggyearday</a></span><span class="op">(</span><span class="va">data</span>, time <span class="op">=</span> <span class="va">date</span>, z <span class="op">=</span> <span class="va">PM10</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unsquished_ggyearday-1.png" width="100%"></p>
 <p>In einem ggplot2 Diagramm kann bei continuous scales mit Hilfe dem Argument <code>oob</code> eine Funktion übergeben werden, was mit Werten ausserhalb des Limits geschieht. Mit Hilfe der Funktion <code><a href="https://scales.r-lib.org/reference/oob.html" class="external-link">scales::squish()</a></code> werden diese Werte auf das Minima, bzw. Maxima der Limits gesetzt. In rOstluft.plot sind die Hilfsfunktionen <code><a href="reference/scale_viridis_squished.html">scale_fill_viridis_squished()</a></code>, <code><a href="reference/scale_viridis_squished.html">scale_color_viridis_squished()</a></code>, <code><a href="reference/scale_viridis_squished.html">scale_fill_gradientn_squished()</a></code> und <code><a href="reference/scale_viridis_squished.html">scale_color_gradientn_squished()</a></code> enthalten:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">fill_scale</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/scale_viridis_squished.html">scale_fill_viridis_squished</a></span><span class="op">(</span>
-  breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">20</span>, <span class="fl">40</span>, <span class="fl">60</span>, <span class="fl">80</span><span class="op">)</span>, 
-  limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">80</span><span class="op">)</span>,
-  direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, 
-  na.value <span class="op">=</span> <span class="cn">NA</span>, 
-  option <span class="op">=</span> <span class="st">"A"</span>
-<span class="op">)</span>
-
-<span class="fu"><a href="reference/ggyearday.html">ggyearday</a></span><span class="op">(</span><span class="va">data</span>, time <span class="op">=</span> <span class="va">date</span>, z <span class="op">=</span> <span class="va">PM10</span>, fill_scale <span class="op">=</span> <span class="va">fill_scale</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">fill_scale</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/scale_viridis_squished.html">scale_fill_viridis_squished</a></span><span class="op">(</span></span>
+<span>  breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">20</span>, <span class="fl">40</span>, <span class="fl">60</span>, <span class="fl">80</span><span class="op">)</span>, </span>
+<span>  limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">80</span><span class="op">)</span>,</span>
+<span>  direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, </span>
+<span>  na.value <span class="op">=</span> <span class="cn">NA</span>, </span>
+<span>  option <span class="op">=</span> <span class="st">"A"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/ggyearday.html">ggyearday</a></span><span class="op">(</span><span class="va">data</span>, time <span class="op">=</span> <span class="va">date</span>, z <span class="op">=</span> <span class="va">PM10</span>, fill_scale <span class="op">=</span> <span class="va">fill_scale</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-squished_ggyearday-1.png" width="100%"></p>
 <p>Teilweise ist es für Klassierungen praktisch alle Werte über einem Maximum in einer zusätzlichen Klasse zusammen zu fassen. Die Funktion <code><a href="reference/cut_ws.html">cut_ws()</a></code> beinhaltet diese Funktionalität, hat jedoch gewisse Einschränkungen (Negative Werte werden zu NA, Breite der Klasse fix):</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pm10_right</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cut_ws.html">cut_ws</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">PM10</span>, binwidth <span class="op">=</span> <span class="fl">20</span>, ws_max <span class="op">=</span> <span class="fl">80</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">pm10_right</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; pm10_right</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [0,20] (20,40] (40,60] (60,80]     &gt;80 </span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   48146   27874    6162    1191     476</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">pm10_right</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cut_ws.html">cut_ws</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">PM10</span>, binwidth <span class="op">=</span> <span class="fl">20</span>, ws_max <span class="op">=</span> <span class="fl">80</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">pm10_right</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co">#&gt; pm10_right</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="co">#&gt;  [0,20] (20,40] (40,60] (60,80]     &gt;80 </span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="co">#&gt;   48146   27874    6162    1191     476</span></span></code></pre></div>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pm10_left</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cut_ws.html">cut_ws</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">PM10</span>, <span class="fl">20</span>, <span class="fl">80</span>, right <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="co"># bei der Umwandlung der Ausgabe nach HTML wird "≥80" in "=80" </span>
-<span class="co"># umgewandelt. In Diagrammen und der R Konsole wird das Zeichen</span>
-<span class="co"># jedoch korrekt dargestellt. See https://github.com/r-lib/evaluate/issues/59</span>
-<span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">pm10_left</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; pm10_left</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [0,20) [20,40) [40,60) [60,80)     ≥80 </span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   48146   27874    6162    1191     476</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">pm10_left</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cut_ws.html">cut_ws</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">PM10</span>, <span class="fl">20</span>, <span class="fl">80</span>, right <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># bei der Umwandlung der Ausgabe nach HTML wird "≥80" in "=80" </span></span>
+<span><span class="co"># umgewandelt. In Diagrammen und der R Konsole wird das Zeichen</span></span>
+<span><span class="co"># jedoch korrekt dargestellt. See https://github.com/r-lib/evaluate/issues/59</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">pm10_left</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co">#&gt; pm10_left</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="co">#&gt;  [0,20) [20,40) [40,60) [60,80)     ≥80 </span></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="co">#&gt;   48146   27874    6162    1191     476</span></span></code></pre></div>
 <p>Für mehr Flexibilät kann direkt <code><a href="https://rdrr.io/r/base/cut.html" class="external-link">base::cut()</a></code> verwendet werden und breaks mit <code>-Inf</code> und <code>Inf</code> definiert werden.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">breaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="fl">0</span>, <span class="fl">19</span>, <span class="fl">41</span>, <span class="fl">66</span>, <span class="fl">80</span>, <span class="cn">Inf</span><span class="op">)</span>
-<span class="va">pm10_cut</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">PM10</span>, breaks <span class="op">=</span> <span class="va">breaks</span>, right <span class="op">=</span> <span class="cn">TRUE</span>, include.lowest <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">pm10_cut</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb21"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; pm10_cut</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [-Inf,0]    (0,19]   (19,41]   (41,66]   (66,80] (80, Inf] </span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      1141     45516     31079      6164       614       476</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">breaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="fl">0</span>, <span class="fl">19</span>, <span class="fl">41</span>, <span class="fl">66</span>, <span class="fl">80</span>, <span class="cn">Inf</span><span class="op">)</span></span>
+<span><span class="va">pm10_cut</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">PM10</span>, breaks <span class="op">=</span> <span class="va">breaks</span>, right <span class="op">=</span> <span class="cn">TRUE</span>, include.lowest <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">pm10_cut</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co">#&gt; pm10_cut</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="co">#&gt;  [-Inf,0]    (0,19]   (19,41]   (41,66]   (66,80] </span></span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="co">#&gt;      1141     45516     31079      6164       614 </span></span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="co">#&gt; (80, Inf] </span></span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a><span class="co">#&gt;       476</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="padding-data">padding data<a class="anchor" aria-label="anchor" href="#padding-data"></a>
 </h2>
 <p>Messdaten liegen nicht immer in vollständigen Zeitreihen vor. Für einige Diagramme ist es jedoch erforderlich, dass für alle Zeitpunkte ein Wert oder ein NA vorhanden ist. Für Daten im rolf Format können die rOstluft Funktionen <code><a href="https://rdrr.io/pkg/rOstluft/man/pad.html" class="external-link">rOstluft::pad()</a></code> und <code><a href="https://rdrr.io/pkg/rOstluft/man/pad_year.html" class="external-link">rOstluft::pad_year()</a></code> verwenden werden. rOstluft.plot enthält 2 generische padding Funktionen:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu">rOstluft.data</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft.data/man/f.html" class="external-link">f</a></span><span class="op">(</span><span class="st">"Zch_Stampfenbachstrasse_min30_2013_Jan.csv"</span><span class="op">)</span>
-<span class="va">january</span> <span class="op">&lt;-</span> <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/read_airmo_csv.html" class="external-link">read_airmo_csv</a></span><span class="op">(</span><span class="va">fn</span><span class="op">)</span>
-<span class="va">january_oa</span> <span class="op">&lt;-</span> <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/rolf_to_openair.html" class="external-link">rolf_to_openair</a></span><span class="op">(</span><span class="va">january</span>
-                                        <span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">january_oa</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb23"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 16</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   date                site      CO    Hr    NO   NO2   NOx    O3     p  PM10 RainDur   SO2  StrGlo     T    wd    ws</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 2013-01-31 21:00:00 Zch_S… 0.191  67.3 0.675  7.70  4.57  71.0  970.  7.21   0.583 0.782 0.0138   9.25  244.  5.96</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 2013-01-31 21:30:00 Zch_S… 0.195  64.9 0.359  7.72  4.33  69.7  970.  4.89   1.52  0.851 0.0116   9.49  245.  6.00</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 2013-01-31 22:00:00 Zch_S… 0.191  65.1 0.424  6.84  3.92  69.0  970.  6.71   1.45  0.842 0.00673  9.33  246.  6.75</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 2013-01-31 22:30:00 Zch_S… 0.184  67.3 0.353  5.38  3.09  70.5  970.  5.19   0     0.797 0.0120   9.17  242.  6.59</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 2013-01-31 23:00:00 Zch_S… 0.186  67.3 0.634  5.87  3.58  70.2  969.  5.79   0     0.851 0.0118   9.10  242.  5.28</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 2013-01-31 23:30:00 Zch_S… 0.189  68.7 0.435  6.76  3.88  67.6  969.  7.92   0     0.749 0.0105   9.1   239.  3.68</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu">rOstluft.data</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft.data/man/f.html" class="external-link">f</a></span><span class="op">(</span><span class="st">"Zch_Stampfenbachstrasse_min30_2013_Jan.csv"</span><span class="op">)</span></span>
+<span><span class="va">january</span> <span class="op">&lt;-</span> <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/read_airmo_csv.html" class="external-link">read_airmo_csv</a></span><span class="op">(</span><span class="va">fn</span><span class="op">)</span></span>
+<span><span class="va">january_oa</span> <span class="op">&lt;-</span> <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/rolf_to_openair.html" class="external-link">rolf_to_openair</a></span><span class="op">(</span><span class="va">january</span></span>
+<span>                                        <span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">january_oa</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 16</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a><span class="co">#&gt;   date                site      CO    Hr    NO   NO2</span></span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="co">#&gt; 1 2013-01-31 21:00:00 Zch_S… 0.191  67.3 0.675  7.70</span></span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a><span class="co">#&gt; 2 2013-01-31 21:30:00 Zch_S… 0.195  64.9 0.359  7.72</span></span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a><span class="co">#&gt; 3 2013-01-31 22:00:00 Zch_S… 0.191  65.1 0.424  6.84</span></span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a><span class="co">#&gt; 4 2013-01-31 22:30:00 Zch_S… 0.184  67.3 0.353  5.38</span></span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a><span class="co">#&gt; 5 2013-01-31 23:00:00 Zch_S… 0.186  67.3 0.634  5.87</span></span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a><span class="co">#&gt; 6 2013-01-31 23:30:00 Zch_S… 0.189  68.7 0.435  6.76</span></span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a><span class="co">#&gt; # ℹ 10 more variables: NOx &lt;dbl&gt;, O3 &lt;dbl&gt;,</span></span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a><span class="co">#&gt; #   p &lt;dbl&gt;, PM10 &lt;dbl&gt;, RainDur &lt;dbl&gt;, SO2 &lt;dbl&gt;,</span></span>
+<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a><span class="co">#&gt; #   StrGlo &lt;dbl&gt;, T &lt;dbl&gt;, wd &lt;dbl&gt;, ws &lt;dbl&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># site mit "Zch_Stampfenbachstrasse" füllen</span>
-<span class="fu"><a href="reference/pad_to_year.html">pad_to_year</a></span><span class="op">(</span><span class="va">january_oa</span>, <span class="va">date</span>, <span class="st">"30 min"</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>site <span class="op">=</span> <span class="st">"Zch_Stampfenbachstrasse"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb25"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 16</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   date                site       CO    Hr    NO   NO2   NOx    O3     p  PM10 RainDur   SO2 StrGlo     T    wd    ws</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 2013-12-31 21:00:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA    NA</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 2013-12-31 21:30:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA    NA</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 2013-12-31 22:00:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA    NA</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 2013-12-31 22:30:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA    NA</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 2013-12-31 23:00:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA    NA</span></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 2013-12-31 23:30:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA    NA</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># site mit "Zch_Stampfenbachstrasse" füllen</span></span>
+<span><span class="fu"><a href="reference/pad_to_year.html">pad_to_year</a></span><span class="op">(</span><span class="va">january_oa</span>, <span class="va">date</span>, <span class="st">"30 min"</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>site <span class="op">=</span> <span class="st">"Zch_Stampfenbachstrasse"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 16</span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="co">#&gt;   date                site      CO    Hr    NO   NO2</span></span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="co">#&gt; 1 2013-12-31 21:00:00 Zch_S…    NA    NA    NA    NA</span></span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a><span class="co">#&gt; 2 2013-12-31 21:30:00 Zch_S…    NA    NA    NA    NA</span></span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a><span class="co">#&gt; 3 2013-12-31 22:00:00 Zch_S…    NA    NA    NA    NA</span></span>
+<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a><span class="co">#&gt; 4 2013-12-31 22:30:00 Zch_S…    NA    NA    NA    NA</span></span>
+<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a><span class="co">#&gt; 5 2013-12-31 23:00:00 Zch_S…    NA    NA    NA    NA</span></span>
+<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a><span class="co">#&gt; 6 2013-12-31 23:30:00 Zch_S…    NA    NA    NA    NA</span></span>
+<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a><span class="co">#&gt; # ℹ 10 more variables: NOx &lt;dbl&gt;, O3 &lt;dbl&gt;,</span></span>
+<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a><span class="co">#&gt; #   p &lt;dbl&gt;, PM10 &lt;dbl&gt;, RainDur &lt;dbl&gt;, SO2 &lt;dbl&gt;,</span></span>
+<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a><span class="co">#&gt; #   StrGlo &lt;dbl&gt;, T &lt;dbl&gt;, wd &lt;dbl&gt;, ws &lt;dbl&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># automatisch alle factor/character columns füllen</span>
-<span class="fu"><a href="reference/pad_to_year_fill.html">pad_to_year_fill</a></span><span class="op">(</span><span class="va">january_oa</span>, <span class="va">date</span>, <span class="st">"30 min"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb27"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 16</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   date                site       CO    Hr    NO   NO2   NOx    O3     p  PM10 RainDur   SO2 StrGlo     T    wd    ws</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 2013-12-31 21:00:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA    NA</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 2013-12-31 21:30:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA    NA</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 2013-12-31 22:00:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA    NA</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 2013-12-31 22:30:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA    NA</span></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 2013-12-31 23:00:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA    NA</span></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 2013-12-31 23:30:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA    NA</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># automatisch alle factor/character columns füllen</span></span>
+<span><span class="fu"><a href="reference/pad_to_year_fill.html">pad_to_year_fill</a></span><span class="op">(</span><span class="va">january_oa</span>, <span class="va">date</span>, <span class="st">"30 min"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 16</span></span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a><span class="co">#&gt;   date                site      CO    Hr    NO   NO2</span></span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a><span class="co">#&gt; 1 2013-12-31 21:00:00 Zch_S…    NA    NA    NA    NA</span></span>
+<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a><span class="co">#&gt; 2 2013-12-31 21:30:00 Zch_S…    NA    NA    NA    NA</span></span>
+<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a><span class="co">#&gt; 3 2013-12-31 22:00:00 Zch_S…    NA    NA    NA    NA</span></span>
+<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a><span class="co">#&gt; 4 2013-12-31 22:30:00 Zch_S…    NA    NA    NA    NA</span></span>
+<span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a><span class="co">#&gt; 5 2013-12-31 23:00:00 Zch_S…    NA    NA    NA    NA</span></span>
+<span id="cb27-9"><a href="#cb27-9" tabindex="-1"></a><span class="co">#&gt; 6 2013-12-31 23:30:00 Zch_S…    NA    NA    NA    NA</span></span>
+<span id="cb27-10"><a href="#cb27-10" tabindex="-1"></a><span class="co">#&gt; # ℹ 10 more variables: NOx &lt;dbl&gt;, O3 &lt;dbl&gt;,</span></span>
+<span id="cb27-11"><a href="#cb27-11" tabindex="-1"></a><span class="co">#&gt; #   p &lt;dbl&gt;, PM10 &lt;dbl&gt;, RainDur &lt;dbl&gt;, SO2 &lt;dbl&gt;,</span></span>
+<span id="cb27-12"><a href="#cb27-12" tabindex="-1"></a><span class="co">#&gt; #   StrGlo &lt;dbl&gt;, T &lt;dbl&gt;, wd &lt;dbl&gt;, ws &lt;dbl&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/pad_to_year_fill.html">pad_to_year_fill</a></span><span class="op">(</span><span class="va">january</span>, <span class="va">starttime</span>, <span class="st">"30 min"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb29"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 6</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   starttime           site                    parameter interval unit  value</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt;                   &lt;fct&gt;     &lt;fct&gt;    &lt;fct&gt; &lt;dbl&gt;</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 2013-12-31 21:00:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 2013-12-31 21:30:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 2013-12-31 22:00:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA</span></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 2013-12-31 22:30:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA</span></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 2013-12-31 23:00:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA</span></span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 2013-12-31 23:30:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/pad_to_year_fill.html">pad_to_year_fill</a></span><span class="op">(</span><span class="va">january</span>, <span class="va">starttime</span>, <span class="st">"30 min"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 6</span></span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a><span class="co">#&gt;   starttime           site  parameter interval unit </span></span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt; &lt;fct&gt;     &lt;fct&gt;    &lt;fct&gt;</span></span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a><span class="co">#&gt; 1 2013-12-31 21:00:00 Zch_… WVv       min30    m/s  </span></span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a><span class="co">#&gt; 2 2013-12-31 21:30:00 Zch_… WVv       min30    m/s  </span></span>
+<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a><span class="co">#&gt; 3 2013-12-31 22:00:00 Zch_… WVv       min30    m/s  </span></span>
+<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a><span class="co">#&gt; 4 2013-12-31 22:30:00 Zch_… WVv       min30    m/s  </span></span>
+<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a><span class="co">#&gt; 5 2013-12-31 23:00:00 Zch_… WVv       min30    m/s  </span></span>
+<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a><span class="co">#&gt; 6 2013-12-31 23:30:00 Zch_… WVv       min30    m/s  </span></span>
+<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a><span class="co">#&gt; # ℹ 1 more variable: value &lt;dbl&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># enthalten die Daten jedoch eine Klassifizierungs Spalte</span>
-<span class="co"># muss man die zu füllenden Spalten explixit angeben</span>
-<span class="va">january_oa</span> <span class="op">&lt;-</span> <span class="fu">openair</span><span class="fu">::</span><span class="fu"><a href="https://davidcarslaw.github.io/openair/reference/cutData.html" class="external-link">cutData</a></span><span class="op">(</span><span class="va">january_oa</span>, <span class="st">"month"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">month</span>, <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># Monats Spalte wird falscherweise mit Januar gefüllt</span>
-<span class="co"># Ausserdem würden für jeden Monat die Daten multipliziert</span>
-<span class="fu"><a href="reference/pad_to_year_fill.html">pad_to_year_fill</a></span><span class="op">(</span><span class="va">january_oa</span>, <span class="va">date</span>, <span class="st">"30 min"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb31"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 17</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   date                month  site      CO    Hr    NO   NO2   NOx    O3     p  PM10 RainDur   SO2 StrGlo     T    wd</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;ord&gt;  &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 2013-12-31 21:00:00 Januar Zch_S…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 2013-12-31 21:30:00 Januar Zch_S…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 2013-12-31 22:00:00 Januar Zch_S…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 2013-12-31 22:30:00 Januar Zch_S…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 2013-12-31 23:00:00 Januar Zch_S…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 2013-12-31 23:30:00 Januar Zch_S…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # … with 1 more variable: ws &lt;dbl&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># enthalten die Daten jedoch eine Klassifizierungs Spalte</span></span>
+<span><span class="co"># muss man die zu füllenden Spalten explixit angeben</span></span>
+<span><span class="va">january_oa</span> <span class="op">&lt;-</span> <span class="fu">openair</span><span class="fu">::</span><span class="fu"><a href="https://davidcarslaw.github.io/openair/reference/cutData.html" class="external-link">cutData</a></span><span class="op">(</span><span class="va">january_oa</span>, <span class="st">"month"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">month</span>, <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Monats Spalte wird falscherweise mit Januar gefüllt</span></span>
+<span><span class="co"># Ausserdem würden für jeden Monat die Daten multipliziert</span></span>
+<span><span class="fu"><a href="reference/pad_to_year_fill.html">pad_to_year_fill</a></span><span class="op">(</span><span class="va">january_oa</span>, <span class="va">date</span>, <span class="st">"30 min"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 17</span></span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a><span class="co">#&gt;   date                month  site     CO    Hr    NO</span></span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;ord&gt;  &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a><span class="co">#&gt; 1 2013-12-31 21:00:00 Januar Zch_…    NA    NA    NA</span></span>
+<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a><span class="co">#&gt; 2 2013-12-31 21:30:00 Januar Zch_…    NA    NA    NA</span></span>
+<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a><span class="co">#&gt; 3 2013-12-31 22:00:00 Januar Zch_…    NA    NA    NA</span></span>
+<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a><span class="co">#&gt; 4 2013-12-31 22:30:00 Januar Zch_…    NA    NA    NA</span></span>
+<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a><span class="co">#&gt; 5 2013-12-31 23:00:00 Januar Zch_…    NA    NA    NA</span></span>
+<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a><span class="co">#&gt; 6 2013-12-31 23:30:00 Januar Zch_…    NA    NA    NA</span></span>
+<span id="cb31-10"><a href="#cb31-10" tabindex="-1"></a><span class="co">#&gt; # ℹ 11 more variables: NO2 &lt;dbl&gt;, NOx &lt;dbl&gt;,</span></span>
+<span id="cb31-11"><a href="#cb31-11" tabindex="-1"></a><span class="co">#&gt; #   O3 &lt;dbl&gt;, p &lt;dbl&gt;, PM10 &lt;dbl&gt;, RainDur &lt;dbl&gt;,</span></span>
+<span id="cb31-12"><a href="#cb31-12" tabindex="-1"></a><span class="co">#&gt; #   SO2 &lt;dbl&gt;, StrGlo &lt;dbl&gt;, T &lt;dbl&gt;, wd &lt;dbl&gt;,</span></span>
+<span id="cb31-13"><a href="#cb31-13" tabindex="-1"></a><span class="co">#&gt; #   ws &lt;dbl&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># mit explixiter Defintion der zu füllenden Spalten klappt es</span>
-<span class="fu"><a href="reference/pad_to_year_fill.html">pad_to_year_fill</a></span><span class="op">(</span><span class="va">january_oa</span>, <span class="va">date</span>, <span class="st">"30 min"</span>, <span class="va">site</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb33"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 17</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   date                month site       CO    Hr    NO   NO2   NOx    O3     p  PM10 RainDur   SO2 StrGlo     T    wd</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;ord&gt; &lt;fct&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 2013-12-31 21:00:00 &lt;NA&gt;  Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 2013-12-31 21:30:00 &lt;NA&gt;  Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 2013-12-31 22:00:00 &lt;NA&gt;  Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 2013-12-31 22:30:00 &lt;NA&gt;  Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 2013-12-31 23:00:00 &lt;NA&gt;  Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 2013-12-31 23:30:00 &lt;NA&gt;  Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # … with 1 more variable: ws &lt;dbl&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># mit explixiter Defintion der zu füllenden Spalten klappt es</span></span>
+<span><span class="fu"><a href="reference/pad_to_year_fill.html">pad_to_year_fill</a></span><span class="op">(</span><span class="va">january_oa</span>, <span class="va">date</span>, <span class="st">"30 min"</span>, <span class="va">site</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 17</span></span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a><span class="co">#&gt;   date                month site      CO    Hr    NO</span></span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;ord&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a><span class="co">#&gt; 1 2013-12-31 21:00:00 &lt;NA&gt;  Zch_S…    NA    NA    NA</span></span>
+<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a><span class="co">#&gt; 2 2013-12-31 21:30:00 &lt;NA&gt;  Zch_S…    NA    NA    NA</span></span>
+<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a><span class="co">#&gt; 3 2013-12-31 22:00:00 &lt;NA&gt;  Zch_S…    NA    NA    NA</span></span>
+<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a><span class="co">#&gt; 4 2013-12-31 22:30:00 &lt;NA&gt;  Zch_S…    NA    NA    NA</span></span>
+<span id="cb33-8"><a href="#cb33-8" tabindex="-1"></a><span class="co">#&gt; 5 2013-12-31 23:00:00 &lt;NA&gt;  Zch_S…    NA    NA    NA</span></span>
+<span id="cb33-9"><a href="#cb33-9" tabindex="-1"></a><span class="co">#&gt; 6 2013-12-31 23:30:00 &lt;NA&gt;  Zch_S…    NA    NA    NA</span></span>
+<span id="cb33-10"><a href="#cb33-10" tabindex="-1"></a><span class="co">#&gt; # ℹ 11 more variables: NO2 &lt;dbl&gt;, NOx &lt;dbl&gt;,</span></span>
+<span id="cb33-11"><a href="#cb33-11" tabindex="-1"></a><span class="co">#&gt; #   O3 &lt;dbl&gt;, p &lt;dbl&gt;, PM10 &lt;dbl&gt;, RainDur &lt;dbl&gt;,</span></span>
+<span id="cb33-12"><a href="#cb33-12" tabindex="-1"></a><span class="co">#&gt; #   SO2 &lt;dbl&gt;, StrGlo &lt;dbl&gt;, T &lt;dbl&gt;, wd &lt;dbl&gt;,</span></span>
+<span id="cb33-13"><a href="#cb33-13" tabindex="-1"></a><span class="co">#&gt; #   ws &lt;dbl&gt;</span></span></code></pre></div>
 <p>Karten Attribution: Map tiles by <a href="http://stamen.com" class="external-link">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0" class="external-link">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org" class="external-link">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright" class="external-link">ODbL</a>.</p>
 </div>
 </div>
 
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="links">
+  </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/Ostluft/rOstluft.plot/" class="external-link">Browse source code</a></li>
@@ -458,27 +441,24 @@
 
 
 
-  </div>
+  </aside>
 </div>
 
 
-      <footer><div class="copyright">
-  <p></p>
-<p>Developed by Thomas von Allmen, Jörg Sintermann.</p>
+    <footer><div class="pkgdown-footer-left">
+  <p>Developed by Thomas von Allmen, Jörg Sintermann.</p>
 </div>
 
-<div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<div class="pkgdown-footer-right">
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
-  
 
 
-  
+
 
   </body>
 </html>

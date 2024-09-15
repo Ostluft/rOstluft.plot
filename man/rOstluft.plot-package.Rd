@@ -14,6 +14,7 @@ This package provides functions to quickly display data as diagrams.
 Useful links:
 \itemize{
   \item \url{https://github.com/Ostluft/rOstluft.plot}
+  \item \url{https://ostluft.github.io/rOstluft.plot/}
   \item Report bugs at \url{https://github.com/Ostluft/rOstluft.plot/issues}
 }
 

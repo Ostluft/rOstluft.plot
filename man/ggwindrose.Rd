@@ -80,7 +80,7 @@ ggwindrose(data, ws, wd, ws_max = 5, size = 1)
 
 # a map as background
 bb <- bbox_lv95(2683141, 1249040, 500)
-bg <- get_stamen_map(bb)
+bg <- get_stadia_map(bb)
 ggwindrose(data, ws, wd, ws_max = 5, alpha = 0.8, bg = bg) +
   theme(
     panel.grid.major = element_line(linetype = 2, color = "black", size = 0.5)

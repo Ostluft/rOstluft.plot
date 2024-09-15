@@ -89,7 +89,7 @@ p  + coord_cartpolar() +
 # theming: only major grid is draw
 p + coord_cartpolar() +
   theme(
-    "panel.grid.major.x" = element_line(color = "red", size = 2, linetyp = "dashed"),
+    "panel.grid.major.x" = element_line(color = "red", linewidth = 2, linetyp = "dashed"),
     "panel.grid.major.y" = element_line(color = "green", arrow = arrow()),
     "axis.text.x" = element_text(color = "violet", size = 14, face = "bold"),
     "axis.text.y" = element_text(color = "blue")
@@ -98,7 +98,7 @@ p + coord_cartpolar() +
 
 # background map
 bb <- bbox_lv95(2683141, 1249040, 500)
-bg <- get_stamen_map(bb)
+bg <- get_stadia_map(bb)
 
 p + coord_cartpolar(bg = bg)
 

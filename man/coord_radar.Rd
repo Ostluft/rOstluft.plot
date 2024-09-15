@@ -38,7 +38,7 @@ data_summarized <- summary_wind(data, ws, wd, NOx, fun = funs,
 
 # background map
 bbox <- bbox_lv95(2683141, 1249040, 500)
-bg <- get_stamen_map(bbox)
+bg <- get_stadia_map(bbox)
 
 radar <- ggplot(data_summarized, aes(x = wd, y = NOx, color = stat, group = stat)) +
   geom_polygon(size = 1, fill = NA) +

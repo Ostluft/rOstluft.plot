@@ -137,7 +137,7 @@ ggpolarplot(df, wd = wd, ws = ws, z = NOx, fun = list("mean", "median"), ws_max 
 # background map, just remember the location on the map has no correlation with
 # the overlaying data. Only the direction.
 bb <- bbox_lv95(2683141, 1249040, 500)
-bg <- get_stamen_map(bb)
+bg <- get_stadia_map(bb)
 fs <- scale_fill_gradientn_squished(
   limits = c(0,50), breaks = seq(0,50,10),
   na.value = NA, colors = matlab::jet.colors(20)
