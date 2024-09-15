@@ -1,7 +1,7 @@
 #' Customized coord_polar
 #'
 #' The differences between [ggplot2::coord_polar()] and [coord_polar2()] are:
-#' * Add a raster (image) as background. As example a map created with [get_stamen_map()]
+#' * Add a raster (image) as background. As example a map created with [get_stadia_map()]
 #' * [ggplot2::coord_polar()] always adds an outer circle with r = 0.45 to the plot. This circle is removed.
 #'
 #' @param bg raster for background image
@@ -34,7 +34,7 @@
 #'
 #' # background map
 #' bbox <- bbox_lv95(2683141, 1249040, 500)
-#' bg <- get_stamen_map(bbox)
+#' bg <- get_stadia_map(bbox)
 #'
 #' wind_rose + coord_polar2(start = - 45 * pi / 360, bg = bg)
 #'

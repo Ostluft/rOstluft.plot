@@ -1,41 +1,47 @@
-#' Wrapper around ggmap::get_stamen_map
+#' Wrapper around ggmap::get_stadiamap()
 #'
-#' The functions [get_googlemap()] and [get_stamen_map()] tries to harmonize the calls to [ggmap()]. The objective is
+#' The functions [get_googlemap()] and [get_stadia_map()] tries to harmonize the calls to [ggmap()]. The objective is
 #' to get interchangeable functions with sensible defaults. For example automatic calculation of the zoom. The function
 #' [bbox_lv95()] generates a bbox object compatible with both functions.
 #'
+#' @section API-Key:
+#' To obtain an API key and enable services, go to <https://client.stadiamaps.com/signup/>. It is completely free for non-commercial and evaluation use (a license is for commercial use; see https://stadiamaps.com/pricing for pricing), and no credit card is required to sign up.
+#' For details see [ggmap::register_stadiamaps()].
+#'
 #' @section Attribution:
-#' * Toner and Terrain: Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
-#' * Watercolor: Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under CC BY SA.
+#' Details on attribution can be found at <https://stadiamaps.com/attribution>.
 #'
 #' @param bbox list with items `left`, `bottom`, `right` and `top` as WSG84 coordinates. Additional `width`
 #'   in meters if `zoom = "auto"`. Use [bbox_lv95()] to create a compatible bounding box list
+#' @param maptype stamen_terrain, stamen_toner, stamen_toner_lite, stamen_watercolor, stamen_terrain_background, stamen_toner_background, stamen_terrain_lines, stamen_terrain_labels, stamen_toner_lines, stamen_toner_labels.
 #' @param width of resulting map in pixels.
 #' @param zoom zoomlevel from 0 to 18 or "auto"
 #' @param color color or black-and-white. Changed default to "bw"
-#' @param ... forwarded to [ggmap::get_googlemap()]
+#' @param ... forwarded to [ggmap::get_stadiamap()]
 #'
 #' @return a ggmap object (a classed raster object with a bounding box attribute)
 #' @export
 #'
 #' @examples
 #' bb <- bbox_lv95(2683141, 1249040, 500) # site Zch_Stamfenbachstrasse
-#' get_stamen_map(bb) %>% ggmap::ggmap()
-get_stamen_map <- function(bbox, width = 640, zoom = "auto", color =  "bw", ...) {
-
+#' get_stadia_map(bb) |>
+#'   ggmap::ggmap()
+get_stadia_map <- function(bbox, maptype = "stamen_terrain",
+                           width = 640, zoom = "auto", color =  "bw", ...) {
   if (zoom == "auto") {
     zoom <- auto_zoom(bbox$width, width, bbox$center["lat"])
   }
 
   zoom <- max(0, min(zoom, 18))
   bbox_osm <- c(bbox[["left"]], bbox[["bottom"]], bbox[["right"]], bbox[["top"]])
-  ggmap::get_stamenmap(bbox_osm, zoom = zoom, color = color, ...)
+  ggmap::get_stadiamap(bbox_osm, zoom = zoom, maptype = maptype, color = color, ...)
 }
+
 
 
 #' Wrapper around ggmap::get_googlemap
 #'
-#' The functions [get_googlemap()] and [get_stamen_map()] tries to harmonize the calls to [ggmap()]. The objective is
+#' The functions [get_googlemap()] and [get_stadia_map()] tries to harmonize the calls to [ggmap()]. The objective is
 #' to get interchangeable functions with sensible defaults. For example automatic calculation of the zoom. The function
 #' [bbox_lv95()] generates a bbox object compatible with both functions. Before using this function you need to register
 #' your google API key with [ggmap::register_google()]. For details consult the documentation of the
@@ -88,7 +94,7 @@ get_google_map <- function(bbox, width = 640, zoom = "auto", scale = 2, language
 
 #' bbox in WSG84 from LV95
 #'
-#' This Function creates a bbox for usage with [get_stamen_map()] or [get_google_map()]. Exactly one set of
+#' This Function creates a bbox for usage with [get_stadia_map()] or [get_google_map()]. Exactly one set of
 #' (x, y, r) or (x, y, w, h) or (x1, y1, x2, y2) must be supplied as arguments. The actual position, width and height
 #' in the resulting map can slightly differ on behalf of the projections from LV95 (EPSG:2056) to WSG84 (EPSG:4326) to
 #' Pseudo Mercator (EPSG:3857). But should be negligible in most cases.
