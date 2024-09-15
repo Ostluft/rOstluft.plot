@@ -38,7 +38,7 @@
 #' data <- rOstluft::rolf_to_openair(data)
 #'
 #' # a simple wind rose
-#' ggplot(data, aes(x = stat(wd), y = stat(freq), fill = stat(ws))) +
+#' ggplot(data, aes(x = after_stat(wd), y = after_stat(freq), fill = after_stat(stat))) +
 #'   geom_bar_wind(
 #'     mapping = aes(wd = wd, ws = ws, z = ws),
 #'     ws_cutfun = cut_ws.fun(ws_max = 4),
@@ -48,8 +48,6 @@
 #'   coord_polar2(start = - 22.5 / 180 * pi ) +
 #'   scale_fill_viridis_d(direction = -1)
 #'
-#' #
-#'
 #' # use stat_summary_wind to generate a radar plot using
 #' # the polygon geom, position "identity" and coord_radar()
 #' f <- list(
@@ -58,7 +56,7 @@
 #'   "perc95" = ~ stats::quantile(., probs = 0.95)
 #' )
 #'
-#' ggplot(data, aes(x = stat(wd), y = stat(z), color = stat(stat), group = stat(stat))) +
+#' ggplot(data, aes(x = after_stat(wd), y = after_stat(z), color = after_stat(stat), group = after_stat(stat))) +
 #'   stat_summary_wind(
 #'     mapping = aes(wd = wd, ws = ws, z = NOx),
 #'     geom = "polygon", position = "identity",

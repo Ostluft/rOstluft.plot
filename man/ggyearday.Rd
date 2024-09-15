@@ -23,10 +23,10 @@ ggyearday(
 
 \item{z}{symbol giving z column used as fill}
 
-\item{date_breaks}{character string as input for \code{\link[ggplot2:scale_x_date]{ggplot2::scale_x_date()}},
+\item{date_breaks}{character string as input for \code{\link[ggplot2:scale_date]{ggplot2::scale_x_date()}},
 e.g. '1 month', defines date breaks on x-axis.}
 
-\item{date_labels}{character string as input for \code{\link[ggplot2:scale_x_date]{ggplot2::scale_x_date()}},
+\item{date_labels}{character string as input for \code{\link[ggplot2:scale_date]{ggplot2::scale_x_date()}},
 formatter for date labels on x-axis.}
 
 \item{ybreaks}{numeric vector, specifies y-axis breaks.}
@@ -35,7 +35,7 @@ formatter for date labels on x-axis.}
 
 \item{fill_scale}{ggplot2 continuous fill scale, e.g. \code{\link[=scale_fill_gradient]{scale_fill_gradient()}}.}
 
-\item{...}{other arguments passed on to \code{\link[ggplot2:geom_raster]{ggplot2::geom_raster()}}.}
+\item{...}{other arguments passed on to \code{\link[ggplot2:geom_tile]{ggplot2::geom_raster()}}.}
 }
 \value{
 ggplot

@@ -1,4 +1,5 @@
 template:
+  bootstrap: 5
   params:
     bootswatch: cosmo
 
@@ -21,9 +22,9 @@ navbar:
       text: Articles
       menu:
       - text: 'Linien Kalender'
-        href: articles/articles/Kalender_Linie.html
+        href: articles/Kalender_Linie.html
       - text: 'Diurnal Wind als Density und Boxplot'
-        href: articles/articles/Wind_Density.html
+        href: articles/Wind_Density.html
     github:
       icon: fa-github fa-lg
       href: https://github.com/Ostluft/rOstluft.plot
@@ -72,7 +73,7 @@ reference:
 - title: map functions
   desc: functions to create background maps
   contents:
-  - get_stamen_map
+  - get_stadia_map
   - get_google_map
   - bbox_lv95
   - get_ggmap
@@ -85,6 +86,7 @@ reference:
 - title: utility functions
   desc: Some functions to make the life of a programmer easier
   contents:
+  - squished_labels
   - uv2wd
   - fit_gam_surface
   - bbox
@@ -95,3 +97,7 @@ reference:
   - auto_name
   - themes_rop
 
+- title: Defunct
+  desc: Objects marked as Defunct
+  contents:
+  - rOstluft.plot-defunct

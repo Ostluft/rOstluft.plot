@@ -2,7 +2,7 @@
 % Please edit documentation in R/ggpolarplot.R
 \name{ggpolarplot}
 \alias{ggpolarplot}
-\title{ggplot2 wrapper to create a wind-based polar plot}
+\title{ggplot2 wrapper to create a wind-based polar plot with cartesian coords}
 \usage{
 ggpolarplot(
   data,
@@ -68,7 +68,7 @@ will be printed.}
 
 \item{bg}{raster map, e.g. ggmap object as plot background}
 
-\item{...}{Other arguments passed on to \code{\link[ggplot2:geom_raster]{ggplot2::geom_raster()}}. Used
+\item{...}{Other arguments passed on to \code{\link[ggplot2:geom_tile]{ggplot2::geom_raster()}}. Used
 to set an aesthetic to a fixed value}
 }
 \value{
@@ -137,7 +137,7 @@ ggpolarplot(df, wd = wd, ws = ws, z = NOx, fun = list("mean", "median"), ws_max 
 # background map, just remember the location on the map has no correlation with
 # the overlaying data. Only the direction.
 bb <- bbox_lv95(2683141, 1249040, 500)
-bg <- get_stamen_map(bb)
+bg <- get_stadia_map(bb)
 fs <- scale_fill_gradientn_squished(
   limits = c(0,50), breaks = seq(0,50,10),
   na.value = NA, colors = matlab::jet.colors(20)

@@ -28,8 +28,7 @@ bbox <- rOstluft::transform_LV95_to_WSG84(bbox)
 
 bbox <- c(left = bbox$lon[1], right = bbox$lon[2], bottom = bbox$lat[1], top = bbox$lat[2])
 
-raster_map <- ggmap::get_stamenmap(bbox, zoom = 16, maptype = "terrain",
-                                   source = "stamen", color = "bw")
+raster_map <- ggmap::get_stadiamap(bbox, zoom = 16, color = "bw")
 
 
 # prepare data

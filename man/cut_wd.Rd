@@ -18,17 +18,17 @@ cut_wd(
 \arguments{
 \item{wd}{numeric vector of wind directions in °}
 
-\item{binwidth}{width for \code{\link[ggplot2:cut_width]{ggplot2::cut_width()}} in degrees wind  direction
+\item{binwidth}{width for \code{\link[ggplot2:cut_interval]{ggplot2::cut_width()}} in degrees wind  direction
 (must fullfill \code{binwidth \%in\% 360 / c(4, 8, 16, 32)})}
 
 \item{labels}{character vector as labels for wind direction bins; can be NULL (no labels are returned),
 if !is.null(labels) then length(labels) == 32 must be fullfilled (actual labels are subsampled with
 indices of seq(1, length(labels), length(labels) / nsectors))}
 
-\item{...}{passed to \code{\link[ggplot2:cut_width]{ggplot2::cut_width()}}}
+\item{...}{passed to \code{\link[ggplot2:cut_interval]{ggplot2::cut_width()}}}
 }
 \description{
-Wraps \code{\link[ggplot2:cut_width]{ggplot2::cut_width()}} function with \verb{width = binwidth. closed = "left", boundary = 0}
+Wraps \code{\link[ggplot2:cut_interval]{ggplot2::cut_width()}} function with \verb{width = binwidth. closed = "left", boundary = 0}
 as fixed arguments
 }
 \examples{

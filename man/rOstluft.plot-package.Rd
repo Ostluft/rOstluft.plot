@@ -6,7 +6,7 @@
 \alias{rOstluft.plot-package}
 \title{rOstluft.plot: Ploting air quality data}
 \description{
-\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
 This package provides functions to quickly display data as diagrams.
 }
@@ -14,6 +14,7 @@ This package provides functions to quickly display data as diagrams.
 Useful links:
 \itemize{
   \item \url{https://github.com/Ostluft/rOstluft.plot}
+  \item \url{https://ostluft.github.io/rOstluft.plot/}
   \item Report bugs at \url{https://github.com/Ostluft/rOstluft.plot/issues}
 }
 

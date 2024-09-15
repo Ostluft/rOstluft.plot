@@ -142,8 +142,7 @@ scale_color_gradientn_squished <- function(limits, breaks, labels = waiver(), ..
 #'  Additional if not NULL the last element will be formated with a leading ">"
 #'
 #' @return function, labels for scales
-#' @keywords internal
-#' @noRd
+#' @export
 squished_labels <- function(labels) {
   if (is.null(labels)) {
     labs <- NULL
@@ -154,7 +153,7 @@ squished_labels <- function(labels) {
   } else if (is.function(labels)) {
     labs <- function(x) {
       x <- labels(x)
-      x <- purrr::map_at(x, length(x), format_sprintf(">%s"))
+      purrr::map_at(x, length(x), format_sprintf(">%s"))
     }
   } else {
     labs <- labels

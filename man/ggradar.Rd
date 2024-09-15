@@ -143,7 +143,7 @@ ggradar(df2, wd, val, group = lubridate::wday(date, label = TRUE, week_start = 1
 
 # with background map
 bb <- bbox_lv95(2683141, 1249040, 500)
-bg <- get_stamen_map(bb)
+bg <- get_stadia_map(bb)
 ggradar(data, wd, NOx, bg = bg, color = "blue", fill = "blue", alpha = 0.5) +
   theme(panel.grid.major = ggplot2::element_line(linetype = 1, color = "white"))
 }

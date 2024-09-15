@@ -91,7 +91,10 @@ ggcalendar <- function(data, x = "date", z = "O3_max_h1",
 CalMonthBorder <- ggproto("CalMonthBorder", Stat,
   required_aes = c("x", "y", "month", "monthday"),   # y = weekday !!!
   compute_group = function(data, scales) {
-    data <- dplyr::mutate(data, month = as.numeric(month))
+    data <- dplyr::mutate(data,
+      y = as.numeric(y),
+      month = as.numeric(month)
+    )
     # we can't define the mapping for segment, so we need to use the default mapping: x, y, xend, yend
     # => mapping = column names
 

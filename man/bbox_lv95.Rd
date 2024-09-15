@@ -39,7 +39,7 @@ bbox_lv95(
 bbox as list with left, right, bottom, top, center = (lon, lat) as WSG84 coordinates, width and height in m
 }
 \description{
-This Function creates a bbox for usage with \code{\link[=get_stamen_map]{get_stamen_map()}} or \code{\link[=get_google_map]{get_google_map()}}. Exactly one set of
+This Function creates a bbox for usage with \code{\link[=get_stadia_map]{get_stadia_map()}} or \code{\link[=get_google_map]{get_google_map()}}. Exactly one set of
 (x, y, r) or (x, y, w, h) or (x1, y1, x2, y2) must be supplied as arguments. The actual position, width and height
 in the resulting map can slightly differ on behalf of the projections from LV95 (EPSG:2056) to WSG84 (EPSG:4326) to
 Pseudo Mercator (EPSG:3857). But should be negligible in most cases.

@@ -3,7 +3,7 @@
 #' @description this themes are used in the respective gg wrapper to apply some
 #' basic theming.
 #'
-#' @param base a ggplot2 theme. see [ggplot2::ggtheme]
+#' @param base a ggplot2 theme. see [ggplot2::theme()]
 #'
 #' @examples
 #' library(ggplot2)

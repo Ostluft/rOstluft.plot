@@ -1,7 +1,7 @@
 #' Customized coord_polar
 #'
 #' The differences between [ggplot2::coord_polar()] and [coord_polar2()] are:
-#' * Add a raster (image) as background. As example a map created with [get_stamen_map()]
+#' * Add a raster (image) as background. As example a map created with [get_stadia_map()]
 #' * [ggplot2::coord_polar()] always adds an outer circle with r = 0.45 to the plot. This circle is removed.
 #'
 #' @param bg raster for background image
@@ -34,7 +34,7 @@
 #'
 #' # background map
 #' bbox <- bbox_lv95(2683141, 1249040, 500)
-#' bg <- get_stamen_map(bbox)
+#' bg <- get_stadia_map(bbox)
 #'
 #' wind_rose + coord_polar2(start = - 45 * pi / 360, bg = bg)
 #'
@@ -88,6 +88,7 @@ CoordPolar2 <- ggproto("CoordPolar2", CoordPolar,
       theta_rescale(self, panel_params$theta.minor, panel_params)
     thetafine <- seq(0, 2 * pi, length.out = 100)
 
+
     # , 0.45 adds the outer circle !
     # rfine <- c(r_rescale(self, panel_params$r.major, panel_params$r.range), 0.45)
     rfine <- r_rescale(self, panel_params$r.major, panel_params$r.range)
@@ -102,6 +103,11 @@ CoordPolar2 <- ggproto("CoordPolar2", CoordPolar,
     majortheta <- paste("panel.grid.major.", self$theta, sep = "")
     minortheta <- paste("panel.grid.minor.", self$theta, sep = "")
     majorr     <- paste("panel.grid.major.", self$r,     sep = "")
+
+    element_calm <- modify_list(
+      calc_element("panel.background", theme, skip_blank = TRUE),
+      calc_element(majorr, theme, skip_blank = FALSE)
+    )
 
     # render background map if necessary
     if (!is.null(self$bg)) {
@@ -119,6 +125,17 @@ CoordPolar2 <- ggproto("CoordPolar2", CoordPolar,
         id.lengths = rep(2, length(theta)),
         default.units = "native"
       ),
+      grid::circleGrob(
+        r = r_rescale(self, 0, panel_params$r.range),
+        gp = grid::gpar(
+          fill = element_calm$fill,
+          col = element_calm$fill,
+          lwd = element_calm$size,
+          lty = element_calm$linetype,
+          lineend = element_calm$lineend
+        ),
+        name = "calm"
+      ),
       if (length(thetamin) > 0) element_render(
         theme, minortheta, name = "angle",
         x = c(rbind(0, rmax * sin(thetamin))) + 0.5,
@@ -127,6 +144,8 @@ CoordPolar2 <- ggproto("CoordPolar2", CoordPolar,
         default.units = "native"
       ),
 
+
+
       element_render(
         theme, majorr, name = "radius",
         x = rep(rfine, each = length(thetafine)) * sin(thetafine) + 0.5,
@@ -134,6 +153,8 @@ CoordPolar2 <- ggproto("CoordPolar2", CoordPolar,
         id.lengths = rep(length(thetafine), length(rfine)),
         default.units = "native"
       )
+
+
     ))
   }
 )

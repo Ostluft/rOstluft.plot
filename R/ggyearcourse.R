@@ -24,7 +24,7 @@ ggyearcourse <- function (data, y = "value", fun = list(middle = "mean", middle2
     geom_line(aes(y = .data$ymax), lty = 2, color = ribbon_color) +
     geom_line(color = middle_color) + lemon::facet_rep_grid(parameter ~
                                                               ., scales = "free_y", switch = "y") + scale_x_continuous(breaks = breaks,
-                                                                                                                       labels = labels, expand = expand_scale(mult = expand_xscale)) +
+                                                                                                                       labels = labels, expand = expansion(mult = expand_xscale)) +
     theme_rop_diuarnal() + theme(axis.title = element_blank())
   return(plot)
 }

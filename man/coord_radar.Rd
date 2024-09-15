@@ -9,7 +9,8 @@ coord_radar(theta = "x", start = 0, direction = 1, bg = NULL)
 \arguments{
 \item{theta}{variable to map angle to (\code{x} or \code{y})}
 
-\item{start}{offset of starting point from 12 o'clock in radians}
+\item{start}{Offset of starting point from 12 o'clock in radians. Offset
+is applied clockwise or anticlockwise depending on value of \code{direction}.}
 
 \item{direction}{1, clockwise; -1, anticlockwise}
 
@@ -37,7 +38,7 @@ data_summarized <- summary_wind(data, ws, wd, NOx, fun = funs,
 
 # background map
 bbox <- bbox_lv95(2683141, 1249040, 500)
-bg <- get_stamen_map(bbox)
+bg <- get_stadia_map(bbox)
 
 radar <- ggplot(data_summarized, aes(x = wd, y = NOx, color = stat, group = stat)) +
   geom_polygon(size = 1, fill = NA) +

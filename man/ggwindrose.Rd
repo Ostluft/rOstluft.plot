@@ -12,6 +12,7 @@ ggwindrose(
   ws_binwidth = 1,
   ws_max = NA,
   groupings = grp(),
+  nmin = 1,
   fill_scale = scale_fill_viridis_d(),
   reverse = TRUE,
   bg = NULL,
@@ -34,7 +35,9 @@ ggwindrose(
 
 \item{groupings}{additional groupings. Use helper \code{\link[=grp]{grp()}} to create. \strong{Necessary} for some facets!}
 
-\item{fill_scale}{ggplot2 discrete fill scale, e.g. \code{\link[ggplot2:scale_fill_gradientn]{ggplot2::scale_fill_gradientn()}}}
+\item{nmin}{numeric, minimum number of values for fun, if n < nmin: NA is returned}
+
+\item{fill_scale}{ggplot2 discrete fill scale, e.g. \code{\link[ggplot2:scale_gradient]{ggplot2::scale_fill_gradientn()}}}
 
 \item{reverse}{TRUE/FALSE, should wind speed bin factors be sorted descending (TRUE)
 or ascending (FALSE). Usually for wind roses a descending order (higher wind speed on
@@ -46,8 +49,6 @@ the outside) is used.}
 to set an aesthetic to a fixed value. Defaults are \verb{color = "white", width = 1, size = 0.25}}
 }
 \value{
-ggplot object
-
 \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object
 }
 \description{
@@ -79,7 +80,7 @@ ggwindrose(data, ws, wd, ws_max = 5, size = 1)
 
 # a map as background
 bb <- bbox_lv95(2683141, 1249040, 500)
-bg <- get_stamen_map(bb)
+bg <- get_stadia_map(bb)
 ggwindrose(data, ws, wd, ws_max = 5, alpha = 0.8, bg = bg) +
   theme(
     panel.grid.major = element_line(linetype = 2, color = "black", size = 0.5)
@@ -88,6 +89,10 @@ ggwindrose(data, ws, wd, ws_max = 5, alpha = 0.8, bg = bg) +
 # another fill scale
 ggwindrose(data, ws, wd, ws_max = 5,
            fill_scale = scale_fill_manual(values = matlab::jet.colors(6)))
+
+# reverse the coloring of the fill
+ggwindrose(data, ws, wd, ws_max = 4,
+           fill_scale = scale_fill_viridis_d(direction = -1))
 
 # reverse the order of ws, but keep the coloring and legend order
 ggwindrose(data, ws, wd, ws_max = 4, reverse = FALSE,

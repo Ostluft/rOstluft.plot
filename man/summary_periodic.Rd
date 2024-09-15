@@ -22,7 +22,7 @@ summary_periodic(
 \item{y}{a character string specifying the taget variable to be summarised, usually "value".}
 
 \item{groupings}{additional groupings. Use helper \code{\link[=grp]{grp()}} to create; groupings must be from  possible
-outcomes of \code{\link[rOstluft:cut_timeseries_periodic]{rOstluft::cut_timeseries_periodic()}}.}
+outcomes of \code{\link[=cut_timeseries_periodic]{cut_timeseries_periodic()}}.}
 
 \item{fun}{function or list of functions for summary, can be named (then the outut stat is named after the function's name);
 Strings matching the regular expression \verb{/^percentile([0-9])\{1,2\}$/i} are converted into the respective function.

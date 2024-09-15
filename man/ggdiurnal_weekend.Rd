@@ -54,6 +54,6 @@ ggdiurnal_weekend(data)
 
 # y scale: no expand on zero
 ggdiurnal_weekend(data) +
-  scale_y_continuous(limits = c(0, NA), expand = expand_scale(mult = c(0, 0.05))) +
+  scale_y_continuous(limits = c(0, NA), expand = expansion(mult = c(0, 0.05))) +
   theme(panel.spacing.y = unit(12, "pt"))
 }
