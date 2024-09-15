@@ -122,11 +122,10 @@ summary_wind_2d <- function(data, ws, wd, z, groupings = grp(), fun = "mean", fu
       v = !!ws * cos(pi * !!wd / 180)
   )
 
-  # shouldn't it be ws_max / sqrt(2) ??
-  uv_max <- pmin(max(abs(c(data$u, data$v)), na.rm = TRUE), ws_max, na.rm = TRUE)
+  uv_max <- ifelse(is.na(ws_max), max(abs(c(data$u, data$v)), na.rm = TRUE), ws_max)
   nbins <- round(sqrt(bins), 0)
   binwidth <- 2 * uv_max / nbins
-  uv_breaks <- seq(-uv_max, by = binwidth, length.out = nbins + 1)
+  uv_breaks <- seq(-uv_max, uv_max, by = binwidth)
 
   data <- dplyr::mutate(data,
     u = cut(.data$u, breaks = uv_breaks, include.lowest = TRUE),
