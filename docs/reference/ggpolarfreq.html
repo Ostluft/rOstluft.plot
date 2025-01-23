@@ -13,7 +13,7 @@ pollutants using a range of commonly used statistics."><meta property="og:image"
 
     <a class="navbar-brand me-2" href="../index.html">rOstluft.plot</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -180,7 +180,7 @@ to set an aesthetic to a fixed value. Defaults are <code>color = "white", width 
 <span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/read_airmo_csv.html" class="external-link">read_airmo_csv</a></span><span class="op">(</span><span class="va">fn</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/rolf_to_openair.html" class="external-link">rolf_to_openair</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu">openair</span><span class="fu">::</span><span class="fu"><a href="https://davidcarslaw.github.io/openair/reference/cutData.html" class="external-link">cutData</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"season"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">openair</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openair/man/cutData.html" class="external-link">cutData</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"season"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># data with empty sectors</span></span></span>
 <span class="r-in"><span><span class="va">npoints</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span></span>
@@ -221,6 +221,18 @@ to set an aesthetic to a fixed value. Defaults are <code>color = "white", width 
 <span class="r-in"><span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Frequency of NOx Measurements"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="ggpolarfreq-6.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">ggpolarfreq</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  data <span class="op">=</span> <span class="va">data</span>,</span></span>
+<span class="r-in"><span>  ws <span class="op">=</span> <span class="va">ws</span>,</span></span>
+<span class="r-in"><span>  wd <span class="op">=</span> <span class="va">wd</span>,</span></span>
+<span class="r-in"><span>  z <span class="op">=</span> <span class="st">"NOx"</span>,</span></span>
+<span class="r-in"><span>  fun <span class="op">=</span> <span class="st">"n"</span>,</span></span>
+<span class="r-in"><span>  ws_max <span class="op">=</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>  ws_binwidth <span class="op">=</span> <span class="fl">0.5</span>,</span></span>
+<span class="r-in"><span>  fill_scale <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_c</a></span><span class="op">(</span>limits<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="cn">NA</span><span class="op">)</span>, na.value <span class="op">=</span> <span class="st">"grey92"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Numbers of NOx Measurements"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="ggpolarfreq-7.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># use z and provide a stat function, also provide fill_scale for</span></span></span>
 <span class="r-in"><span><span class="co"># correct formating</span></span></span>
 <span class="r-in"><span><span class="fu">ggpolarfreq</span><span class="op">(</span></span></span>
@@ -234,7 +246,7 @@ to set an aesthetic to a fixed value. Defaults are <code>color = "white", width 
 <span class="r-in"><span>  ws_binwidth <span class="op">=</span> <span class="fl">0.5</span>,</span></span>
 <span class="r-in"><span>  fill_scale <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_c</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Mean value of NOx"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="ggpolarfreq-7.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="ggpolarfreq-8.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">ggpolarfreq</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">data</span>,</span></span>
@@ -247,7 +259,7 @@ to set an aesthetic to a fixed value. Defaults are <code>color = "white", width 
 <span class="r-in"><span>  ws_binwidth <span class="op">=</span> <span class="fl">0.5</span>,</span></span>
 <span class="r-in"><span>  fill_scale <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_c</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"95% Percentile of NOx"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="ggpolarfreq-8.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="ggpolarfreq-9.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

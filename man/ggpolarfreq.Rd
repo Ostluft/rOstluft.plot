@@ -128,6 +128,17 @@ ggpolarfreq(
   ws_binwidth = 0.5,
 ) + labs(title = "Frequency of NOx Measurements")
 
+ggpolarfreq(
+  data = data,
+  ws = ws,
+  wd = wd,
+  z = "NOx",
+  fun = "n",
+  ws_max = 2,
+  ws_binwidth = 0.5,
+  fill_scale = scale_fill_viridis_c(limits=c(1, NA), na.value = "grey92")
+) + labs(title = "Numbers of NOx Measurements")
+
 # use z and provide a stat function, also provide fill_scale for
 # correct formating
 ggpolarfreq(

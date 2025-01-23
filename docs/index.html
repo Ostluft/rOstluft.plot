@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="index.html">rOstluft.plot</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -92,7 +92,7 @@
 <span>  <span class="fu">rOstluft.data</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft.data/man/f.html" class="external-link">f</a></span><span class="op">(</span><span class="st">"Zch_Stampfenbachstrasse_2010-2014.csv"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/read_airmo_csv.html" class="external-link">read_airmo_csv</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">rOstluft</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rOstluft/man/rolf_to_openair.html" class="external-link">rolf_to_openair</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">openair</span><span class="fu">::</span><span class="fu"><a href="https://davidcarslaw.github.io/openair/reference/cutData.html" class="external-link">cutData</a></span><span class="op">(</span><span class="va">date</span>, type <span class="op">=</span> <span class="st">"daylight"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">openair</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openair/man/cutData.html" class="external-link">cutData</a></span><span class="op">(</span><span class="va">date</span>, type <span class="op">=</span> <span class="st">"daylight"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    wday <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/day.html" class="external-link">wday</a></span><span class="op">(</span><span class="va">date</span>, label <span class="op">=</span> <span class="cn">TRUE</span>, week_start <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
@@ -290,10 +290,8 @@
 <span><span class="va">pm10_cut</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">PM10</span>, breaks <span class="op">=</span> <span class="va">breaks</span>, right <span class="op">=</span> <span class="cn">TRUE</span>, include.lowest <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">pm10_cut</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb21"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co">#&gt; pm10_cut</span></span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="co">#&gt;  [-Inf,0]    (0,19]   (19,41]   (41,66]   (66,80] </span></span>
-<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="co">#&gt;      1141     45516     31079      6164       614 </span></span>
-<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="co">#&gt; (80, Inf] </span></span>
-<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a><span class="co">#&gt;       476</span></span></code></pre></div>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="co">#&gt;  [-Inf,0]    (0,19]   (19,41]   (41,66]   (66,80] (80, Inf] </span></span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="co">#&gt;      1141     45516     31079      6164       614       476</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="padding-data">padding data<a class="anchor" aria-label="anchor" href="#padding-data"></a>
@@ -306,66 +304,59 @@
 <span>                                        <span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">january_oa</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb23"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 16</span></span>
-<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a><span class="co">#&gt;   date                site      CO    Hr    NO   NO2</span></span>
-<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="co">#&gt; 1 2013-01-31 21:00:00 Zch_S… 0.191  67.3 0.675  7.70</span></span>
-<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a><span class="co">#&gt; 2 2013-01-31 21:30:00 Zch_S… 0.195  64.9 0.359  7.72</span></span>
-<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a><span class="co">#&gt; 3 2013-01-31 22:00:00 Zch_S… 0.191  65.1 0.424  6.84</span></span>
-<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a><span class="co">#&gt; 4 2013-01-31 22:30:00 Zch_S… 0.184  67.3 0.353  5.38</span></span>
-<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a><span class="co">#&gt; 5 2013-01-31 23:00:00 Zch_S… 0.186  67.3 0.634  5.87</span></span>
-<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a><span class="co">#&gt; 6 2013-01-31 23:30:00 Zch_S… 0.189  68.7 0.435  6.76</span></span>
-<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a><span class="co">#&gt; # ℹ 10 more variables: NOx &lt;dbl&gt;, O3 &lt;dbl&gt;,</span></span>
-<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a><span class="co">#&gt; #   p &lt;dbl&gt;, PM10 &lt;dbl&gt;, RainDur &lt;dbl&gt;, SO2 &lt;dbl&gt;,</span></span>
-<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a><span class="co">#&gt; #   StrGlo &lt;dbl&gt;, T &lt;dbl&gt;, wd &lt;dbl&gt;, ws &lt;dbl&gt;</span></span></code></pre></div>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a><span class="co">#&gt;   date                site      CO    Hr    NO   NO2   NOx    O3     p  PM10 RainDur   SO2  StrGlo     T    wd</span></span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="co">#&gt; 1 2013-01-31 21:00:00 Zch_S… 0.191  67.3 0.675  7.70  4.57  71.0  970.  7.21   0.583 0.782 0.0138   9.25  244.</span></span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a><span class="co">#&gt; 2 2013-01-31 21:30:00 Zch_S… 0.195  64.9 0.359  7.72  4.33  69.7  970.  4.89   1.52  0.851 0.0116   9.49  245.</span></span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a><span class="co">#&gt; 3 2013-01-31 22:00:00 Zch_S… 0.191  65.1 0.424  6.84  3.92  69.0  970.  6.71   1.45  0.842 0.00673  9.33  246.</span></span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a><span class="co">#&gt; 4 2013-01-31 22:30:00 Zch_S… 0.184  67.3 0.353  5.38  3.09  70.5  970.  5.19   0     0.797 0.0120   9.17  242.</span></span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a><span class="co">#&gt; 5 2013-01-31 23:00:00 Zch_S… 0.186  67.3 0.634  5.87  3.58  70.2  969.  5.79   0     0.851 0.0118   9.10  242.</span></span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a><span class="co">#&gt; 6 2013-01-31 23:30:00 Zch_S… 0.189  68.7 0.435  6.76  3.88  67.6  969.  7.92   0     0.749 0.0105   9.1   239.</span></span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a><span class="co">#&gt; # ℹ 1 more variable: ws &lt;dbl&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># site mit "Zch_Stampfenbachstrasse" füllen</span></span>
 <span><span class="fu"><a href="reference/pad_to_year.html">pad_to_year</a></span><span class="op">(</span><span class="va">january_oa</span>, <span class="va">date</span>, <span class="st">"30 min"</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>site <span class="op">=</span> <span class="st">"Zch_Stampfenbachstrasse"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb25"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 16</span></span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="co">#&gt;   date                site      CO    Hr    NO   NO2</span></span>
-<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="co">#&gt; 1 2013-12-31 21:00:00 Zch_S…    NA    NA    NA    NA</span></span>
-<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a><span class="co">#&gt; 2 2013-12-31 21:30:00 Zch_S…    NA    NA    NA    NA</span></span>
-<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a><span class="co">#&gt; 3 2013-12-31 22:00:00 Zch_S…    NA    NA    NA    NA</span></span>
-<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a><span class="co">#&gt; 4 2013-12-31 22:30:00 Zch_S…    NA    NA    NA    NA</span></span>
-<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a><span class="co">#&gt; 5 2013-12-31 23:00:00 Zch_S…    NA    NA    NA    NA</span></span>
-<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a><span class="co">#&gt; 6 2013-12-31 23:30:00 Zch_S…    NA    NA    NA    NA</span></span>
-<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a><span class="co">#&gt; # ℹ 10 more variables: NOx &lt;dbl&gt;, O3 &lt;dbl&gt;,</span></span>
-<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a><span class="co">#&gt; #   p &lt;dbl&gt;, PM10 &lt;dbl&gt;, RainDur &lt;dbl&gt;, SO2 &lt;dbl&gt;,</span></span>
-<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a><span class="co">#&gt; #   StrGlo &lt;dbl&gt;, T &lt;dbl&gt;, wd &lt;dbl&gt;, ws &lt;dbl&gt;</span></span></code></pre></div>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="co">#&gt;   date                site       CO    Hr    NO   NO2   NOx    O3     p  PM10 RainDur   SO2 StrGlo     T    wd</span></span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="co">#&gt; 1 2013-12-31 21:00:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a><span class="co">#&gt; 2 2013-12-31 21:30:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a><span class="co">#&gt; 3 2013-12-31 22:00:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
+<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a><span class="co">#&gt; 4 2013-12-31 22:30:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
+<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a><span class="co">#&gt; 5 2013-12-31 23:00:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
+<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a><span class="co">#&gt; 6 2013-12-31 23:30:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
+<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a><span class="co">#&gt; # ℹ 1 more variable: ws &lt;dbl&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># automatisch alle factor/character columns füllen</span></span>
 <span><span class="fu"><a href="reference/pad_to_year_fill.html">pad_to_year_fill</a></span><span class="op">(</span><span class="va">january_oa</span>, <span class="va">date</span>, <span class="st">"30 min"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb27"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 16</span></span>
-<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a><span class="co">#&gt;   date                site      CO    Hr    NO   NO2</span></span>
-<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a><span class="co">#&gt; 1 2013-12-31 21:00:00 Zch_S…    NA    NA    NA    NA</span></span>
-<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a><span class="co">#&gt; 2 2013-12-31 21:30:00 Zch_S…    NA    NA    NA    NA</span></span>
-<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a><span class="co">#&gt; 3 2013-12-31 22:00:00 Zch_S…    NA    NA    NA    NA</span></span>
-<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a><span class="co">#&gt; 4 2013-12-31 22:30:00 Zch_S…    NA    NA    NA    NA</span></span>
-<span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a><span class="co">#&gt; 5 2013-12-31 23:00:00 Zch_S…    NA    NA    NA    NA</span></span>
-<span id="cb27-9"><a href="#cb27-9" tabindex="-1"></a><span class="co">#&gt; 6 2013-12-31 23:30:00 Zch_S…    NA    NA    NA    NA</span></span>
-<span id="cb27-10"><a href="#cb27-10" tabindex="-1"></a><span class="co">#&gt; # ℹ 10 more variables: NOx &lt;dbl&gt;, O3 &lt;dbl&gt;,</span></span>
-<span id="cb27-11"><a href="#cb27-11" tabindex="-1"></a><span class="co">#&gt; #   p &lt;dbl&gt;, PM10 &lt;dbl&gt;, RainDur &lt;dbl&gt;, SO2 &lt;dbl&gt;,</span></span>
-<span id="cb27-12"><a href="#cb27-12" tabindex="-1"></a><span class="co">#&gt; #   StrGlo &lt;dbl&gt;, T &lt;dbl&gt;, wd &lt;dbl&gt;, ws &lt;dbl&gt;</span></span></code></pre></div>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a><span class="co">#&gt;   date                site       CO    Hr    NO   NO2   NOx    O3     p  PM10 RainDur   SO2 StrGlo     T    wd</span></span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a><span class="co">#&gt; 1 2013-12-31 21:00:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
+<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a><span class="co">#&gt; 2 2013-12-31 21:30:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
+<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a><span class="co">#&gt; 3 2013-12-31 22:00:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
+<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a><span class="co">#&gt; 4 2013-12-31 22:30:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
+<span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a><span class="co">#&gt; 5 2013-12-31 23:00:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
+<span id="cb27-9"><a href="#cb27-9" tabindex="-1"></a><span class="co">#&gt; 6 2013-12-31 23:30:00 Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA    NA</span></span>
+<span id="cb27-10"><a href="#cb27-10" tabindex="-1"></a><span class="co">#&gt; # ℹ 1 more variable: ws &lt;dbl&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/pad_to_year_fill.html">pad_to_year_fill</a></span><span class="op">(</span><span class="va">january</span>, <span class="va">starttime</span>, <span class="st">"30 min"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb29"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 6</span></span>
-<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a><span class="co">#&gt;   starttime           site  parameter interval unit </span></span>
-<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt; &lt;fct&gt;     &lt;fct&gt;    &lt;fct&gt;</span></span>
-<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a><span class="co">#&gt; 1 2013-12-31 21:00:00 Zch_… WVv       min30    m/s  </span></span>
-<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a><span class="co">#&gt; 2 2013-12-31 21:30:00 Zch_… WVv       min30    m/s  </span></span>
-<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a><span class="co">#&gt; 3 2013-12-31 22:00:00 Zch_… WVv       min30    m/s  </span></span>
-<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a><span class="co">#&gt; 4 2013-12-31 22:30:00 Zch_… WVv       min30    m/s  </span></span>
-<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a><span class="co">#&gt; 5 2013-12-31 23:00:00 Zch_… WVv       min30    m/s  </span></span>
-<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a><span class="co">#&gt; 6 2013-12-31 23:30:00 Zch_… WVv       min30    m/s  </span></span>
-<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a><span class="co">#&gt; # ℹ 1 more variable: value &lt;dbl&gt;</span></span></code></pre></div>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a><span class="co">#&gt;   starttime           site                    parameter interval unit  value</span></span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;fct&gt;                   &lt;fct&gt;     &lt;fct&gt;    &lt;fct&gt; &lt;dbl&gt;</span></span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a><span class="co">#&gt; 1 2013-12-31 21:00:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA</span></span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a><span class="co">#&gt; 2 2013-12-31 21:30:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA</span></span>
+<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a><span class="co">#&gt; 3 2013-12-31 22:00:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA</span></span>
+<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a><span class="co">#&gt; 4 2013-12-31 22:30:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA</span></span>
+<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a><span class="co">#&gt; 5 2013-12-31 23:00:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA</span></span>
+<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a><span class="co">#&gt; 6 2013-12-31 23:30:00 Zch_Stampfenbachstrasse WVv       min30    m/s      NA</span></span></code></pre></div>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># enthalten die Daten jedoch eine Klassifizierungs Spalte</span></span>
 <span><span class="co"># muss man die zu füllenden Spalten explixit angeben</span></span>
-<span><span class="va">january_oa</span> <span class="op">&lt;-</span> <span class="fu">openair</span><span class="fu">::</span><span class="fu"><a href="https://davidcarslaw.github.io/openair/reference/cutData.html" class="external-link">cutData</a></span><span class="op">(</span><span class="va">january_oa</span>, <span class="st">"month"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span><span class="va">january_oa</span> <span class="op">&lt;-</span> <span class="fu">openair</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openair/man/cutData.html" class="external-link">cutData</a></span><span class="op">(</span><span class="va">january_oa</span>, <span class="st">"month"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">month</span>, <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Monats Spalte wird falscherweise mit Januar gefüllt</span></span>
@@ -373,35 +364,29 @@
 <span><span class="fu"><a href="reference/pad_to_year_fill.html">pad_to_year_fill</a></span><span class="op">(</span><span class="va">january_oa</span>, <span class="va">date</span>, <span class="st">"30 min"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb31"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 17</span></span>
-<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a><span class="co">#&gt;   date                month  site     CO    Hr    NO</span></span>
-<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;ord&gt;  &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a><span class="co">#&gt; 1 2013-12-31 21:00:00 Januar Zch_…    NA    NA    NA</span></span>
-<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a><span class="co">#&gt; 2 2013-12-31 21:30:00 Januar Zch_…    NA    NA    NA</span></span>
-<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a><span class="co">#&gt; 3 2013-12-31 22:00:00 Januar Zch_…    NA    NA    NA</span></span>
-<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a><span class="co">#&gt; 4 2013-12-31 22:30:00 Januar Zch_…    NA    NA    NA</span></span>
-<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a><span class="co">#&gt; 5 2013-12-31 23:00:00 Januar Zch_…    NA    NA    NA</span></span>
-<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a><span class="co">#&gt; 6 2013-12-31 23:30:00 Januar Zch_…    NA    NA    NA</span></span>
-<span id="cb31-10"><a href="#cb31-10" tabindex="-1"></a><span class="co">#&gt; # ℹ 11 more variables: NO2 &lt;dbl&gt;, NOx &lt;dbl&gt;,</span></span>
-<span id="cb31-11"><a href="#cb31-11" tabindex="-1"></a><span class="co">#&gt; #   O3 &lt;dbl&gt;, p &lt;dbl&gt;, PM10 &lt;dbl&gt;, RainDur &lt;dbl&gt;,</span></span>
-<span id="cb31-12"><a href="#cb31-12" tabindex="-1"></a><span class="co">#&gt; #   SO2 &lt;dbl&gt;, StrGlo &lt;dbl&gt;, T &lt;dbl&gt;, wd &lt;dbl&gt;,</span></span>
-<span id="cb31-13"><a href="#cb31-13" tabindex="-1"></a><span class="co">#&gt; #   ws &lt;dbl&gt;</span></span></code></pre></div>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a><span class="co">#&gt;   date                month  site      CO    Hr    NO   NO2   NOx    O3     p  PM10 RainDur   SO2 StrGlo     T</span></span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;ord&gt;  &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a><span class="co">#&gt; 1 2013-12-31 21:00:00 Januar Zch_S…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></span>
+<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a><span class="co">#&gt; 2 2013-12-31 21:30:00 Januar Zch_S…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></span>
+<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a><span class="co">#&gt; 3 2013-12-31 22:00:00 Januar Zch_S…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></span>
+<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a><span class="co">#&gt; 4 2013-12-31 22:30:00 Januar Zch_S…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></span>
+<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a><span class="co">#&gt; 5 2013-12-31 23:00:00 Januar Zch_S…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></span>
+<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a><span class="co">#&gt; 6 2013-12-31 23:30:00 Januar Zch_S…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></span>
+<span id="cb31-10"><a href="#cb31-10" tabindex="-1"></a><span class="co">#&gt; # ℹ 2 more variables: wd &lt;dbl&gt;, ws &lt;dbl&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># mit explixiter Defintion der zu füllenden Spalten klappt es</span></span>
 <span><span class="fu"><a href="reference/pad_to_year_fill.html">pad_to_year_fill</a></span><span class="op">(</span><span class="va">january_oa</span>, <span class="va">date</span>, <span class="st">"30 min"</span>, <span class="va">site</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb33"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 17</span></span>
-<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a><span class="co">#&gt;   date                month site      CO    Hr    NO</span></span>
-<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;ord&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a><span class="co">#&gt; 1 2013-12-31 21:00:00 &lt;NA&gt;  Zch_S…    NA    NA    NA</span></span>
-<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a><span class="co">#&gt; 2 2013-12-31 21:30:00 &lt;NA&gt;  Zch_S…    NA    NA    NA</span></span>
-<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a><span class="co">#&gt; 3 2013-12-31 22:00:00 &lt;NA&gt;  Zch_S…    NA    NA    NA</span></span>
-<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a><span class="co">#&gt; 4 2013-12-31 22:30:00 &lt;NA&gt;  Zch_S…    NA    NA    NA</span></span>
-<span id="cb33-8"><a href="#cb33-8" tabindex="-1"></a><span class="co">#&gt; 5 2013-12-31 23:00:00 &lt;NA&gt;  Zch_S…    NA    NA    NA</span></span>
-<span id="cb33-9"><a href="#cb33-9" tabindex="-1"></a><span class="co">#&gt; 6 2013-12-31 23:30:00 &lt;NA&gt;  Zch_S…    NA    NA    NA</span></span>
-<span id="cb33-10"><a href="#cb33-10" tabindex="-1"></a><span class="co">#&gt; # ℹ 11 more variables: NO2 &lt;dbl&gt;, NOx &lt;dbl&gt;,</span></span>
-<span id="cb33-11"><a href="#cb33-11" tabindex="-1"></a><span class="co">#&gt; #   O3 &lt;dbl&gt;, p &lt;dbl&gt;, PM10 &lt;dbl&gt;, RainDur &lt;dbl&gt;,</span></span>
-<span id="cb33-12"><a href="#cb33-12" tabindex="-1"></a><span class="co">#&gt; #   SO2 &lt;dbl&gt;, StrGlo &lt;dbl&gt;, T &lt;dbl&gt;, wd &lt;dbl&gt;,</span></span>
-<span id="cb33-13"><a href="#cb33-13" tabindex="-1"></a><span class="co">#&gt; #   ws &lt;dbl&gt;</span></span></code></pre></div>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a><span class="co">#&gt;   date                month site       CO    Hr    NO   NO2   NOx    O3     p  PM10 RainDur   SO2 StrGlo     T</span></span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a><span class="co">#&gt;   &lt;dttm&gt;              &lt;ord&gt; &lt;fct&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a><span class="co">#&gt; 1 2013-12-31 21:00:00 &lt;NA&gt;  Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></span>
+<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a><span class="co">#&gt; 2 2013-12-31 21:30:00 &lt;NA&gt;  Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></span>
+<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a><span class="co">#&gt; 3 2013-12-31 22:00:00 &lt;NA&gt;  Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></span>
+<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a><span class="co">#&gt; 4 2013-12-31 22:30:00 &lt;NA&gt;  Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></span>
+<span id="cb33-8"><a href="#cb33-8" tabindex="-1"></a><span class="co">#&gt; 5 2013-12-31 23:00:00 &lt;NA&gt;  Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></span>
+<span id="cb33-9"><a href="#cb33-9" tabindex="-1"></a><span class="co">#&gt; 6 2013-12-31 23:30:00 &lt;NA&gt;  Zch_St…    NA    NA    NA    NA    NA    NA    NA    NA      NA    NA     NA    NA</span></span>
+<span id="cb33-10"><a href="#cb33-10" tabindex="-1"></a><span class="co">#&gt; # ℹ 2 more variables: wd &lt;dbl&gt;, ws &lt;dbl&gt;</span></span></code></pre></div>
 <p>Karten Attribution: Map tiles by <a href="http://stamen.com" class="external-link">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0" class="external-link">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org" class="external-link">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright" class="external-link">ODbL</a>.</p>
 </div>
 </div>
